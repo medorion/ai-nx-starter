@@ -1,0 +1,150 @@
+<div class="exceptions-example">
+  <div class="example-header">
+    <h2>Exception Testing Example</h2>
+    <p>
+      This example demonstrates the complete error handling flow from backend exceptions to frontend event handling.
+      Click the buttons below to trigger different types of exceptions and observe how they are processed by the HTTP interceptor
+      and published as events through the pub-sub system.
+    </p>
+
+    <nz-alert
+      nzType="info"
+      nzMessage="How it works"
+      nzDescription="Each button calls a backend endpoint that throws a specific exception. The HTTP interceptor catches the error, publishes typed events, and shows appropriate notifications. You can monitor the events in real-time in the Pub-Sub System example."
+      nzShowIcon>
+    </nz-alert>
+  </div>
+
+  <div nz-row [nzGutter]="[16, 16]">
+    <!-- Exception Buttons -->
+    <div nz-col [nzSpan]="24" [nzLg]="12">
+      <nz-card nzTitle="Exception Triggers" class="exception-buttons-card">
+        <div class="exception-buttons">
+          <button
+            *ngFor="let endpoint of endpoints; trackBy: trackByStatusCode"
+            nz-button
+            [nzType]="endpoint.buttonType"
+            [nzSize]="'large'"
+            class="exception-btn"
+            (click)="triggerException(endpoint.statusCode)"
+            [title]="endpoint.description">
+
+            <span nz-icon [nzType]="endpoint.iconType" nzTheme="outline"></span>
+            <span class="btn-content">
+              <span class="btn-title">{{ endpoint.displayName }}</span>
+              <span class="btn-status">{{ endpoint.statusCode }}</span>
+            </span>
+          </button>
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- Instructions -->
+    <div nz-col [nzSpan]="24" [nzLg]="12">
+      <nz-card nzTitle="Testing Instructions" class="instructions-card">
+        <div class="instructions">
+          <h4>To test the complete error handling flow:</h4>
+          <ol>
+            <li>
+              <strong>Open Pub-Sub System Example:</strong>
+              Navigate to the <a routerLink="/examples/pub-sub">Pub-Sub System</a> page to monitor events in real-time.
+            </li>
+            <li>
+              <strong>Trigger Exceptions:</strong>
+              Click any of the exception buttons on this page.
+            </li>
+            <li>
+              <strong>Observe Results:</strong>
+              Watch for:
+              <ul>
+                <li>HTTP error notifications (automatic)</li>
+                <li>Specific events in the pub-sub event log</li>
+                <li>Console logs with detailed error information</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Check Network Tab:</strong>
+              Open browser DevTools to see the actual HTTP responses with custom status codes (455-459).
+            </li>
+          </ol>
+
+          <nz-divider></nz-divider>
+
+          <h4>Exception Types:</h4>
+          <div class="exception-types">
+            <div class="exception-type" *ngFor="let endpoint of endpoints">
+              <ng-container [ngSwitch]="endpoint.statusCode">
+                <nz-tag *ngSwitchCase="455" nzColor="blue">{{ endpoint.statusCode }}</nz-tag>
+                <nz-tag *ngSwitchCase="456" nzColor="orange">{{ endpoint.statusCode }}</nz-tag>
+                <nz-tag *ngSwitchCase="457" nzColor="red">{{ endpoint.statusCode }}</nz-tag>
+                <nz-tag *ngSwitchCase="458" nzColor="red">{{ endpoint.statusCode }}</nz-tag>
+                <nz-tag *ngSwitchCase="459" nzColor="red">{{ endpoint.statusCode }}</nz-tag>
+                <nz-tag *ngSwitchDefault nzColor="blue">{{ endpoint.statusCode }}</nz-tag>
+              </ng-container>
+              <span class="exception-name">{{ endpoint.exception }}</span>
+              <span class="exception-desc">{{ endpoint.description }}</span>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- Usage Examples -->
+  <div class="usage-examples">
+    <nz-card nzTitle="Code Usage Examples">
+      <nz-collapse>
+        <nz-collapse-panel nzHeader="Angular Service Usage" nzActive="false">
+          <pre class="code-example">
+// Inject the auto-generated API service
+constructor(private apiExceptionsService: ApiExceptionsService) {{ '{' }}{{ '}' }}
+
+// Call exception endpoints (will throw HTTP errors)
+this.apiExceptionsService.triggerSessionExpired().subscribe({{ '{' }}
+  error: (httpError) => {{ '{' }}
+    // HTTP interceptor will handle the error automatically
+    // Events will be published via the event bus
+    console.log('Caught exception:', httpError.status); // 455
+  {{ '}' }}
+{{ '}' }});
+          </pre>
+        </nz-collapse-panel>
+
+        <nz-collapse-panel nzHeader="Event Bus Subscription">
+          <pre class="code-example">
+// Subscribe to specific HTTP error events
+this.eventBus.onHttpSessionExpired().subscribe(event => {{ '{' }}
+  console.log('Session expired event:', event.payload);
+  // Handle session expiry logic
+{{ '}' }});
+
+this.eventBus.onAppWarning().subscribe(event => {{ '{' }}
+  console.log('App warning event:', event.payload);
+  // Handle warning logic
+{{ '}' }});
+
+// Subscribe to all HTTP errors
+this.eventBus.onHttpError().subscribe(event => {{ '{' }}
+  console.log('HTTP error:', event.payload);
+  // Handle any HTTP error
+{{ '}' }});
+          </pre>
+        </nz-collapse-panel>
+
+        <nz-collapse-panel nzHeader="Direct HTTP Calls">
+          <pre class="code-example">
+// Direct HTTP calls to exception endpoints
+GET /examples/exceptions/session-expired     // Returns 455
+GET /examples/exceptions/app-warning         // Returns 456
+GET /examples/exceptions/concurrency-error   // Returns 457
+GET /examples/exceptions/unauthorized-login  // Returns 458
+GET /examples/exceptions/app-error           // Returns 459
+
+// Get available endpoints
+GET /examples/exceptions                     // Returns endpoint list
+          </pre>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </nz-card>
+  </div>
+</div>

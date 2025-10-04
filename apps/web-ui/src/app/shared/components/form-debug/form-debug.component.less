@@ -1,0 +1,135 @@
+// Form Debug Component Styles
+// Following established rules:
+// - No font/color overrides (handled by global theme)
+// - Use ng-zorro built-in styles
+// - Minimal custom styling
+
+.form-debug-card {
+  .form-debug-content {
+    transition: all 0.3s ease;
+
+    &.collapsed {
+      display: none;
+    }
+  }
+}
+
+.status-item {
+  .status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status-key {
+    text-transform: capitalize;
+  }
+}
+
+.control-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  strong {
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+}
+
+.controls-space {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.validators-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.control-card {
+  width: 100%;
+}
+
+.error-card {
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.validator-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.validator-detail-card {
+  margin-bottom: 4px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.error-details-card {
+  margin-top: 4px;
+}
+
+.no-errors-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  justify-content: center;
+}
+
+.no-form-card {
+  text-align: center;
+}
+
+.no-form-content {
+  padding: 24px;
+
+  h4 {
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.toggle-button,
+.debug-button {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: currentColor;
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: currentColor;
+  }
+}
+
+.debug-button {
+  padding: 2px 4px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}

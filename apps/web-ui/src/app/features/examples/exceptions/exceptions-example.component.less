@@ -1,0 +1,227 @@
+@import '../../../../assets/styles/theme-general.less';
+@import '../../../../assets/styles/theme.less';
+
+.exceptions-example {
+  padding: 20px;
+
+  .example-header {
+    margin-bottom: 24px;
+
+    h2 {
+      color: @text-color;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: @text-color-secondary;
+      line-height: 1.6;
+    }
+  }
+
+  // Exception Buttons Card
+  .exception-buttons-card {
+    height: 100%;
+
+    .exception-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .exception-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        height: 60px;
+        padding: 0 20px;
+        text-align: left;
+        width: 100%;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        span[nz-icon] {
+          font-size: 20px;
+          flex-shrink: 0;
+        }
+
+        .btn-content {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          flex-grow: 1;
+
+          .btn-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+          }
+
+          .btn-status {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+
+  // Instructions Card
+  .instructions-card {
+    height: 100%;
+
+    .instructions {
+      h4 {
+        color: @text-color;
+        margin-bottom: 12px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      ol, ul {
+        margin-bottom: 16px;
+
+        li {
+          margin-bottom: 8px;
+          color: @text-color-secondary;
+          line-height: 1.5;
+
+          strong {
+            color: @text-color;
+          }
+        }
+
+        ul {
+          margin-top: 8px;
+
+          li {
+            margin-bottom: 4px;
+          }
+        }
+      }
+
+      .exception-types {
+        .exception-type {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+          padding: 8px;
+          border-radius: 4px;
+          background: @background-color-light;
+          border: 1px solid @border-color-base;
+
+          .exception-name {
+            font-weight: 600;
+            color: @text-color;
+            min-width: 200px;
+          }
+
+          .exception-desc {
+            color: @text-color-secondary;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+
+  // Usage Examples Section
+  .usage-examples {
+    margin-top: 24px;
+
+    .code-example {
+      background: @background-color-base;
+      border: 1px solid @border-color-base;
+      border-radius: 6px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 0;
+      color: @text-color;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+
+      // Syntax highlighting colors
+      .keyword {
+        color: @primary-color;
+        font-weight: 600;
+      }
+
+      .string {
+        color: @success-color;
+      }
+
+      .comment {
+        color: @text-color-secondary;
+        font-style: italic;
+      }
+    }
+
+    :deep(.ant-collapse) {
+      .ant-collapse-item {
+        .ant-collapse-header {
+          font-weight: 600;
+          color: @text-color;
+        }
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 767px) {
+    padding: 16px;
+
+    .exception-buttons {
+      .exception-btn {
+        height: 50px;
+        padding: 0 16px;
+
+        span[nz-icon] {
+          font-size: 16px;
+        }
+
+        .btn-content {
+          .btn-title {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .instructions {
+      font-size: 14px;
+    }
+  }
+
+  // Animation for button loading
+  .exception-btn {
+    &.ant-btn-loading {
+      .btn-content {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  // Alert styling
+  :deep(.ant-alert) {
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+
+  // Card styling
+  :deep(.ant-card) {
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    .ant-card-head-title {
+      font-weight: 600;
+      color: @text-color;
+    }
+  }
+}

@@ -1,0 +1,198 @@
+<div class="pub-sub-example">
+  <!-- Header Section -->
+  <nz-card class="example-header" nzTitle="Pub-Sub System Example">
+    <p>
+      This example demonstrates the pub-sub (publish-subscribe) event system that enables
+      communication between components, services, and modules throughout the application.
+    </p>
+    <nz-alert
+      nzType="info"
+      nzMessage="Open your browser's developer console to see detailed event logs"
+      nzShowIcon>
+    </nz-alert>
+  </nz-card>
+
+  <div nz-row [nzGutter]="[16, 16]">
+    <!-- Actions Panel -->
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="8">
+      <nz-card nzTitle="Event Publishers" class="actions-card">
+        <div class="action-buttons">
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            (click)="publishNotification()"
+            class="action-btn">
+            <span nz-icon nzType="notification" nzTheme="outline"></span>
+            Send Notification
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzBlock
+            (click)="publishThemeChange()"
+            class="action-btn">
+            <span nz-icon [nzType]="currentTheme === 'dark' ? 'sun' : 'moon'" nzTheme="outline"></span>
+            Toggle Theme ({{ currentTheme }})
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzBlock
+            (click)="publishUserLogin()"
+            class="action-btn">
+            <span nz-icon nzType="user" nzTheme="outline"></span>
+            Simulate User Login
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzBlock
+            (click)="publishCustomEvent()"
+            class="action-btn">
+            <span nz-icon nzType="experiment" nzTheme="outline"></span>
+            Custom Event
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzBlock
+            (click)="publishDataUpdate()"
+            class="action-btn">
+            <span nz-icon nzType="database" nzTheme="outline"></span>
+            Data Update
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzBlock
+            (click)="publishFormEvent()"
+            class="action-btn">
+            <span nz-icon nzType="form" nzTheme="outline"></span>
+            Form Event
+          </button>
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- Debug Information -->
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="8">
+      <nz-card class="debug-card">
+        <div nz-card-meta>
+          <div nz-card-meta-title>
+            <span>Debug Information</span>
+            <button
+              nz-button
+              nzSize="small"
+              nzType="link"
+              (click)="toggleDebugMode()"
+              class="debug-toggle">
+              Debug Mode
+            </button>
+          </div>
+        </div>
+
+        <div class="debug-stats">
+          <nz-statistic
+            [nzValue]="debugInfo.activeEventTypes?.length || 0"
+            nzTitle="Active Event Types">
+          </nz-statistic>
+
+          <nz-statistic
+            [nzValue]="debugInfo.totalSubscriptions || 0"
+            nzTitle="Total Subscriptions">
+          </nz-statistic>
+
+          <nz-statistic
+            [nzValue]="recentEvents.length"
+            nzTitle="Recent Events">
+          </nz-statistic>
+        </div>
+
+        <div class="active-events" *ngIf="debugInfo.activeEventTypes?.length">
+          <h4>Active Event Types:</h4>
+          <nz-tag
+            *ngFor="let eventType of debugInfo.activeEventTypes"
+            nzColor="blue"
+            class="event-type-tag">
+            {{ eventType }}
+          </nz-tag>
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- Event Log -->
+    <div nz-col [nzXs]="24" [nzLg]="8">
+      <nz-card class="event-log-card">
+        <div nz-card-meta>
+          <div nz-card-meta-title>
+            <span>Event Log</span>
+            <button
+              nz-button
+              nzSize="small"
+              nzType="link"
+              nzDanger
+              (click)="clearEvents()">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <div class="event-log-container">
+          <div
+            *ngIf="recentEvents.length === 0"
+            class="no-events">
+            <nz-empty
+              nzNotFoundImage="simple"
+              nzNotFoundContent="No events yet. Try clicking the buttons above!">
+            </nz-empty>
+          </div>
+
+          <div
+            *ngFor="let event of recentEvents; trackBy: trackByCorrelationId"
+            class="event-item"
+            [attr.data-event-type]="event.type">
+            <div class="event-header">
+              <span class="event-type">{{ event.type }}</span>
+              <span class="event-timestamp">{{ formatTimestamp(event.timestamp) }}</span>
+            </div>
+
+            <div class="event-source" *ngIf="event.source">
+              <nz-tag nzColor="green" nzSize="small">{{ event.source }}</nz-tag>
+            </div>
+
+            <div class="event-payload">
+              <nz-collapse nzGhost>
+                <nz-collapse-panel nzHeader="Payload" nzSize="small">
+                  <pre class="payload-json">{{ formatJson(event.payload) }}</pre>
+                </nz-collapse-panel>
+              </nz-collapse>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- Usage Examples Section -->
+  <nz-card nzTitle="Usage Examples" class="usage-examples">
+    <nz-collapse>
+      <nz-collapse-panel nzHeader="Basic Event Publishing">
+        <pre class="code-example">{{ basicPublishExample }}</pre>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel nzHeader="Event Subscription">
+        <pre class="code-example">{{ subscriptionExample }}</pre>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel nzHeader="Custom Events">
+        <pre class="code-example">{{ customEventExample }}</pre>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-card>
+</div>

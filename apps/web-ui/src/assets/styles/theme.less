@@ -1,0 +1,99 @@
+// ============================================================================
+// LIGHT THEME - Medorion Brand Medical/Healthcare Styling
+// ============================================================================
+
+// Note: Common variables are imported in styles.less before this file
+
+// Medorion Brand Colors
+@primary-color: #01a9a2; // Medorion teal/turquoise
+@link-color: @primary-color; // Use primary color for links
+@success-color: #28a745; // Medical green
+@warning-color: #ffc107; // Medical amber
+@error-color: #dc3545; // Medical red
+@info-color: #17a2b8; // Medical teal
+
+// Light theme typography (using common font sizes)
+@font-family: @font-family-base;
+// @font-size-base is defined in theme-general.less (13px, reduced from 16px)
+@heading-color: #1a1a1a; // Very dark gray for headings
+@text-color: #495057; // Professional dark gray
+@text-color-secondary: #6c757d; // Medium gray
+@text-color-inverse: #ffffff;
+@disabled-color: #adb5bd; // Light gray
+@border-color-base: #c8ced3; // More visible light border (darker than #dee2e6)
+
+// Layout - Clean medical interface
+@layout-body-background: #f8f9fa; // Very light gray background
+@layout-header-background: #ffffff; // Clean white header
+@layout-sider-background: #ffffff; // White sidebar
+@layout-trigger-background: #f8f9fa;
+@layout-trigger-color: #fff;
+
+// Component specific - Medical theme
+@component-background: #ffffff;
+@background-color-light: #f8f9fa;
+@background-color-base: #f1f3f4;
+@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.08); // Subtle shadows
+
+// Button styling - Professional medical (using common dimensions from theme-general.less)
+@btn-primary-bg: @primary-color;
+@btn-primary-border: @primary-color;
+@btn-font-weight: 400;
+@btn-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+@btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+@btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+
+// Menu - Professional medical website styling (using common dimensions)
+@menu-bg: @component-background;
+@menu-item-color: #2c3e50;
+@menu-highlight-color: @primary-color;
+@menu-item-active-bg: rgba(1, 169, 162, 0.08);
+@menu-item-group-title-color: @text-color-secondary;
+
+// Shadows for light theme
+@shadow-1-up:
+  0 -6px 16px -8px rgba(0, 0, 0, 0.08),
+  0 -9px 28px 0 rgba(0, 0, 0, 0.05),
+  0 -12px 48px 16px rgba(0, 0, 0, 0.03);
+@shadow-1-down:
+  0 6px 16px -8px rgba(0, 0, 0, 0.08),
+  0 9px 28px 0 rgba(0, 0, 0, 0.05),
+  0 12px 48px 16px rgba(0, 0, 0, 0.03);
+@shadow-1-left:
+  -6px 0 16px -8px rgba(0, 0, 0, 0.08),
+  -9px 0 28px 0 rgba(0, 0, 0, 0.05),
+  -12px 0 48px 16px rgba(0, 0, 0, 0.03);
+@shadow-1-right:
+  6px 0 16px -8px rgba(0, 0, 0, 0.08),
+  9px 0 28px 0 rgba(0, 0, 0, 0.05),
+  12px 0 48px 16px rgba(0, 0, 0, 0.03);
+@shadow-2:
+  0 3px 6px -4px rgba(0, 0, 0, 0.12),
+  0 6px 16px 0 rgba(0, 0, 0, 0.08),
+  0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+// Primary color variations - using standard LESS color functions
+@primary-1: tint(@primary-color, 90%);
+@primary-2: tint(@primary-color, 80%);
+@primary-3: tint(@primary-color, 60%);
+@primary-4: tint(@primary-color, 40%);
+@primary-5: tint(@primary-color, 20%);
+@primary-6: @primary-color;
+@primary-7: shade(@primary-color, 5%);
+@primary-8: shade(@primary-color, 15%);
+@primary-9: shade(@primary-color, 25%);
+@primary-10: shade(@primary-color, 35%);
+
+// Interactive states for light theme
+@item-active-bg: @primary-1;
+@item-hover-bg: rgba(0, 0, 0, 0.018);
+
+// CSS custom properties for runtime theme switching (light theme defaults)
+:root {
+  --border-color-base: @border-color-base;
+  --text-color: @text-color;
+  --text-color-secondary: @text-color-secondary;
+  --heading-color: @heading-color;
+  --component-background: @component-background;
+  --layout-body-background: @layout-body-background;
+}

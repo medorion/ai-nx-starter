@@ -1,0 +1,22 @@
+Hello Decorator
+
+<h2>Debounce Example</h2>
+<nz-alert nzType="info" nzMessage="Type in the input to see immediate vs debounced updates"></nz-alert>
+
+<input nz-input placeholder="Type something..." type="text" (input)="onInputEvent($event)" />
+
+<div style="margin-top: 16px">
+  <p><strong>Current Input:</strong> {{ currentInputValue }}</p>
+  <p><strong>Debounced Value (1s delay):</strong> {{ debounceValue }}</p>
+</div>
+
+<h2>Error Handeling</h2>
+<button nz-button (click)="onSearch()">Search</button>
+
+<h2>Logging</h2>
+<nz-alert nzType="info" nzMessage="Click the button to log something"></nz-alert>
+<button nz-button (click)="onLog()">Log something</button>
+
+<h2>Measure Time</h2>
+<nz-alert nzType="info" nzMessage="Click the button to measure something"></nz-alert>
+<button nz-button (click)="onMeasure()">Measure something</button>

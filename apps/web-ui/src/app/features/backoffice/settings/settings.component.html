@@ -1,0 +1,49 @@
+<div class="settings-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Settings</h2>
+      <p>Configure your application settings</p>
+    </div>
+  </div>
+
+  <div class="settings-content">
+    <!-- Theme Settings Card -->
+    <nz-card nzTitle="Theme" class="settings-card">
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label fw-bolder mb-1">Dark Theme</div>
+          <div class="setting-description">Switch between light and dark theme</div>
+        </div>
+        <nz-switch
+          [ngModel]="isDarkTheme$ | async"
+          (ngModelChange)="onThemeToggle($event)"
+        ></nz-switch>
+      </div>
+    </nz-card>
+
+    <!-- Debug Settings Card -->
+    <nz-card nzTitle="Debug" class="settings-card">
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label fw-bolder mb-1">Enable Dashboard Debug Info</div>
+          <div class="setting-description">Show debug information on dashboards</div>
+        </div>
+        <nz-switch
+          [ngModel]="enableDashboardDebugInfo$ | async"
+          (ngModelChange)="onDashboardDebugToggle($event)"
+        ></nz-switch>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label fw-bolder mb-1">Enable Form Debug Info</div>
+          <div class="setting-description">Show debug information on forms</div>
+        </div>
+        <nz-switch
+          [ngModel]="enableFormDebugInfo$ | async"
+          (ngModelChange)="onFormDebugToggle($event)"
+        ></nz-switch>
+      </div>
+    </nz-card>
+  </div>
+</div>

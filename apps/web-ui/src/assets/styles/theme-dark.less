@@ -1,0 +1,709 @@
+// ============================================================================
+// DARK THEME SCOPED - Efficient runtime theme switching
+// ============================================================================
+// This approach allows runtime theme switching without CSS imports/compilation
+
+body.dark-theme {
+  // Dark theme CSS custom properties for runtime switching
+
+  // Medorion Brand Colors (keeping primary brand color)
+  --primary-color: #01a9a2; // Medorion teal/turquoise (unchanged)
+  --link-color: #4db6ac; // Slightly lighter teal for better contrast on dark
+  --success-color: #4caf50; // Slightly brighter green for dark theme
+  --warning-color: #ff9800; // Warmer orange for dark theme
+  --error-color: #f44336; // Slightly brighter red for dark theme
+  --info-color: #26c6da; // Lighter cyan for dark theme
+
+  // Typography - Dark theme (using common font sizes from theme-general.less)
+  --heading-color: #f5f5f5; // Light gray for headings on dark background
+  --text-color: #e0e0e0; // Light gray for main text
+  --text-color-secondary: #b0b0b0; // Medium light gray for secondary text
+  --text-color-inverse: #1a1a1a; // Dark text for light backgrounds
+  --disabled-color: #616161; // Medium gray for disabled elements
+  --border-color-base: #505050; // More visible dark border (lighter than #424242)
+
+  // Layout - Dark medical interface
+  --layout-body-background: #121212; // Very dark gray background
+  --layout-header-background: #1e1e1e; // Dark header
+  --layout-sider-background: #1e1e1e; // Dark sidebar
+  --component-background: #1e1e1e; // Dark component background
+  --background-color-light: #2a2a2a; // Slightly lighter dark
+  --background-color-base: #323232; // Medium dark gray
+
+  // Override CSS custom properties for runtime theme switching
+  background-color: var(--layout-body-background);
+  color: var(--text-color);
+  // font-size is defined in theme-general.less (13px, reduced from 16px)
+
+  // HTML heading elements - ensure white/light text
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--heading-color) !important;
+  }
+
+  // Paragraph and other text elements
+  p,
+  span,
+  div,
+  li,
+  td,
+  th {
+    color: var(--text-color);
+  }
+
+  // Links
+  a {
+    color: var(--link-color);
+
+    &:hover {
+      color: #66d9cc;
+    }
+  }
+
+  // Apply dark theme styles to all components
+  .ant-layout {
+    background: var(--layout-body-background);
+
+    &-header {
+      background: var(--layout-header-background);
+      color: var(--text-color);
+    }
+
+    &-sider {
+      background: var(--layout-sider-background);
+    }
+
+    &-content {
+      background: var(--layout-body-background);
+    }
+  }
+
+  // Menu dark theme
+  .ant-menu {
+    background: var(--component-background);
+    color: var(--text-color);
+
+    &-item {
+      color: var(--text-color) !important;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+        color: var(--primary-color) !important;
+      }
+
+      &-selected,
+      &-active {
+        background-color: rgba(1, 169, 162, 0.15);
+        color: var(--primary-color) !important;
+      }
+    }
+
+    &-submenu {
+      color: var(--text-color);
+
+      &-title {
+        color: var(--text-color) !important;
+
+        &:hover {
+          color: var(--primary-color) !important;
+        }
+      }
+
+      .ant-menu-item {
+        color: var(--text-color) !important;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.06);
+          color: var(--primary-color) !important;
+        }
+
+        &-selected,
+        &-active {
+          background-color: rgba(1, 169, 162, 0.15);
+          color: var(--primary-color) !important;
+        }
+      }
+    }
+
+    // Submenu popup styling
+    &-submenu-popup {
+      background: var(--component-background);
+
+      .ant-menu {
+        background: var(--component-background);
+        color: var(--text-color);
+
+        &-item {
+          color: var(--text-color) !important;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: var(--primary-color) !important;
+          }
+        }
+      }
+    }
+
+    // Inline submenu styling
+    &-inline &-submenu &-item {
+      color: var(--text-color) !important;
+
+      &:hover {
+        color: var(--primary-color) !important;
+      }
+    }
+  }
+
+  // Button dark theme
+  .ant-btn {
+    &-default {
+      background: var(--component-background);
+      border-color: var(--border-color-base);
+      color: var(--text-color);
+
+      &:hover,
+      &:focus {
+        background: var(--background-color-light);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+    }
+
+    &-primary {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+
+  // Card dark theme
+  .ant-card {
+    background: var(--component-background);
+    border: 1px solid var(--border-color-base);
+
+    &-head {
+      background: #2a2a2a;
+      border-bottom: 2px solid var(--border-color-base);
+      color: var(--text-color);
+      font-weight: 600;
+
+      &-title {
+        color: var(--text-color);
+        font-weight: 600;
+      }
+    }
+
+    &-body {
+      color: var(--text-color);
+    }
+
+    &-bordered {
+      border: 1px solid var(--border-color-base);
+    }
+  }
+
+  // Input dark theme
+  .ant-input,
+  .ant-input-number {
+    background: var(--component-background);
+    border-color: var(--border-color-base);
+    color: var(--text-color);
+
+    &::placeholder {
+      color: #757575;
+    }
+
+    &:hover {
+      border-color: var(--primary-color);
+    }
+
+    &:focus,
+    &-focused {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(1, 169, 162, 0.2);
+    }
+  }
+
+  // Select dark theme
+  .ant-select {
+    &-selector {
+      background: var(--component-background) !important;
+      border-color: var(--border-color-base) !important;
+      color: var(--text-color) !important;
+    }
+
+    &-arrow {
+      color: var(--text-color-secondary);
+    }
+  }
+
+  // Table dark theme
+  .ant-table {
+    background: var(--component-background);
+    border: 1px solid var(--border-color-base);
+
+    &-thead > tr > th {
+      background: #2a2a2a;
+      border-bottom: 2px solid var(--border-color-base);
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    &-tbody > tr {
+      &:hover > td {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      > td {
+        border-bottom: 1px solid var(--border-color-base);
+        color: var(--text-color);
+      }
+
+      &:last-child > td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  // Modal dark theme
+  .ant-modal {
+    &-content {
+      background: var(--component-background);
+      color: var(--text-color);
+    }
+
+    &-header {
+      background: #2a2a2a;
+      border-color: var(--border-color-base);
+
+      .ant-modal-title {
+        color: var(--text-color);
+      }
+    }
+
+    &-close {
+      color: var(--text-color-secondary);
+
+      &:hover {
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Dropdown dark theme
+  .ant-dropdown-menu {
+    background: var(--component-background);
+
+    &-item {
+      color: var(--text-color);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+    }
+  }
+
+  // Form dark theme
+  .ant-form {
+    &-item-label > label {
+      color: var(--text-color);
+    }
+
+    &-item-explain {
+      color: var(--text-color-secondary);
+    }
+  }
+
+  // Tooltip dark theme
+  .ant-tooltip {
+    &-inner {
+      background: #424242;
+      color: var(--text-color);
+    }
+
+    &-arrow::before {
+      background: #424242;
+    }
+  }
+
+  // Popover dark theme
+  .ant-popover {
+    &-inner {
+      background: var(--component-background);
+      color: var(--text-color);
+    }
+
+    &-arrow::before {
+      background: var(--component-background);
+      border-color: var(--border-color-base);
+    }
+
+    &-title {
+      color: var(--text-color);
+      border-color: var(--border-color-base);
+    }
+  }
+
+  // Notification dark theme
+  .ant-notification {
+    background: var(--component-background);
+    color: var(--text-color);
+
+    &-notice {
+      background: var(--component-background);
+      border-color: var(--border-color-base);
+
+      &-message {
+        color: var(--text-color);
+      }
+
+      &-description {
+        color: var(--text-color-secondary);
+      }
+    }
+  }
+
+  // Message dark theme
+  .ant-message {
+    &-notice-content {
+      background: var(--component-background);
+      color: var(--text-color);
+    }
+  }
+
+  // Drawer dark theme
+  .ant-drawer {
+    &-content {
+      background: var(--component-background);
+      color: var(--text-color);
+    }
+
+    &-header {
+      background: #2a2a2a;
+      border-color: var(--border-color-base);
+
+      .ant-drawer-title {
+        color: var(--text-color);
+      }
+    }
+
+    &-close {
+      color: var(--text-color-secondary);
+
+      &:hover {
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Tabs dark theme
+  .ant-tabs {
+    color: var(--text-color);
+
+    &-tab {
+      color: var(--text-color-secondary) !important;
+
+      &:hover {
+        color: var(--primary-color) !important;
+      }
+
+      &.ant-tabs-tab-active {
+        color: var(--primary-color) !important;
+      }
+    }
+
+    &-ink-bar {
+      background: var(--primary-color);
+    }
+
+    &-content {
+      color: var(--text-color);
+    }
+  }
+
+  // Additional text elements that might need light color
+  .ant-typography {
+    color: var(--text-color) !important;
+
+    &-title {
+      color: var(--heading-color) !important;
+    }
+
+    &-text {
+      color: var(--text-color) !important;
+    }
+
+    &-caption {
+      color: var(--text-color-secondary) !important;
+    }
+  }
+
+  // Badge dark theme
+  .ant-badge {
+    &-count {
+      background: var(--primary-color);
+      color: white;
+    }
+  }
+
+  // Tag dark theme
+  .ant-tag {
+    background: var(--background-color-light);
+    color: var(--text-color);
+    border-color: var(--border-color-base);
+  }
+
+  // Tree component
+  .ant-tree {
+    background: var(--component-background);
+    color: var(--text-color);
+
+    .ant-tree-title {
+      color: var(--text-color) !important;
+    }
+
+    .ant-tree-node-selected .ant-tree-title {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  // List component
+  .ant-list {
+    color: var(--text-color);
+
+    &-item {
+      color: var(--text-color);
+
+      &-meta {
+        &-title {
+          color: var(--text-color) !important;
+        }
+
+        &-description {
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+  }
+
+  // Pagination dark theme
+  .ant-pagination {
+    color: var(--text-color);
+
+    &-item {
+      background: var(--component-background);
+      border-color: var(--border-color-base);
+      color: var(--text-color);
+
+      &:hover {
+        background: var(--background-color-light);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      &-active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+
+        &:hover {
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: white;
+        }
+      }
+
+      a {
+        color: var(--text-color);
+      }
+
+      &:hover a {
+        color: var(--primary-color);
+      }
+
+      &-active a {
+        color: white;
+      }
+    }
+
+    &-prev,
+    &-next {
+      background: var(--component-background);
+      border-color: var(--border-color-base);
+      color: var(--text-color);
+
+      &:hover {
+        background: var(--background-color-light);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      .ant-pagination-item-link {
+        background: transparent;
+        color: var(--text-color);
+
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
+
+    &-jump-prev,
+    &-jump-next {
+      color: var(--text-color-secondary);
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+
+    &-options {
+      &-size-changer {
+        .ant-select-selector {
+          background: var(--component-background) !important;
+          border-color: var(--border-color-base) !important;
+          color: var(--text-color) !important;
+        }
+      }
+
+      &-quick-jumper {
+        color: var(--text-color);
+
+        input {
+          background: var(--component-background);
+          border-color: var(--border-color-base);
+          color: var(--text-color);
+
+          &:hover {
+            border-color: var(--primary-color);
+          }
+
+          &:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(1, 169, 162, 0.2);
+          }
+        }
+      }
+    }
+
+    &-total-text {
+      color: var(--text-color);
+    }
+  }
+
+  // Calendar dark theme
+  .ant-picker-calendar {
+    background: var(--component-background) !important;
+
+    .ant-picker-calendar-header {
+      background: var(--component-background) !important;
+      border-bottom: 1px solid var(--border-color-base);
+
+      .ant-picker-calendar-year-select,
+      .ant-picker-calendar-month-select {
+        color: var(--text-color);
+
+        .ant-select-selector {
+          background: var(--component-background) !important;
+          border-color: var(--border-color-base) !important;
+          color: var(--text-color) !important;
+        }
+      }
+
+      .ant-picker-header-super-prev-btn,
+      .ant-picker-header-prev-btn,
+      .ant-picker-header-next-btn,
+      .ant-picker-header-super-next-btn {
+        color: var(--text-color);
+
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
+
+    .ant-picker-content {
+      background: var(--component-background) !important;
+
+      thead th {
+        color: var(--text-color-secondary);
+        background: var(--component-background) !important;
+        border-bottom: 1px solid var(--border-color-base);
+      }
+
+      .ant-picker-cell {
+        background: var(--component-background) !important;
+
+        &:before {
+          border: 1px solid var(--border-color-base);
+        }
+
+        .ant-picker-cell-inner {
+          color: var(--text-color);
+          background: transparent !important;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.06);
+          }
+        }
+
+        &.ant-picker-cell-today .ant-picker-cell-inner {
+          border-color: var(--primary-color);
+          color: var(--primary-color);
+        }
+
+        &.ant-picker-cell-selected .ant-picker-cell-inner {
+          background: var(--primary-color);
+          color: white;
+        }
+
+        &.ant-picker-cell-disabled .ant-picker-cell-inner {
+          color: var(--disabled-color);
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  // Override scrollbar for dark theme (webkit browsers) - optimized selectors
+  scrollbar-width: thin;
+  scrollbar-color: #424242 #1e1e1e;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 4px;
+
+    &:hover {
+      background: #616161;
+    }
+  }
+
+  // Performance optimization: Reduce repaints by using transform instead of changing properties
+  // when possible and using will-change for frequently animated elements
+  .ant-btn,
+  .ant-card,
+  .ant-input,
+  .ant-select-selector {
+    will-change: background-color, border-color;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  // Optimize text rendering
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

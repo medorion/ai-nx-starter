@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  # Tokarev Application (UI + Server)
+  monorepo-kit:
+    image: monorepo-kit:latest
+    container_name: monorepo-kit
+    restart: unless-stopped
+    ports:
+      - '3030:3030'
+    environment:
+      - NODE_ENV=production
+      - PORT=3030
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=admin
+      - DATABASE_PASS=admin
+      - DATABASE_NAME=tokarev
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - monorepo-kit-network
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    networks:
+      - monorepo-kit-network
+
+networks:
+  monorepo-kit-network:
+    driver: bridge

@@ -1,0 +1,54 @@
+.settings-container {
+  padding: 24px;
+
+  .page-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color-base, #dee2e6);
+
+    .header-content h2 {
+      margin: 0 0 8px 0;
+      color: var(--heading-color, #1a1a1a);
+    }
+
+    .header-content p {
+      margin: 0;
+      color: var(--text-color-secondary, #6c757d);
+    }
+  }
+
+  .settings-content {
+    .settings-card {
+      margin-bottom: 24px;
+
+      .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--border-color-base, #f0f0f0);
+
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        &:first-child {
+          padding-top: 0;
+        }
+
+        .setting-info {
+          flex: 1;
+          .setting-label {
+            color: var(--text-color, #495057);
+          }
+
+          .setting-description {
+            font-size: 12px;
+            color: var(--text-color-secondary, #6c757d);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+<nz-card *ngIf="formGroup" class="form-debug-card" [nzTitle]="cardTitle" [nzExtra]="extraTemplate">
+  <ng-template #cardTitle>
+    <nz-space nzAlign="center">
+      <span *nzSpaceItem>{{ title }}</span>
+      <nz-badge *nzSpaceItem [nzStatus]="formGroup.valid ? 'success' : 'error'" [nzText]="formGroup.valid ? 'VALID' : 'INVALID'">
+      </nz-badge>
+    </nz-space>
+  </ng-template>
+
+  <ng-template #extraTemplate>
+    <button class="toggle-button" (click)="toggleCollapsed()">
+      <span nz-icon [nzType]="collapsed ? 'down' : 'up'"></span>
+    </button>
+  </ng-template>
+
+  <div class="form-debug-content" [class.collapsed]="collapsed">
+    <nz-collapse nzGhost>
+      <!-- Form Status Section -->
+      <nz-collapse-panel *ngIf="showStatus" nzHeader="Form Status" nzKey="status">
+        <div nz-row [nzGutter]="[8, 8]">
+          <div nz-col [nzSpan]="6" *ngFor="let item of getFormStatus() | keyvalue">
+            <nz-card nzSize="small" class="status-item">
+              <div class="status-content">
+                <span class="status-key">{{ item.key }}</span>
+                <nz-tag [nzColor]="getStatusColor(item.key + '', item.value)">
+                  {{ item.value }}
+                </nz-tag>
+              </div>
+            </nz-card>
+          </div>
+        </div>
+      </nz-collapse-panel>
+
+      <!-- Form Values Section -->
+      <nz-collapse-panel *ngIf="showValues" nzHeader="Form Values" nzKey="values">
+        <nz-card nzSize="small">
+          <pre nz-typography><code>{{ getFormValues() | json }}</code></pre>
+        </nz-card>
+      </nz-collapse-panel>
+
+      <!-- Form Errors Section -->
+      <nz-collapse-panel *ngIf="showErrors" nzHeader="Form Errors" nzKey="errors">
+        <div *ngIf="getFormErrors() | keyvalue as errors; else noErrors">
+          <nz-card nzSize="small" class="error-card" *ngFor="let error of errors">
+            <h4 nz-typography nzType="danger">{{ error.key }}</h4>
+            <pre nz-typography><code>{{ error.value | json }}</code></pre>
+          </nz-card>
+        </div>
+        <ng-template #noErrors>
+          <nz-card nzSize="small">
+            <div nz-typography nzType="success" class="no-errors-message">
+              <span nz-icon nzType="check-circle"></span>
+              No validation errors
+            </div>
+          </nz-card>
+        </ng-template>
+      </nz-collapse-panel>
+
+      <!-- Individual Controls Section -->
+      <nz-collapse-panel nzHeader="Controls Details" nzKey="controls">
+        <div class="controls-space">
+          <nz-card
+            nzSize="small"
+            class="control-card"
+            [nzTitle]="controlTitle"
+            [nzExtra]="controlExtra"
+            *ngFor="let controlName of getControlNames()"
+          >
+            <ng-template #controlTitle>
+              <nz-space nzAlign="center">
+                <strong *nzSpaceItem>{{ controlName }}</strong>
+                <nz-badge
+                  *nzSpaceItem
+                  [nzStatus]="formGroup.get(controlName)?.valid ? 'success' : 'error'"
+                  [nzText]="formGroup.get(controlName)?.valid ? '✓' : '✗'"
+                >
+                </nz-badge>
+              </nz-space>
+            </ng-template>
+
+            <ng-template #controlExtra>
+              <button class="debug-button" (click)="debugControlValidators(controlName)" title="Debug validators">
+                <span nz-icon nzType="search"></span>
+              </button>
+            </ng-template>
+
+            <nz-space nzDirection="vertical" nzSize="small">
+              <!-- Control Value -->
+              <div *nzSpaceItem class="control-detail">
+                <strong>Value:</strong>
+                <nz-tag nzColor="blue">{{ formGroup.get(controlName)?.value || 'empty' }}</nz-tag>
+              </div>
+
+              <!-- Validators -->
+              <div *nzSpaceItem class="control-detail">
+                <strong>Validators:</strong>
+                <div class="validators-tags">
+                  <nz-tag
+                    *ngFor="let validator of getControlValidators(controlName)"
+                    [nzColor]="formGroup.get(controlName)?.errors?.[validator] ? 'red' : 'green'"
+                  >
+                    {{ validator }}
+                  </nz-tag>
+                  <nz-tag nzColor="default" *ngIf="getControlValidators(controlName).length === 0"> No validators </nz-tag>
+                </div>
+              </div>
+
+              <!-- Validator Details -->
+              <div *nzSpaceItem>
+                <div class="control-detail" *ngIf="getValidatorDetails(controlName) | keyvalue as details">
+                  <strong>Details:</strong>
+                  <div class="validator-details-list">
+                    <nz-card nzSize="small" class="validator-detail-card" *ngFor="let detail of details">
+                      <strong>{{ detail.key }}:</strong>
+                      <nz-tag nzColor="cyan">{{ detail.value | json }}</nz-tag>
+                    </nz-card>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Control Errors -->
+              <div *nzSpaceItem>
+                <div class="control-detail" *ngIf="formGroup.get(controlName)?.errors">
+                  <strong nz-typography nzType="danger">Errors:</strong>
+                  <nz-card nzSize="small" class="error-details-card">
+                    <pre nz-typography><code>{{ formGroup.get(controlName)?.errors | json }}</code></pre>
+                  </nz-card>
+                </div>
+              </div>
+            </nz-space>
+          </nz-card>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</nz-card>
+
+<!-- No Form Group Message -->
+<nz-card *ngIf="!formGroup" class="no-form-card">
+  <div class="no-form-content">
+    <div nz-typography nzType="secondary">
+      <h4>No FormGroup provided to debug</h4>
+      <p>
+        Use:
+        <code nz-typography nzCode>&lt;app-form-debug [formGroup]="yourFormGroup"&gt;&lt;/app-form-debug&gt;</code>
+      </p>
+    </div>
+  </div>
+</nz-card>

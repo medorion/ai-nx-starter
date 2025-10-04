@@ -1,0 +1,118 @@
+<div class="forms-container">
+  <h2>TODO Finish Validation Forms</h2>
+  <div nz-row [nzGutter]="24" class="forms-layout">
+    <!-- Left Column - Form -->
+    <div nz-col [nzSpan]="12" class="form-column">
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('email')">
+            <input nz-input formControlName="email" id="email" [class.error]="isFieldInvalid('email')" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('password')">
+            <input nz-input type="password" id="password" formControlName="password" [class.error]="isFieldInvalid('password')" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('checkPassword')">
+            <input
+              nz-input
+              type="password"
+              formControlName="checkPassword"
+              id="checkPassword"
+              [class.error]="isFieldInvalid('checkPassword')"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="nickname" nzRequired nzTooltipTitle="What do you want other to call you">
+            <span>Nickname</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('nickname')">
+            <input nz-input id="nickname" formControlName="nickname" [class.error]="isFieldInvalid('nickname')" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('phoneNumber')">
+            <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+              <ng-template #addOnBeforeTemplate>
+                <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                  <nz-option nzLabel="+86" nzValue="+86"></nz-option>
+                  <nz-option nzLabel="+87" nzValue="+87"></nz-option>
+                </nz-select>
+              </ng-template>
+              <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [class.error]="isFieldInvalid('phoneNumber')" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired>Website</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="getFieldError('website')">
+            <input nz-input id="website" formControlName="website" placeholder="website" [class.error]="isFieldInvalid('website')" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label
+            [nzSm]="6"
+            [nzXs]="24"
+            nzFor="captcha"
+            nzRequired
+            nzTooltipTitle="Please click 'Get captcha'"
+            [nzTooltipIcon]="captchaTooltipIcon"
+          >
+            Captcha
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            [nzErrorTip]="getFieldError('captcha')"
+            nzExtra="We must make sure that your are a human."
+          >
+            <div nz-row [nzGutter]="8">
+              <div nz-col [nzSpan]="12">
+                <input nz-input formControlName="captcha" id="captcha" [class.error]="isFieldInvalid('captcha')" />
+              </div>
+              <div nz-col [nzSpan]="12">
+                <button nz-button (click)="getCaptcha($event)">Get captcha</button>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <label nz-checkbox formControlName="agree">
+              <span>
+                I have read the
+                <a>agreement</a>
+              </span>
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <button nz-button nzType="primary" style="margin-right: 8px">Register</button>
+            <button nz-button nzType="default" (click)="logFormInfo()">Debug Form</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+
+    <!-- Right Column - Debug Component -->
+    <div nz-col [nzSpan]="12" class="debug-column">
+      <app-form-debug
+        [formGroup]="validateForm"
+        title="FormGroupService Debug"
+        [collapsed]="false"
+        [showValues]="true"
+        [showErrors]="true"
+        [showStatus]="true"
+      >
+      </app-form-debug>
+    </div>
+  </div>
+</div>

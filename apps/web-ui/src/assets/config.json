@@ -1,0 +1,10 @@
+{
+  "apiUrl": "http://localhost:3030",
+  "enableLogging": false,
+  "retryCount": 3,
+  "timeout": 30000,
+  "orgCode": "dho",
+  "token": "AUTH_DEVELOPMENT",
+  "fingerprint": "FP_DEVELOPMENT",
+  "version": "1.0.0"
+}

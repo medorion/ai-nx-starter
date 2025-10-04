@@ -1,0 +1,317 @@
+<div class="server-flows-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Server Flows <span class="text-muted text-sm">(Monitor workflow executions)</span></h2>
+    </div>
+  </div>
+
+  <!-- Search/Filter Section -->
+  <div class="search-section">
+    <div class="filter-row">
+      <nz-input-group class="filter-input" nzSearch>
+        <input 
+          type="text" 
+          nz-input 
+          name="searchFlowId" 
+          placeholder="Flow ID..." 
+          [(ngModel)]="searchFlowId"
+        />
+      </nz-input-group>
+
+      <nz-input-group class="filter-input" nzSearch>
+        <input 
+          type="text" 
+          nz-input 
+          name="searchMessageId" 
+          placeholder="Message ID..." 
+          [(ngModel)]="searchMessageId"
+        />
+      </nz-input-group>
+
+      <nz-select 
+        class="filter-select" 
+        nzPlaceHolder="Status" 
+        [(ngModel)]="searchStatus"
+        nzAllowClear
+      >
+        <nz-option 
+          *ngFor="let option of statusOptions" 
+          [nzLabel]="option.label" 
+          [nzValue]="option.value"
+        ></nz-option>
+      </nz-select>
+
+      <button nz-button nzType="primary" (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+        Search
+      </button>
+
+      <button nz-button nzType="default" (click)="onReset()">
+        <span nz-icon nzType="reload"></span>
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <!-- Flows Table -->
+  <nz-table
+    *ngIf="!loading && flows.length > 0"
+    #flowsTable
+    [nzData]="flows"
+    [nzLoading]="loading"
+    [nzShowPagination]="false"
+    nzSize="middle"
+    class="flows-table">
+    <thead>
+      <tr>
+        <th>Flow ID</th>
+        <th>Message ID</th>
+        <th>Org Code</th>
+        <th>Status</th>
+        <th>Started</th>
+        <th>Duration</th>
+        <th>Errors</th>
+        <th nzWidth="100px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let flow of flows">
+        <td>
+          <nz-tag nzColor="blue">{{ flow.flowId }}</nz-tag>
+        </td>
+        <td>
+          <span class="text-muted">{{ flow.messageId }}</span>
+        </td>
+        <td>
+          <nz-tag nzColor="purple">{{ flow.orgCode }}</nz-tag>
+        </td>
+        <td>
+          <nz-badge 
+            [nzStatus]="statusBadgeMap[flow.status]" 
+            [nzText]="statusTextMap[flow.status]"
+          ></nz-badge>
+        </td>
+        <td>
+          <span class="text-sm">{{ formatDate(flow.createdAt) }}</span>
+        </td>
+        <td>
+          <span class="text-sm">{{ formatDuration(flow.startTime, flow.endTime) }}</span>
+        </td>
+        <td>
+          <nz-tag 
+            *ngIf="flow.errors && flow.errors.length > 0" 
+            nzColor="red"
+            [nz-tooltip]="flow.errors.join('\n')"
+            nzTooltipPlacement="left"
+          >
+            {{ flow.errors.length }} error(s)
+          </nz-tag>
+          <span *ngIf="!flow.errors || flow.errors.length === 0" class="text-muted">-</span>
+        </td>
+        <td>
+          <button 
+            nz-button 
+            nzType="link" 
+            nzSize="small"
+            (click)="onViewDetails(flow)"
+            nz-tooltip="View details"
+          >
+            <span nz-icon nzType="file-text"></span>
+            Details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && flows.length === 0"
+    [nzNotFoundContent]="'No flows found matching your search criteria'"
+    [nzNotFoundImage]="'simple'"
+  >
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="total > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[10, 20, 50, 100]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+
+  <!-- Flow Details Drawer -->
+  <nz-drawer
+    [nzVisible]="drawerVisible"
+    [nzWidth]="720"
+    nzPlacement="right"
+    nzTitle="Flow Details"
+    (nzOnClose)="onDrawerClose()"
+  >
+    <ng-container *nzDrawerContent>
+      <div *ngIf="selectedFlow" class="flow-details">
+        <!-- Basic Info -->
+        <nz-card nzTitle="Basic Information" class="mb-3">
+          <div class="detail-row">
+            <span class="fw-bold">Flow ID:</span>
+            <nz-tag nzColor="blue">{{ selectedFlow.flowId }}</nz-tag>
+          </div>
+          <div class="detail-row">
+            <span class="fw-bold">Message ID:</span>
+            <span>{{ selectedFlow.messageId }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="fw-bold">Organization:</span>
+            <nz-tag nzColor="purple">{{ selectedFlow.orgCode }}</nz-tag>
+          </div>
+          <div class="detail-row">
+            <span class="fw-bold">Status:</span>
+            <nz-badge 
+              [nzStatus]="statusBadgeMap[selectedFlow.status]" 
+              [nzText]="statusTextMap[selectedFlow.status]"
+            ></nz-badge>
+          </div>
+          <div class="detail-row" *ngIf="selectedFlow.snapshot">
+            <span class="fw-bold">Snapshot:</span>
+            <span>{{ selectedFlow.snapshot }}</span>
+          </div>
+          <div class="detail-row" *ngIf="selectedFlow.externalId">
+            <span class="fw-bold">External ID:</span>
+            <span>{{ selectedFlow.externalId }}</span>
+          </div>
+          <div class="detail-row" *ngIf="selectedFlow.runBy">
+            <span class="fw-bold">Run By:</span>
+            <span>{{ selectedFlow.runBy }}</span>
+          </div>
+        </nz-card>
+
+        <!-- Timing Info -->
+        <nz-card nzTitle="Timing" class="mb-3">
+          <div class="detail-row">
+            <span class="fw-bold">Created At:</span>
+            <span>{{ formatDate(selectedFlow.createdAt) }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="fw-bold">Start Time:</span>
+            <span>{{ selectedFlow.startTime }}</span>
+          </div>
+          <div class="detail-row" *ngIf="selectedFlow.endTime">
+            <span class="fw-bold">End Time:</span>
+            <span>{{ selectedFlow.endTime }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="fw-bold">Duration:</span>
+            <span>{{ formatDuration(selectedFlow.startTime, selectedFlow.endTime) }}</span>
+          </div>
+        </nz-card>
+
+        <!-- Errors -->
+        <nz-card nzTitle="Errors" class="mb-3" *ngIf="selectedFlow.errors && selectedFlow.errors.length > 0">
+          <nz-alert 
+            nzType="error" 
+            nzShowIcon
+            *ngFor="let error of selectedFlow.errors"
+            [nzMessage]="error"
+            class="mb-2"
+          ></nz-alert>
+        </nz-card>
+
+        <!-- Output -->
+        <nz-card nzTitle="Output" class="mb-3" *ngIf="selectedFlow.output">
+          <pre class="output-content">{{ selectedFlow.output }}</pre>
+        </nz-card>
+
+        <!-- Workflow Structure -->
+        <nz-card nzTitle="Workflow Structure" *ngIf="parsedWorkflow">
+          <div class="workflow-info mb-3">
+            <div class="detail-row">
+              <span class="fw-bold">Workflow Name:</span>
+              <span>{{ parsedWorkflow.name }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold">Message ID:</span>
+              <span>{{ parsedWorkflow.messageId }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold">Event ID:</span>
+              <span>{{ parsedWorkflow.eventId }}</span>
+            </div>
+          </div>
+
+          <!-- Root Activity Tree -->
+          <div class="activity-tree" *ngIf="parsedWorkflow.rootActivity">
+            <h4 class="mb-2">Activities</h4>
+            <div class="activity-node">
+              <ng-container *ngTemplateOutlet="activityTemplate; context: { $implicit: parsedWorkflow.rootActivity, level: 0 }"></ng-container>
+            </div>
+          </div>
+        </nz-card>
+
+        <!-- Raw Flow Definition (Collapsible) -->
+        <nz-collapse *ngIf="selectedFlow.flowDefinition">
+          <nz-collapse-panel nzHeader="Raw Flow Definition (JSON)">
+            <pre class="flow-definition-content">{{ selectedFlow.flowDefinition }}</pre>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </ng-container>
+  </nz-drawer>
+
+  <!-- Activity Template (Recursive) -->
+  <ng-template #activityTemplate let-activity let-level="level">
+    <div class="activity-item" [style.margin-left.px]="level * 20">
+      <div class="activity-header">
+        <span nz-icon [nzType]="getActivityStatusIcon(activity.status)" [style.color]="getActivityStatusColor(activity.status)"></span>
+        <span class="fw-bold ml-2">{{ activity.name }}</span>
+        <nz-badge [nzStatus]="getActivityStatusBadge(activity)" [nzText]="getActivityStatusText(activity)" class="ml-2"></nz-badge>
+      </div>
+      
+      <div class="activity-details ml-4">
+        <div class="detail-item" *ngIf="activity.activityId">
+          <span class="text-muted">Activity ID:</span> {{ activity.activityId }}
+        </div>
+        <div class="detail-item" *ngIf="activity.expression">
+          <span class="text-muted">Expression:</span> <code>{{ activity.expression }}</code>
+        </div>
+        <div class="detail-item" *ngIf="activity.errors && activity.errors.length > 0">
+          <span class="text-muted">Errors:</span>
+          <nz-alert 
+            *ngFor="let error of activity.errors" 
+            nzType="error" 
+            nzShowIcon
+            [nzMessage]="error"
+            class="mt-1"
+          ></nz-alert>
+        </div>
+        <div class="detail-item" *ngIf="activity.logs && activity.logs.length > 0">
+          <span class="text-muted">Logs:</span>
+          <ul class="log-list">
+            <li *ngFor="let log of activity.logs">{{ log }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Children Activities -->
+      <div class="activity-children" *ngIf="activity.children && activity.children.length > 0">
+        <ng-container *ngFor="let child of activity.children">
+          <ng-container *ngTemplateOutlet="activityTemplate; context: { $implicit: child, level: level + 1 }"></ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Finalize Activity -->
+      <div class="activity-finalize" *ngIf="activity.finalizeActivity">
+        <div class="finalize-label text-muted">Finalize:</div>
+        <ng-container *ngTemplateOutlet="activityTemplate; context: { $implicit: activity.finalizeActivity, level: level + 1 }"></ng-container>
+      </div>
+    </div>
+  </ng-template>
+</div>

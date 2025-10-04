@@ -1,0 +1,145 @@
+.todo-items-container {
+  padding: 16px;
+
+  .header-card {
+    margin-bottom: 16px;
+
+    .header-content {
+      .status-counts {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 16px;
+
+        .count-label {
+          margin-left: 8px;
+          font-weight: 500;
+        }
+      }
+
+      .filters-row {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .search-section {
+          flex: 1;
+          min-width: 200px;
+        }
+
+        .filter-section {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+
+          .filter-select {
+            width: 140px;
+          }
+
+          .filter-input {
+            width: 140px;
+          }
+        }
+      }
+    }
+  }
+
+  .title-section {
+    .item-title {
+      margin: 0 0 4px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    .item-description {
+      margin: 0 0 8px 0;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tags-section {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+  }
+
+  .sub-items-preview {
+    position: relative;
+
+    .preview-text {
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+      line-height: 1.4;
+      max-width: 200px;
+      word-break: break-word;
+    }
+
+    .sub-items-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+  }
+
+  .overdue {
+    color: #ff4d4f;
+    font-weight: 600;
+  }
+
+  .no-date,
+  .unassigned {
+    color: rgba(0, 0, 0, 0.45);
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  .assignee {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 4px;
+
+    button {
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .empty-state {
+    margin-top: 40px;
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .header-content {
+      .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        .search-section,
+        .filter-section {
+          width: 100%;
+        }
+
+        .filter-section {
+          .filter-select,
+          .filter-input {
+            flex: 1;
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,114 @@
+<div class="organizations-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Organizations <span class="text-muted text-sm">(Manage organizations)</span></h2>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="primary" (click)="onCreateOrganization()">
+        <span nz-icon nzType="plus"></span>
+        Add Organization
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input name="searchQuery" placeholder="Search by name or code..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- Organizations Table -->
+  <nz-table
+    *ngIf="!loading && filteredOrganizations.length > 0"
+    #basicTable
+    [nzData]="paginatedOrganizations"
+    [nzLoading]="loading"
+    [nzShowPagination]="false"
+    nzSize="middle"
+    class="organizations-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Status</th>
+        <th nzWidth="200px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let organization of paginatedOrganizations">
+        <td>
+          <div class="organization-info">
+            <nz-avatar [nzText]="organization.name.charAt(0).toUpperCase()" nzSize="small"></nz-avatar>
+            <span class="fw-bold">{{ organization.name }}</span>
+          </div>
+        </td>
+        <td>
+          <nz-tag nzColor="blue">{{ organization.code }}</nz-tag>
+        </td>
+        <td>
+          <nz-badge [nzStatus]="statusBadgeMap[organization.status]" [nzText]="statusTextMap[organization.status]"></nz-badge>
+        </td>
+        <td>
+          <div class="form-action-buttons">
+            <button
+              class="mr-3"
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="onEditOrganization(organization)"
+              nz-tooltip="Edit organization"
+            >
+              <span nz-icon nzType="edit"></span>
+            </button>
+            <button
+              *ngIf="statusActionMap[organization.status]"
+              nz-button
+              nz-popconfirm
+              [nzPopconfirmTitle]="'Are you sure you want to ' + statusActionMap[organization.status].action + ' ' + organization.name + '?'"
+              [nzOkText]="statusActionMap[organization.status].buttonText"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onToggleStatus(organization)"
+              [nzType]="statusActionMap[organization.status].buttonType"
+              nzSize="small"
+              [nz-tooltip]="statusActionMap[organization.status].tooltip"
+            >
+              <span nz-icon [nzType]="statusActionMap[organization.status].icon"></span>
+              {{ statusActionMap[organization.status].buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && filteredOrganizations.length === 0"
+    [nzNotFoundContent]="searchQuery ? 'No organizations found matching your search' : 'No organizations yet'"
+    [nzNotFoundImage]="'simple'"
+  >
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!loading && filteredOrganizations.length > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[5, 10, 20, 50]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+</div>

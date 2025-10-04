@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 30" width="100%" height="100%">
+  <!-- Biggest circle - leftmost -->
+  <circle cx="15" cy="15" r="12" fill="#00dcff" opacity="0.9"/>
+
+  <!-- Smallest circle - left center -->
+  <circle cx="35" cy="15" r="4" fill="#00dcff" opacity="0.8"/>
+
+  <!-- Medium circle - right center -->
+  <circle cx="55" cy="15" r="8" fill="#00dcff" opacity="0.85"/>
+
+  <!-- Smallest circle - rightmost -->
+  <circle cx="70" cy="15" r="4" fill="#00dcff" opacity="0.8"/>
+</svg>

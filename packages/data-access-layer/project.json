@@ -1,0 +1,27 @@
+{
+  "name": "data-access-layer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/data-access-layer/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/data-access-layer",
+        "main": "packages/data-access-layer/src/index.ts",
+        "tsConfig": "packages/data-access-layer/tsconfig.lib.json",
+        "assets": ["packages/data-access-layer/*.md"],
+        "declaration": true
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/data-access-layer/jest.config.ts"
+      }
+    }
+  }
+}

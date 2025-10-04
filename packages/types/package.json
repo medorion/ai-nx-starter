@@ -1,0 +1,12 @@
+{
+  "name": "@medorion/types",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "class-validator": "^0.14.0",
+    "class-transformer": "^0.5.1"
+  }
+}

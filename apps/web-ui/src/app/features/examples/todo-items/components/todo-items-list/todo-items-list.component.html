@@ -1,0 +1,170 @@
+<div class="todo-items-container">
+  <!-- Header with filters and actions -->
+  <nz-card nzTitle="Todo Items" class="header-card">
+    <div class="header-content">
+      <!-- Status counts -->
+      <div class="status-counts">
+        <nz-badge [nzCount]="statusCounts.pending" nzStatus="warning">
+          <span class="count-label">Pending</span>
+        </nz-badge>
+        <nz-badge [nzCount]="statusCounts.in_progress" nzStatus="processing">
+          <span class="count-label">In Progress</span>
+        </nz-badge>
+        <nz-badge [nzCount]="statusCounts.completed" nzStatus="success">
+          <span class="count-label">Completed</span>
+        </nz-badge>
+        <nz-badge [nzCount]="statusCounts.archived" nzStatus="default">
+          <span class="count-label">Archived</span>
+        </nz-badge>
+      </div>
+
+      <!-- Filters and search -->
+      <div class="filters-row">
+        <div class="search-section">
+          <nz-input-group nzSearch [nzAddOnAfter]="searchButton">
+            <input
+              type="text"
+              nz-input
+              placeholder="Search todo items..."
+              [(ngModel)]="searchQuery"
+              [ngModelOptions]="{ standalone: true }"
+              (keyup.enter)="onSearch()"
+            />
+          </nz-input-group>
+          <ng-template #searchButton>
+            <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+              <i nz-icon nzType="search"></i>
+            </button>
+          </ng-template>
+        </div>
+
+        <div class="filter-section">
+          <nz-select
+            [(ngModel)]="selectedStatus"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onFilterChange()"
+            nzPlaceHolder="Filter by status"
+            nzAllowClear
+            class="filter-select"
+          >
+            <nz-option *ngFor="let option of statusOptions" [nzValue]="option.value" [nzLabel]="option.label"> </nz-option>
+          </nz-select>
+
+          <nz-input
+            [(ngModel)]="selectedAssignee"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onFilterChange()"
+            placeholder="Filter by assignee"
+            nzSize="default"
+            class="filter-input"
+          >
+          </nz-input>
+        </div>
+
+        <button nz-button nzType="primary" (click)="openCreateModal()">
+          <i nz-icon nzType="plus"></i>
+          Create Todo Item
+        </button>
+      </div>
+    </div>
+  </nz-card>
+
+  <!-- Main table -->
+  <nz-table
+    #basicTable
+    [nzData]="todoItems"
+    [nzLoading]="loading"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="pageIndex"
+    [nzTotal]="total"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    nzSize="default"
+    (nzPageIndexChange)="onPageChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+  >
+    <thead>
+      <tr>
+        <th nzWidth="30%">Title & Description</th>
+        <th nzWidth="25%">Sub-Items Preview</th>
+        <th nzWidth="10%">Status</th>
+        <th nzWidth="8%">Priority</th>
+        <th nzWidth="12%">Due Date</th>
+        <th nzWidth="10%">Assignee</th>
+        <th nzWidth="5%">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of basicTable.data; trackBy: trackByFn">
+        <!-- Title & Description -->
+        <td>
+          <div class="title-section">
+            <h4 class="item-title">{{ item.title }}</h4>
+            <p class="item-description" *ngIf="item.description">
+              {{ item.description }}
+            </p>
+            <div class="tags-section" *ngIf="item.tags.length > 0">
+              <nz-tag *ngFor="let tag of item.tags" nzColor="blue">{{ tag }}</nz-tag>
+            </div>
+          </div>
+        </td>
+
+        <!-- Sub-Items Preview -->
+        <td>
+          <div class="sub-items-preview">
+            <span [nz-tooltip]="'Click to view details'" class="preview-text">
+              {{ getSubItemsPreview(item.subItems) }}
+            </span>
+            <nz-badge [nzCount]="item.subItems.length" [nzShowZero]="true" nzSize="small" class="sub-items-count"> </nz-badge>
+          </div>
+        </td>
+
+        <!-- Status -->
+        <td>
+          <nz-tag [nzColor]="getStatusColor(item.status)">
+            {{ item.status | titlecase }}
+          </nz-tag>
+        </td>
+
+        <!-- Priority -->
+        <td>
+          <nz-tag [nzColor]="getPriorityColor(item.priority)"> P{{ item.priority }} </nz-tag>
+        </td>
+
+        <!-- Due Date -->
+        <td>
+          <span *ngIf="item.dueDate" [class.overdue]="isOverdue(item)" nz-tooltip="Due date" nzTooltipPlacement="top">
+            {{ item.dueDate | date: 'MMM d, y' }}
+          </span>
+          <span *ngIf="!item.dueDate" class="no-date">No due date</span>
+        </td>
+
+        <!-- Assignee -->
+        <td>
+          <span *ngIf="item.assignedTo" class="assignee">{{ item.assignedTo }}</span>
+          <span *ngIf="!item.assignedTo" class="unassigned">Unassigned</span>
+        </td>
+
+        <!-- Actions -->
+        <td>
+          <div class="action-buttons">
+            <button nz-button nzType="link" nzSize="small" (click)="openEditModal(item)" nz-tooltip="Edit">
+              <i nz-icon nzType="edit"></i>
+            </button>
+            <button nz-button nzType="link" nzSize="small" nzDanger (click)="deleteTodoItem(item)" nz-tooltip="Delete">
+              <i nz-icon nzType="delete"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty state -->
+  <nz-empty *ngIf="!loading && todoItems.length === 0" nzNotFoundImage="simple" nzNotFoundContent="No todo items found" class="empty-state">
+    <div nz-empty-footer>
+      <button nz-button nzType="primary" (click)="openCreateModal()">Create your first todo item</button>
+    </div>
+  </nz-empty>
+</div>

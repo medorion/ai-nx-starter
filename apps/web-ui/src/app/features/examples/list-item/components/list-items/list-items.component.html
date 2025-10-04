@@ -1,0 +1,107 @@
+<div class="list-items-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>ListItems <span class="text-muted text-sm"> (Manage your team listItems)</span></h2>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="primary" (click)="onCreateMember()">
+        <span nz-icon nzType="plus"></span>
+        Add Member
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input placeholder="Search by name, email, or tags..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- ListItems Table -->
+  <nz-table #basicTable [nzData]="paginatedListItems" [nzLoading]="loading" [nzShowPagination]="false" nzSize="middle" class="listItems-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Tags</th>
+        <th nzWidth="150px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let listItem of paginatedListItems">
+        <td>
+          <div class="listItem-info">
+            <nz-avatar [nzText]="listItem.name.charAt(0).toUpperCase()" nzSize="small"></nz-avatar>
+            <span class="listItem-name">{{ listItem.name }}</span>
+          </div>
+        </td>
+        <td>{{ listItem.age }}</td>
+        <td>
+          <a *ngIf="listItem.email" [href]="'mailto:' + listItem.email">{{ listItem.email }}</a>
+          <span *ngIf="!listItem.email" class="text-muted">No email</span>
+        </td>
+        <td>
+          <nz-tag *ngFor="let tag of listItem.tags; let i = index" [nzColor]="getTagColor(i)">
+            {{ tag }}
+          </nz-tag>
+          <span *ngIf="listItem.tags.length === 0" class="text-muted">No tags</span>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="onEditListItem(listItem)"
+              nz-tooltip="Edit listItem"
+              style="margin-right: 4px"
+            >
+              <span nz-icon nzType="edit"></span>
+            </button>
+            <button nz-button nzType="default" nzSize="small" nzDanger (click)="onDeleteListItem(listItem)" nz-tooltip="Delete listItem">
+              <span nz-icon nzType="delete"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && filteredListItems.length === 0"
+    [nzNotFoundContent]="searchQuery ? 'No listItems found matching your search' : 'No listItems yet'"
+    [nzNotFoundImage]="searchQuery ? 'search' : 'default'"
+  >
+    <div nz-empty-footer *ngIf="!searchQuery">
+      <button nz-button nzType="primary" (click)="onCreateMember()">
+        <span nz-icon nzType="plus"></span>
+        Add First Member
+      </button>
+    </div>
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!loading && filteredListItems.length > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[5, 10, 20, 50]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+</div>

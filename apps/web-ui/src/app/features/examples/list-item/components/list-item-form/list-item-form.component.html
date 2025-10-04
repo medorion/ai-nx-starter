@@ -1,0 +1,121 @@
+<div class="list-item-form-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>{{ pageTitle }}</h2>
+      <p>{{ isEditMode ? 'Update member information' : 'Add a new list item' }}</p>
+    </div>
+  </div>
+
+  <!-- Form and Debug Section -->
+  <div class="form-and-debug-container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <app-form-debug-link
+        [formGroup]="listItemForm"
+        title="List Item Form Debug"
+        class="form-debug-link-top"
+      ></app-form-debug-link>
+      <form nz-form [formGroup]="listItemForm" (ngSubmit)="onSubmit()" [nzLayout]="'vertical'">
+        <!-- Name Field -->
+        <nz-form-item>
+          <nz-form-label nzRequired>Name</nz-form-label>
+          <nz-form-control [nzErrorTip]="getFieldError('name')">
+            <input nz-input formControlName="name" placeholder="Enter list item name" [class.error]="isFieldInvalid('name')" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Age Field -->
+        <nz-form-item>
+          <nz-form-label nzRequired>Age</nz-form-label>
+          <nz-form-control [nzErrorTip]="getFieldError('age')">
+            <nz-input-number
+              formControlName="age"
+              placeholder="Enter age"
+              style="width: 100%"
+              [class.error]="isFieldInvalid('age')"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Email Field -->
+        <nz-form-item>
+          <nz-form-label>Email</nz-form-label>
+          <nz-form-control [nzErrorTip]="getFieldError('email')">
+            <input
+              nz-input
+              formControlName="email"
+              type="email"
+              placeholder="Enter email address (optional)"
+              [class.error]="isFieldInvalid('email')"
+            />
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Tags Field -->
+        <nz-form-item>
+          <nz-form-label>Tags</nz-form-label>
+          <nz-form-control nzExtra="Add relevant tags to categorize this member">
+            <!-- Existing Tags Display -->
+            <div class="tags-container" *ngIf="tags.length > 0">
+              <nz-tag *ngFor="let tag of tags; let i = index" [nzColor]="getTagColor(i)" nzMode="closeable" (nzOnClose)="onRemoveTag(tag)">
+                {{ tag }}
+              </nz-tag>
+            </div>
+
+            <!-- Tag Input -->
+            <div>
+              <nz-input-group nzCompact>
+                <input
+                  nz-input
+                  [(ngModel)]="tagInputValue"
+                  (keydown)="onTagInputKeyDown($event)"
+                  placeholder="Add a tag..."
+                  style="width: calc(100% - 80px)"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <button
+                  nz-button
+                  nzType="primary"
+                  type="button"
+                  (click)="onAddTag()"
+                  [disabled]="!tagInputValue.trim()"
+                  style="width: 80px"
+                >
+                  Add
+                </button>
+              </nz-input-group>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Form Actions -->
+        <nz-form-item class="form-actions">
+          <nz-form-control>
+            <div class="form-action-buttons">
+              <button
+                nz-button
+                type="button"
+                (click)="onCancel()"
+                [disabled]="loading"
+              >
+                <span nz-icon nzType="close"></span>
+                Cancel
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                type="submit"
+                [nzLoading]="loading"
+                [disabled]="listItemForm.invalid"
+              >
+                <span nz-icon nzType="save"></span>
+                {{ isEditMode ? 'Update List Item' : 'Create List Item' }}
+              </button>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+</div>

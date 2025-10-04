@@ -1,0 +1,155 @@
+<nz-header>
+  <div class="app-header">
+    <div class="logo">
+      <img src="assets/images/medorion-circles-row.svg" alt="Medorion" class="logo-img" />
+      <nz-breadcrumb class="app-breadcrumb">
+        <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs; let last = last">
+          <!-- <a *ngIf="breadcrumb.url && !last" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a> -->
+          <span>{{ breadcrumb.label }}</span>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+
+    <div class="header-right">
+      <ul nz-menu nzMode="horizontal" class="app-menu">
+        <!-- Hide in production, these are just examples -->
+        <li appHideInProd nz-submenu nzTitle="Examples" nzIcon="appstore">
+          <ul>
+            <li nz-menu-item>
+              <a routerLink="/examples/buttons">
+                <span nz-icon nzType="control" nzTheme="outline"></span>
+                Buttons
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/forms">
+                <span nz-icon nzType="form" nzTheme="outline"></span>
+                Forms
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/decorators">
+                <span nz-icon nzType="tags" nzTheme="outline"></span>
+                Decorators
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/pub-sub">
+                <span nz-icon nzType="share-alt" nzTheme="outline"></span>
+                Pub-Sub System
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/exceptions">
+                <span nz-icon nzType="bug" nzTheme="outline"></span>
+                Exception Testing
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/list-items">
+                <span nz-icon nzType="unordered-list" nzTheme="outline"></span>
+                List Items (Example)
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/examples/todo-items">
+                <span nz-icon nzType="check-square" nzTheme="outline"></span>
+                Todo Items (Example UI + Server)
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Solutions" nzIcon="appstore">
+          <ul>
+            <li nz-menu-item *ngFor="let solution of availableSolutions$ | async">
+              <a routerLink="/solutions/{{ solution.id }}">
+                <span nz-icon nzType="appstore" nzTheme="outline"></span>
+                {{ solution.name }}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Operations" nzIcon="tool">
+          <ul>
+            <li nz-menu-item>
+              <a routerLink="/operations/snapshots">
+                <span nz-icon nzType="camera" nzTheme="outline"></span>
+                Snapshots
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/operations/model-editor">
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+                Model Editor
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Backoffice" nzIcon="user">
+          <ul>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/organizations">
+                <span nz-icon nzType="bank" nzTheme="outline"></span>
+                Organizations
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/solutions">
+                <span nz-icon nzType="appstore" nzTheme="outline"></span>
+                Solutions
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/users">
+                <span nz-icon nzType="team" nzTheme="outline"></span>
+                Users
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/settings">
+                <span nz-icon nzType="setting" nzTheme="outline"></span>
+                Settings
+              </a>
+            </li>
+            <li nz-menu-group nzTitle="Technical">
+              <ul>
+                <li nz-menu-item>
+                  <a routerLink="/backoffice/server-flows">
+                    <span nz-icon nzType="api" nzTheme="outline"></span>
+                    Server Flows
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- User Dropdown -->
+      <div class="user-dropdown">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <nz-avatar nzIcon="user" nzSize="small"></nz-avatar>
+          <span class="user-details">
+            <div class="user-email">{{ (currentUser$ | async)?.email || 'Loading...' }}</div>
+            <div class="user-org">{{ (currentOrganization$ | async)?.name || 'Loading...' }}</div>
+          </span>
+          <nz-icon nzType="down" />
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/settings">
+                <span nz-icon nzType="setting" nzTheme="outline"></span>
+                Settings
+              </a>
+            </li>
+            <li nz-menu-item (click)="logout()">
+              <nz-icon nzType="logout" nzTheme="outline"></nz-icon>
+              Logout
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+  </div>
+</nz-header>

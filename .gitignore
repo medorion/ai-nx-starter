@@ -1,0 +1,99 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+**/dist
+**/tmp
+**/out-tsc
+**/.temp/*
+!**/.temp/ping.parquet
+
+# dependencies
+**/node_modules
+node_modules
+.angular
+documents/product.md
+documents/temp/
+# profiling files
+**/chrome-profiler-events*.json
+**/speed-measure-plugin*.json
+
+# IDEs and editors
+**/.idea
+**/.project
+**/.classpath
+**/.c9/
+**/*.launch
+**/.settings/
+**/*.sublime-workspace
+
+# IDE - VSCode
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
+
+# misc
+**/.history/*
+**/.local/*
+**/.chrome/*
+**/.angular/*
+**/.sass-cache
+**/.cli-ngcc
+**/connect.lock
+**/coverage
+**/libpeerconnection.log
+**/npm-debug.log
+**/yarn-error.log
+**/testem.log
+**/typings
+**/server-logs
+
+# Logs
+**/*.log
+**/npm-debug.log*
+**/pnpm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/lerna-debug.log*
+
+# Tests
+**/coverage
+**/.nyc_output
+
+# System Files
+**/.DS_Store
+**/Thumbs.db
+
+**/.nx/cache
+**/.nx/workspace-data
+
+# custom
+**/*.pem
+**/*.crt
+**/*.key
+**/*.rdb
+**/.hmac.key
+**/prod-key.json
+**/prod-key.json
+**/prod-key-dev.json
+**/prod-key-server.json
+**/prod-key-stage.json
+**/key-test.json
+**/test-key.json
+**/.env*
+!**/.env.example
+
+**/apps/web-ui/src/assets/settings-prod.json
+
+# poetry
+**/.venv
+**/venv
+**/.pytest_cache
+**/.ruff_cache
+__pycache__/
+
+# Dumps
+dump/
+tmp/
+dist/

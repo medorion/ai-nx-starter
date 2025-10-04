@@ -1,0 +1,203 @@
+<form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-container">
+    <!-- Main Content Row -->
+    <div class="main-content-row">
+      <!-- Basic Information (Left Column) -->
+      <div class="basic-info-column">
+        <nz-card nzTitle="Basic Information" class="form-section">
+          <nz-form-item>
+            <nz-form-label nzRequired>Title</nz-form-label>
+            <nz-form-control [nzErrorTip]="getFieldError('title')">
+              <input nz-input formControlName="title" placeholder="Enter todo item title" maxlength="200" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Description</nz-form-label>
+            <nz-form-control [nzErrorTip]="getFieldError('description')">
+              <textarea nz-input formControlName="description" placeholder="Enter description (optional)" rows="3" maxlength="1000">
+              </textarea>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="form-row">
+            <nz-form-item class="form-item-half">
+              <nz-form-label nzRequired>Status</nz-form-label>
+              <nz-form-control>
+                <nz-select formControlName="status" nzPlaceHolder="Select status">
+                  <nz-option *ngFor="let option of statusOptions" [nzValue]="option.value" [nzLabel]="option.label"> </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="form-item-half">
+              <nz-form-label nzRequired>Priority</nz-form-label>
+              <nz-form-control [nzErrorTip]="getFieldError('priority')">
+                <nz-input-number formControlName="priority" [nzMin]="0" [nzMax]="5" nzPlaceHolder="0-5" style="width: 100%">
+                </nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <nz-form-item class="form-item-half">
+              <nz-form-label>Due Date</nz-form-label>
+              <nz-form-control>
+                <nz-date-picker formControlName="dueDate" nzPlaceHolder="Select due date" style="width: 100%"> </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="form-item-half">
+              <nz-form-label>Assigned To</nz-form-label>
+              <nz-form-control [nzErrorTip]="getFieldError('assignedTo')">
+                <input nz-input formControlName="assignedTo" placeholder="Enter email address" type="email" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <nz-form-item>
+            <nz-form-label>Tags</nz-form-label>
+            <nz-form-control>
+              <nz-select nzMode="tags" nzPlaceHolder="Add tags" formControlName="tags" style="width: 100%"> </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-card>
+      </div>
+
+      <!-- Sub-Items Section (Right Column) -->
+      <div class="sub-items-column">
+        <nz-card class="form-section">
+          <div nz-card-title>
+            <span>Sub-Items</span>
+            <button nz-button nzType="dashed" nzSize="small" (click)="addSubItem()" class="add-button">
+              <i nz-icon nzType="plus"></i>
+              Add Sub-Item
+            </button>
+          </div>
+
+          <div formArrayName="subItems" class="sub-items-container">
+            <div *ngFor="let subItemGroup of subItemsArray.controls; let i = index" [formGroupName]="i" class="sub-item-card">
+              <nz-card nzSize="small" class="sub-item">
+                <div nz-card-title class="sub-item-header">
+                  <nz-select formControlName="type" class="type-select">
+                    <nz-option *ngFor="let type of subItemTypes" [nzValue]="type.value" [nzLabel]="type.label">
+                      <i nz-icon [nzType]="type.icon"></i>
+                      {{ type.label }}
+                    </nz-option>
+                  </nz-select>
+
+                  <button nz-button nzType="link" nzDanger nzSize="small" (click)="removeSubItem(i)" nz-tooltip="Remove sub-item">
+                    <i nz-icon nzType="close"></i>
+                  </button>
+                </div>
+
+                <!-- Text Sub-Item -->
+                <div *ngIf="subItemGroup.get('type')?.value === 'text'" class="sub-item-content">
+                  <nz-form-item>
+                    <nz-form-label nzRequired>Content</nz-form-label>
+                    <nz-form-control>
+                      <textarea nz-input formControlName="content" placeholder="Enter text content" rows="2" maxlength="500"> </textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <!-- Number Sub-Item -->
+                <div *ngIf="subItemGroup.get('type')?.value === 'number'" class="sub-item-content">
+                  <div class="form-row">
+                    <nz-form-item class="form-item-two-thirds">
+                      <nz-form-label nzRequired>Value</nz-form-label>
+                      <nz-form-control>
+                        <nz-input-number formControlName="value" nzPlaceHolder="Enter number" style="width: 100%"> </nz-input-number>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="form-item-third">
+                      <nz-form-label>Unit</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input formControlName="unit" placeholder="e.g., kg, hours" />
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <!-- Checklist Sub-Item -->
+                <div *ngIf="subItemGroup.get('type')?.value === 'checklist'" class="sub-item-content">
+                  <div class="checklist-header">
+                    <nz-form-label>Checklist Items</nz-form-label>
+                    <button nz-button nzType="dashed" nzSize="small" (click)="addChecklistItem(i)">
+                      <i nz-icon nzType="plus"></i>
+                      Add Item
+                    </button>
+                  </div>
+
+                  <div formArrayName="items" class="checklist-items">
+                    <div *ngFor="let item of getChecklistItems(i).controls; let j = index" [formGroupName]="j" class="checklist-item">
+                      <nz-checkbox formControlName="completed"></nz-checkbox>
+                      <input nz-input formControlName="text" placeholder="Enter checklist item" class="checklist-input" />
+                      <button nz-button nzType="link" nzDanger nzSize="small" (click)="removeChecklistItem(i, j)" nz-tooltip="Remove item">
+                        <i nz-icon nzType="close"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Link Sub-Item -->
+                <div *ngIf="subItemGroup.get('type')?.value === 'link'" class="sub-item-content">
+                  <nz-form-item>
+                    <nz-form-label nzRequired>URL</nz-form-label>
+                    <nz-form-control>
+                      <input nz-input formControlName="url" placeholder="https://example.com" type="url" />
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label>Title</nz-form-label>
+                    <nz-form-control>
+                      <input nz-input formControlName="title" placeholder="Link title (optional)" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <!-- Date Sub-Item -->
+                <div *ngIf="subItemGroup.get('type')?.value === 'date'" class="sub-item-content">
+                  <div class="form-row">
+                    <nz-form-item class="form-item-half">
+                      <nz-form-label nzRequired>Date</nz-form-label>
+                      <nz-form-control>
+                        <nz-date-picker formControlName="date" nzPlaceHolder="Select date" style="width: 100%"> </nz-date-picker>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="form-item-half">
+                      <nz-form-label>Timezone</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input formControlName="timezone" placeholder="e.g., UTC, EST" />
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </nz-card>
+            </div>
+
+            <!-- Empty state for sub-items -->
+            <div *ngIf="subItemsArray.length === 0" class="sub-items-empty">
+              <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No sub-items added yet">
+                <div nz-empty-footer>
+                  <button nz-button nzType="dashed" (click)="addSubItem()">
+                    <i nz-icon nzType="plus"></i>
+                    Add your first sub-item
+                  </button>
+                </div>
+              </nz-empty>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button nz-button (click)="onCancel()">Cancel</button>
+      <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="form.invalid" type="submit">
+        {{ isEditMode ? 'Update' : 'Create' }} Todo Item
+      </button>
+    </div>
+  </div>
+</form>

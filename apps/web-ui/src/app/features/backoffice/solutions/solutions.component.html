@@ -1,0 +1,121 @@
+<div class="solutions-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Solutions <span class="text-muted text-sm">(Manage solutions)</span></h2>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="primary" (click)="onCreateSolution()">
+        <span nz-icon nzType="plus"></span>
+        Add Solution
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input name="searchQuery" placeholder="Search by name, org code, or app code..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- Solutions Table -->
+  <nz-table
+    *ngIf="!loading && filteredSolutions.length > 0"
+    #basicTable
+    [nzData]="paginatedSolutions"
+    [nzLoading]="loading"
+    [nzShowPagination]="false"
+    nzSize="middle"
+    class="solutions-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Organization</th>
+        <th>App Code</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th nzWidth="200px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let solution of paginatedSolutions">
+        <td>
+          <div class="solution-info">
+            <nz-avatar [nzText]="solution.name.charAt(0).toUpperCase()" nzSize="small"></nz-avatar>
+            <span class="fw-bold">{{ solution.name }}</span>
+          </div>
+        </td>
+        <td>
+          <nz-tag nzColor="blue">{{ solution.orgCode }}</nz-tag>
+        </td>
+        <td>
+          <nz-tag nzColor="purple">{{ solution.appCode }}</nz-tag>
+        </td>
+        <td>
+          <span class="text-muted">{{ solution.description }}</span>
+        </td>
+        <td>
+          <nz-badge [nzStatus]="getStatusBadge(solution.isActive)" [nzText]="getStatusText(solution.isActive)"></nz-badge>
+        </td>
+        <td>
+          <div class="form-action-buttons">
+            <button
+              class="mr-3"
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="onEditSolution(solution)"
+              nz-tooltip="Edit solution"
+            >
+              <span nz-icon nzType="edit"></span>
+            </button>
+            <button
+              nz-button
+              nz-popconfirm
+              [nzPopconfirmTitle]="'Are you sure you want to ' + getStatusAction(solution.isActive).action + ' ' + solution.name + '?'"
+              [nzOkText]="getStatusAction(solution.isActive).buttonText"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onToggleStatus(solution)"
+              [nzType]="getStatusAction(solution.isActive).buttonType"
+              nzSize="small"
+              [nz-tooltip]="getStatusAction(solution.isActive).tooltip"
+            >
+              <span nz-icon [nzType]="getStatusAction(solution.isActive).icon"></span>
+              {{ getStatusAction(solution.isActive).buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && filteredSolutions.length === 0"
+    [nzNotFoundContent]="searchQuery ? 'No solutions found matching your search' : 'No solutions yet'"
+    [nzNotFoundImage]="'simple'"
+  >
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!loading && filteredSolutions.length > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[5, 10, 20, 50]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+</div>

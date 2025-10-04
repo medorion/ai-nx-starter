@@ -1,0 +1,327 @@
+// ============================================================================
+// COMMON THEME VARIABLES & SHARED STYLING
+// ============================================================================
+
+// Common font family used across all themes
+@font-family-base:
+  'Montserrat',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  sans-serif;
+
+// Base font sizes
+@font-size-base: 14px;
+@font-size-lg: 16px; // Large font size
+@font-size-md: 14px; // Medium font size
+@font-size-sm: 12px; // Small font size
+@font-size-xs: 10px; // Extra small font size
+
+// Common layout dimensions
+@border-radius-base: 8px;
+@border-width-base: 1px;
+@border-style-base: solid;
+@line-height-base: 1.6;
+@font-weight-base: 400;
+
+// Common button dimensions (reduced by 20%)
+@btn-height-base: 32px; // Was 40px
+@btn-height-sm: 24px; // Small button height
+@btn-height-lg: 40px; // Large button height
+@btn-padding-horizontal-base: 16px; // Was 20px
+
+// Common layout dimensions (reduced by 20%)
+@layout-header-height: 58px; // Was 72px
+@layout-header-padding: 0 26px; // Was 0 32px
+@layout-footer-padding: 19px 26px; // Was 24px 32px
+@layout-trigger-height: 38px; // Was 48px
+
+// Common menu dimensions (reduced by 20%)
+@menu-horizontal-line-height: 58px; // Was 72px, matches header height
+@menu-item-font-weight: 500;
+@menu-item-padding-horizontal: 19px; // Was 24px
+@menu-item-margin-horizontal: 6px; // Was 8px
+
+// Common component dimensions
+@component-padding: 16px; // Was 20px
+@component-margin: 12px; // Was 15px
+
+// Define fallback variables for both light and dark themes
+// These work with LESS compilation while CSS custom properties handle runtime theme switching
+@border-color-base-fallback: #dee2e6; // Light theme fallback
+@component-background-fallback: #ffffff; // Light theme fallback
+
+// Global styles
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: @font-family-base;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  font-weight: @font-weight-base;
+}
+
+// Global font override for all elements
+* {
+  font-family: @font-family-base !important;
+}
+
+// Ensure headings use Montserrat with optimized weights and reduced sizes
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: @font-family-base !important;
+  font-weight: 600 !important;
+}
+
+// Specific heading sizes (reduced by 20%)
+h1 {
+  font-size: 26px !important;
+} // Was ~32px
+h2 {
+  font-size: 22px !important;
+} // Was ~28px
+h3 {
+  font-size: 18px !important;
+} // Was ~24px
+h4 {
+  font-size: 16px !important;
+} // Was ~20px
+h5 {
+  font-size: 14px !important;
+} // Was ~18px
+h6 {
+  font-size: 12px !important;
+} // Was ~16px
+
+// Header shadow styling
+nz-header {
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+// Common text utilities with reduced sizes
+.text-lg {
+  font-size: @font-size-lg !important;
+}
+.text-base {
+  font-size: @font-size-base !important;
+}
+.text-sm {
+  font-size: @font-size-sm !important;
+}
+.text-xs {
+  font-size: @font-size-xs !important;
+}
+
+// Font weight utilities
+.fw-bold {
+  font-weight: 700 !important;
+}
+.fw-bolder {
+  font-weight: bolder !important;
+}
+.fw-normal {
+  font-weight: 400 !important;
+}
+.fw-light {
+  font-weight: 300 !important;
+}
+.fw-lighter {
+  font-weight: lighter !important;
+}
+
+// Font style utilities
+.fst-italic {
+  font-style: italic !important;
+}
+.fst-normal {
+  font-style: normal !important;
+}
+
+.text-md-orange {
+  color: #ffc93a !important;
+}
+
+.text-md-green {
+  color: #00d26e !important;
+}
+
+.text-md-blue {
+  color: #01a9a2 !important;
+}
+
+.text-md-cyan {
+  color: #00dcff !important;
+}
+
+// Common error state styling
+input.error,
+nz-input-number.error {
+  border-color: var(--error-color, #dc3545);
+}
+
+// Spacer variable
+@spacer: 1rem; // base spacing unit
+
+// Custom utility classes
+
+// Text alignment
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  opacity: 0.65 !important;
+}
+
+// Margin & Padding
+// Recursive generator for margin
+.generate-margin(@abbr, @prop, @i) when (@i >= 0) {
+  .m@{abbr}-@{i} {
+    margin-@{prop}: (@spacer * @i * 0.25) !important;
+  }
+  .generate-margin(@abbr, @prop, @i - 1);
+}
+
+// Recursive generator for padding
+.generate-padding(@abbr, @prop, @i) when (@i >= 0) {
+  .p@{abbr}-@{i} {
+    padding-@{prop}: (@spacer * @i * 0.25) !important;
+  }
+  .generate-padding(@abbr, @prop, @i - 1);
+}
+
+// Recursive generator for all-sides padding
+.generate-padding-all(@i) when (@i >= 0) {
+  .p-@{i} {
+    padding: (@spacer * @i * 0.25) !important;
+  }
+  .generate-padding-all(@i - 1);
+}
+
+// ---- Margin ----
+.generate-margin(t, top, 5);
+.generate-margin(l, left, 5);
+.generate-margin(r, right, 5);
+.generate-margin(b, bottom, 5);
+
+// Auto versions for margin
+.mt-auto {
+  margin-top: auto !important;
+}
+.ml-auto {
+  margin-left: auto !important;
+}
+.mr-auto {
+  margin-right: auto !important;
+}
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+// ---- Padding ----
+.generate-padding(t, top, 5);
+.generate-padding(l, left, 5);
+.generate-padding(r, right, 5);
+.generate-padding(b, bottom, 5);
+
+// ---- All-sides Padding ----
+.generate-padding-all(5);
+
+// Solution page container
+.solution-page-container {
+  padding: 24px;
+}
+
+// Form section component
+.form-section {
+  position: relative;
+  background: var(--component-background, @component-background-fallback);
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+
+  .form-debug-link-top {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+  }
+
+  .form-actions {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color-base, @border-color-base-fallback);
+  }
+
+  .form-action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  nz-form-item {
+    margin-bottom: 24px;
+
+    nz-form-label {
+      font-weight: 500;
+    }
+
+    nz-form-control {
+      nz-select {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Table styling improvements for better visibility
+.ant-table {
+  border: 1px solid var(--border-color-base, @border-color-base-fallback);
+  border-radius: @border-radius-base;
+
+  &-thead > tr > th {
+    border-bottom: 1px solid var(--border-color-base, @border-color-base-fallback);
+    font-weight: 600;
+  }
+
+  &-tbody > tr > td {
+    border-bottom: 1px solid var(--border-color-base, @border-color-base-fallback);
+  }
+
+  &-tbody > tr:last-child > td {
+    border-bottom: none;
+  }
+}
+
+// Card styling improvements for better visibility
+.ant-card {
+  border: 1px solid var(--border-color-base, @border-color-base-fallback);
+  border-radius: @border-radius-base;
+
+  &-head {
+    border-bottom: 1px solid var(--border-color-base, @border-color-base-fallback);
+    font-weight: 600;
+  }
+
+  &-bordered {
+    border: 1px solid var(--border-color-base, @border-color-base-fallback);
+  }
+}

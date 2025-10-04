@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 30" width="100%" height="100%">
+  <!-- Large yellow circle - leftmost -->
+  <circle cx="15" cy="15" r="12" fill="#FFC93A" opacity="0.9"/>
+
+  <!-- Small yellow circle - left center -->
+  <circle cx="35" cy="15" r="4" fill="#FFC93A" opacity="0.8"/>
+
+  <!-- Small green circle - center left -->
+  <circle cx="50" cy="15" r="4" fill="#00D26E" opacity="0.8"/>
+
+  <!-- Large green circle - center -->
+  <circle cx="70" cy="15" r="12" fill="#00D26E" opacity="0.9"/>
+
+  <!-- Small cyan circle - center right -->
+  <circle cx="90" cy="15" r="4" fill="#00DCFF" opacity="0.8"/>
+
+  <!-- Medium blue circle - right center -->
+  <circle cx="110" cy="15" r="8" fill="#00DCFF" opacity="0.85"/>
+
+  <!-- Small yellow circle - rightmost -->
+  <circle cx="125" cy="15" r="4" fill="#FFC93A" opacity="0.8"/>
+</svg>

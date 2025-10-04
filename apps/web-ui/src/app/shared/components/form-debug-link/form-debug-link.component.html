@@ -1,0 +1,10 @@
+<button 
+  *ngIf="enableFormDebugInfo$ | async"
+  nz-button 
+  nzType="link" 
+  (click)="openDebugModal()" 
+  class="form-debug-link"
+>
+  <span nz-icon nzType="bug" nzTheme="outline"></span>
+  {{ linkText }}
+</button>

@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "incremental": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@medorion/backend-common": ["packages/backend-common/src/index.ts"],
+      "@medorion-monorepo/entities": ["packages/entities/src/index.ts"],
+      "@medorion-monorepo/tools": ["packages/tools/src/index.ts"],
+      "@medorion/types": ["packages/types/src/index.ts"],
+      "@medorion/api-client": ["packages/api-client/src/index.ts"],
+      "@medorion/data-access-layer": ["packages/data-access-layer/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

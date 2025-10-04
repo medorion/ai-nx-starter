@@ -1,0 +1,41 @@
+@import '../../../assets/styles/theme-general.less';
+
+.footer {
+  background: #425151; // Medorion footer background color
+  padding: 0;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 21px 8px;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+
+    .footer-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+
+      .footer-logo {
+        height: 20px;
+        width: auto;
+        margin-bottom: 0;
+      }
+
+      .footer-tagline {
+        color: #b0b0b0;
+        font-size: @font-size-md;
+        line-height: 1.4;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
