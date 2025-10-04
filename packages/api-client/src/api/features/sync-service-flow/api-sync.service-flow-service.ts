@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SyncServiceFlowDto, SyncServiceFlowSearchOptionsDto, QueryResultDto, IMdWorkflow } from '@medorion/types';
+import { SyncServiceFlowDto, QueryResultDto, SyncServiceFlowSearchOptionsDto, IMdWorkflow } from '@medorion/types';
 import { BaseApiService } from '../../../services/base-api.service';
 import { AppConfigService } from '../../../services/app-config.service';
 
@@ -257,12 +257,12 @@ export class ApiSyncServiceFlowService extends BaseApiService {
    * findByIdWithParsedWorkflow - GET sync-service-flow/:id/with-workflow
    *
    * @param id - Param parameter
-   * @returns Observable<{ flow: SyncServiceFlowDto | null; workflow: IMdWorkflow | null }>
+   * @returns Observable<{ flow: SyncServiceFlowDto; workflow: IMdWorkflow; }>
    */
-  findByIdWithParsedWorkflow(id: string): Observable<{ flow: SyncServiceFlowDto | null; workflow: IMdWorkflow | null }> {
+  findByIdWithParsedWorkflow(id: string): Observable<{ flow: SyncServiceFlowDto; workflow: IMdWorkflow; }> {
     let url = `${this.BASE_URL}/sync-service-flow/:id/with-workflow`;
     url = url.replace(':id', id.toString());
-    return this.http.get<{ flow: SyncServiceFlowDto | null; workflow: IMdWorkflow | null }>(
+    return this.http.get<{ flow: SyncServiceFlowDto; workflow: IMdWorkflow; }>(
       url,
     );
   }
@@ -287,7 +287,7 @@ export class ApiSyncServiceFlowService extends BaseApiService {
    * @param updateData - Body parameter
    * @returns Observable<SyncServiceFlowDto>
    */
-  update(id: string, updateData: SyncServiceFlowDto): Observable<SyncServiceFlowDto> {
+  update(id: string, updateData: Partial<SyncServiceFlowDto>): Observable<SyncServiceFlowDto> {
     let url = `${this.BASE_URL}/sync-service-flow/:id`;
     url = url.replace(':id', id.toString());
     return this.http.put<SyncServiceFlowDto>(
@@ -303,7 +303,7 @@ export class ApiSyncServiceFlowService extends BaseApiService {
    * @param updateData - Body parameter
    * @returns Observable<SyncServiceFlowDto>
    */
-  updateByFlowId(flowId: string, updateData: SyncServiceFlowDto): Observable<SyncServiceFlowDto> {
+  updateByFlowId(flowId: string, updateData: Partial<SyncServiceFlowDto>): Observable<SyncServiceFlowDto> {
     let url = `${this.BASE_URL}/sync-service-flow/flow-id/:flowId`;
     url = url.replace(':flowId', flowId.toString());
     return this.http.put<SyncServiceFlowDto>(

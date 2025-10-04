@@ -212,7 +212,7 @@ export class ApiSolutionsService extends BaseApiService {
    * @param updateData - Body parameter
    * @returns Observable<SolutionDto>
    */
-  update(id: string, updateData: SolutionDto): Observable<SolutionDto> {
+  update(id: string, updateData: Partial<SolutionDto>): Observable<SolutionDto> {
     let url = `${this.BASE_URL}/solutions/:id`;
     url = url.replace(':id', id.toString());
     return this.http.put<SolutionDto>(

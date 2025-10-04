@@ -44,15 +44,19 @@ This runs all apps in development mode with output streaming and inspect mode en
 ### Run Individual Applications
 
 **Web UI (Angular):**
+
 ```bash
 npm run ui
 ```
+
 Frontend will be available at `http://localhost:4200`
 
 **Web Server (NestJS):**
+
 ```bash
 npm run server
 ```
+
 Backend API will be available at `http://localhost:3000`
 
 ### View Documentation Locally
@@ -100,11 +104,13 @@ npm run gen-api-client
 ### Code Formatting
 
 **Check formatting:**
+
 ```bash
 npm run format:check
 ```
 
 **Fix formatting:**
+
 ```bash
 npm run format:fix
 ```
@@ -163,12 +169,14 @@ For CRUD operations and feature development, follow the workflow outlined in [de
 ## 🏗️ Technology Stack
 
 ### Frontend
+
 - Angular 19
 - NG-ZORRO (Ant Design)
 - RxJS
 - TypeScript
 
 ### Backend
+
 - NestJS 11
 - TypeORM
 - PostgreSQL
@@ -177,29 +185,12 @@ For CRUD operations and feature development, follow the workflow outlined in [de
 - Pino Logger
 
 ### DevOps & Tools
+
 - Nx monorepo
 - Docker
 - ESLint & Prettier
 - Jest (testing)
 - Playwright (e2e testing)
-
-## 📝 Key Entities
-
-The application manages several core entities as described in [product.md](./documents/product.md):
-
-- **Organization** - Top-level entity with channel settings
-- **User** - Can belong to multiple organizations
-- **Data (Snapshot)** - Timestamped data for tracking changes
-- **App (Solution)** - Organization-specific applications
-- **Content & Messages** - Communication templates and content
-- **Communication Events** - Automated messaging system
-- **Objectives** - User progress tracking
-
-## 👥 User Roles
-
-- **Organization Root** - System configuration (developers/ops)
-- **Organization Admin** - Content and event management (CSM)
-- **Organization Manager** - Statistics and reporting (end user)
 
 ## 📄 License
 

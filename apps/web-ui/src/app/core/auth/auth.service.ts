@@ -1,8 +1,17 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal } from "@angular/core";
+import { AuthService as Auth0Service } from "@auth0/auth0-angular";
+import { Observable, BehaviorSubject } from "rxjs";
+import { ApiAuthService, AppConfigService } from "@medorion/api-client";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private user = signal<{ username: string; roles: string[] } | null>(null);
+
+  constructor(
+    private readonly auth0Service: Auth0Service,
+    private readonly apiAuthService: ApiAuthService,
+    private readonly appConfigService: AppConfigService
+  ) {}
 
   login(username: string, roles: string[] = []): void {
     this.user.set({ username, roles });

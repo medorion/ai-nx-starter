@@ -1,4 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+
+export interface IAuth0Settings {
+  domain: string;
+  clientId: string;
+  authorizationParams: {
+    redirect_uri?: string;
+    audience?: string;
+    scope?: string;
+  };
+  cacheLocation: "localstorage" | "memory";
+  useRefreshTokens: boolean;
+}
 
 export interface ApiConfig {
   apiUrl: string;
@@ -9,30 +21,38 @@ export interface ApiConfig {
   token?: string;
   fingerprint?: string;
   version?: string;
+  auth0Settings: IAuth0Settings;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AppConfigService {
   private config: ApiConfig = {
-    apiUrl: 'http://localhost:3030',
+    apiUrl: "http://localhost:3030",
     enableLogging: false,
     retryCount: 3,
     timeout: 30000,
-    orgCode: '',
-    token: '',
-    fingerprint: '',
-    version: '1.0.0',
+    orgCode: "",
+    token: "",
+    fingerprint: "",
+    version: "1.0.0",
+    auth0Settings: {
+      domain: "",
+      clientId: "",
+      authorizationParams: {},
+      cacheLocation: "localstorage",
+      useRefreshTokens: true,
+    },
   };
 
   loadConfig(): Promise<void> {
-    return fetch('/assets/config.json')
+    return fetch("/assets/config.json")
       .then((response) => response.json())
       .then((config) => {
         this.config = { ...this.config, ...config };
       })
       .catch(() => {
         // Use default config if loading fails
-        console.warn('Could not load config.json, using default configuration');
+        console.warn("Could not load config.json, using default configuration");
       });
   }
 
@@ -57,7 +77,7 @@ export class AppConfigService {
   }
 
   get orgCode(): string {
-    return this.config.orgCode || '';
+    return this.config.orgCode || "";
   }
 
   set orgCode(value: string) {

@@ -4,13 +4,5 @@
   "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "dependencies": {
-    "typeorm": "^0.3.20",
-    "mongodb": "^6.3.0",
-    "reflect-metadata": "^0.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.10.0"
-  }
+  "types": "./src/index.d.ts"
 }

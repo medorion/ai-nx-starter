@@ -1,10 +1,10 @@
-import { ArrayNotEmpty, IsNotEmpty, ValidateNested } from 'class-validator';
-import { IdCodeNameDto } from './id-code-name.dto';
-import { IdNameDto } from './id-name.dto';
-import { Type } from 'class-transformer';
-import { UserDto } from '../features/users/user.dto';
+import { ArrayNotEmpty, IsNotEmpty, ValidateNested } from "class-validator";
+import { IdCodeNameDto } from "./id-code-name.dto";
+import { IdNameDto } from "./id-name.dto";
+import { Type } from "class-transformer";
+import { UserDto } from "../features/users/user.dto";
 
-export class UiAppContextDto {
+export class UIAppContextDto {
   @ValidateNested()
   @Type(() => UserDto)
   @IsNotEmpty()

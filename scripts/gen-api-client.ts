@@ -216,7 +216,34 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
 
   // Extract model name from full import path for @medorion/types
   if (cleanType.includes('import("') && (cleanType.includes('packages/types/') || cleanType.includes('@medorion/types'))) {
-    // Extract the model name from the import path
+    // Handle complex types with multiple imports (e.g., { flow: X; workflow: Y; } or QueryResultDto<SyncServiceFlowDto>)
+    const importMatches = Array.from(cleanType.matchAll(/import\("([^"]+)"\)\.([A-Za-z0-9_]+)/g));
+
+    if (importMatches.length > 1 || cleanType.includes('{') || cleanType.includes('<')) {
+      // Multiple imports or generic/object types - handle them all
+      const typeNames = new Set<string>();
+
+      let simplifiedType = cleanType;
+      for (const match of importMatches) {
+        if (match[2]) {
+          const typeName = match[2];
+          typeNames.add(typeName);
+          // Replace the import path with just the type name
+          const importPattern = new RegExp(`import\\([^)]+\\)\\.${typeName}`, 'g');
+          simplifiedType = simplifiedType.replace(importPattern, typeName);
+        }
+      }
+
+      // Return the simplified type with all import names
+      const importNamesArray = Array.from(typeNames).filter(name => availableTypes.has(name));
+
+      return {
+        type: simplifiedType,
+        importName: importNamesArray.length > 0 ? importNamesArray.join(', ') : undefined,
+      };
+    }
+
+    // Single simple type - extract the model name from the import path
     const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:\>|\[\]|$)/);
     if (modelNameMatch && modelNameMatch[1]) {
       const modelName = modelNameMatch[1];
@@ -234,20 +261,30 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
     }
   }
 
-  // Handle complex types with imports (e.g., Omit<import("...").ExampleDto, "id">)
+  // Handle complex types with imports (e.g., Omit<import("...").ExampleDto, "id"> or QueryResultDto<SyncServiceFlowDto>)
   if (cleanType.includes('import("') && cleanType.includes('packages/types/')) {
-    // Try to extract the type and replace the import with the local type name
-    const importMatch = cleanType.match(/import\("([^"]+)"\)\.([A-Za-z0-9_]+)/);
-    if (importMatch && importMatch[2]) {
-      const typeName = importMatch[2];
-      if (availableTypes.has(typeName)) {
+    // Extract all type names from import paths
+    const importMatches = Array.from(cleanType.matchAll(/import\("([^"]+)"\)\.([A-Za-z0-9_]+)/g));
+    const typeNames = new Set<string>();
+
+    let simplifiedType = cleanType;
+    for (const match of importMatches) {
+      if (match[2]) {
+        const typeName = match[2];
+        typeNames.add(typeName);
         // Replace the import path with just the type name
-        const cleanedType = cleanType.replace(/import\("[^"]+"\)\.([A-Za-z0-9_]+)/, typeName);
-        return {
-          type: cleanedType,
-          importName: typeName,
-        };
+        const importPattern = new RegExp(`import\\([^)]+\\)\\.${typeName}`, 'g');
+        simplifiedType = simplifiedType.replace(importPattern, typeName);
       }
+    }
+
+    // If we found any types, return the simplified version
+    if (typeNames.size > 0) {
+      const importNamesArray = Array.from(typeNames).filter(name => availableTypes.has(name));
+      return {
+        type: simplifiedType,
+        importName: importNamesArray.length > 0 ? importNamesArray.join(', ') : undefined,
+      };
     }
   }
 
@@ -417,7 +454,9 @@ function extractApiMethods(
     // Track all import names needed for this method
     const importNames = new Set<string>();
     if (returnTypeInfo.importName) {
-      importNames.add(returnTypeInfo.importName);
+      // Handle comma-separated import names
+      const importNameList = returnTypeInfo.importName.split(',').map(s => s.trim());
+      importNameList.forEach(name => importNames.add(name));
     }
 
     // Extract parameters with their decorators (excluding @Session and orgCode path params)
@@ -462,7 +501,9 @@ function extractApiMethods(
         const isOptional = paramTypeText.includes(' | undefined') || p.getQuestionTokenNode() !== undefined || paramTypeText.endsWith('?');
 
         if (paramTypeInfo.importName) {
-          importNames.add(paramTypeInfo.importName);
+          // Handle comma-separated import names
+          const paramImportList = paramTypeInfo.importName.split(',').map(s => s.trim());
+          paramImportList.forEach(name => importNames.add(name));
         }
 
         return {

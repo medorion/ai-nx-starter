@@ -6,5 +6,16 @@
   "orgCode": "dho",
   "token": "AUTH_DEVELOPMENT",
   "fingerprint": "FP_DEVELOPMENT",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "auth0Settings": {
+    "domain": "dev-ub3crx3xm02ga6om.us.auth0.com",
+    "clientId": "AUJCybJoKmF3p7fSlRGUxnZ1eq55I1sI",
+    "authorizationParams": {
+      "redirect_uri": "http://localhost:8081",
+      "audience": "https://dev-ub3crx3xm02ga6om.us.auth0.com/api/v2/",
+      "scope": "openid profile email offline_access"
+    },
+    "cacheLocation": "localstorage",
+    "useRefreshTokens": false
+  }
 }

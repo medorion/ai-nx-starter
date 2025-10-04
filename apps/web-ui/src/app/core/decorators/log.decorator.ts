@@ -1,14 +1,17 @@
-import { LoggerService } from '../services/logger.service';
-import { LogLevel } from '../services/log-level.enum';
-import { CustomAngularContext } from '../custom-angular-context';
+import { LoggerService } from "../services/logger.service";
+import { LogLevel } from "../services/log-level.enum";
+import { CustomAngularContext } from "../custom-angular-context";
 
 export function log(level: LogLevel, message: string): MethodDecorator {
-  return function (_target: any, _propertyKey: string | symbol, descriptor: PropertyDescriptor) {
+  return function (
+    _target: any,
+    _propertyKey: string | symbol,
+    descriptor: PropertyDescriptor
+  ) {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
       const loggerService = CustomAngularContext.injector.get(LoggerService);
-      // debugger; Put his and open dev tools , izbrisi posle
       // Call service first (or move after originalMethod if you want)
       switch (level) {
         case LogLevel.Debug:

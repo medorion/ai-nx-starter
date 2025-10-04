@@ -80,7 +80,7 @@ export class ApiExampleService extends BaseApiService {
    * @param updateExampleDto - Body parameter
    * @returns Observable<ExampleDto>
    */
-  update(id: string, updateExampleDto: ExampleDto): Observable<ExampleDto> {
+  update(id: string, updateExampleDto: Partial<ExampleDto>): Observable<ExampleDto> {
     let url = `${this.BASE_URL}/examples/examples/:id`;
     url = url.replace(':id', id.toString());
     return this.http.put<ExampleDto>(
