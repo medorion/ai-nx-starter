@@ -3,7 +3,7 @@ import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Subject, Observable } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 import { AuthService } from "../../core/auth/auth.service";
-import { UIAppContextService } from "../../shared/services/ui-app-context.service";
+import { UIAppContextService } from "../../core/services/ui-app-context.service";
 import { ClientUserDto, IdCodeNameDto, IdNameDto } from "@medorion/types";
 
 interface BreadcrumbItem {

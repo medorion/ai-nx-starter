@@ -1,5 +1,5 @@
 import { Component, signal, OnInit } from '@angular/core';
-import { UIAppContextService } from './shared/services/ui-app-context.service';
+import { UIAppContextService } from './core/services/ui-app-context.service';
 import { LoggerService } from './core/services/logger.service';
 import { MessageService } from './core/services/message.service';
 

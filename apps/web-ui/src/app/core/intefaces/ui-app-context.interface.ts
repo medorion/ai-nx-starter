@@ -1,8 +1,10 @@
 import { Observable } from "rxjs";
-import { UIAppContextDto } from "@medorion/types";
-import { ClientUserDto } from "@medorion/types";
-import { IdCodeNameDto } from "@medorion/types";
-import { IdNameDto } from "@medorion/types";
+import {
+  UIAppContextDto,
+  ClientUserDto,
+  IdCodeNameDto,
+  IdNameDto,
+} from "@medorion/types";
 
 export interface UIAppContext {
   uiAppContext$: Observable<UIAppContextDto | null>;

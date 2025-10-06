@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { SolutionsService } from '../solutions.service';
 import { SolutionDto } from '@medorion/types';
 import { FormGroupService } from '../../../../core/services/form-group.service';
-import { UIAppContextService } from '../../../../shared/services/ui-app-context.service';
+import { UIAppContextService } from '../../../../core/services/ui-app-context.service';
 
 @Component({
   selector: 'app-solution-form',

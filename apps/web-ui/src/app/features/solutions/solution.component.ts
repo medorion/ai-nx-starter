@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { UIAppContextService } from '../../shared/services/ui-app-context.service';
+import { UIAppContextService } from '../../core/services/ui-app-context.service';
 import { IdNameDto } from '@medorion/types';
 
 @Component({
@@ -25,7 +25,7 @@ export class SolutionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Subscribe to solutions data
-    this.uiAppContextService.availableSolutions$.pipe(takeUntil(this.destroy$)).subscribe((solutions) => {
+    this.uiAppContextService.availableSolutions$.pipe(takeUntil(this.destroy$)).subscribe((solutions: IdNameDto[]) => {
       this.solutions = solutions;
       this.updateSolutionName();
     });
