@@ -1,23 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { UsersService } from './users.service';
-import { UserDto } from '@medorion/types';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subject, takeUntil } from "rxjs";
+import { NzMessageService } from "ng-zorro-antd/message";
+import { NzModalService } from "ng-zorro-antd/modal";
+import { UsersService } from "./users.service";
+import { ClientUserDto } from "@medorion/types";
 
 @Component({
-  selector: 'app-users',
+  selector: "app-users",
   standalone: false,
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.less',
+  templateUrl: "./users.component.html",
+  styleUrl: "./users.component.less",
 })
 export class UsersComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  users: UserDto[] = [];
-  filteredUsers: UserDto[] = [];
+  users: ClientUserDto[] = [];
+  filteredUsers: ClientUserDto[] = [];
   loading = false;
-  searchQuery = '';
+  searchQuery = "";
 
   // Table configuration
   pageSize = 10;
@@ -50,8 +50,8 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.applySearch();
         },
         error: (error) => {
-          this.message.error('Failed to load users');
-          console.error('Error loading users:', error);
+          this.message.error("Failed to load users");
+          console.error("Error loading users:", error);
         },
       });
   }
@@ -73,28 +73,26 @@ export class UsersComponent implements OnInit, OnDestroy {
     } else {
       this.filteredUsers = this.users.filter(
         (user) =>
-          user.name?.toLowerCase().includes(query) ||
-          user.email?.toLowerCase().includes(query) ||
-          user.firstName?.toLowerCase().includes(query) ||
-          user.lastName?.toLowerCase().includes(query)
+          user.displayName?.toLowerCase().includes(query) ||
+          user.email?.toLowerCase().includes(query)
       );
     }
     this.total = this.filteredUsers.length;
     this.pageIndex = 1; // Reset to first page
   }
 
-  onResetPassword(user: UserDto): void {
+  onResetPassword(user: ClientUserDto): void {
     this.modal.confirm({
-      nzTitle: 'Reset Password',
+      nzTitle: "Reset Password",
       nzContent: `Are you sure you want to send a password reset email to <strong>${user.email}</strong>?`,
-      nzOkText: 'Send Reset Email',
-      nzOkType: 'primary',
-      nzCancelText: 'Cancel',
+      nzOkText: "Send Reset Email",
+      nzOkType: "primary",
+      nzCancelText: "Cancel",
       nzOnOk: () => this.confirmResetPassword(user),
     });
   }
 
-  private confirmResetPassword(user: UserDto): void {
+  private confirmResetPassword(user: ClientUserDto): void {
     this.usersService
       .resetPassword(user.email)
       .pipe(takeUntil(this.destroy$))
@@ -103,8 +101,8 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.message.success(`Password reset email sent to ${user.email}`);
         },
         error: (error: Error) => {
-          this.message.error('Failed to send password reset email');
-          console.error('Error resetting password:', error);
+          this.message.error("Failed to send password reset email");
+          console.error("Error resetting password:", error);
         },
       });
   }
@@ -119,16 +117,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   // Get paginated data for current page
-  get paginatedUsers(): UserDto[] {
+  get paginatedUsers(): ClientUserDto[] {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return this.filteredUsers.slice(startIndex, endIndex);
   }
 
-  getUserDisplayName(user: UserDto): string {
-    if (user.firstName && user.lastName) {
-      return `${user.firstName} ${user.lastName}`;
+  getUserDisplayName(user: ClientUserDto): string {
+    if (user.displayName) {
+      return `${user.displayName}`;
     }
-    return user.name || user.email || 'Unknown User';
+    return user.email || "Unknown User";
   }
 }

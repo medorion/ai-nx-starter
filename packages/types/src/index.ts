@@ -38,8 +38,8 @@ export { UsersByChannelDto } from "./dto/features/users/users-by-channel";
 export { ResetPasswordDto } from "./dto/features/users/reset-password.dto";
 export { ExternalLoginDto } from "./dto/features/users/external-login.dto";
 
-// TODO Check when finalizing auth0
-export { UserDto } from "./dto/features/users/user.dto";
+export { ClientUserDto } from "./dto/features/users/client-user.dto";
+export { Auth0UserDto } from "./dto/features/users/auth0-user.dto";
 
 // Export TodoItem DTOs This is example of how to export multiple DTOs
 export {

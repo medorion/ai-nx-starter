@@ -2,13 +2,13 @@ import { ArrayNotEmpty, IsNotEmpty, ValidateNested } from "class-validator";
 import { IdCodeNameDto } from "./id-code-name.dto";
 import { IdNameDto } from "./id-name.dto";
 import { Type } from "class-transformer";
-import { UserDto } from "../features/users/user.dto";
+import { ClientUserDto } from "../features/users/client-user.dto";
 
 export class UIAppContextDto {
   @ValidateNested()
-  @Type(() => UserDto)
+  @Type(() => ClientUserDto)
   @IsNotEmpty()
-  public currentUser: UserDto;
+  public currentUser: ClientUserDto;
 
   @ValidateNested()
   @Type(() => IdCodeNameDto)

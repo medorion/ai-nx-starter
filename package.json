@@ -27,6 +27,7 @@
     "@ant-design/icons": "^6.0.2",
     "@ant-design/icons-angular": "^19.0.0",
     "@auth0/auth0-angular": "^2.3.0",
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@nestjs/common": "^11.1.6",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.6",

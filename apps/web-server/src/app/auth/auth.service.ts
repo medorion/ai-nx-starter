@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from "@nestjs/common";
 import {
   UIAppContextDto,
-  UserDto,
+  ClientUserDto,
   IdCodeNameDto,
   IdNameDto,
   ExternalLoginDto,
@@ -23,8 +23,8 @@ export class AuthService {
 
   public getUiAppContext(session: SessionInfo): UIAppContextDto {
     // Map session info to user DTO
-    const currentUser: UserDto =
-      this.authMapperService.mapSessionInfoToUserDto(session);
+    const currentUser: ClientUserDto =
+      this.authMapperService.mapSessionInfoToClientUserDto(session);
 
     const currentOrg: IdCodeNameDto = {
       id: "1",

@@ -3,23 +3,16 @@ import { BehaviorSubject, Observable, map, tap, catchError, of } from "rxjs";
 import { AppConfigService, ApiAuthService } from "@medorion/api-client";
 import {
   UIAppContextDto,
-  UserDto,
+  ClientUserDto,
   IdCodeNameDto,
   IdNameDto,
 } from "@medorion/types";
+import { FingerprintService } from "../../core/services/fingerprint.service";
 
-/**
- * Service for managing global state.
- * At all times, we should have :
- * - current user
- * - current organization
- * - available organizations
- * - available solutions
- */
 @Injectable({
   providedIn: "root",
 })
-export class UIAppContextService {
+export class UiAppContextServiceDev {
   private readonly _uiAppContext$ = new BehaviorSubject<UIAppContextDto | null>(
     null
   );
@@ -35,7 +28,7 @@ export class UIAppContextService {
     this._error$.asObservable();
 
   // Specific observables for individual properties
-  public readonly currentUser$: Observable<UserDto | null> =
+  public readonly currentUser$: Observable<ClientUserDto | null> =
     this.uiAppContext$.pipe(map((context) => context?.currentUser || null));
 
   public readonly currentOrganization$: Observable<IdCodeNameDto | null> =
@@ -53,7 +46,8 @@ export class UIAppContextService {
 
   constructor(
     private readonly appConfigService: AppConfigService,
-    private readonly apiAuthService: ApiAuthService
+    private readonly apiAuthService: ApiAuthService,
+    private readonly fingerprintService: FingerprintService
   ) {}
 
   /**
@@ -65,6 +59,7 @@ export class UIAppContextService {
 
     this.appConfigService.orgCode = "orgTst";
 
+    // Try to log in , in dev mode
     return this.apiAuthService.getUiAppContext().pipe(
       tap((context: UIAppContextDto) => {
         this._uiAppContext$.next(context);
@@ -89,7 +84,7 @@ export class UIAppContextService {
   /**
    * Get current user (synchronous)
    */
-  get currentUser(): UserDto | null {
+  get currentUser(): ClientUserDto | null {
     return this.currentContext?.currentUser || null;
   }
 
@@ -115,12 +110,5 @@ export class UIAppContextService {
       this._uiAppContext$.next(updatedContext);
       this.appConfigService.orgCode = orgCode;
     }
-  }
-
-  /**
-   * Refresh the context from server
-   */
-  refresh(): Observable<UIAppContextDto | null> {
-    return this.init();
   }
 }

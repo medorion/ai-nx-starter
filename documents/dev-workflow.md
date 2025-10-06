@@ -37,9 +37,3 @@ Implement feature on UI based on existing examples (use web-ui rules)
 ```
 npm run gen-api-client
 ```
-
-## Work flow example (CRUD operations) Ver 2
-
-0. Tell claude read product.md (We do it once in dev session)
-
-1. Before dealing with any of packages, tell claude to analyze corresponding file from /Users/.windsurf/rules u.e. /Users/.windsurf/rules/web-server.md for web-server

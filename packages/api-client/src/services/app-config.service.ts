@@ -80,7 +80,15 @@ export class AppConfigService {
     return this.config.orgCode || "";
   }
 
+  get fingerprint(): string {
+    return this.config.fingerprint || "";
+  }
+
   set orgCode(value: string) {
     this.config.orgCode = value;
+  }
+
+  set fingerprint(value: string) {
+    this.config.fingerprint = value;
   }
 }

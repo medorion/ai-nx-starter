@@ -1,18 +1,23 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, inject, OnInit, OnDestroy } from "@angular/core";
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-import { FormGroupService } from '../../../core/services/form-group.service';
-import { UserDto } from './dto/user.dto';
-import { DEFAULT_ERROR_MESSAGES } from '../../../core/services/form-group-error-messages';
+import { NzFormTooltipIcon } from "ng-zorro-antd/form";
+import { FormGroupService } from "../../../core/services/form-group.service";
+import { ClientUserDto } from "./dto/user.dto";
+import { DEFAULT_ERROR_MESSAGES } from "../../../core/services/form-group-error-messages";
 
 @Component({
-  selector: 'app-forms',
+  selector: "app-forms",
   standalone: false,
-  templateUrl: './forms.component.html',
-  styleUrl: './forms.component.less',
+  templateUrl: "./forms.component.html",
+  styleUrl: "./forms.component.less",
 })
 export class FormsComponent implements OnInit, OnDestroy {
   private formGroupService = inject(FormGroupService);
@@ -22,22 +27,26 @@ export class FormsComponent implements OnInit, OnDestroy {
   DEFAULT_ERROR_MESSAGES = DEFAULT_ERROR_MESSAGES;
 
   captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone',
+    type: "info-circle",
+    theme: "twotone",
   };
 
   constructor() {
-    // Create form group using the FormGroupService and UserDto
-    this.validateForm = this.formGroupService.createFormGroup(UserDto);
+    // Create form group using the FormGroupService and ClientUserDto
+    this.validateForm = this.formGroupService.createFormGroup(ClientUserDto);
 
     // Add custom confirmation validator for checkPassword
-    this.validateForm.get('checkPassword')?.addValidators(this.confirmationValidator.bind(this));
+    this.validateForm
+      .get("checkPassword")
+      ?.addValidators(this.confirmationValidator.bind(this));
   }
 
   ngOnInit(): void {
-    this.validateForm.controls['password'].valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.validateForm.controls['checkPassword'].updateValueAndValidity();
-    });
+    this.validateForm.controls["password"].valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.validateForm.controls["checkPassword"].updateValueAndValidity();
+      });
   }
 
   ngOnDestroy(): void {
@@ -47,7 +56,7 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
+      console.log("submit", this.validateForm.value);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -61,7 +70,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   confirmationValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) {
       return { required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
+    } else if (control.value !== this.validateForm.controls["password"].value) {
       return { confirm: true, error: true };
     }
     return {};
@@ -73,11 +82,11 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   // Demo method to show form structure and validation
   logFormInfo(): void {
-    console.log('=== FormGroupService Demo ===');
-    console.log('Form Structure:', this.validateForm.controls);
-    console.log('Form Value:', this.validateForm.value);
-    console.log('Form Valid:', this.validateForm.valid);
-    console.log('Form Errors:', this.getFormErrors());
+    console.log("=== FormGroupService Demo ===");
+    console.log("Form Structure:", this.validateForm.controls);
+    console.log("Form Value:", this.validateForm.value);
+    console.log("Form Valid:", this.validateForm.valid);
+    console.log("Form Errors:", this.getFormErrors());
   }
 
   private getFormErrors(): any {

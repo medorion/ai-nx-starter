@@ -1,29 +1,27 @@
-import { Injectable } from '@nestjs/common';
-import { UserDto } from '@medorion/types';
-import { SessionInfo } from '@medorion/backend-common';
+import { Injectable } from "@nestjs/common";
+import { ClientUserDto } from "@medorion/types";
+import { SessionInfo } from "@medorion/backend-common";
 
 @Injectable()
 export class AuthMapperService {
   /**
-   * Maps SessionInfo to UserDto
+   * Maps SessionInfo to ClientUserDto
    * @param sessionInfo - The session information from authentication
-   * @returns UserDto with mapped fields
+   * @returns ClientUserDto with mapped fields
    */
-  mapSessionInfoToUserDto(sessionInfo: SessionInfo): UserDto {
-    const userDto: UserDto = {
+  mapSessionInfoToClientUserDto(sessionInfo: SessionInfo): ClientUserDto {
+    const clientUserDto: ClientUserDto = {
       id: sessionInfo.userId,
-      firstName: this.extractFirstName(sessionInfo.email),
-      lastName: this.extractLastName(sessionInfo.email),
+      displayName: this.extractFullName(sessionInfo.email),
       role: sessionInfo.role,
       email: sessionInfo.email,
-      status: 'active',
-      organizationCodes: sessionInfo.availableOrganizations || [sessionInfo.organizationCode],
-      login: sessionInfo.email,
-      mobilePhone: sessionInfo.phone,
-      name: this.extractFullName(sessionInfo.email),
+      organizationCode: sessionInfo.organizationCode,
+      phone: sessionInfo.phone,
+      availableOrganizations: [], // TODO // sessionInfo.availableOrganizations,
+      availableSolutions: [], // TODO sessionInfo.availableSolutions,
     };
 
-    return userDto;
+    return clientUserDto;
   }
 
   /**
@@ -32,9 +30,9 @@ export class AuthMapperService {
    * @returns First name or email prefix
    */
   private extractFirstName(email: string): string {
-    if (!email) return '';
-    const emailPrefix = email.split('@')[0];
-    const nameParts = emailPrefix.split('.');
+    if (!email) return "";
+    const emailPrefix = email.split("@")[0];
+    const nameParts = emailPrefix.split(".");
     return nameParts[0] ? this.capitalize(nameParts[0]) : emailPrefix;
   }
 
@@ -44,10 +42,10 @@ export class AuthMapperService {
    * @returns Last name or empty string
    */
   private extractLastName(email: string): string {
-    if (!email) return '';
-    const emailPrefix = email.split('@')[0];
-    const nameParts = emailPrefix.split('.');
-    return nameParts.length > 1 ? this.capitalize(nameParts[1]) : '';
+    if (!email) return "";
+    const emailPrefix = email.split("@")[0];
+    const nameParts = emailPrefix.split(".");
+    return nameParts.length > 1 ? this.capitalize(nameParts[1]) : "";
   }
 
   /**
@@ -67,7 +65,7 @@ export class AuthMapperService {
    * @returns Capitalized string
    */
   private capitalize(str: string): string {
-    if (!str) return '';
+    if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 }

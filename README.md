@@ -7,7 +7,6 @@
 For detailed technical documentation, see the [documents](./documents) folder:
 
 - [Overview & Table of Contents](./documents/index.md)
-- [Product Architecture](./documents/product.md)
 - [Development Workflow](./documents/dev-workflow.md)
 - [Web UI Technical Guide](./documents/web-ui-technical.md)
 - [Web Server Technical Guide](./documents/web-server-technical.md)
