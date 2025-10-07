@@ -5,51 +5,34 @@
       "name": "Debug Angular (web-ui) - Launch Chrome",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/apps/web-ui/src",
+      "url": "http://localhost:8081",
+      "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
-      "smartStep": true,
-      "skipFiles": ["<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**"],
       "sourceMapPathOverrides": {
-        "webpack:///./src/*": "${webRoot}/*",
-        "webpack:///src/*": "${webRoot}/*",
-        "webpack:///*": "*",
-        "webpack:///./~/*": "${workspaceFolder}/node_modules/*"
-      },
-      "preLaunchTask": "serve-web-ui"
+        "/*": "${workspaceFolder}/*"
+      }
     },
     {
       "name": "Debug Angular (web-ui) - Attach to Chrome",
       "type": "chrome",
       "request": "attach",
       "port": 9222,
-      "webRoot": "${workspaceFolder}/apps/web-ui/src",
+      "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
-      "smartStep": true,
-      "skipFiles": ["<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**"],
       "sourceMapPathOverrides": {
-        "webpack:///./src/*": "${webRoot}/*",
-        "webpack:///src/*": "${webRoot}/*",
-        "webpack:///*": "*",
-        "webpack:///./~/*": "${workspaceFolder}/node_modules/*"
+        "/*": "${workspaceFolder}/*"
       }
     },
     {
       "name": "Debug Angular (web-ui) - Edge",
       "type": "msedge",
       "request": "launch",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/apps/web-ui/src",
+      "url": "http://localhost:8081",
+      "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
-      "smartStep": true,
-      "skipFiles": ["<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**"],
       "sourceMapPathOverrides": {
-        "webpack:///./src/*": "${webRoot}/*",
-        "webpack:///src/*": "${webRoot}/*",
-        "webpack:///*": "*",
-        "webpack:///./~/*": "${workspaceFolder}/node_modules/*"
-      },
-      "preLaunchTask": "serve-web-ui"
+        "/*": "${workspaceFolder}/*"
+      }
     }
   ]
 }

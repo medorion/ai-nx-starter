@@ -2,4 +2,5 @@
 trigger: always_on
 ---
 
-do not generate document files. Only if requested
+- DO NOT generate document files. Only if requested
+- WHEN Installing packages use pnpm
