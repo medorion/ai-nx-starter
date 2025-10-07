@@ -54,16 +54,16 @@ function initApp(
   fingerprintService: FingerprintService
 ): () => Promise<void> {
   return async () => {
-    // Set finger print
+    // Calc finger print
     const fpRes = await fingerprintService.getFingerprint();
     const visitorId = fpRes.visitorId;
-    localStorage.setItem(StorageKey.Fingerprint, visitorId);
 
     // Load app config
     await appConfigService.loadConfig();
 
     // Set fingerprint
     appConfigService.fingerprint = visitorId;
+    localStorage.setItem(StorageKey.Fingerprint, visitorId);
 
     // Set auth config
     const authConfig = appConfigService.getConfig().auth0Settings;

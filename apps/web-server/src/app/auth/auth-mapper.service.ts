@@ -17,8 +17,6 @@ export class AuthMapperService {
       email: sessionInfo.email,
       organizationCode: sessionInfo.organizationCode,
       phone: sessionInfo.phone,
-      availableOrganizations: [], // TODO // sessionInfo.availableOrganizations,
-      availableSolutions: [], // TODO sessionInfo.availableSolutions,
     };
 
     return clientUserDto;

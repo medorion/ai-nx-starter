@@ -1,19 +1,17 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { EventBusService } from './event-bus.service';
+import { Injectable, OnDestroy } from "@angular/core";
+import { NzMessageService } from "ng-zorro-antd/message";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { EventBusService } from "./event-bus.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class MessageService implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
     private message: NzMessageService,
     private eventBus: EventBusService
-  ) {
-    this.initializeHttpErrorHandling();
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -23,39 +21,52 @@ export class MessageService implements OnDestroy {
   /**
    * Initialize HTTP error event subscriptions
    */
-  private initializeHttpErrorHandling(): void {
+  public initializeHttpErrorHandling(): void {
     // Session Expired (455)
-    this.eventBus.onSessionExpiredHttp()
+    this.eventBus
+      .onSessionExpiredHttp()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.error(event.payload.userMessage, 6000);
       });
 
     // App Warning (456)
-    this.eventBus.onAppWarningHttp()
+    this.eventBus
+      .onAppWarningHttp()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.warning(event.payload.userMessage, 5000);
       });
 
     // Concurrency Exception (457)
-    this.eventBus.onConcurrencyExceptionHttp()
+    this.eventBus
+      .onConcurrencyExceptionHttp()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.warning(event.payload.userMessage, 6000);
       });
 
-    // Unauthorized Login (458)
-    this.eventBus.onUnauthorizedLoginHttp()
+    // Unauthorized Login (401)
+    this.eventBus
+      .onUnauthorizedHttp()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
+        this.error(event.payload.userMessage, 6000);
+      });
+
+    // Forbidden (403)
+    this.eventBus
+      .onForbiddenHttp()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => {
         this.error(event.payload.userMessage, 6000);
       });
 
     // App Error (459)
-    this.eventBus.onAppErrorHttp()
+    this.eventBus
+      .onAppErrorHttp()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.error(event.payload.userMessage, 7000);
       });
   }
@@ -86,9 +97,9 @@ export class MessageService implements OnDestroy {
 }
 
 export enum MessageType {
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
-  Info = 'info',
-  Loading = 'loading',
+  Success = "success",
+  Error = "error",
+  Warning = "warning",
+  Info = "info",
+  Loading = "loading",
 }

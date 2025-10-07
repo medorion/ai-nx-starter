@@ -16,8 +16,9 @@ import {
   SessionExpiredPayload,
   AppWarningPayload,
   ConcurrencyExceptionPayload,
-  UnauthorizedLoginPayload,
+  UnauthorizedPayload,
   AppErrorPayload,
+  ForbiddenPayload,
 } from "./pub-sub.types";
 
 /**
@@ -430,20 +431,39 @@ export class EventBusService {
   }
 
   /**
-   * Publish Unauthorized Login event (ErrorStatusCode.UnauthorizedLogin = 458)
+   * Publish Unauthorized Login event (ErrorStatusCode.UnauthorizedLogin = 401)
    */
-  publishUnauthorizedLoginHttp(payload: UnauthorizedLoginPayload): void {
-    this.pubSubService.publish("http:unauthorized-login", payload, "http");
+  publishUnauthorizedHttp(payload: UnauthorizedPayload): void {
+    this.pubSubService.publish("http:unauthorized", payload, "http");
   }
 
   /**
    * Subscribe to Unauthorized Login events
    */
-  onUnauthorizedLoginHttp(
+  onUnauthorizedHttp(
     config?: SubscriptionConfig
-  ): Observable<EventPayload<UnauthorizedLoginPayload>> {
-    return this.pubSubService.subscribe<UnauthorizedLoginPayload>(
-      "http:unauthorized-login",
+  ): Observable<EventPayload<UnauthorizedPayload>> {
+    return this.pubSubService.subscribe<UnauthorizedPayload>(
+      "http:unauthorized",
+      config
+    );
+  }
+
+  /**
+   * Publish Forbidden Login event (ErrorStatusCode.UnauthorizedLogin = 403)
+   */
+  publishForbiddenHttp(payload: ForbiddenPayload): void {
+    this.pubSubService.publish("http:forbidden", payload, "http");
+  }
+
+  /**
+   * Subscribe to Forbidden Login events
+   */
+  onForbiddenHttp(
+    config?: SubscriptionConfig
+  ): Observable<EventPayload<UnauthorizedPayload>> {
+    return this.pubSubService.subscribe<UnauthorizedPayload>(
+      "http:forbidden",
       config
     );
   }

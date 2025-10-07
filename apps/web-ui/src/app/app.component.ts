@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialize the UI app context and subscribe to handle the response
+    this.messageService.initializeHttpErrorHandling();
     // Mainly used for dev modeß
     this.uiAppContextService.init();
     // this.uiAppContextService.init().subscribe({

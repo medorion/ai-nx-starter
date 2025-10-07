@@ -3,8 +3,6 @@ import {
   BehaviorSubject,
   Observable,
   map,
-  tap,
-  catchError,
   of,
   firstValueFrom,
 } from "rxjs";
@@ -154,19 +152,18 @@ export class UIAppContextService implements UIAppContext {
     this.appConfigService.token = "";
   }
 
-  private refreshContext(): Observable<UIAppContextDto | null> {
-    return this.apiAuthService.getUiAppContext().pipe(
-      tap((context: UIAppContextDto) => {
-        this._uiAppContext$.next(context);
-        this._isLoading$.next(false);
-      }),
-      catchError((error) => {
-        console.error("Failed to load UI App Context:", error);
-        this._error$.next("Failed to load application context");
-        this._isLoading$.next(false);
-        return of(null);
-      })
-    );
+  private async refreshContext(): Promise<UIAppContextDto | null> {
+    try {
+      const context = await firstValueFrom(this.apiAuthService.getUiAppContext());
+      this._uiAppContext$.next(context);
+      this._isLoading$.next(false);
+      return context;
+    } catch (error) {
+      console.error("Failed to load UI App Context:", error);
+      this._error$.next("Failed to load application context");
+      this._isLoading$.next(false);
+      return null;
+    }
   }
   /**
    * Initialize the service by loading UI app context from server

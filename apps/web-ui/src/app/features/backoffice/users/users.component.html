@@ -56,12 +56,9 @@
           <nz-tag [nzColor]="'blue'">{{ user.role }}</nz-tag>
         </td>
         <td>
-          <nz-tag *ngFor="let orgCode of user.availableOrganizations" [nzColor]="'default'">
-            {{ orgCode }}
+          <nz-tag [nzColor]="'default'">
+            {{ user.organizationCode }}
           </nz-tag>
-          <span *ngIf="!user.availableOrganizations || user.availableOrganizations.length === 0" class="text-muted">
-            No organizations
-          </span>
         </td>
         <td>
           <button

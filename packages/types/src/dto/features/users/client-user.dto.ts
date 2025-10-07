@@ -34,14 +34,6 @@ export class ClientUserDto {
   @IsOptional()
   public organizationCode?: string;
 
-  @IsArray()
-  @IsNotEmpty()
-  public availableOrganizations: IdCodeNameDto[];
-
-  @IsArray()
-  @IsNotEmpty()
-  public availableSolutions: IdNameDto[];
-
   @IsString()
   @IsOptional()
   public picture?: string;
