@@ -9,7 +9,6 @@
     "build:prod": "nx run-many --target=build --all --parallel=5 --configuration=production",
     "start": "nx run-many --target=serve --all --parallel=5 --inspect --configuration=development --output-style=stream",
     "gen-api-client": "node --loader ts-node/esm scripts/gen-api-client.ts",
-    "docs": "npx http-server ./documents --port 8081 -o",
     "format:check": "prettier --check \"**/*\"",
     "format:fix": "prettier --write \"**/*\""
   },
@@ -45,6 +44,8 @@
     "commander": "^14.0.1",
     "ioredis": "^5.8.0",
     "json5": "^2.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.2.0",
     "lodash": "^4.17.21",
     "mongodb": "^6.3.0",
     "nestjs-pino": "^4.4.1",
@@ -59,7 +60,6 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@types/uuid": "^11.0.0",
     "@angular-devkit/build-angular": "~19.2.15",
     "@angular-devkit/core": "latest",
     "@angular-devkit/schematics": "~19.2.15",
@@ -89,8 +89,10 @@
     "@swc/core": "~1.13.5",
     "@swc/helpers": "~0.5.17",
     "@types/jest": "^29.5.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "24.5.2",
     "@types/qrcode": "^1.5.5",
+    "@types/uuid": "^11.0.0",
     "@typescript-eslint/utils": "^8.44.1",
     "angular-eslint": "^19.2.0",
     "esbuild": "^0.25.10",

@@ -1,14 +1,28 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, map, tap, catchError, of } from "rxjs";
+import {
+  BehaviorSubject,
+  Observable,
+  map,
+  tap,
+  catchError,
+  of,
+  firstValueFrom,
+} from "rxjs";
 import { AppConfigService, ApiAuthService } from "@medorion/api-client";
 import {
   UIAppContextDto,
   ClientUserDto,
   IdCodeNameDto,
   IdNameDto,
+  Role,
+  Auth0UserDto,
 } from "@medorion/types";
 import { StorageKey } from "../../core/enums/storage-key.enum";
 import { FingerprintService } from "../../core/services/fingerprint.service";
+import { UIAppContext } from "../intefaces/ui-app-context.interface";
+import { LoggerService } from "../../core/services/logger.service";
+import { AuthService as Auth0Service } from "@auth0/auth0-angular";
+import { Router } from "@angular/router";
 
 /**
  * Service for managing global state.
@@ -21,18 +35,18 @@ import { FingerprintService } from "../../core/services/fingerprint.service";
 @Injectable({
   providedIn: "root",
 })
-export class UIAppContextService {
+export class UIAppContextService implements UIAppContext {
   private readonly _uiAppContext$ = new BehaviorSubject<UIAppContextDto | null>(
     null
   );
-  private readonly _isLoading$ = new BehaviorSubject<boolean>(false);
-  private readonly _error$ = new BehaviorSubject<string | null>(null);
-
-  // Public observables
   public readonly uiAppContext$: Observable<UIAppContextDto | null> =
     this._uiAppContext$.asObservable();
+
+  private readonly _isLoading$ = new BehaviorSubject<boolean>(false);
   public readonly isLoading$: Observable<boolean> =
     this._isLoading$.asObservable();
+
+  private readonly _error$ = new BehaviorSubject<string | null>(null);
   public readonly error$: Observable<string | null> =
     this._error$.asObservable();
 
@@ -53,42 +67,7 @@ export class UIAppContextService {
       map((context) => context?.availableSolutions || [])
     );
 
-  constructor(
-    private readonly appConfigService: AppConfigService,
-    private readonly apiAuthService: ApiAuthService,
-    private readonly fingerprintService: FingerprintService
-  ) {}
-
-  /**
-   * Initialize the service by loading UI app context from server
-   */
-  init(): Observable<UIAppContextDto | null> {
-    this._isLoading$.next(true);
-    this._error$.next(null);
-
-    this.appConfigService.orgCode = "orgTst";
-
-    // Try to log in , in dev mode
-    return this.apiAuthService.getUiAppContext().pipe(
-      tap((context: UIAppContextDto) => {
-        this._uiAppContext$.next(context);
-        this._isLoading$.next(false);
-      }),
-      catchError((error) => {
-        console.error("Failed to load UI App Context:", error);
-        this._error$.next("Failed to load application context");
-        this._isLoading$.next(false);
-        return of(null);
-      })
-    );
-  }
-
-  /**
-   * Get current UI app context value (synchronous)
-   */
-  get currentContext(): UIAppContextDto | null {
-    return this._uiAppContext$.getValue();
-  }
+  private isForbiddenError = false;
 
   /**
    * Get current user (synchronous)
@@ -102,6 +81,164 @@ export class UIAppContextService {
    */
   get currentOrganization(): IdCodeNameDto | null {
     return this.currentContext?.currentOrg || null;
+  }
+
+  /**
+   * Get current UI app context value (synchronous)
+   */
+  get currentContext(): UIAppContextDto | null {
+    return this._uiAppContext$.getValue();
+  }
+
+  constructor(
+    private readonly appConfigService: AppConfigService,
+    private readonly apiAuthService: ApiAuthService,
+    private readonly auth0: Auth0Service,
+    private readonly router: Router,
+    private readonly fingerprintService: FingerprintService,
+    private readonly logger: LoggerService
+  ) {
+    // Combine user and token information
+    this.auth0.user$.subscribe(async (user: any) => {
+      if (user && !this.isForbiddenError) {
+        try {
+          // Get the token when user is available
+          const token = await this.refreshAccessToken();
+          const mdUser = this.mapAuth0UserToMdUser(user);
+          if (mdUser && token) {
+            // Add token to the user object
+            const savedOrg = this.getCurrentOrganization();
+            if (
+              savedOrg &&
+              (mdUser.availableOrganizations.includes(savedOrg) ||
+                mdUser.role === Role.Root)
+            ) {
+              mdUser.organizationCode = savedOrg;
+            }
+            // this.setUser(mdUser);
+            this.setCurrentOrganization(mdUser.organizationCode as string);
+            this.apiAuthService.externalLogin(
+              { orgCode: mdUser.organizationCode as string },
+              {}
+            );
+            this.onShouldLogInChange(false);
+          }
+        } catch (error) {
+          console.error("Error getting access token:", error);
+          // this.removeUser();
+          if (
+            error instanceof Error &&
+            error.message === "Invalid Account Settings"
+          ) {
+            this.isForbiddenError = true;
+            // this.clearAllStorage();
+            this._error$.next("Invalid Account Settings");
+          } else {
+            this.onShouldLogInChange(true);
+          }
+        }
+      } else if (!this.isForbiddenError) {
+        // this.removeUser();
+        this.onShouldLogInChange(true);
+      }
+    });
+  }
+
+  /**
+   * Initialize the service by loading UI app context from server
+   */
+  init(): Observable<UIAppContextDto | null> {
+    this.logger.info("UI Context production");
+    this._isLoading$.next(true);
+    this._error$.next(null);
+    this.appConfigService.fingerprint = localStorage.getItem(
+      StorageKey.Fingerprint
+    ) as string;
+    return of(null);
+    // Try to log in , in dev mode
+    // return this.apiAuthService.getUiAppContext().pipe(
+    //   tap((context: UIAppContextDto) => {
+    //     this._uiAppContext$.next(context);
+    //     this._isLoading$.next(false);
+    //   }),
+    //   catchError((error) => {
+    //     console.error("Failed to load UI App Context:", error);
+    //     this._error$.next("Failed to load application context");
+    //     this._isLoading$.next(false);
+    //     return of(null);
+    //   })
+    // );
+  }
+
+  private onShouldLogInChange(shouldLogIn: boolean) {
+    if (shouldLogIn === true) {
+      this.logger.info("Should log in");
+      this.login();
+    } else if (shouldLogIn === false) {
+      this.logger.info("Redirecting to home");
+      this.router.navigate(["home"]);
+    }
+  }
+
+  private mapAuth0UserToMdUser(user: any): Auth0UserDto | null {
+    if (!user) {
+      // Create a default user object if user is null
+      // This ensures we always return an IMdUser type
+      return null;
+    }
+    // Extract claims and metadata
+    const roles = user?.["https://medorion.com/claims/roles"] || [];
+    const appMetadata =
+      user?.["https://medorion.com/claims/app_metadata"] || {};
+    const userMetadata =
+      user?.["https://medorion.com/claims/user_metadata"] || {};
+
+    // Get organization information
+    const organizationCode =
+      userMetadata?.organizationCode || user?.organizationCode;
+    const availableOrganizations = userMetadata?.availableOrganizations || [];
+
+    const role = this.validateRole(roles);
+
+    // Convert user to IMdUser with all available fields
+    const mdUser: Auth0UserDto = {
+      id: user?.sub,
+      displayName: user?.name || user?.nickname || user?.email,
+      organizationCode: organizationCode,
+      availableOrganizations: availableOrganizations,
+      picture: user?.picture,
+      role,
+      email: user?.email,
+      phone: appMetadata?.phone_number || appMetadata?.phone,
+    };
+
+    return mdUser;
+  }
+
+  private validateRole(roles: string[]): Role {
+    const validRoles = Object.values(Role);
+
+    // Check roles array first (Auth0 RBAC)
+    if (roles?.length > 0 && validRoles.includes(roles[0] as Role)) {
+      return roles[0] as Role;
+    }
+
+    // Throw Invalid Account Settings error to trigger auth-errors component
+    throw new Error("Invalid Account Settings");
+  }
+
+  private async refreshAccessToken(): Promise<string | null> {
+    const token = await firstValueFrom(this.auth0.getAccessTokenSilently());
+    this.appConfigService.token = token;
+    return token;
+  }
+
+  private setCurrentOrganization(orgCode: string): void {
+    localStorage.setItem(StorageKey.CurrentOrganization, orgCode);
+  }
+
+  private getCurrentOrganization(): string {
+    return localStorage.getItem(StorageKey.CurrentOrganization) || "";
   }
 
   /**
@@ -119,5 +256,27 @@ export class UIAppContextService {
       this._uiAppContext$.next(updatedContext);
       this.appConfigService.orgCode = orgCode;
     }
+  }
+
+  // Login with Auth0
+  public login(): void {
+    // Direct login approach - simpler and more reliable
+    this.auth0.loginWithRedirect({
+      authorizationParams: {
+        prompt: "login", // Force login prompt
+        max_age: 0, // Force new session
+      },
+    });
+  }
+
+  public async logout(): Promise<void> {
+    await this.apiAuthService.externalLogout();
+    this.auth0.logout();
+    this.appConfigService.token = "";
+  }
+
+  public isLoggedIn(): boolean {
+    // TODO
+    return true;
   }
 }

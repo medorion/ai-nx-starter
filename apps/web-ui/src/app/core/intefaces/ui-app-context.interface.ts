@@ -5,6 +5,7 @@ import {
   IdCodeNameDto,
   IdNameDto,
 } from "@medorion/types";
+import { InjectionToken } from "@angular/core";
 
 export interface UIAppContext {
   uiAppContext$: Observable<UIAppContextDto | null>;
@@ -18,5 +19,13 @@ export interface UIAppContext {
   availableOrganizations$: Observable<IdCodeNameDto[]>;
   availableSolutions$: Observable<IdNameDto[]>;
 
-  init(): void;
+  init(): Observable<UIAppContextDto | null>;
+
+  login(): void;
+
+  isLoggedIn(): boolean;
 }
+
+export const UI_APP_CONTEXT = new InjectionToken<UIAppContext>(
+  "UI_APP_CONTEXT"
+);

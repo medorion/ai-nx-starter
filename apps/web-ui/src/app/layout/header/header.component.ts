@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Subject, Observable } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
-import { AuthService } from "../../core/auth/auth.service";
-import { UIAppContextService } from "../../core/services/ui-app-context.service";
+import {
+  UI_APP_CONTEXT,
+  UIAppContext,
+} from "../../core/intefaces/ui-app-context.interface";
 import { ClientUserDto, IdCodeNameDto, IdNameDto } from "@medorion/types";
 
 interface BreadcrumbItem {
@@ -31,10 +33,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   constructor(
-    public authService: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    public uiAppContextService: UIAppContextService
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    @Inject(UI_APP_CONTEXT) private readonly uiAppContextService: UIAppContext
   ) {
     // Initialize observables
     this.currentUser$ = this.uiAppContextService.currentUser$;
@@ -150,6 +151,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout();
+    // TODO
   }
 }

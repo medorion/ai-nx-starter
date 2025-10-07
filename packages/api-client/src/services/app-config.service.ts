@@ -84,11 +84,19 @@ export class AppConfigService {
     return this.config.fingerprint || "";
   }
 
+  get token(): string {
+    return this.config.token || "";
+  }
+
   set orgCode(value: string) {
     this.config.orgCode = value;
   }
 
   set fingerprint(value: string) {
     this.config.fingerprint = value;
+  }
+
+  set token(value: string) {
+    this.config.token = value;
   }
 }

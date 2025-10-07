@@ -3,13 +3,13 @@
  * This is only a minimal backend to get started.
  */
 
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app/app.module';
-import { AllExceptionsFilter } from './common/all-exceptions.filter';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { API_PREFIX, ORG_CODE_PATH_PARAM } from '@medorion/types';
-import { Logger } from 'nestjs-pino';
+import { NestFactory } from "@nestjs/core";
+import { ValidationPipe } from "@nestjs/common";
+import { AppModule } from "./app/app.module";
+import { AllExceptionsFilter } from "./common/all-exceptions.filter";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import { API_PREFIX, ORG_CODE_PATH_PARAM } from "@medorion/types";
+import { Logger } from "nestjs-pino";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,13 +19,13 @@ async function bootstrap() {
       whitelist: true, // strips unknown props
       forbidNonWhitelisted: true, // throws on unknown props
       transform: true, // auto-transforms payloads to DTO classes
-    }),
+    })
   );
   const globalPrefix = `/${API_PREFIX}/:${ORG_CODE_PATH_PARAM}`;
   app.setGlobalPrefix(globalPrefix);
 
   // Register the global exception filter
-  app.useGlobalFilters(new AllExceptionsFilter());
+  // app.useGlobalFilters(new AllExceptionsFilter());
 
   // Attach pino logger
   app.useLogger(app.get(Logger));
@@ -35,7 +35,9 @@ async function bootstrap() {
   await app.listen(port);
 
   const logger = app.get(Logger);
-  logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+  logger.log(
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  );
 }
 
 bootstrap();

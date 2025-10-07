@@ -1,15 +1,18 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import {
+  UI_APP_CONTEXT,
+  UIAppContext,
+} from "../intefaces/ui-app-context.interface";
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const uiAppContextService: UIAppContext = inject(UI_APP_CONTEXT);
   const router = inject(Router);
 
-  if (authService.isLoggedIn()) {
+  if (uiAppContextService.isLoggedIn()) {
     return true;
   } else {
-    router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+    router.navigate(["/auth/login"], { queryParams: { returnUrl: state.url } });
     return false;
   }
 };

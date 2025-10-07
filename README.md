@@ -48,7 +48,7 @@ This runs all apps in development mode with output streaming and inspect mode en
 npm run ui
 ```
 
-Frontend will be available at `http://localhost:4200`
+Frontend will be available at `http://localhost:8081`
 
 **Web Server (NestJS):**
 
@@ -56,7 +56,7 @@ Frontend will be available at `http://localhost:4200`
 npm run server
 ```
 
-Backend API will be available at `http://localhost:3000`
+Backend API will be available at `http://localhost:8081`
 
 ### View Documentation Locally
 

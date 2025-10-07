@@ -7,12 +7,14 @@ import {
   IdCodeNameDto,
   IdNameDto,
 } from "@medorion/types";
-import { FingerprintService } from "../../core/services/fingerprint.service";
+import { UIAppContext } from "../intefaces/ui-app-context.interface";
+import { LoggerService } from "./logger.service";
+import { StorageKey } from "../enums/storage-key.enum";
 
 @Injectable({
   providedIn: "root",
 })
-export class UiAppContextServiceDev {
+export class UiAppContextServiceDev implements UIAppContext {
   private readonly _uiAppContext$ = new BehaviorSubject<UIAppContextDto | null>(
     null
   );
@@ -47,19 +49,20 @@ export class UiAppContextServiceDev {
   constructor(
     private readonly appConfigService: AppConfigService,
     private readonly apiAuthService: ApiAuthService,
-    private readonly fingerprintService: FingerprintService
+    private readonly logger: LoggerService
   ) {}
 
   /**
    * Initialize the service by loading UI app context from server
    */
   init(): Observable<UIAppContextDto | null> {
+    this.logger.info("UI Context development");
     this._isLoading$.next(true);
     this._error$.next(null);
-
-    this.appConfigService.orgCode = "orgTst";
-
-    // Try to log in , in dev mode
+    this.appConfigService.fingerprint = localStorage.getItem(
+      StorageKey.Fingerprint
+    ) as string;
+    // Try to log in, in dev mode
     return this.apiAuthService.getUiAppContext().pipe(
       tap((context: UIAppContextDto) => {
         this._uiAppContext$.next(context);
@@ -110,5 +113,14 @@ export class UiAppContextServiceDev {
       this._uiAppContext$.next(updatedContext);
       this.appConfigService.orgCode = orgCode;
     }
+  }
+
+  login(): void {
+    // Only for dev
+    this.logger.info("Login");
+  }
+
+  isLoggedIn(): boolean {
+    return true;
   }
 }

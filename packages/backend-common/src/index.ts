@@ -27,3 +27,8 @@ export { SessionInfo } from "./interfaces/session-info.interface";
 // Services
 export { Auth0Service } from "./services/auth0.service";
 export { SessionService } from "./services/session.service";
+export { CryptoService } from "./services/crypto.service";
+export { ServerToServerAuthService } from "./services/server-to-server-auth.service";
+
+// Modules
+export { CoreServicesModule } from "./core-services.module";

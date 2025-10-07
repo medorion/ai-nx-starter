@@ -40,6 +40,7 @@ export { ExternalLoginDto } from "./dto/features/users/external-login.dto";
 
 export { ClientUserDto } from "./dto/features/users/client-user.dto";
 export { Auth0UserDto } from "./dto/features/users/auth0-user.dto";
+export { ServerToServerSessionInfoDto } from "./dto/features/users/server-to-server-session-info.dto";
 
 // Export TodoItem DTOs This is example of how to export multiple DTOs
 export {

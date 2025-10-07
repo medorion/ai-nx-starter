@@ -36,10 +36,6 @@ export class Auth0UserDto {
   @IsNotEmpty()
   public availableOrganizations: string[];
 
-  @IsArray()
-  @IsNotEmpty()
-  public availableSolutions: string[];
-
   @IsString()
   @IsOptional()
   public picture?: string;

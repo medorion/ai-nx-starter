@@ -60,7 +60,7 @@
       },
       "defaultConfiguration": "development"
     },
-    "serve": {
+    "serve-dev": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
@@ -88,11 +88,11 @@
         "jestConfig": "apps/web-ui/jest.config.ts"
       }
     },
-    "serve-static": {
+    "serve": {
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "web-ui:build",
-        "port": 4200,
+        "port": 8081,
         "staticFilePath": "dist/apps/web-ui/browser",
         "spa": true
       }
