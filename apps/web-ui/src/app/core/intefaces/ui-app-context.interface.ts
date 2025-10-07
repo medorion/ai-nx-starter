@@ -21,7 +21,9 @@ export interface UIAppContext {
 
   init(): Observable<UIAppContextDto | null>;
 
-  login(): void;
+  logIn(): void;
+
+  logOut(): void;
 
   isLoggedIn(): boolean;
 }

@@ -459,13 +459,13 @@ function extractApiMethods(
       importNameList.forEach(name => importNames.add(name));
     }
 
-    // Extract parameters with their decorators (excluding @Session and orgCode path params)
+    // Extract parameters with their decorators (excluding @Session, @Req and orgCode path params)
     const params = method
       .getParameters()
       .filter((p) => {
         const decorator = p.getDecorators()[0];
-        if (!decorator || decorator.getName() === 'Session') {
-          return false; // Exclude @Session parameters
+        if (!decorator || decorator.getName() === 'Session' || decorator.getName() === 'Req') {
+          return false; // Exclude @Session and @Req parameters
         }
 
         // Exclude orgCode path parameters

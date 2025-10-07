@@ -151,6 +151,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    // TODO
+    this.uiAppContextService.logOut();
   }
 }

@@ -115,17 +115,19 @@ export class UIAppContextService implements UIAppContext {
             ) {
               mdUser.organizationCode = savedOrg;
             }
-            // this.setUser(mdUser);
+
             this.setCurrentOrganization(mdUser.organizationCode as string);
-            this.apiAuthService.externalLogin(
-              { orgCode: mdUser.organizationCode as string },
-              {}
-            );
+            this.apiAuthService.externalLogin({
+              orgCode: mdUser.organizationCode as string,
+            });
+            // this.setUser(mdUser);
+            this.refreshContext();
             this.onShouldLogInChange(false);
           }
         } catch (error) {
-          console.error("Error getting access token:", error);
+          this.logger.error("Error getting access token:", error);
           // this.removeUser();
+          this.clearContext();
           if (
             error instanceof Error &&
             error.message === "Invalid Account Settings"
@@ -139,11 +141,33 @@ export class UIAppContextService implements UIAppContext {
         }
       } else if (!this.isForbiddenError) {
         // this.removeUser();
+        this.clearContext();
         this.onShouldLogInChange(true);
       }
     });
   }
 
+  private clearContext() {
+    this._uiAppContext$.next(null);
+    this._isLoading$.next(false);
+    this._error$.next(null);
+    this.appConfigService.token = "";
+  }
+
+  private refreshContext(): Observable<UIAppContextDto | null> {
+    return this.apiAuthService.getUiAppContext().pipe(
+      tap((context: UIAppContextDto) => {
+        this._uiAppContext$.next(context);
+        this._isLoading$.next(false);
+      }),
+      catchError((error) => {
+        console.error("Failed to load UI App Context:", error);
+        this._error$.next("Failed to load application context");
+        this._isLoading$.next(false);
+        return of(null);
+      })
+    );
+  }
   /**
    * Initialize the service by loading UI app context from server
    */
@@ -173,7 +197,7 @@ export class UIAppContextService implements UIAppContext {
   private onShouldLogInChange(shouldLogIn: boolean) {
     if (shouldLogIn === true) {
       this.logger.info("Should log in");
-      this.login();
+      this.logIn();
     } else if (shouldLogIn === false) {
       this.logger.info("Redirecting to home");
       this.router.navigate(["home"]);
@@ -259,7 +283,7 @@ export class UIAppContextService implements UIAppContext {
   }
 
   // Login with Auth0
-  public login(): void {
+  public logIn(): void {
     // Direct login approach - simpler and more reliable
     this.auth0.loginWithRedirect({
       authorizationParams: {
@@ -269,10 +293,10 @@ export class UIAppContextService implements UIAppContext {
     });
   }
 
-  public async logout(): Promise<void> {
+  public async logOut(): Promise<void> {
     await this.apiAuthService.externalLogout();
+    this.clearContext();
     this.auth0.logout();
-    this.appConfigService.token = "";
   }
 
   public isLoggedIn(): boolean {

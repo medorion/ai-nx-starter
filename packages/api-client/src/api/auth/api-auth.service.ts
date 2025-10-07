@@ -33,10 +33,9 @@ export class ApiAuthService extends BaseApiService {
    * externalLogin - POST auth//external-login
    *
    * @param userLoginDto - Body parameter
-   * @param request - Req parameter
    * @returns Observable<void>
    */
-  externalLogin(userLoginDto: ExternalLoginDto, request: any): Observable<void> {
+  externalLogin(userLoginDto: ExternalLoginDto): Observable<void> {
     return this.http.post<void>(
       `${this.BASE_URL}/auth/external-login`,
       userLoginDto

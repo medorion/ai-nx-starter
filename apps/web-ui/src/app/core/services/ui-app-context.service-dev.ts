@@ -115,9 +115,14 @@ export class UiAppContextServiceDev implements UIAppContext {
     }
   }
 
-  login(): void {
+  logIn(): void {
     // Only for dev
     this.logger.info("Login");
+  }
+
+  logOut(): void {
+    // Only for dev
+    this.logger.info("Logout");
   }
 
   isLoggedIn(): boolean {
