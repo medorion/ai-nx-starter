@@ -7,7 +7,7 @@ import {
   UIAppContext,
 } from "../../core/intefaces/ui-app-context.interface";
 import { ClientUserDto, IdCodeNameDto, IdNameDto } from "@medorion/types";
-
+import { MessageService } from "../../core/services/message.service";
 interface BreadcrumbItem {
   label: string;
   url?: string;
@@ -29,17 +29,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // Observables for template
   currentUser$: Observable<ClientUserDto | null>;
   currentOrganization$: Observable<IdCodeNameDto | null>;
+  availableOrganizations$: Observable<IdCodeNameDto[]>;
   availableSolutions$: Observable<IdNameDto[]>;
   isLoading$: Observable<boolean>;
 
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly messageService: MessageService,
     @Inject(UI_APP_CONTEXT) private readonly uiAppContextService: UIAppContext
   ) {
     // Initialize observables
     this.currentUser$ = this.uiAppContextService.currentUser$;
     this.currentOrganization$ = this.uiAppContextService.currentOrganization$;
+    this.availableOrganizations$ =
+      this.uiAppContextService.availableOrganizations$;
     this.availableSolutions$ = this.uiAppContextService.availableSolutions$;
     this.isLoading$ = this.uiAppContextService.isLoading$;
   }
@@ -137,17 +141,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         label = solution.name; // Override the "Solutions" label with actual solution name
       }
     }
-
     // If no label found and this is examples root, check if it's shell
     if (!label && routeUrl === "examples" && isLast) {
       label = "Shell"; // Default component for examples root
     }
-
     return label ? { label, isLast } : null;
   }
 
-  navigateTo(url: string): void {
-    this.router.navigate([url]);
+  async switchOrganization(orgCode: string): Promise<void> {
+    this.uiAppContextService.switchOrganization(orgCode);
+    this.messageService.info(`Switched to organization ${orgCode}`);
   }
 
   logout(): void {

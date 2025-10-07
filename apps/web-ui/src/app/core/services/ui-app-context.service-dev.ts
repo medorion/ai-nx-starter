@@ -10,6 +10,7 @@ import {
 import { UIAppContext } from "../intefaces/ui-app-context.interface";
 import { LoggerService } from "./logger.service";
 import { StorageKey } from "../enums/storage-key.enum";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -49,6 +50,7 @@ export class UiAppContextServiceDev implements UIAppContext {
   constructor(
     private readonly appConfigService: AppConfigService,
     private readonly apiAuthService: ApiAuthService,
+    private readonly router: Router,
     private readonly logger: LoggerService
   ) {}
 
@@ -122,6 +124,7 @@ export class UiAppContextServiceDev implements UIAppContext {
 
   logOut(): void {
     // Only for dev
+    this.router.navigate(["/redirecting-to-login"]);
     this.logger.info("Logout");
   }
 

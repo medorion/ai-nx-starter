@@ -21,6 +21,8 @@ export interface UIAppContext {
 
   init(): Observable<UIAppContextDto | null>;
 
+  switchOrganization(orgCode: string): void;
+
   logIn(): void;
 
   logOut(): void;

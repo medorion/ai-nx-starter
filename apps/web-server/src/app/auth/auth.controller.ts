@@ -22,7 +22,6 @@ export class AuthController {
   }
 
   @Post("/external-login")
-  @IgnoreAuthorization()
   public externalLogin(
     @Body() userLoginDto: ExternalLoginDto,
     @Req() request,
@@ -42,7 +41,6 @@ export class AuthController {
   }
 
   @Get("/external-logout")
-  @IgnoreAuthorization()
   public externalLogout(@Session() session: SessionInfo) {
     return this.authService.externalLogout(session);
   }

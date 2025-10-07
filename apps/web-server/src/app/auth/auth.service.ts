@@ -126,9 +126,7 @@ export class AuthService {
     fingerprint: string,
     session: SessionInfo
   ): Promise<void> {
-    // TODO Check if session is sessionInfo ????
-    const sessionInfo = await this.sessionService.getSession(session.userId);
-    if (!sessionInfo) {
+    if (!session) {
       this.logger.error("Session Expired, no token payload");
       throw new SessionExpiredException("Session Expired, no token payload");
     }
@@ -136,7 +134,7 @@ export class AuthService {
     session.fingerprint = fingerprint;
     await this.sessionService.updateSession(session.userId, session);
     this.logger.info(
-      `User (${sessionInfo.email}) logged in from external provider`
+      `User (${session.email}) logged in from external provider`
     );
   }
 }

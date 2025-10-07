@@ -49,6 +49,11 @@ export class Auth0AuthorizeGuard implements CanActivate {
     });
   }
 
+  /*
+   * This method is used to get session info from Auth0
+   * It will retreive current session or create new session if it doesn't exist
+   * It uses Auth0 to get user metadata
+   */
   private async getSessionInfo(
     user: any,
     fingerprint: string,
@@ -108,6 +113,7 @@ export class Auth0AuthorizeGuard implements CanActivate {
       organizationCode: organizationCode as string,
       availableOrganizations: availableOrganizations,
       fingerprint,
+      picture: user.picture,
     };
   }
 

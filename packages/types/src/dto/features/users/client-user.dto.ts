@@ -7,8 +7,6 @@ import {
   IsEnum,
 } from "class-validator";
 import { Role } from "../../../enums/core/role.enum";
-import { IdCodeNameDto } from "../../common/id-code-name.dto";
-import { IdNameDto } from "../../common/id-name.dto";
 
 export class ClientUserDto {
   @IsString()

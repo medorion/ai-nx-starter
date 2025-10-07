@@ -76,6 +76,7 @@ export class SessionService {
     return token;
   }
 
+  // Used to initialize serrion in dev
   public async createSessionWithToken(
     sessionInfo: SessionInfo,
     userIp: string,
@@ -88,16 +89,6 @@ export class SessionService {
       "EX",
       ttl ? ttl : this.serverTokenExpiration
     );
-    return token;
-  }
-
-  public async createSession(
-    sessionInfo: SessionInfo,
-    userIp: string,
-    ttl?: number
-  ): Promise<string> {
-    const token = SessionService.createToken();
-    await this.createSessionWithToken(sessionInfo, userIp, token, ttl);
     return token;
   }
 

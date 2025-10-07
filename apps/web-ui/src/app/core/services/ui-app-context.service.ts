@@ -1,11 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  BehaviorSubject,
-  Observable,
-  map,
-  of,
-  firstValueFrom,
-} from "rxjs";
+import { BehaviorSubject, Observable, map, of, firstValueFrom } from "rxjs";
 import { AppConfigService, ApiAuthService } from "@medorion/api-client";
 import {
   UIAppContextDto,
@@ -16,7 +10,6 @@ import {
   Auth0UserDto,
 } from "@medorion/types";
 import { StorageKey } from "../../core/enums/storage-key.enum";
-import { FingerprintService } from "../../core/services/fingerprint.service";
 import { UIAppContext } from "../intefaces/ui-app-context.interface";
 import { LoggerService } from "../../core/services/logger.service";
 import { AuthService as Auth0Service } from "@auth0/auth0-angular";
@@ -93,7 +86,6 @@ export class UIAppContextService implements UIAppContext {
     private readonly apiAuthService: ApiAuthService,
     private readonly auth0: Auth0Service,
     private readonly router: Router,
-    private readonly fingerprintService: FingerprintService,
     private readonly logger: LoggerService
   ) {
     // Combine user and token information
@@ -154,7 +146,9 @@ export class UIAppContextService implements UIAppContext {
 
   private async refreshContext(): Promise<UIAppContextDto | null> {
     try {
-      const context = await firstValueFrom(this.apiAuthService.getUiAppContext());
+      const context = await firstValueFrom(
+        this.apiAuthService.getUiAppContext()
+      );
       this._uiAppContext$.next(context);
       this._isLoading$.next(false);
       return context;
@@ -176,19 +170,6 @@ export class UIAppContextService implements UIAppContext {
       StorageKey.Fingerprint
     ) as string;
     return of(null);
-    // Try to log in , in dev mode
-    // return this.apiAuthService.getUiAppContext().pipe(
-    //   tap((context: UIAppContextDto) => {
-    //     this._uiAppContext$.next(context);
-    //     this._isLoading$.next(false);
-    //   }),
-    //   catchError((error) => {
-    //     console.error("Failed to load UI App Context:", error);
-    //     this._error$.next("Failed to load application context");
-    //     this._isLoading$.next(false);
-    //     return of(null);
-    //   })
-    // );
   }
 
   private onShouldLogInChange(shouldLogIn: boolean) {
@@ -196,8 +177,8 @@ export class UIAppContextService implements UIAppContext {
       this.logger.info("Should log in");
       this.logIn();
     } else if (shouldLogIn === false) {
-      this.logger.info("Redirecting to home");
-      this.router.navigate(["home"]);
+      this.logger.info("Redirecting to default");
+      this.router.navigate(["/"]);
     }
   }
 
@@ -265,24 +246,17 @@ export class UIAppContextService implements UIAppContext {
   /**
    * Switch to a different organization
    */
-  switchOrganization(orgCode: string): void {
-    const availableOrgs = this.currentContext?.availableOrganizations || [];
-    const newOrg = availableOrgs.find((org) => org.code === orgCode);
-
-    if (newOrg && this.currentContext) {
-      const updatedContext = {
-        ...this.currentContext,
-        currentOrg: newOrg,
-      };
-      this._uiAppContext$.next(updatedContext);
-      this.appConfigService.orgCode = orgCode;
-    }
+  async switchOrganization(orgCode: string): Promise<void> {
+    await firstValueFrom(this.apiAuthService.externalLogin({ orgCode }));
+    this.setCurrentOrganization(orgCode);
+    this.appConfigService.orgCode = orgCode;
+    await this.refreshContext();
   }
 
   // Login with Auth0
-  public logIn(): void {
+  public async logIn(): Promise<void> {
     // Direct login approach - simpler and more reliable
-    this.auth0.loginWithRedirect({
+    await this.auth0.loginWithRedirect({
       authorizationParams: {
         prompt: "login", // Force login prompt
         max_age: 0, // Force new session
@@ -291,13 +265,14 @@ export class UIAppContextService implements UIAppContext {
   }
 
   public async logOut(): Promise<void> {
-    await this.apiAuthService.externalLogout();
+    this.router.navigate(["/redirecting-to-login"]);
+    await firstValueFrom(this.apiAuthService.externalLogout());
     this.clearContext();
     this.auth0.logout();
   }
 
   public isLoggedIn(): boolean {
-    // TODO
-    return true;
+    // Get current context from uiAppContext$ and check if it is not null
+    return this.currentContext !== null;
   }
 }

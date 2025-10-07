@@ -1,0 +1,41 @@
+@import "../../../../assets/styles/theme-general.less";
+@import "../../../../assets/styles/theme.less";
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: @background-color-base;
+}
+
+.loading-content {
+  text-align: center;
+  max-width: 400px;
+  padding: 32px;
+}
+
+.logo-container {
+  margin-bottom: 32px;
+
+  .logo {
+    height: 48px;
+    width: auto;
+  }
+}
+
+.spinner-container {
+  margin-bottom: 24px;
+}
+
+.loading-title {
+  font-size: @font-size-lg;
+  color: @text-color;
+  margin-bottom: 16px;
+}
+
+.loading-message {
+  font-size: @font-size-md;
+  color: @text-color-secondary;
+  margin: 0;
+}
