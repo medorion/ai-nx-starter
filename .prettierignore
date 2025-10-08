@@ -1,0 +1,47 @@
+# Workspace
+**/dist
+**/coverage
+**/.nx/cache
+**/.nx/workspace-data
+**/.editorconfig
+**/.env.example
+**/.npmrc
+**/.windsurfrules
+**/*.tsbuildinfo
+**/tsconfig*.json
+
+# Empty files
+**/.gitkeep
+**/.keep
+**/.empty
+
+# Images
+**/*.svg
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.ico
+
+# Python and utils (TODO: add formatting for python files)
+/utils/bq_functions/resources/faker/libs/bq_fake.js
+**/*.py
+**/*.toml
+**/poetry.lock
+**/*.txt
+
+# SQL and data (TODO: add formatting for sql files)
+**/*.sql
+**/*.parquet
+**/*.csv
+
+# Firestore
+**/firestore.rules
+
+# Cloud functions
+**/.gcloudignore
+**/Makefile
+
+# Helm templates (TODO: add formatting for helm files)
+**/kubernetes/templates

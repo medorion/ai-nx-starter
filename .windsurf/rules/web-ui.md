@@ -66,12 +66,13 @@ This document defines coding standards and architectural rules for the Angular W
   - Corresponding dark theme files
 - DO NOT modify font or background colors in component `.less` files
 - ALL colors MUST be defined in global styles using theme variables
--  font-size, font-weight use predefined from theme-general.less
+- font-size, font-weight use predefined from theme-general.less
 - For forms use predefined form-section
 
-
 ### Data Binding
+
 - DO NOT use functions in dta binding use ng-Swithch or maps ...
+
 ### Theme Variables
 
 ```less
@@ -88,8 +89,8 @@ This document defines coding standards and architectural rules for the Angular W
 }
 ```
 
-
 ## Data Binding
+
 - Avoid using functions in data binding, try using ngSwitch , maps ...
 
 ## Form Validation
@@ -103,8 +104,11 @@ This document defines coding standards and architectural rules for the Angular W
 
 ## UI Components
 
+- Components should be standalone: false by default, true only if specified differently
+
 ### General
-- Always use separate files for html,less , and ts 
+
+- Always use separate files for html,less , and ts
 
 ### List and Detail Views
 
@@ -113,6 +117,7 @@ This document defines coding standards and architectural rules for the Angular W
 - Reference implementation: `features/zorro-components/list-and-item`
 
 ## Logging
+
 - Use our LoggerService
 
 ### LoggerService Usage
@@ -226,6 +231,7 @@ export class FeatureStoreService {
 - Prepare for future multi-language support
 
 ### Icons
+
 Update icons module if using new icon /shared/icons/icons.module.ts
 
 ## Routing

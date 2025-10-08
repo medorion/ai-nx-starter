@@ -12,8 +12,8 @@ description: Applies only to packages/types
 
 # Types Package Rules
 
-
 This package is shared between serber and client
+
 - MUST NOT include server or client specific reference/code
 
 ## File Organization
