@@ -20,8 +20,9 @@ solution/
 The `Solution` entity represents an application/solution in the system with the following properties:
 
 ### Core Fields
+
 - `_id` (ObjectId) - MongoDB ObjectId
-- `id` (string) - String representation of _id (getter)
+- `id` (string) - String representation of \_id (getter)
 - `orgCode` (string, max 15) - Organization code
 - `appCode` (number) - Unique application code
 - `name` (string, max 50) - Solution name
@@ -33,6 +34,7 @@ The `Solution` entity represents an application/solution in the system with the 
 - `updatedAt` (Date) - Last update timestamp
 
 ### Embedded Communication Settings
+
 The entity includes a `defaultCommunicationSettings` field with nested settings:
 
 - **GoogleAnalyticsSettings** - viewId
@@ -51,68 +53,87 @@ Injectable NestJS service providing comprehensive CRUD operations.
 ### Basic CRUD Operations
 
 #### `findById(id: string): Promise<Solution | null>`
+
 Find a solution by its MongoDB ObjectId.
 
 #### `findAll(limit = 50, offset = 0): Promise<Solution[]>`
+
 Get all solutions with pagination, ordered by creation date (DESC).
 
 #### `create(solutionData: CreateSolutionData): Promise<Solution>`
+
 Create a new solution.
 
 #### `update(id: string, updateData: UpdateSolutionData): Promise<Solution | null>`
+
 Update an existing solution.
 
 #### `delete(id: string): Promise<boolean>`
+
 Delete a solution by ID.
 
 ### Query Operations
 
 #### `findByOrgCode(orgCode: string): Promise<Solution[]>`
+
 Get all solutions for an organization.
 
 #### `findActiveByOrgCode(orgCode: string): Promise<Solution[]>`
+
 Get only active solutions for an organization.
 
 #### `findByAppCode(appCode: number): Promise<Solution | null>`
+
 Find a solution by its unique app code.
 
 #### `findByOrgCodeAndAppCode(orgCode: string, appCode: number): Promise<Solution | null>`
+
 Find a solution by organization and app code combination.
 
 #### `findByUserId(userId: string): Promise<Solution[]>`
+
 Get all solutions a user has access to.
 
 #### `findActiveByUserId(userId: string): Promise<Solution[]>`
+
 Get only active solutions a user has access to.
 
 ### User Access Management
 
 #### `addAllowedUser(id: string, userId: string): Promise<Solution | null>`
+
 Add a user to the solution's allowed users list.
 
 #### `removeAllowedUser(id: string, userId: string): Promise<Solution | null>`
+
 Remove a user from the solution's allowed users list.
 
 ### Status Management
 
 #### `setActiveStatus(id: string, isActive: boolean): Promise<Solution | null>`
+
 Toggle solution active/inactive status.
 
 ### Count & Existence Operations
 
 #### `count(): Promise<number>`
+
 Count total solutions.
 
 #### `countByOrgCode(orgCode: string): Promise<number>`
+
 Count solutions for an organization.
 
 #### `countActive(): Promise<number>`
+
 Count active solutions.
 
 #### `existsByAppCode(appCode: number): Promise<boolean>`
+
 Check if a solution exists with the given app code.
 
 #### `existsByOrgCodeAndAppCode(orgCode: string, appCode: number): Promise<boolean>`
+
 Check if a solution exists with the given org code and app code combination.
 
 ## Usage Example
@@ -146,9 +167,7 @@ The Solution entity and service are automatically registered in the `DataAccessM
 import { Solution, SolutionDbService } from '@medorion/data-access-layer';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Solution]),
-  ],
+  imports: [TypeOrmModule.forFeature([Solution])],
   providers: [SolutionDbService],
   exports: [SolutionDbService],
 })

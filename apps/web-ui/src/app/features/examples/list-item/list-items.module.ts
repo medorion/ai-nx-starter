@@ -20,8 +20,9 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 // Components
 import { ListItemsComponent } from './components/list-items/list-items.component';
 import { ListItemFormComponent } from './components/list-item-form/list-item-form.component';
-import { FormDebugComponent } from '../../../shared/components/form-debug/form-debug.component';
-import { FormDebugLinkComponent } from '../../../shared/components/form-debug-link/form-debug-link.component';
+
+// Shared modules
+import { SharedModule } from '../../../shared/shared.module';
 
 // Routing
 import { ListItemsRoutingModule } from './list-items-routing.module';
@@ -33,6 +34,7 @@ import { ListItemsRoutingModule } from './list-items-routing.module';
     ReactiveFormsModule,
     FormsModule,
     ListItemsRoutingModule,
+    SharedModule,
 
     // ng-zorro modules
     NzButtonModule,
@@ -48,10 +50,6 @@ import { ListItemsRoutingModule } from './list-items-routing.module';
     NzToolTipModule,
     NzInputNumberModule,
     NzAlertModule,
-
-    // Standalone components
-    FormDebugComponent,
-    FormDebugLinkComponent,
   ],
 })
 export class ListItemsModule {}

@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { Auth0User } from "@medorion/backend-common";
-import { ClientUserDto } from "@medorion/types";
+import { Injectable } from '@nestjs/common';
+import { Auth0User } from '@medorion/backend-common';
+import { ClientUserDto } from '@medorion/types';
 
 @Injectable()
 export class UserMapperService {

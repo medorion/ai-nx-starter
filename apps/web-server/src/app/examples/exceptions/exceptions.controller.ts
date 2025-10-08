@@ -14,7 +14,6 @@ import {
  */
 @Controller('examples/exceptions')
 export class ExceptionsController {
-
   /**
    * Trigger SessionExpired exception (455)
    * GET /examples/exceptions/session-expired
@@ -25,7 +24,7 @@ export class ExceptionsController {
       message: 'Your session has expired. Please log in again.',
       timestamp: new Date().toISOString(),
       sessionId: 'demo-session-123',
-      reason: 'Token expired after 24 hours of inactivity'
+      reason: 'Token expired after 24 hours of inactivity',
     });
   }
 
@@ -39,7 +38,7 @@ export class ExceptionsController {
       message: 'This is a demonstration warning from the application.',
       timestamp: new Date().toISOString(),
       warningCode: 'DEMO_WARNING_001',
-      details: 'This warning is triggered for testing purposes and demonstrates how warnings are handled in the system.'
+      details: 'This warning is triggered for testing purposes and demonstrates how warnings are handled in the system.',
     });
   }
 
@@ -58,8 +57,8 @@ export class ExceptionsController {
         lastModifiedBy: 'user@example.com',
         lastModifiedAt: new Date(Date.now() - 5000).toISOString(),
         currentVersion: 2,
-        attemptedVersion: 1
-      }
+        attemptedVersion: 1,
+      },
     });
   }
 
@@ -75,7 +74,7 @@ export class ExceptionsController {
       attemptedEmail: 'demo@example.com',
       loginAttempts: 3,
       reason: 'Invalid password provided',
-      lockoutTime: 300 // 5 minutes
+      lockoutTime: 300, // 5 minutes
     });
   }
 
@@ -92,9 +91,9 @@ export class ExceptionsController {
       context: {
         operation: 'demo-operation',
         userId: 'demo-user-789',
-        requestId: 'req-' + Math.random().toString(36).substr(2, 9)
+        requestId: 'req-' + Math.random().toString(36).substr(2, 9),
       },
-      details: 'This is a demonstration of how critical application errors are handled and reported to the client.'
+      details: 'This is a demonstration of how critical application errors are handled and reported to the client.',
     });
   }
 
@@ -112,37 +111,37 @@ export class ExceptionsController {
           method: 'GET',
           exception: 'SessionExpiredException',
           statusCode: 455,
-          description: 'Triggers a session expired error'
+          description: 'Triggers a session expired error',
         },
         {
           path: '/examples/exceptions/app-warning',
           method: 'GET',
           exception: 'AppWarningException',
           statusCode: 456,
-          description: 'Triggers an application warning'
+          description: 'Triggers an application warning',
         },
         {
           path: '/examples/exceptions/concurrency-error',
           method: 'GET',
           exception: 'ConcurencyException',
           statusCode: 457,
-          description: 'Triggers a concurrency/conflict error'
+          description: 'Triggers a concurrency/conflict error',
         },
         {
           path: '/examples/exceptions/unauthorized-login',
           method: 'GET',
           exception: 'UnauthorizedLoginException',
           statusCode: 458,
-          description: 'Triggers an unauthorized login error'
+          description: 'Triggers an unauthorized login error',
         },
         {
           path: '/examples/exceptions/app-error',
           method: 'GET',
           exception: 'AppErrorException',
           statusCode: 459,
-          description: 'Triggers a critical application error'
-        }
-      ]
+          description: 'Triggers a critical application error',
+        },
+      ],
     };
   }
 }

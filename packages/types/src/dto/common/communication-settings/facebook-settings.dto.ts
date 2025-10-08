@@ -1,3 +1,3 @@
 export class FacebookSettingsDto {
-    public adAccountId: string;
+  public adAccountId: string;
 }

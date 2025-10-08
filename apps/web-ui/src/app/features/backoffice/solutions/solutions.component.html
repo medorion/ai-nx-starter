@@ -15,7 +15,14 @@
   <!-- Search Section -->
   <div class="search-section">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-      <input type="text" nz-input name="searchQuery" placeholder="Search by name, org code, or app code..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+      <input
+        type="text"
+        nz-input
+        name="searchQuery"
+        placeholder="Search by name, org code, or app code..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+      />
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSearch (click)="onSearch()">
@@ -32,7 +39,8 @@
     [nzLoading]="loading"
     [nzShowPagination]="false"
     nzSize="middle"
-    class="solutions-table">
+    class="solutions-table"
+  >
     <thead>
       <tr>
         <th>Name</th>
@@ -66,14 +74,7 @@
         </td>
         <td>
           <div class="form-action-buttons">
-            <button
-              class="mr-3"
-              nz-button
-              nzType="default"
-              nzSize="small"
-              (click)="onEditSolution(solution)"
-              nz-tooltip="Edit solution"
-            >
+            <button class="mr-3" nz-button nzType="default" nzSize="small" (click)="onEditSolution(solution)" nz-tooltip="Edit solution">
               <span nz-icon nzType="edit"></span>
             </button>
             <button

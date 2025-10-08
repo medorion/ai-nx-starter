@@ -16,10 +16,7 @@ import { FormDebugLinkComponent } from '../../shared/components/form-debug-link/
 ```
 
 ```html
-<app-form-debug-link
-  [formGroup]="myFormGroup"
-  linkText="Debug Form"
-></app-form-debug-link>
+<app-form-debug-link [formGroup]="myFormGroup" linkText="Debug Form"></app-form-debug-link>
 ```
 
 ### Advanced Usage with All Options
@@ -39,16 +36,16 @@ import { FormDebugLinkComponent } from '../../shared/components/form-debug-link/
 
 ## Inputs
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `formGroup` | `FormGroup` | `undefined` | The FormGroup to debug |
-| `title` | `string` | `'Form Debug'` | Title shown in the modal |
-| `showValues` | `boolean` | `true` | Show form values section |
-| `showErrors` | `boolean` | `true` | Show form errors section |
-| `showStatus` | `boolean` | `true` | Show form status section |
-| `collapsed` | `boolean` | `false` | Initial collapsed state |
-| `linkText` | `string` | `'Debug Form'` | Text shown on the link button |
-| `modalWidth` | `string` | `'800px'` | Width of the modal |
+| Input        | Type        | Default        | Description                   |
+| ------------ | ----------- | -------------- | ----------------------------- |
+| `formGroup`  | `FormGroup` | `undefined`    | The FormGroup to debug        |
+| `title`      | `string`    | `'Form Debug'` | Title shown in the modal      |
+| `showValues` | `boolean`   | `true`         | Show form values section      |
+| `showErrors` | `boolean`   | `true`         | Show form errors section      |
+| `showStatus` | `boolean`   | `true`         | Show form status section      |
+| `collapsed`  | `boolean`   | `false`        | Initial collapsed state       |
+| `linkText`   | `string`    | `'Debug Form'` | Text shown on the link button |
+| `modalWidth` | `string`    | `'800px'`      | Width of the modal            |
 
 ## Features
 
@@ -72,18 +69,18 @@ import { FormDebugLinkComponent } from '../../shared/components/form-debug-link/
   template: `
     <form [formGroup]="myForm">
       <!-- Your form fields -->
-      
+
       <div class="form-actions">
         <button type="submit">Submit</button>
         <app-form-debug-link [formGroup]="myForm"></app-form-debug-link>
       </div>
     </form>
-  `
+  `,
 })
 export class MyFormComponent {
   myForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email])
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
 }
 ```

@@ -1,49 +1,42 @@
-import { ErrorHandler, NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { provideAnimations } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
-import { ReactiveFormsModule } from "@angular/forms";
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from "@angular/common/http";
-import { provideZoneChangeDetection } from "@angular/core";
+import { ErrorHandler, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideZoneChangeDetection } from '@angular/core';
 
 // Auth0
-import {
-  AuthModule,
-  AuthService as Auth0Service,
-  AuthClientConfig,
-} from "@auth0/auth0-angular";
+import { AuthModule, AuthService as Auth0Service, AuthClientConfig } from '@auth0/auth0-angular';
 
 // ng-zorro locale
-import { NZ_I18N, en_US } from "ng-zorro-antd/i18n";
-import { registerLocaleData } from "@angular/common";
-import en from "@angular/common/locales/en";
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
 
-import { AppComponent } from "./app.component";
-import { routes } from "./app.routes";
+import { AppComponent } from './app.component';
+import { routes } from './app.routes';
 
 // Shared Modules
-import { SharedModule } from "./shared/shared.module";
+import { SharedModule } from './shared/shared.module';
 
 // Layout Module
-import { LayoutModule } from "./layout/layout.module";
+import { LayoutModule } from './layout/layout.module';
 
 // Examples Module
-import { ExamplesModule } from "./features/examples/examples.module";
-import { GlobalErrorHandler } from "./core/interceptors/global-error-handler";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { GlobalHttpInterceptor } from "./core/interceptors/global-http.interceptor";
-import { HideInProdDirective } from "./shared/directives/hide-in-prod.directive";
-import { APP_INITIALIZER } from "@angular/core";
-import { AppConfigService } from "@medorion/api-client";
-import { UIAppContextService } from "./core/services/ui-app-context.service";
-import { UI_APP_CONTEXT } from "./core/intefaces/ui-app-context.interface";
-import { environment } from "../environments/environment";
-import { UiAppContextServiceDev } from "./core/services/ui-app-context.service-dev";
-import { FingerprintService } from "./core/services/fingerprint.service";
-import { StorageKey } from "./core/enums/storage-key.enum";
+import { ExamplesModule } from './features/examples/examples.module';
+import { GlobalErrorHandler } from './core/interceptors/global-error-handler';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GlobalHttpInterceptor } from './core/interceptors/global-http.interceptor';
+import { HideInProdDirective } from './shared/directives/hide-in-prod.directive';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from '@medorion/api-client';
+import { UIAppContextService } from './core/services/ui-app-context.service';
+import { UI_APP_CONTEXT } from './core/intefaces/ui-app-context.interface';
+import { environment } from '../environments/environment';
+import { UiAppContextServiceDev } from './core/services/ui-app-context.service-dev';
+import { FingerprintService } from './core/services/fingerprint.service';
+import { StorageKey } from './core/enums/storage-key.enum';
 // Register locale data
 registerLocaleData(en);
 
@@ -51,7 +44,7 @@ registerLocaleData(en);
 function initApp(
   appConfigService: AppConfigService,
   authClientConfig: AuthClientConfig,
-  fingerprintService: FingerprintService
+  fingerprintService: FingerprintService,
 ): () => Promise<void> {
   return async () => {
     // Calc finger print
@@ -72,8 +65,7 @@ function initApp(
       clientId: authConfig.clientId,
       authorizationParams: authConfig.authorizationParams,
       cacheLocation: authConfig.cacheLocation,
-      useRefreshTokens:
-        appConfigService.getConfig().auth0Settings.useRefreshTokens,
+      useRefreshTokens: appConfigService.getConfig().auth0Settings.useRefreshTokens,
     });
   };
 }
@@ -89,8 +81,8 @@ function initApp(
     SharedModule,
     LayoutModule,
     AuthModule.forRoot({
-      domain: "placeholder-domain.auth0.com", // Will be overridden
-      clientId: "placeholder-client-id", // Will be overridden
+      domain: 'placeholder-domain.auth0.com', // Will be overridden
+      clientId: 'placeholder-client-id', // Will be overridden
     }),
   ],
   providers: [

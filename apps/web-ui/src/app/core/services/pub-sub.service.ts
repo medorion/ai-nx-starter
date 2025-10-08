@@ -1,22 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, EMPTY, merge } from 'rxjs';
-import {
-  filter,
-  map,
-  debounceTime,
-  throttleTime,
-  shareReplay,
-  distinctUntilChanged,
-  tap
-} from 'rxjs/operators';
+import { filter, map, debounceTime, throttleTime, shareReplay, distinctUntilChanged, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  EventPayload,
-  SubscriptionConfig,
-  EventSubscription,
-  IPubSubService
-} from './pub-sub.types';
+import { EventPayload, SubscriptionConfig, EventSubscription, IPubSubService } from './pub-sub.types';
 
 /**
  * Internal subscription tracker
@@ -37,7 +24,7 @@ interface EventBuffer {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PubSubService implements IPubSubService, OnDestroy {
   private readonly eventSubjects = new Map<string, Subject<EventPayload>>();
@@ -65,7 +52,7 @@ export class PubSubService implements IPubSubService, OnDestroy {
       payload,
       timestamp: Date.now(),
       source,
-      correlationId: uuidv4()
+      correlationId: uuidv4(),
     };
 
     // Add to history for debugging
@@ -94,10 +81,7 @@ export class PubSubService implements IPubSubService, OnDestroy {
   /**
    * Subscribe to events of a specific type
    */
-  subscribe<T = any>(
-    eventType: string,
-    config: SubscriptionConfig = {}
-  ): Observable<EventPayload<T>> {
+  subscribe<T = any>(eventType: string, config: SubscriptionConfig = {}): Observable<EventPayload<T>> {
     const subscriptionId = uuidv4();
 
     // Get or create subject for this event type
@@ -114,8 +98,8 @@ export class PubSubService implements IPubSubService, OnDestroy {
     if (config.replay) {
       const bufferedEvents = this.getBufferedEvents(eventType, config.bufferSize || 1);
       if (bufferedEvents.length > 0) {
-        const replayObservable = new Observable<EventPayload<T>>(subscriber => {
-          bufferedEvents.forEach(event => subscriber.next(event));
+        const replayObservable = new Observable<EventPayload<T>>((subscriber) => {
+          bufferedEvents.forEach((event) => subscriber.next(event));
           subscriber.complete();
         });
         observable = merge(replayObservable, observable);
@@ -139,12 +123,12 @@ export class PubSubService implements IPubSubService, OnDestroy {
 
     // Share replay for multiple subscribers
     observable = observable.pipe(
-      tap(event => {
+      tap((event) => {
         if (this.debugMode) {
           console.log(`[PubSubService] Event received by subscriber ${subscriptionId}:`, event);
         }
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
     // Track subscription
@@ -152,14 +136,14 @@ export class PubSubService implements IPubSubService, OnDestroy {
       id: subscriptionId,
       eventType,
       subject: eventSubject,
-      config
+      config,
     });
 
     // Return subscription handle
     const subscription: EventSubscription = {
       eventType,
       subscriptionId,
-      unsubscribe: () => this.unsubscribe(subscriptionId)
+      unsubscribe: () => this.unsubscribe(subscriptionId),
     };
 
     if (this.debugMode) {
@@ -172,25 +156,16 @@ export class PubSubService implements IPubSubService, OnDestroy {
   /**
    * Subscribe to multiple event types
    */
-  subscribeToMultiple<T = any>(
-    eventTypes: string[],
-    config: SubscriptionConfig = {}
-  ): Observable<EventPayload<T>> {
-    const observables = eventTypes.map(eventType =>
-      this.subscribe<T>(eventType, config)
-    );
+  subscribeToMultiple<T = any>(eventTypes: string[], config: SubscriptionConfig = {}): Observable<EventPayload<T>> {
+    const observables = eventTypes.map((eventType) => this.subscribe<T>(eventType, config));
 
-    return merge(...observables).pipe(
-      distinctUntilChanged((a, b) => a.correlationId === b.correlationId)
-    );
+    return merge(...observables).pipe(distinctUntilChanged((a, b) => a.correlationId === b.correlationId));
   }
 
   /**
    * Subscribe to all events (useful for debugging/logging)
    */
-  subscribeToAll<T = any>(
-    config: SubscriptionConfig = {}
-  ): Observable<EventPayload<T>> {
+  subscribeToAll<T = any>(config: SubscriptionConfig = {}): Observable<EventPayload<T>> {
     let observable = this.allEventsSubject.asObservable() as Observable<EventPayload<T>>;
 
     // Apply filter if provided
@@ -223,9 +198,7 @@ export class PubSubService implements IPubSubService, OnDestroy {
    * Get list of all active event types
    */
   getActiveEventTypes(): string[] {
-    return Array.from(this.eventSubjects.keys()).filter(eventType =>
-      this.hasSubscribers(eventType)
-    );
+    return Array.from(this.eventSubjects.keys()).filter((eventType) => this.hasSubscribers(eventType));
   }
 
   /**
@@ -233,7 +206,7 @@ export class PubSubService implements IPubSubService, OnDestroy {
    */
   clear(): void {
     // Complete all subjects
-    this.eventSubjects.forEach(subject => {
+    this.eventSubjects.forEach((subject) => {
       if (!subject.closed) {
         subject.complete();
       }
@@ -272,8 +245,8 @@ export class PubSubService implements IPubSubService, OnDestroy {
       buffers: Array.from(this.eventBuffers.entries()).map(([type, buffer]) => ({
         type,
         eventCount: buffer.events.length,
-        maxSize: buffer.maxSize
-      }))
+        maxSize: buffer.maxSize,
+      })),
     };
   }
 

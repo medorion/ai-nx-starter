@@ -47,7 +47,7 @@ export class SolutionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentOrgCode = this.uiAppContextService.currentOrganization?.code || null;
-    
+
     if (!this.currentOrgCode) {
       this.message.error('No organization selected');
       this.navigateToList();
@@ -122,7 +122,7 @@ export class SolutionFormComponent implements OnInit, OnDestroy {
           creationUserId: currentUser.id,
         });
       }
-      
+
       // Force form validation
       this.solutionForm.markAllAsTouched();
       this.solutionForm.updateValueAndValidity();
@@ -179,10 +179,10 @@ export class SolutionFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.solutionForm.valid) {
       const formValue = this.solutionForm.getRawValue();
-      
+
       // Build communication settings object
       const defaultCommunicationSettings = this.buildCommunicationSettings(formValue);
-      
+
       const solutionData: SolutionDto = {
         name: formValue.name,
         orgCode: this.currentOrgCode!,

@@ -10,13 +10,7 @@
   <!-- Search Bar -->
   <div class="search-section">
     <nz-input-group [nzPrefix]="prefixIconSearch" class="search-input">
-      <input
-        type="text"
-        nz-input
-        placeholder="Search by name or email..."
-        [(ngModel)]="searchQuery"
-        (ngModelChange)="onSearch()"
-      />
+      <input type="text" nz-input placeholder="Search by name or email..." [(ngModel)]="searchQuery" (ngModelChange)="onSearch()" />
     </nz-input-group>
     <ng-template #prefixIconSearch>
       <span nz-icon nzType="search"></span>
@@ -79,10 +73,7 @@
 
   <!-- Empty State Template -->
   <ng-template #emptyTemplate>
-    <nz-empty
-      nzNotFoundContent="No users found"
-      [nzNotFoundFooter]="emptyFooter"
-    >
+    <nz-empty nzNotFoundContent="No users found" [nzNotFoundFooter]="emptyFooter">
       <ng-template #emptyFooter>
         <p *ngIf="searchQuery">Try adjusting your search criteria</p>
         <p *ngIf="!searchQuery">No users available</p>

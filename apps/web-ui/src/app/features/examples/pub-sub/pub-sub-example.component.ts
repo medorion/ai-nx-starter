@@ -16,10 +16,10 @@ import { MessageService } from '../../../core/services/message.service';
  */
 @Component({
   selector: 'app-pub-sub-example',
+  standalone: false,
   templateUrl: './pub-sub-example.component.html',
   styleUrls: ['./pub-sub-example.component.less'],
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PubSubExampleComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
@@ -64,7 +64,7 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
     private eventBus: EventBusService,
     private pubSub: PubSubService,
     private logger: LoggerService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -80,9 +80,10 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
 
   private subscribeToEvents(): void {
     // Subscribe to all events for demonstration
-    this.pubSub.subscribeToAll()
+    this.pubSub
+      .subscribeToAll()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.recentEvents.unshift(event);
         if (this.recentEvents.length > 10) {
           this.recentEvents.pop();
@@ -91,33 +92,37 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       });
 
     // Subscribe to specific typed events
-    this.eventBus.onNotification()
+    this.eventBus
+      .onNotification()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.logger.info('📢 Notification received:', event.payload);
         // Here you would typically show the notification in your UI
         this.showNotificationInConsole(event.payload);
       });
 
-    this.eventBus.onThemeChanged()
+    this.eventBus
+      .onThemeChanged()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.logger.info('🎨 Theme changed:', event.payload);
         // Here you would apply the theme
         this.applyTheme(event.payload.theme);
       });
 
-    this.eventBus.onUserLoggedIn()
+    this.eventBus
+      .onUserLoggedIn()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.logger.info('👤 User logged in:', event.payload);
         // Here you would update the user state
       });
 
     // Custom event subscription
-    this.eventBus.onCustomEvent('demo:custom-event')
+    this.eventBus
+      .onCustomEvent('demo:custom-event')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
+      .subscribe((event) => {
         this.logger.info('🔧 Custom event received:', event.payload);
       });
   }
@@ -133,8 +138,8 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       duration: 5000,
       action: {
         label: 'Dismiss',
-        handler: () => console.log('Notification dismissed')
-      }
+        handler: () => console.log('Notification dismissed'),
+      },
     };
 
     this.eventBus.publishNotification(notification);
@@ -145,7 +150,7 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
 
     this.eventBus.publishThemeChanged({
       theme: newTheme,
-      previousTheme: this.currentTheme
+      previousTheme: this.currentTheme,
     });
   }
 
@@ -154,7 +159,7 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       userId: `user-${Math.random().toString(36).substr(2, 9)}`,
       email: 'demo@example.com',
       roles: ['user', 'demo'],
-      token: 'demo-jwt-token'
+      token: 'demo-jwt-token',
     });
   }
 
@@ -165,8 +170,8 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       randomData: Math.random(),
       metadata: {
         source: 'PubSubExampleComponent',
-        version: '1.0.0'
-      }
+        version: '1.0.0',
+      },
     });
   }
 
@@ -175,7 +180,7 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       entityType: 'demo-item',
       data: { id: Math.random(), name: 'Demo Item', value: Math.random() * 100 },
       operation: 'update',
-      id: `demo-${Date.now()}`
+      id: `demo-${Date.now()}`,
     });
   }
 
@@ -185,8 +190,8 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
       formData: {
         name: 'Demo User',
         email: 'demo@example.com',
-        preferences: ['notifications', 'themes']
-      }
+        preferences: ['notifications', 'themes'],
+      },
     });
   }
 
@@ -206,7 +211,7 @@ this.eventBus.onCustomEvent('my:custom-event').subscribe(event => {
   private updateDebugInfo(): void {
     this.debugInfo = {
       ...this.eventBus.getDebugInfo(),
-      debugMode: false // This would come from the service if exposed
+      debugMode: false, // This would come from the service if exposed
     };
   }
 

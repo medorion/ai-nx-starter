@@ -154,7 +154,7 @@ export class ServerFlowsComponent implements OnInit, OnDestroy {
 
   onViewDetails(flow: SyncServiceFlowDto): void {
     this.drawerVisible = true;
-    
+
     // Fetch flow with parsed workflow from server
     this.serverFlowsService
       .getFlowWithWorkflow(flow.id!)

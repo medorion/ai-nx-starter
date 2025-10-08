@@ -1,24 +1,24 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 // ng-zorro modules
-import { NzLayoutModule } from "ng-zorro-antd/layout";
-import { NzMenuModule } from "ng-zorro-antd/menu";
-import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
-import { NzAvatarModule } from "ng-zorro-antd/avatar";
-import { NzDropDownModule } from "ng-zorro-antd/dropdown";
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 // Shared modules
-import { IconsModule } from "../shared/icons/icons.module";
-import { SharedModule } from "../shared/shared.module";
+import { IconsModule } from '../shared/icons/icons.module';
+import { SharedModule } from '../shared/shared.module';
 
 // Layout Components
-import { HeaderComponent } from "./header/header.component";
-import { FooterComponent } from "./footer/footer.component";
-import { UI_APP_CONTEXT } from "../core/intefaces/ui-app-context.interface";
-import { environment } from "../../environments/environment";
-import { UIAppContextService } from "../core/services/ui-app-context.service";
-import { UiAppContextServiceDev } from "../core/services/ui-app-context.service-dev";
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { UI_APP_CONTEXT } from '../core/intefaces/ui-app-context.interface';
+import { environment } from '../../environments/environment';
+import { UIAppContextService } from '../core/services/ui-app-context.service';
+import { UiAppContextServiceDev } from '../core/services/ui-app-context.service-dev';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],

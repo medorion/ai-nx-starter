@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 export interface IAuth0Settings {
   domain: string;
@@ -8,7 +8,7 @@ export interface IAuth0Settings {
     audience?: string;
     scope?: string;
   };
-  cacheLocation: "localstorage" | "memory";
+  cacheLocation: 'localstorage' | 'memory';
   useRefreshTokens: boolean;
 }
 
@@ -24,35 +24,35 @@ export interface ApiConfig {
   auth0Settings: IAuth0Settings;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class AppConfigService {
   private config: ApiConfig = {
-    apiUrl: "http://localhost:3030",
+    apiUrl: 'http://localhost:3030',
     enableLogging: false,
     retryCount: 3,
     timeout: 30000,
-    orgCode: "",
-    token: "",
-    fingerprint: "",
-    version: "1.0.0",
+    orgCode: '',
+    token: '',
+    fingerprint: '',
+    version: '1.0.0',
     auth0Settings: {
-      domain: "",
-      clientId: "",
+      domain: '',
+      clientId: '',
       authorizationParams: {},
-      cacheLocation: "localstorage",
+      cacheLocation: 'localstorage',
       useRefreshTokens: true,
     },
   };
 
   loadConfig(): Promise<void> {
-    return fetch("/assets/config.json")
+    return fetch('/assets/config.json')
       .then((response) => response.json())
       .then((config) => {
         this.config = { ...this.config, ...config };
       })
       .catch(() => {
         // Use default config if loading fails
-        console.warn("Could not load config.json, using default configuration");
+        console.warn('Could not load config.json, using default configuration');
       });
   }
 
@@ -77,23 +77,23 @@ export class AppConfigService {
   }
 
   get orgCode(): string {
-    return this.config.orgCode || "";
-  }
-
-  get fingerprint(): string {
-    return this.config.fingerprint || "";
-  }
-
-  get token(): string {
-    return this.config.token || "";
+    return this.config.orgCode || '';
   }
 
   set orgCode(value: string) {
     this.config.orgCode = value;
   }
 
+  get fingerprint(): string {
+    return this.config.fingerprint || '';
+  }
+
   set fingerprint(value: string) {
     this.config.fingerprint = value;
+  }
+
+  get token(): string {
+    return this.config.token || '';
   }
 
   set token(value: string) {

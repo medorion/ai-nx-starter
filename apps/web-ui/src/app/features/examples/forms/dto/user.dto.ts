@@ -1,48 +1,41 @@
-import {
-  IsBoolean,
-  IsEmail,
-  IsString,
-  MinLength,
-  IsNotEmpty,
-  IsUrl,
-} from "class-validator";
+import { IsBoolean, IsEmail, IsString, MinLength, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class ClientUserDto {
   @IsEmail()
   @IsNotEmpty()
-  public email: string = "";
+  public email = '';
 
   @IsString()
   @MinLength(6)
   @IsNotEmpty()
-  public password: string = "";
+  public password = '';
 
   @IsString()
   @MinLength(6)
   @IsNotEmpty()
-  public checkPassword: string = "";
+  public checkPassword = '';
 
   @IsString()
   @MinLength(2)
   @IsNotEmpty()
-  public nickname: string = "";
+  public nickname = '';
 
   @IsString()
   @IsNotEmpty()
-  public phoneNumberPrefix: string = "+86";
+  public phoneNumberPrefix = '+86';
 
   @IsString()
   @IsNotEmpty()
-  public phoneNumber: string = "";
+  public phoneNumber = '';
 
   @IsUrl()
   @IsNotEmpty()
-  public website: string = "";
+  public website = '';
 
   @IsString()
   @IsNotEmpty()
-  public captcha: string = "";
+  public captcha = '';
 
   @IsBoolean()
-  public agree: boolean = false;
+  public agree = false;
 }

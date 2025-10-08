@@ -235,7 +235,7 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
       }
 
       // Return the simplified type with all import names
-      const importNamesArray = Array.from(typeNames).filter(name => availableTypes.has(name));
+      const importNamesArray = Array.from(typeNames).filter((name) => availableTypes.has(name));
 
       return {
         type: simplifiedType,
@@ -244,7 +244,7 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
     }
 
     // Single simple type - extract the model name from the import path
-    const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:\>|\[\]|$)/);
+    const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:>|\[\]|$)/);
     if (modelNameMatch && modelNameMatch[1]) {
       const modelName = modelNameMatch[1];
 
@@ -280,7 +280,7 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
 
     // If we found any types, return the simplified version
     if (typeNames.size > 0) {
-      const importNamesArray = Array.from(typeNames).filter(name => availableTypes.has(name));
+      const importNamesArray = Array.from(typeNames).filter((name) => availableTypes.has(name));
       return {
         type: simplifiedType,
         importName: importNamesArray.length > 0 ? importNamesArray.join(', ') : undefined,
@@ -291,7 +291,7 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
   // Extract model name from full import path for @medorion/backend-common (legacy support)
   if (cleanType.includes('import("') && cleanType.includes('packages/backend-common/')) {
     // Extract the model name from the import path
-    const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:\>|\[\]|$)/);
+    const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:>|\[\]|$)/);
     if (modelNameMatch && modelNameMatch[1]) {
       const modelName = modelNameMatch[1];
 
@@ -455,8 +455,8 @@ function extractApiMethods(
     const importNames = new Set<string>();
     if (returnTypeInfo.importName) {
       // Handle comma-separated import names
-      const importNameList = returnTypeInfo.importName.split(',').map(s => s.trim());
-      importNameList.forEach(name => importNames.add(name));
+      const importNameList = returnTypeInfo.importName.split(',').map((s) => s.trim());
+      importNameList.forEach((name) => importNames.add(name));
     }
 
     // Extract parameters with their decorators (excluding @Session, @Req and orgCode path params)
@@ -471,7 +471,7 @@ function extractApiMethods(
         // Exclude orgCode path parameters
         if (decorator.getName() === 'Param') {
           const args = decorator.getArguments()[0];
-          const paramName = args ? args.getText().replace(/['"\`]/g, '') : p.getName();
+          const paramName = args ? args.getText().replace(/['"` ]/g, '') : p.getName();
           const actualParamName = p.getName();
           // Check for orgCode parameter name or ORG_CODE_PATH_PARAM usage
           if (paramName === 'orgCode' || paramName.includes('ORG_CODE_PATH_PARAM') || actualParamName === 'orgCode') {
@@ -483,14 +483,14 @@ function extractApiMethods(
       })
       .map((p) => {
         const decorator = p.getDecorators()[0];
-        let decoratorName = '';
-        let decoratorArgs = '';
+        let decoratorName;
+        let decoratorArgs;
 
         if (decorator) {
           decoratorName = decorator.getName();
           const args = decorator.getArguments()[0];
           if (args) {
-            decoratorArgs = args.getText().replace(/['"\`]/g, '');
+            decoratorArgs = args.getText().replace(/['"` ]/g, '');
           }
         }
 
@@ -502,8 +502,8 @@ function extractApiMethods(
 
         if (paramTypeInfo.importName) {
           // Handle comma-separated import names
-          const paramImportList = paramTypeInfo.importName.split(',').map(s => s.trim());
-          paramImportList.forEach(name => importNames.add(name));
+          const paramImportList = paramTypeInfo.importName.split(',').map((s) => s.trim());
+          paramImportList.forEach((name) => importNames.add(name));
         }
 
         return {

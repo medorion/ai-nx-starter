@@ -1,4 +1,4 @@
 export enum JourneyRestartType {
-    AfterCompletion = 'after_completion',
-    AfterPeriod = 'after_period',
-  }
+  AfterCompletion = 'after_completion',
+  AfterPeriod = 'after_period',
+}

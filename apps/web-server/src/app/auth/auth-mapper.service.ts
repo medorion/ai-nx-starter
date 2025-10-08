@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { ClientUserDto } from "@medorion/types";
-import { SessionInfo } from "@medorion/backend-common";
+import { Injectable } from '@nestjs/common';
+import { ClientUserDto } from '@medorion/types';
+import { SessionInfo } from '@medorion/backend-common';
 
 @Injectable()
 export class AuthMapperService {
@@ -29,9 +29,9 @@ export class AuthMapperService {
    * @returns First name or email prefix
    */
   private extractFirstName(email: string): string {
-    if (!email) return "";
-    const emailPrefix = email.split("@")[0];
-    const nameParts = emailPrefix.split(".");
+    if (!email) return '';
+    const emailPrefix = email.split('@')[0];
+    const nameParts = emailPrefix.split('.');
     return nameParts[0] ? this.capitalize(nameParts[0]) : emailPrefix;
   }
 
@@ -41,10 +41,10 @@ export class AuthMapperService {
    * @returns Last name or empty string
    */
   private extractLastName(email: string): string {
-    if (!email) return "";
-    const emailPrefix = email.split("@")[0];
-    const nameParts = emailPrefix.split(".");
-    return nameParts.length > 1 ? this.capitalize(nameParts[1]) : "";
+    if (!email) return '';
+    const emailPrefix = email.split('@')[0];
+    const nameParts = emailPrefix.split('.');
+    return nameParts.length > 1 ? this.capitalize(nameParts[1]) : '';
   }
 
   /**
@@ -64,7 +64,7 @@ export class AuthMapperService {
    * @returns Capitalized string
    */
   private capitalize(str: string): string {
-    if (!str) return "";
+    if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 }

@@ -36,11 +36,17 @@ import { SettingsComponent } from './settings/settings.component';
 
 // Import shared modules
 import { SharedModule } from '../../shared/shared.module';
-import { FormDebugComponent } from '../../shared/components/form-debug/form-debug.component';
-import { FormDebugLinkComponent } from '../../shared/components/form-debug-link/form-debug-link.component';
 
 @NgModule({
-  declarations: [SolutionsComponent, SolutionFormComponent, OrganizationsComponent, OrganizationFormComponent, UsersComponent, ServerFlowsComponent, SettingsComponent],
+  declarations: [
+    SolutionsComponent,
+    SolutionFormComponent,
+    OrganizationsComponent,
+    OrganizationFormComponent,
+    UsersComponent,
+    ServerFlowsComponent,
+    SettingsComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -68,10 +74,6 @@ import { FormDebugLinkComponent } from '../../shared/components/form-debug-link/
     NzCollapseModule,
     NzDrawerModule,
     NzAlertModule,
-
-    // Standalone components
-    FormDebugComponent,
-    FormDebugLinkComponent,
   ],
 })
 export class BackofficeModule {}

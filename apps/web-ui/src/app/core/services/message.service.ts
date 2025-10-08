@@ -1,16 +1,16 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { NzMessageService } from "ng-zorro-antd/message";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { EventBusService } from "./event-bus.service";
+import { Injectable, OnDestroy } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { EventBusService } from './event-bus.service';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class MessageService implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
     private message: NzMessageService,
-    private eventBus: EventBusService
+    private eventBus: EventBusService,
   ) {}
 
   ngOnDestroy(): void {
@@ -71,23 +71,23 @@ export class MessageService implements OnDestroy {
       });
   }
 
-  public success(message: string, duration: number = 3000): void {
+  public success(message: string, duration = 3000): void {
     this.message.success(message, { nzDuration: duration });
   }
 
-  public error(message: string, duration: number = 5000): void {
+  public error(message: string, duration = 5000): void {
     this.message.error(message, { nzDuration: duration });
   }
 
-  public warning(message: string, duration: number = 4000): void {
+  public warning(message: string, duration = 4000): void {
     this.message.warning(message, { nzDuration: duration });
   }
 
-  public info(message: string, duration: number = 3000): void {
+  public info(message: string, duration = 3000): void {
     this.message.info(message, { nzDuration: duration });
   }
 
-  public loading(message: string, duration: number = 0): void {
+  public loading(message: string, duration = 0): void {
     this.message.loading(message, { nzDuration: duration });
   }
 
@@ -97,9 +97,9 @@ export class MessageService implements OnDestroy {
 }
 
 export enum MessageType {
-  Success = "success",
-  Error = "error",
-  Warning = "warning",
-  Info = "info",
-  Loading = "loading",
+  Success = 'success',
+  Error = 'error',
+  Warning = 'warning',
+  Info = 'info',
+  Loading = 'loading',
 }

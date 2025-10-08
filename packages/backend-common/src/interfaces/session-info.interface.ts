@@ -1,4 +1,4 @@
-import { Role } from "@medorion/types";
+import { Role } from '@medorion/types';
 
 export interface SessionInfo {
   userId: string;

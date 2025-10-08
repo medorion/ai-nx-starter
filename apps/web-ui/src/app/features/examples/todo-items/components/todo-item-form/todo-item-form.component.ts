@@ -178,7 +178,7 @@ export class TodoItemFormComponent implements OnInit, OnDestroy {
         group.addControl('unit', this.fb.control((subItem as any)?.unit || ''));
         break;
 
-      case 'checklist':
+      case 'checklist': {
         const existingItems = (subItem as any)?.items || [];
         const checklistItems = this.fb.array(
           existingItems.map((item: ChecklistItemDto) =>
@@ -191,6 +191,7 @@ export class TodoItemFormComponent implements OnInit, OnDestroy {
         );
         group.addControl('items', checklistItems);
         break;
+      }
 
       case 'link':
         group.addControl('url', this.fb.control((subItem as any)?.url || '', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]));

@@ -1,12 +1,5 @@
-import {
-  IsString,
-  IsEmail,
-  IsOptional,
-  IsArray,
-  IsNotEmpty,
-  IsEnum,
-} from "class-validator";
-import { Role } from "../../../enums/core/role.enum";
+import { IsString, IsEmail, IsOptional, IsArray, IsNotEmpty, IsEnum } from 'class-validator';
+import { Role } from '../../../enums/core/role.enum';
 
 export class Auth0UserDto {
   @IsString()

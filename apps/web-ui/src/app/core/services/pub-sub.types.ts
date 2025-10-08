@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 /**
  * Generic event payload interface
@@ -48,25 +48,17 @@ export interface IPubSubService {
   /**
    * Subscribe to events of a specific type
    */
-  subscribe<T = any>(
-    eventType: string,
-    config?: SubscriptionConfig
-  ): Observable<EventPayload<T>>;
+  subscribe<T = any>(eventType: string, config?: SubscriptionConfig): Observable<EventPayload<T>>;
 
   /**
    * Subscribe to multiple event types
    */
-  subscribeToMultiple<T = any>(
-    eventTypes: string[],
-    config?: SubscriptionConfig
-  ): Observable<EventPayload<T>>;
+  subscribeToMultiple<T = any>(eventTypes: string[], config?: SubscriptionConfig): Observable<EventPayload<T>>;
 
   /**
    * Subscribe to all events (useful for debugging/logging)
    */
-  subscribeToAll<T = any>(
-    config?: SubscriptionConfig
-  ): Observable<EventPayload<T>>;
+  subscribeToAll<T = any>(config?: SubscriptionConfig): Observable<EventPayload<T>>;
 
   /**
    * Check if there are any subscribers for an event type
@@ -94,43 +86,43 @@ export interface IPubSubService {
  */
 export const CommonEvents = {
   // Authentication
-  USER_LOGGED_IN: "user:logged-in",
-  USER_LOGGED_OUT: "user:logged-out",
-  USER_SESSION_EXPIRED: "user:session-expired",
+  USER_LOGGED_IN: 'user:logged-in',
+  USER_LOGGED_OUT: 'user:logged-out',
+  USER_SESSION_EXPIRED: 'user:session-expired',
 
   // Navigation
-  ROUTE_CHANGED: "navigation:route-changed",
-  PAGE_LOADED: "navigation:page-loaded",
+  ROUTE_CHANGED: 'navigation:route-changed',
+  PAGE_LOADED: 'navigation:page-loaded',
 
   // UI State
-  THEME_CHANGED: "ui:theme-changed",
-  SIDEBAR_TOGGLED: "ui:sidebar-toggled",
-  MODAL_OPENED: "ui:modal-opened",
-  MODAL_CLOSED: "ui:modal-closed",
+  THEME_CHANGED: 'ui:theme-changed',
+  SIDEBAR_TOGGLED: 'ui:sidebar-toggled',
+  MODAL_OPENED: 'ui:modal-opened',
+  MODAL_CLOSED: 'ui:modal-closed',
 
   // Data Operations
-  DATA_LOADED: "data:loaded",
-  DATA_UPDATED: "data:updated",
-  DATA_DELETED: "data:deleted",
-  DATA_ERROR: "data:error",
+  DATA_LOADED: 'data:loaded',
+  DATA_UPDATED: 'data:updated',
+  DATA_DELETED: 'data:deleted',
+  DATA_ERROR: 'data:error',
 
   // Notifications
-  NOTIFICATION_SHOW: "notification:show",
-  NOTIFICATION_HIDE: "notification:hide",
+  NOTIFICATION_SHOW: 'notification:show',
+  NOTIFICATION_HIDE: 'notification:hide',
 
   // Form Events
-  FORM_SUBMITTED: "form:submitted",
-  FORM_RESET: "form:reset",
-  FORM_VALIDATION_ERROR: "form:validation-error",
+  FORM_SUBMITTED: 'form:submitted',
+  FORM_RESET: 'form:reset',
+  FORM_VALIDATION_ERROR: 'form:validation-error',
 
   // Network
-  NETWORK_ONLINE: "network:online",
-  NETWORK_OFFLINE: "network:offline",
+  NETWORK_ONLINE: 'network:online',
+  NETWORK_OFFLINE: 'network:offline',
 
   // Application Lifecycle
-  APP_INITIALIZED: "app:initialized",
-  APP_ERROR: "app:error",
-  CONFIG_LOADED: "app:config-loaded",
+  APP_INITIALIZED: 'app:initialized',
+  APP_ERROR: 'app:error',
+  CONFIG_LOADED: 'app:config-loaded',
 } as const;
 
 export type CommonEventType = (typeof CommonEvents)[keyof typeof CommonEvents];
@@ -152,13 +144,13 @@ export interface RouteChangedPayload {
 }
 
 export interface ThemeChangedPayload {
-  theme: "light" | "dark";
-  previousTheme: "light" | "dark";
+  theme: 'light' | 'dark';
+  previousTheme: 'light' | 'dark';
 }
 
 export interface NotificationPayload {
   id: string;
-  type: "success" | "error" | "warning" | "info";
+  type: 'success' | 'error' | 'warning' | 'info';
   title: string;
   message: string;
   duration?: number;
@@ -171,7 +163,7 @@ export interface NotificationPayload {
 export interface DataOperationPayload<T = any> {
   entityType: string;
   data: T;
-  operation: "create" | "update" | "delete";
+  operation: 'create' | 'update' | 'delete';
   id?: string;
 }
 
@@ -199,40 +191,40 @@ export interface HttpErrorPayload {
  * Session Expired payload (ErrorStatusCode.SessionExpired = 455)
  */
 export interface SessionExpiredPayload extends HttpErrorPayload {
-  type: "SessionExpired";
+  type: 'SessionExpired';
 }
 
 /**
  * App Warning payload (ErrorStatusCode.AppWarning = 456)
  */
 export interface AppWarningPayload extends HttpErrorPayload {
-  type: "AppWarning";
+  type: 'AppWarning';
 }
 
 /**
  * Concurrency Exception payload (ErrorStatusCode.ConcurencyException = 457)
  */
 export interface ConcurrencyExceptionPayload extends HttpErrorPayload {
-  type: "ConcurrencyException";
+  type: 'ConcurrencyException';
 }
 
 /**
  * Unauthorized Login payload (ErrorStatusCode.UnauthorizedLogin = 401)
  */
 export interface UnauthorizedPayload extends HttpErrorPayload {
-  type: "Unauthorized";
+  type: 'Unauthorized';
 }
 
 /**
  * Unauthorized Login payload (ErrorStatusCode.UnauthorizedLogin = 403)
  */
 export interface ForbiddenPayload extends HttpErrorPayload {
-  type: "Forbidden";
+  type: 'Forbidden';
 }
 
 /**
  * App Error payload (ErrorStatusCode.AppError = 459)
  */
 export interface AppErrorPayload extends HttpErrorPayload {
-  type: "AppError";
+  type: 'AppError';
 }

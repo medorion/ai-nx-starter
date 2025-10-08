@@ -1,42 +1,40 @@
-import { Component, signal, OnInit, Inject } from "@angular/core";
-import { UIAppContextService } from "./core/services/ui-app-context.service";
-import { LoggerService } from "./core/services/logger.service";
-import { MessageService } from "./core/services/message.service";
-import {
-  UI_APP_CONTEXT,
-  UIAppContext,
-} from "./core/intefaces/ui-app-context.interface";
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { LoggerService } from './core/services/logger.service';
+import { MessageService } from './core/services/message.service';
+import { UI_APP_CONTEXT, UIAppContext } from './core/intefaces/ui-app-context.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   standalone: false,
-  templateUrl: "./app.html",
-  styleUrl: "./app.less",
+  templateUrl: './app.html',
+  styleUrl: './app.less',
 })
-export class AppComponent implements OnInit {
-  protected readonly title = signal("example-app");
+export class AppComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
 
   constructor(
     @Inject(UI_APP_CONTEXT) private readonly uiAppContextService: UIAppContext,
     private readonly logger: LoggerService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
     // Initialize the UI app context and subscribe to handle the response
     this.messageService.initializeHttpErrorHandling();
-    // Mainly used for dev modeß
+    // Mainly used for dev mode
     this.uiAppContextService.init();
-    // this.uiAppContextService.init().subscribe({
-    //   next: (_context) => {
-    //     this.logger.info(
-    //       "Medorion started succesfully.UI App Context initialized"
-    //     );
-    //   },
-    //   error: (error) => {
-    //     this.logger.error("Failed to initialize UI App Context:", error);
-    //     this.messageService.error("Failed to initialize UI App Context");
-    //   },
-    // });
+
+    this.subscription = this.uiAppContextService.error$.subscribe((error) => {
+      // Initial value is null
+      if (error) {
+        this.logger.error(`Application error, ${error}`);
+        this.messageService.error(`Application error, ${error}`);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

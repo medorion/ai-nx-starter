@@ -1,44 +1,20 @@
 import { Component, Input, Optional, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-form-debug',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NzCardModule,
-    NzBadgeModule,
-    NzTagModule,
-    NzIconModule,
-    NzCollapseModule,
-    NzTypographyModule,
-    NzSpaceModule,
-    NzDividerModule,
-    NzGridModule,
-    NzToolTipModule,
-  ],
+  standalone: false,
   templateUrl: './form-debug.component.html',
   styleUrl: './form-debug.component.less',
 })
 export class FormDebugComponent {
   @Input() formGroup?: FormGroup;
-  @Input() title: string = 'Form Debug';
-  @Input() showValues: boolean = true;
-  @Input() showErrors: boolean = true;
-  @Input() showStatus: boolean = true;
-  @Input() collapsed: boolean = false;
+  @Input() title = 'Form Debug';
+  @Input() showValues = true;
+  @Input() showErrors = true;
+  @Input() showStatus = true;
+  @Input() collapsed = false;
 
   constructor(@Optional() @Inject(NZ_MODAL_DATA) public modalData?: any) {
     // If opened in modal, use modal data to override inputs

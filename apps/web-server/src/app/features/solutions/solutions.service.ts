@@ -10,7 +10,7 @@ export class SolutionsService {
   constructor(
     private readonly solutionDbService: SolutionDbService,
     private readonly mapper: SolutionMapperService,
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(SolutionsService.name);
   }
@@ -64,17 +64,10 @@ export class SolutionsService {
     }
 
     // Check if solution with same org code and app code exists
-    const existing = await this.solutionDbService.findByOrgCodeAndAppCode(
-      createData.orgCode,
-      createData.appCode
-    );
+    const existing = await this.solutionDbService.findByOrgCodeAndAppCode(createData.orgCode, createData.appCode);
     if (existing) {
-      this.logger.error(
-        `Solution with orgCode ${createData.orgCode} and appCode ${createData.appCode} already exists`
-      );
-      throw new AppErrorException(
-        `Solution with orgCode ${createData.orgCode} and appCode ${createData.appCode} already exists`
-      );
+      this.logger.error(`Solution with orgCode ${createData.orgCode} and appCode ${createData.appCode} already exists`);
+      throw new AppErrorException(`Solution with orgCode ${createData.orgCode} and appCode ${createData.appCode} already exists`);
     }
 
     const solutionEntity = this.mapper.toEntity(createData);
@@ -86,51 +79,51 @@ export class SolutionsService {
   async update(id: string, updateData: Partial<SolutionDto>): Promise<SolutionDto | null> {
     const partialEntity = this.mapper.toPartialEntity(updateData);
     const updated = await this.solutionDbService.update(id, partialEntity);
-    
+
     if (updated) {
       this.logger.info(`Solution updated: ${id}`);
     }
-    
+
     return updated ? this.mapper.toDto(updated) : null;
   }
 
   async addAllowedUser(id: string, userId: string): Promise<SolutionDto | null> {
     const updated = await this.solutionDbService.addAllowedUser(id, userId);
-    
+
     if (updated) {
       this.logger.info(`User ${userId} added to solution ${id}`);
     }
-    
+
     return updated ? this.mapper.toDto(updated) : null;
   }
 
   async removeAllowedUser(id: string, userId: string): Promise<SolutionDto | null> {
     const updated = await this.solutionDbService.removeAllowedUser(id, userId);
-    
+
     if (updated) {
       this.logger.info(`User ${userId} removed from solution ${id}`);
     }
-    
+
     return updated ? this.mapper.toDto(updated) : null;
   }
 
   async setActiveStatus(id: string, isActive: boolean): Promise<SolutionDto | null> {
     const updated = await this.solutionDbService.setActiveStatus(id, isActive);
-    
+
     if (updated) {
       this.logger.info(`Solution ${id} active status set to ${isActive}`);
     }
-    
+
     return updated ? this.mapper.toDto(updated) : null;
   }
 
   async delete(id: string): Promise<boolean> {
     const deleted = await this.solutionDbService.delete(id);
-    
+
     if (deleted) {
       this.logger.info(`Solution deleted: ${id}`);
     }
-    
+
     return deleted;
   }
 

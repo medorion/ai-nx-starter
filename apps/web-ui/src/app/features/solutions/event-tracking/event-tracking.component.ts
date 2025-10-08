@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-event-tracking',
-  templateUrl: './event-tracking.component.html',
   standalone: false,
+  templateUrl: './event-tracking.component.html',
   styleUrl: './event-tracking.component.less',
 })
 export class EventTrackingComponent {}

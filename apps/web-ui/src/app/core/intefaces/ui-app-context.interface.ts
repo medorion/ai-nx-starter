@@ -1,11 +1,6 @@
-import { Observable } from "rxjs";
-import {
-  UIAppContextDto,
-  ClientUserDto,
-  IdCodeNameDto,
-  IdNameDto,
-} from "@medorion/types";
-import { InjectionToken } from "@angular/core";
+import { Observable } from 'rxjs';
+import { UIAppContextDto, ClientUserDto, IdCodeNameDto, IdNameDto } from '@medorion/types';
+import { InjectionToken } from '@angular/core';
 
 export interface UIAppContext {
   uiAppContext$: Observable<UIAppContextDto | null>;
@@ -30,6 +25,4 @@ export interface UIAppContext {
   isLoggedIn(): boolean;
 }
 
-export const UI_APP_CONTEXT = new InjectionToken<UIAppContext>(
-  "UI_APP_CONTEXT"
-);
+export const UI_APP_CONTEXT = new InjectionToken<UIAppContext>('UI_APP_CONTEXT');

@@ -20,7 +20,7 @@ export class TodoItemsListComponent implements OnInit, OnDestroy {
   searchQuery = '';
 
   // Filters
-  selectedStatus: string = '';
+  selectedStatus = '';
   selectedAssignee = '';
   selectedTags: string[] = [];
 
@@ -186,9 +186,10 @@ export class TodoItemsListComponent implements OnInit, OnDestroy {
             return `📝 ${(item as any).content.substring(0, 30)}${(item as any).content.length > 30 ? '...' : ''}`;
           case 'number':
             return `🔢 ${(item as any).value}${(item as any).unit ? ' ' + (item as any).unit : ''}`;
-          case 'checklist':
+          case 'checklist': {
             const completed = (item as any).items.filter((i: any) => i.completed).length;
             return `✅ ${completed}/${(item as any).items.length} completed`;
+          }
           case 'link':
             return `🔗 ${(item as any).title || (item as any).url}`;
           case 'date':

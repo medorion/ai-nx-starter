@@ -15,7 +15,14 @@
   <!-- Search Section -->
   <div class="search-section">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-      <input type="text" nz-input name="searchQuery" placeholder="Search by name or code..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+      <input
+        type="text"
+        nz-input
+        name="searchQuery"
+        placeholder="Search by name or code..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+      />
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSearch (click)="onSearch()">
@@ -32,7 +39,8 @@
     [nzLoading]="loading"
     [nzShowPagination]="false"
     nzSize="middle"
-    class="organizations-table">
+    class="organizations-table"
+  >
     <thead>
       <tr>
         <th>Name</th>
@@ -72,7 +80,9 @@
               *ngIf="statusActionMap[organization.status]"
               nz-button
               nz-popconfirm
-              [nzPopconfirmTitle]="'Are you sure you want to ' + statusActionMap[organization.status].action + ' ' + organization.name + '?'"
+              [nzPopconfirmTitle]="
+                'Are you sure you want to ' + statusActionMap[organization.status].action + ' ' + organization.name + '?'
+              "
               [nzOkText]="statusActionMap[organization.status].buttonText"
               nzCancelText="Cancel"
               (nzOnConfirm)="onToggleStatus(organization)"

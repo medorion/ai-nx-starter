@@ -1,3 +1,3 @@
 export class GoogleAnalyticsSettingsDto {
-    public viewId: string;
+  public viewId: string;
 }

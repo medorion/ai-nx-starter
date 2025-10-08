@@ -2,14 +2,10 @@
   <!-- Header Section -->
   <nz-card class="example-header" nzTitle="Pub-Sub System Example">
     <p>
-      This example demonstrates the pub-sub (publish-subscribe) event system that enables
-      communication between components, services, and modules throughout the application.
+      This example demonstrates the pub-sub (publish-subscribe) event system that enables communication between components, services, and
+      modules throughout the application.
     </p>
-    <nz-alert
-      nzType="info"
-      nzMessage="Open your browser's developer console to see detailed event logs"
-      nzShowIcon>
-    </nz-alert>
+    <nz-alert nzType="info" nzMessage="Open your browser's developer console to see detailed event logs" nzShowIcon> </nz-alert>
   </nz-card>
 
   <div nz-row [nzGutter]="[16, 16]">
@@ -17,62 +13,32 @@
     <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="8">
       <nz-card nzTitle="Event Publishers" class="actions-card">
         <div class="action-buttons">
-          <button
-            nz-button
-            nzType="primary"
-            nzBlock
-            (click)="publishNotification()"
-            class="action-btn">
+          <button nz-button nzType="primary" nzBlock (click)="publishNotification()" class="action-btn">
             <span nz-icon nzType="notification" nzTheme="outline"></span>
             Send Notification
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzBlock
-            (click)="publishThemeChange()"
-            class="action-btn">
+          <button nz-button nzType="default" nzBlock (click)="publishThemeChange()" class="action-btn">
             <span nz-icon [nzType]="currentTheme === 'dark' ? 'sun' : 'moon'" nzTheme="outline"></span>
             Toggle Theme ({{ currentTheme }})
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzBlock
-            (click)="publishUserLogin()"
-            class="action-btn">
+          <button nz-button nzType="default" nzBlock (click)="publishUserLogin()" class="action-btn">
             <span nz-icon nzType="user" nzTheme="outline"></span>
             Simulate User Login
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzBlock
-            (click)="publishCustomEvent()"
-            class="action-btn">
+          <button nz-button nzType="default" nzBlock (click)="publishCustomEvent()" class="action-btn">
             <span nz-icon nzType="experiment" nzTheme="outline"></span>
             Custom Event
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzBlock
-            (click)="publishDataUpdate()"
-            class="action-btn">
+          <button nz-button nzType="default" nzBlock (click)="publishDataUpdate()" class="action-btn">
             <span nz-icon nzType="database" nzTheme="outline"></span>
             Data Update
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzBlock
-            (click)="publishFormEvent()"
-            class="action-btn">
+          <button nz-button nzType="default" nzBlock (click)="publishFormEvent()" class="action-btn">
             <span nz-icon nzType="form" nzTheme="outline"></span>
             Form Event
           </button>
@@ -86,40 +52,21 @@
         <div nz-card-meta>
           <div nz-card-meta-title>
             <span>Debug Information</span>
-            <button
-              nz-button
-              nzSize="small"
-              nzType="link"
-              (click)="toggleDebugMode()"
-              class="debug-toggle">
-              Debug Mode
-            </button>
+            <button nz-button nzSize="small" nzType="link" (click)="toggleDebugMode()" class="debug-toggle">Debug Mode</button>
           </div>
         </div>
 
         <div class="debug-stats">
-          <nz-statistic
-            [nzValue]="debugInfo.activeEventTypes?.length || 0"
-            nzTitle="Active Event Types">
-          </nz-statistic>
+          <nz-statistic [nzValue]="debugInfo.activeEventTypes?.length || 0" nzTitle="Active Event Types"> </nz-statistic>
 
-          <nz-statistic
-            [nzValue]="debugInfo.totalSubscriptions || 0"
-            nzTitle="Total Subscriptions">
-          </nz-statistic>
+          <nz-statistic [nzValue]="debugInfo.totalSubscriptions || 0" nzTitle="Total Subscriptions"> </nz-statistic>
 
-          <nz-statistic
-            [nzValue]="recentEvents.length"
-            nzTitle="Recent Events">
-          </nz-statistic>
+          <nz-statistic [nzValue]="recentEvents.length" nzTitle="Recent Events"> </nz-statistic>
         </div>
 
         <div class="active-events" *ngIf="debugInfo.activeEventTypes?.length">
           <h4>Active Event Types:</h4>
-          <nz-tag
-            *ngFor="let eventType of debugInfo.activeEventTypes"
-            nzColor="blue"
-            class="event-type-tag">
+          <nz-tag *ngFor="let eventType of debugInfo.activeEventTypes" nzColor="blue" class="event-type-tag">
             {{ eventType }}
           </nz-tag>
         </div>
@@ -132,31 +79,16 @@
         <div nz-card-meta>
           <div nz-card-meta-title>
             <span>Event Log</span>
-            <button
-              nz-button
-              nzSize="small"
-              nzType="link"
-              nzDanger
-              (click)="clearEvents()">
-              Clear
-            </button>
+            <button nz-button nzSize="small" nzType="link" nzDanger (click)="clearEvents()">Clear</button>
           </div>
         </div>
 
         <div class="event-log-container">
-          <div
-            *ngIf="recentEvents.length === 0"
-            class="no-events">
-            <nz-empty
-              nzNotFoundImage="simple"
-              nzNotFoundContent="No events yet. Try clicking the buttons above!">
-            </nz-empty>
+          <div *ngIf="recentEvents.length === 0" class="no-events">
+            <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No events yet. Try clicking the buttons above!"> </nz-empty>
           </div>
 
-          <div
-            *ngFor="let event of recentEvents; trackBy: trackByCorrelationId"
-            class="event-item"
-            [attr.data-event-type]="event.type">
+          <div *ngFor="let event of recentEvents; trackBy: trackByCorrelationId" class="event-item" [attr.data-event-type]="event.type">
             <div class="event-header">
               <span class="event-type">{{ event.type }}</span>
               <span class="event-timestamp">{{ formatTimestamp(event.timestamp) }}</span>

@@ -7,9 +7,8 @@ import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-theme-toggle',
+  standalone: false,
   template: ` <nz-switch [ngModel]="isDark$ | async" (ngModelChange)="onToggle()" [nzSize]="size"> </nz-switch> `,
-  standalone: true,
-  imports: [CommonModule, FormsModule, NzSwitchModule],
 })
 export class ThemeToggleComponent {
   @Input() size: 'default' | 'small' = 'default';

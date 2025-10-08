@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import Redis from "ioredis";
-import { SessionInfo } from "../interfaces/session-info.interface";
-import { EnvVariables } from "../enums/env_variables.emum";
-import { PinoLogger } from "nestjs-pino";
-import { ConfigService } from "@nestjs/config";
-import { UnauthorizedLoginException } from "../exceptions/unauthorized-login.exception";
-import { RedisDb } from "../enums/redis_db.enum";
+import { Injectable } from '@nestjs/common';
+import Redis from 'ioredis';
+import { SessionInfo } from '../interfaces/session-info.interface';
+import { EnvVariables } from '../enums/env_variables.emum';
+import { PinoLogger } from 'nestjs-pino';
+import { ConfigService } from '@nestjs/config';
+import { UnauthorizedLoginException } from '../exceptions/unauthorized-login.exception';
+import { RedisDb } from '../enums/redis_db.enum';
 
 @Injectable()
 export class SessionService {
@@ -17,15 +17,13 @@ export class SessionService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(SessionService.name);
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     this.serverTokenExpiration =
-      this.configService.get<number>(
-        EnvVariables.TIME_BEFORE_SESSION_EXPIRE_MS
-      ) || SessionService.TIME_BEFORE_SESSION_EXPIRE_MS;
+      this.configService.get<number>(EnvVariables.TIME_BEFORE_SESSION_EXPIRE_MS) || SessionService.TIME_BEFORE_SESSION_EXPIRE_MS;
 
     const conn = {
       host: this.configService.get<string>(EnvVariables.REDIS_HOST),
@@ -35,59 +33,48 @@ export class SessionService {
       connectTimeout: 10000,
     };
     this.client = new Redis({
-      host: this.configService.get<string>(EnvVariables.REDIS_HOST) || "",
-      port:
-        Number(this.configService.get<string>(EnvVariables.REDIS_PORT)) || 6379,
+      host: this.configService.get<string>(EnvVariables.REDIS_HOST) || '',
+      port: Number(this.configService.get<string>(EnvVariables.REDIS_PORT)) || 6379,
       password: this.configService.get<string>(EnvVariables.REDIS_PASSWORD),
       db: RedisDb.Sessions,
       connectTimeout: 10000,
     });
     this.logger.info(`Session, connecting to redis`);
 
-    this.client.on("connect", () => {
+    this.client.on('connect', () => {
       self.logger.info(`Session redis, connected to redis`);
     });
 
-    this.client.on("error", (err: Error) => {
-      if (err.message.indexOf("ECONNREFUSED")) {
-        self.logger.warn("Session redis, disconnected");
+    this.client.on('error', (err: Error) => {
+      if (err.message.indexOf('ECONNREFUSED')) {
+        self.logger.warn('Session redis, disconnected');
       } else {
         self.logger.warn(`Session redis, error ${err}`);
       }
     });
 
-    this.client.on("ready", () => {
-      self.logger.info("Session redis, ready");
+    this.client.on('ready', () => {
+      self.logger.info('Session redis, ready');
     });
   }
 
-  public async createExternalSession(
-    sessionInfo: SessionInfo,
-    userIp: string,
-    token: string,
-    ttl?: number
-  ): Promise<string> {
+  public async createExternalSession(sessionInfo: SessionInfo, userIp: string, token: string, ttl?: number): Promise<string> {
     await this.client.set(
       token,
       JSON.stringify({ userIp, sessionInfo, id: sessionInfo.userId }),
-      "EX",
-      ttl ? ttl : this.serverTokenExpiration
+      'EX',
+      ttl ? ttl : this.serverTokenExpiration,
     );
     return token;
   }
 
   // Used to initialize serrion in dev
-  public async createSessionWithToken(
-    sessionInfo: SessionInfo,
-    userIp: string,
-    token: string,
-    ttl?: number
-  ): Promise<string> {
+  public async createSessionWithToken(sessionInfo: SessionInfo, userIp: string, token: string, ttl?: number): Promise<string> {
     await this.client.set(
       token,
       JSON.stringify({ userIp, sessionInfo, id: sessionInfo.userId }),
-      "EX",
-      ttl ? ttl : this.serverTokenExpiration
+      'EX',
+      ttl ? ttl : this.serverTokenExpiration,
     );
     return token;
   }
@@ -102,16 +89,9 @@ export class SessionService {
     if (res) {
       const data = JSON.parse(res);
       data.sessionInfo = sessionInfo;
-      await this.client.set(
-        sessionToken,
-        JSON.stringify(data),
-        "EX",
-        this.serverTokenExpiration
-      );
+      await this.client.set(sessionToken, JSON.stringify(data), 'EX', this.serverTokenExpiration);
     } else {
-      throw new UnauthorizedLoginException(
-        "Admin login failed, missing token!"
-      );
+      throw new UnauthorizedLoginException('Admin login failed, missing token!');
     }
   }
 
@@ -124,7 +104,7 @@ export class SessionService {
   }
 
   public async getAllSessions(activeForSec: number): Promise<SessionRecord[]> {
-    const keys = await this.client.keys("*");
+    const keys = await this.client.keys('*');
     const multi = this.client.multi();
     keys.forEach((k: string) => multi.ttl(k));
     const ttls = await multi.exec();
@@ -134,17 +114,14 @@ export class SessionService {
         return this.serverTokenExpiration - item.ttl <= activeForSec;
       });
 
-    const resultKeys = result.map(
-      (item: { key: string; ttl: number }) => item.key
-    );
+    const resultKeys = result.map((item: { key: string; ttl: number }) => item.key);
     const values: string[] = await this.client.mget(resultKeys);
     return values.map((item: string) => JSON.parse(item));
   }
 
   public static createToken() {
-    let t = "";
-    const possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyz0123456789";
+    let t = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < 55; i++) {
       t += possible.charAt(Math.floor(Math.random() * possible.length));
     }
@@ -153,7 +130,7 @@ export class SessionService {
 
   public async ping(): Promise<boolean> {
     const pingResult = await this.client.ping();
-    return pingResult === "PONG";
+    return pingResult === 'PONG';
   }
 }
 

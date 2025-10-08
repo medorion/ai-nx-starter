@@ -25,12 +25,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>Organization Name</nz-form-label>
           <nz-form-control [nzErrorTip]="getFieldError('name')">
-            <input
-              nz-input
-              formControlName="name"
-              placeholder="Enter organization name"
-              [class.error]="isFieldInvalid('name')"
-            />
+            <input nz-input formControlName="name" placeholder="Enter organization name" [class.error]="isFieldInvalid('name')" />
           </nz-form-control>
         </nz-form-item>
 
@@ -38,12 +33,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>Organization Code</nz-form-label>
           <nz-form-control [nzErrorTip]="getFieldError('code')" nzExtra="A unique identifier for the organization (e.g., org-code)">
-            <input
-              nz-input
-              formControlName="code"
-              placeholder="Enter organization code"
-              [class.error]="isFieldInvalid('code')"
-            />
+            <input nz-input formControlName="code" placeholder="Enter organization code" [class.error]="isFieldInvalid('code')" />
           </nz-form-control>
         </nz-form-item>
 
@@ -51,16 +41,8 @@
         <nz-form-item>
           <nz-form-label nzRequired>Status</nz-form-label>
           <nz-form-control [nzErrorTip]="getFieldError('status')">
-            <nz-select
-              formControlName="status"
-              placeholder="Select organization status"
-              [class.error]="isFieldInvalid('status')"
-            >
-              <nz-option
-                *ngFor="let option of statusOptions"
-                [nzLabel]="option.label"
-                [nzValue]="option.value"
-              ></nz-option>
+            <nz-select formControlName="status" placeholder="Select organization status" [class.error]="isFieldInvalid('status')">
+              <nz-option *ngFor="let option of statusOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -69,22 +51,11 @@
         <nz-form-item class="form-actions">
           <nz-form-control>
             <div class="form-action-buttons">
-              <button
-                nz-button
-                type="button"
-                (click)="onCancel()"
-                [disabled]="loading"
-              >
+              <button nz-button type="button" (click)="onCancel()" [disabled]="loading">
                 <span nz-icon nzType="close"></span>
                 Cancel
               </button>
-              <button
-                nz-button
-                nzType="primary"
-                type="submit"
-                [nzLoading]="loading"
-                [disabled]="organizationForm.invalid"
-              >
+              <button nz-button nzType="primary" type="submit" [nzLoading]="loading" [disabled]="organizationForm.invalid">
                 <span nz-icon nzType="save"></span>
                 {{ isEditMode ? 'Update Organization' : 'Create Organization' }}
               </button>

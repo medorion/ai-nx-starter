@@ -10,9 +10,9 @@ export class OrganizationsService {
   constructor(
     private readonly organizationDbService: OrganizationDbService,
     private readonly mapper: OrganizationMapperService,
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {
-    this.logger.setContext(OrganizationsService.name); 
+    this.logger.setContext(OrganizationsService.name);
   }
 
   async findById(id: string): Promise<OrganizationDto | null> {
@@ -86,5 +86,4 @@ export class OrganizationsService {
   async isNameUnique(name: string, excludeId?: string): Promise<boolean> {
     return this.organizationDbService.isNameUnique(name, excludeId);
   }
-
 }

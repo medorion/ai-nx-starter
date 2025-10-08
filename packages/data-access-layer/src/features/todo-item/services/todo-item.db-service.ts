@@ -27,8 +27,10 @@ export interface UpdateTodoItemData {
 
 @Injectable()
 export class TodoItemDbService {
-  constructor(@InjectRepository(TodoItem)
-              private todoItemRepository: MongoRepository<TodoItem>) {}
+  constructor(
+    @InjectRepository(TodoItem)
+    private todoItemRepository: MongoRepository<TodoItem>,
+  ) {}
 
   async findById(id: string): Promise<TodoItem | null> {
     try {
@@ -152,4 +154,3 @@ export class TodoItemDbService {
     return await this.todoItemRepository.count({ where: { status } });
   }
 }
-

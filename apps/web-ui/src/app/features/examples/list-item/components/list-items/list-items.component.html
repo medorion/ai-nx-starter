@@ -25,7 +25,14 @@
   </div>
 
   <!-- ListItems Table -->
-  <nz-table #basicTable [nzData]="paginatedListItems" [nzLoading]="loading" [nzShowPagination]="false" nzSize="middle" class="listItems-table">
+  <nz-table
+    #basicTable
+    [nzData]="paginatedListItems"
+    [nzLoading]="loading"
+    [nzShowPagination]="false"
+    nzSize="middle"
+    class="listItems-table"
+  >
     <thead>
       <tr>
         <th>Name</th>

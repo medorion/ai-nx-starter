@@ -7,8 +7,10 @@ import { OrganizationStatus } from '@medorion/types';
 
 @Injectable()
 export class OrganizationDbService {
-  constructor(@InjectRepository(Organization)
-              private organizationRepository: MongoRepository<Organization>) {}
+  constructor(
+    @InjectRepository(Organization)
+    private organizationRepository: MongoRepository<Organization>,
+  ) {}
 
   async findById(id: string): Promise<Organization | null> {
     const objectId = new ObjectId(id);
@@ -59,10 +61,7 @@ export class OrganizationDbService {
 
   async update(id: string, updateData: Partial<Organization>): Promise<Organization | null> {
     const objectId = new ObjectId(id);
-    const updateResult = await this.organizationRepository.update(
-      { _id: objectId },
-      { ...updateData, updatedAt: new Date() }
-    );
+    const updateResult = await this.organizationRepository.update({ _id: objectId }, { ...updateData, updatedAt: new Date() });
 
     if ((updateResult.affected ?? 0) === 0) {
       return null;
@@ -73,10 +72,7 @@ export class OrganizationDbService {
 
   async updateStatus(id: string, status: OrganizationStatus): Promise<Organization | null> {
     const objectId = new ObjectId(id);
-    const updateResult = await this.organizationRepository.update(
-      { _id: objectId },
-      { status, updatedAt: new Date() }
-    );
+    const updateResult = await this.organizationRepository.update({ _id: objectId }, { status, updatedAt: new Date() });
 
     if ((updateResult.affected ?? 0) === 0) {
       return null;

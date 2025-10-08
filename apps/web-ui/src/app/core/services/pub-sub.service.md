@@ -21,14 +21,14 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-example',
-  template: `<button (click)="notifyUser()">Send Notification</button>`
+  template: `<button (click)="notifyUser()">Send Notification</button>`,
 })
 export class ExampleComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(private eventBus: EventBusService) {
     // Subscribe to notifications
-    const sub = this.eventBus.onNotification().subscribe(event => {
+    const sub = this.eventBus.onNotification().subscribe((event) => {
       console.log('Notification received:', event.payload);
     });
     this.subscriptions.push(sub);
@@ -40,12 +40,12 @@ export class ExampleComponent implements OnDestroy {
       id: 'success-1',
       type: 'success',
       title: 'Success',
-      message: 'Operation completed successfully!'
+      message: 'Operation completed successfully!',
     });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
 ```
@@ -105,14 +105,14 @@ this.eventBus.publishUserLoggedIn({
   userId: 'user123',
   email: 'user@example.com',
   roles: ['user'],
-  token: 'jwt-token'
+  token: 'jwt-token',
 });
 
 this.eventBus.publishUserLoggedOut();
 this.eventBus.publishSessionExpired();
 
 // Subscribing
-this.eventBus.onUserLoggedIn().subscribe(event => {
+this.eventBus.onUserLoggedIn().subscribe((event) => {
   const user = event.payload;
   console.log(`User ${user.email} logged in`);
 });
@@ -124,16 +124,16 @@ this.eventBus.onUserLoggedIn().subscribe(event => {
 // Theme changes
 this.eventBus.publishThemeChanged({
   theme: 'dark',
-  previousTheme: 'light'
+  previousTheme: 'light',
 });
 
-this.eventBus.onThemeChanged().subscribe(event => {
+this.eventBus.onThemeChanged().subscribe((event) => {
   document.body.className = event.payload.theme;
 });
 
 // Sidebar toggling
 this.eventBus.publishSidebarToggled(true);
-this.eventBus.onSidebarToggled().subscribe(event => {
+this.eventBus.onSidebarToggled().subscribe((event) => {
   console.log('Sidebar is', event.payload.isOpen ? 'open' : 'closed');
 });
 
@@ -149,18 +149,18 @@ this.eventBus.publishModalClosed('user-settings', { saved: true });
 this.eventBus.publishDataLoaded({
   entityType: 'user',
   data: users,
-  operation: 'create'
+  operation: 'create',
 });
 
 this.eventBus.publishDataUpdated({
   entityType: 'user',
   data: updatedUser,
   operation: 'update',
-  id: 'user123'
+  id: 'user123',
 });
 
 // Subscribing to data changes
-this.eventBus.onDataUpdated().subscribe(event => {
+this.eventBus.onDataUpdated().subscribe((event) => {
   if (event.payload.entityType === 'user') {
     // Refresh user data
     this.refreshUserList();
@@ -180,15 +180,15 @@ this.eventBus.publishNotification({
   duration: 3000,
   action: {
     label: 'Undo',
-    handler: () => this.undoAction()
-  }
+    handler: () => this.undoAction(),
+  },
 });
 
 // Hide notification
 this.eventBus.publishNotificationHide('notif-1');
 
 // Subscribe to notifications
-this.eventBus.onNotification().subscribe(event => {
+this.eventBus.onNotification().subscribe((event) => {
   // Display notification in UI
   this.showNotificationToast(event.payload);
 });
@@ -201,14 +201,14 @@ this.eventBus.onNotification().subscribe(event => {
 this.eventBus.publishFormSubmitted({
   formId: 'user-form',
   formData: formValue,
-  errors: validationErrors
+  errors: validationErrors,
 });
 
 // Form reset
 this.eventBus.publishFormReset('user-form');
 
 // Subscribe to form events
-this.eventBus.onFormSubmitted().subscribe(event => {
+this.eventBus.onFormSubmitted().subscribe((event) => {
   console.log('Form submitted:', event.payload.formId);
 });
 ```
@@ -219,14 +219,14 @@ this.eventBus.onFormSubmitted().subscribe(event => {
 
 ```typescript
 const config: SubscriptionConfig = {
-  replay: true,           // Receive last emitted event immediately
-  bufferSize: 5,          // Keep last 5 events for replay
-  debounceTime: 300,      // Debounce events by 300ms
-  throttleTime: 1000,     // Throttle to max 1 event per second
-  filter: event => event.payload.priority === 'high' // Custom filter
+  replay: true, // Receive last emitted event immediately
+  bufferSize: 5, // Keep last 5 events for replay
+  debounceTime: 300, // Debounce events by 300ms
+  throttleTime: 1000, // Throttle to max 1 event per second
+  filter: (event) => event.payload.priority === 'high', // Custom filter
 };
 
-this.eventBus.onCustomEvent('my-event', config).subscribe(event => {
+this.eventBus.onCustomEvent('my-event', config).subscribe((event) => {
   // Handle filtered, debounced, high-priority events
 });
 ```
@@ -235,11 +235,7 @@ this.eventBus.onCustomEvent('my-event', config).subscribe(event => {
 
 ```typescript
 // Subscribe to multiple related events
-this.eventBus.onCustomEvents([
-  'data:user-updated',
-  'data:user-deleted',
-  'data:user-created'
-]).subscribe(event => {
+this.eventBus.onCustomEvents(['data:user-updated', 'data:user-deleted', 'data:user-created']).subscribe((event) => {
   // Handle any user-related data event
   this.refreshUserData();
 });
@@ -252,14 +248,13 @@ this.eventBus.onCustomEvents([
 this.eventBus.publishCustomEvent('feature:analytics', {
   action: 'page-view',
   page: '/dashboard',
-  userId: this.currentUser.id
+  userId: this.currentUser.id,
 });
 
 // Subscribe to custom events
-this.eventBus.onCustomEvent<AnalyticsEvent>('feature:analytics')
-  .subscribe(event => {
-    this.analyticsService.track(event.payload);
-  });
+this.eventBus.onCustomEvent<AnalyticsEvent>('feature:analytics').subscribe((event) => {
+  this.analyticsService.track(event.payload);
+});
 ```
 
 ### Debug Mode
@@ -300,7 +295,7 @@ export class MyComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
 ```
@@ -309,14 +304,14 @@ export class MyComponent implements OnDestroy {
 
 ```typescript
 // ✅ Good - Descriptive names
-'todo:item-created'
-'user:profile-updated'
-'navigation:breadcrumb-changed'
+'todo:item-created';
+'user:profile-updated';
+'navigation:breadcrumb-changed';
 
 // ❌ Avoid - Generic names
-'update'
-'change'
-'event'
+'update';
+'change';
+'event';
 ```
 
 ### 4. Include Context in Payloads
@@ -329,7 +324,7 @@ this.eventBus.publishDataUpdated({
   operation: 'update',
   id: todoItem.id,
   userId: this.currentUser.id,
-  timestamp: Date.now()
+  timestamp: Date.now(),
 });
 
 // ❌ Avoid - Minimal payload
@@ -340,11 +335,13 @@ this.eventBus.publishDataUpdated(todoItem);
 
 ```typescript
 // ✅ Good - Filter for relevant data only
-this.eventBus.onDataUpdated({
-  filter: event => event.payload.entityType === 'todo-item'
-}).subscribe(event => {
-  // Only todo-item updates
-});
+this.eventBus
+  .onDataUpdated({
+    filter: (event) => event.payload.entityType === 'todo-item',
+  })
+  .subscribe((event) => {
+    // Only todo-item updates
+  });
 ```
 
 ## Integration Examples
@@ -354,7 +351,7 @@ this.eventBus.onDataUpdated({
 ```typescript
 // Parent Component
 @Component({
-  template: `<child-component (action)="onChildAction($event)"></child-component>`
+  template: `<child-component (action)="onChildAction($event)"></child-component>`,
 })
 export class ParentComponent {
   constructor(private eventBus: EventBusService) {}
@@ -366,7 +363,7 @@ export class ParentComponent {
 
 // Sibling Component
 @Component({
-  selector: 'sibling-component'
+  selector: 'sibling-component',
 })
 export class SiblingComponent implements OnInit, OnDestroy {
   private subscription?: Subscription;
@@ -374,10 +371,9 @@ export class SiblingComponent implements OnInit, OnDestroy {
   constructor(private eventBus: EventBusService) {}
 
   ngOnInit() {
-    this.subscription = this.eventBus.onCustomEvent('parent:child-action')
-      .subscribe(event => {
-        console.log('Child action received by sibling:', event.payload);
-      });
+    this.subscription = this.eventBus.onCustomEvent('parent:child-action').subscribe((event) => {
+      console.log('Child action received by sibling:', event.payload);
+    });
   }
 
   ngOnDestroy() {
@@ -402,14 +398,14 @@ export class AuthService {
         userId: user.id,
         email: user.email,
         roles: user.roles,
-        token: user.token
+        token: user.token,
       });
 
       return user;
     } catch (error) {
       this.eventBus.publishAppError({
         message: 'Login failed',
-        context: 'AuthService.login'
+        context: 'AuthService.login',
       });
       throw error;
     }
@@ -449,16 +445,12 @@ The system provides predefined event types in `CommonEvents`:
 All services and events are fully typed:
 
 ```typescript
-import {
-  EventPayload,
-  UserLoggedInPayload,
-  NotificationPayload
-} from '../core/services/pub-sub.types';
+import { EventPayload, UserLoggedInPayload, NotificationPayload } from '../core/services/pub-sub.types';
 
 // Type-safe event handling
 this.eventBus.onUserLoggedIn().subscribe((event: EventPayload<UserLoggedInPayload>) => {
   // TypeScript knows the structure of event.payload
-  console.log(event.payload.userId);  // ✅ Type-safe
+  console.log(event.payload.userId); // ✅ Type-safe
   console.log(event.payload.invalid); // ❌ TypeScript error
 });
 ```
@@ -486,10 +478,7 @@ describe('EventBusService', () => {
     const pubSubSpy = jasmine.createSpyObj('PubSubService', ['publish', 'subscribe']);
 
     TestBed.configureTestingModule({
-      providers: [
-        EventBusService,
-        { provide: PubSubService, useValue: pubSubSpy }
-      ]
+      providers: [EventBusService, { provide: PubSubService, useValue: pubSubSpy }],
     });
 
     service = TestBed.inject(EventBusService);
@@ -501,11 +490,7 @@ describe('EventBusService', () => {
 
     service.publishUserLoggedIn(payload);
 
-    expect(pubSubService.publish).toHaveBeenCalledWith(
-      'user:logged-in',
-      payload,
-      'auth'
-    );
+    expect(pubSubService.publish).toHaveBeenCalledWith('user:logged-in', payload, 'auth');
   });
 });
 ```

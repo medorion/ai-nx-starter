@@ -11,8 +11,8 @@ interface CalendarEvent {
 
 @Component({
   selector: 'app-event-scheduler',
-  templateUrl: './event-scheduler.component.html',
   standalone: false,
+  templateUrl: './event-scheduler.component.html',
   styleUrl: './event-scheduler.component.less',
 })
 export class EventSchedulerComponent implements OnInit {

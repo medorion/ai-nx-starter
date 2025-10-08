@@ -30,35 +30,38 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   // Maps for status display
   statusBadgeMap: Record<OrganizationStatus, 'success' | 'default'> = {
     [OrganizationStatus.Active]: 'success',
-    [OrganizationStatus.Suspended]: 'default'
+    [OrganizationStatus.Suspended]: 'default',
   };
 
   statusTextMap: Record<OrganizationStatus, string> = {
     [OrganizationStatus.Active]: 'Active',
-    [OrganizationStatus.Suspended]: 'Suspended'
+    [OrganizationStatus.Suspended]: 'Suspended',
   };
 
-  statusActionMap: Record<OrganizationStatus, {
-    action: string;
-    buttonText: string;
-    buttonType: 'default' | 'primary' | 'dashed' | 'link' | 'text';
-    icon: string;
-    tooltip: string;
-  }> = {
+  statusActionMap: Record<
+    OrganizationStatus,
+    {
+      action: string;
+      buttonText: string;
+      buttonType: 'default' | 'primary' | 'dashed' | 'link' | 'text';
+      icon: string;
+      tooltip: string;
+    }
+  > = {
     [OrganizationStatus.Active]: {
       action: 'suspend',
       buttonText: 'Suspend',
       buttonType: 'default' as const,
       icon: 'pause',
-      tooltip: 'Suspend organization'
+      tooltip: 'Suspend organization',
     },
     [OrganizationStatus.Suspended]: {
       action: 'activate',
       buttonText: 'Activate',
       buttonType: 'primary' as const,
       icon: 'play-circle',
-      tooltip: 'Activate organization'
-    }
+      tooltip: 'Activate organization',
+    },
   };
 
   constructor(
@@ -84,9 +87,9 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (organizations) => {
           // Ensure all organizations have a valid status
-          this.organizations = organizations.map(org => ({
+          this.organizations = organizations.map((org) => ({
             ...org,
-            status: org.status || OrganizationStatus.Active
+            status: org.status || OrganizationStatus.Active,
           }));
           this.applySearch();
         },
@@ -98,9 +101,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLoading(): void {
-    this.organizationsService.loading$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((loading) => (this.loading = loading));
+    this.organizationsService.loading$.pipe(takeUntil(this.destroy$)).subscribe((loading) => (this.loading = loading));
   }
 
   onSearch(): void {
@@ -114,7 +115,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
       this.filteredOrganizations = this.organizations.filter(
         (org) =>
           org.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          org.code.toLowerCase().includes(this.searchQuery.toLowerCase())
+          org.code.toLowerCase().includes(this.searchQuery.toLowerCase()),
       );
     }
     this.total = this.filteredOrganizations.length;
@@ -122,9 +123,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
 
   onToggleStatus(organization: OrganizationDto): void {
-    const newStatus = organization.status === OrganizationStatus.Active
-      ? OrganizationStatus.Suspended
-      : OrganizationStatus.Active;
+    const newStatus = organization.status === OrganizationStatus.Active ? OrganizationStatus.Suspended : OrganizationStatus.Active;
 
     this.updateOrganizationStatus(organization.id!, newStatus);
   }

@@ -27,8 +27,8 @@ interface SolutionStats {
 
 @Component({
   selector: 'app-overview',
-  templateUrl: './overview.component.html',
   standalone: false,
+  templateUrl: './overview.component.html',
   styleUrl: './overview.component.less',
 })
 export class OverviewComponent implements OnInit {

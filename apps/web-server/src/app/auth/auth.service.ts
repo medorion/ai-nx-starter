@@ -1,24 +1,10 @@
-import { Injectable, UnprocessableEntityException } from "@nestjs/common";
-import {
-  UIAppContextDto,
-  ClientUserDto,
-  IdCodeNameDto,
-  IdNameDto,
-  ExternalLoginDto,
-  Role,
-} from "@medorion/types";
-import {
-  SessionInfo,
-  SessionExpiredException,
-  AppErrorException,
-} from "@medorion/backend-common";
-import { AuthMapperService } from "./auth-mapper.service";
-import { SessionService } from "@medorion/backend-common";
-import { PinoLogger } from "nestjs-pino";
-import {
-  OrganizationDbService,
-  SolutionDbService,
-} from "@medorion/data-access-layer";
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { UIAppContextDto, ClientUserDto, IdCodeNameDto, IdNameDto, ExternalLoginDto, Role } from '@medorion/types';
+import { SessionInfo, SessionExpiredException, AppErrorException } from '@medorion/backend-common';
+import { AuthMapperService } from './auth-mapper.service';
+import { SessionService } from '@medorion/backend-common';
+import { PinoLogger } from 'nestjs-pino';
+import { OrganizationDbService, SolutionDbService } from '@medorion/data-access-layer';
 
 @Injectable()
 export class AuthService {
@@ -27,15 +13,12 @@ export class AuthService {
     private readonly sessionService: SessionService,
     private readonly organizationDbService: OrganizationDbService,
     private readonly solutionDbService: SolutionDbService,
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(AuthService.name);
   }
 
-  private async getAvailableSolutions(
-    orgCode: string,
-    session: SessionInfo
-  ): Promise<IdNameDto[]> {
+  private async getAvailableSolutions(orgCode: string, session: SessionInfo): Promise<IdNameDto[]> {
     const solutions = await this.solutionDbService.findActiveByOrgCode(orgCode);
     // Root can view all solutions
     if (session.role === Role.Root) {
@@ -53,9 +36,7 @@ export class AuthService {
     }
   }
 
-  private async getAvalidableOrganizations(
-    session: SessionInfo
-  ): Promise<IdCodeNameDto[]> {
+  private async getAvalidableOrganizations(session: SessionInfo): Promise<IdCodeNameDto[]> {
     // There is small number of organization so we can filter here
     const organizations = await this.organizationDbService.findAll();
     // Root can view all organizations
@@ -78,26 +59,19 @@ export class AuthService {
 
   public async getUiAppContext(session: SessionInfo): Promise<UIAppContextDto> {
     // Map session info to user DTO
-    const currentUser: ClientUserDto =
-      this.authMapperService.mapSessionInfoToClientUserDto(session);
+    const currentUser: ClientUserDto = this.authMapperService.mapSessionInfoToClientUserDto(session);
 
-    const availableOrganizations: IdCodeNameDto[] =
-      await this.getAvalidableOrganizations(session);
+    const availableOrganizations: IdCodeNameDto[] = await this.getAvalidableOrganizations(session);
 
     // session.organizationCode
-    const currentOrg: IdCodeNameDto = availableOrganizations.find(
-      (org) => org.code === session.organizationCode
-    );
+    const currentOrg: IdCodeNameDto = availableOrganizations.find((org) => org.code === session.organizationCode);
 
     if (!currentOrg) {
-      this.logger.error("Current organization not found");
-      throw new AppErrorException("Current organization not found");
+      this.logger.error('Current organization not found');
+      throw new AppErrorException('Current organization not found');
     }
 
-    const availableSolutions: IdNameDto[] = await this.getAvailableSolutions(
-      session.organizationCode,
-      session
-    );
+    const availableSolutions: IdNameDto[] = await this.getAvailableSolutions(session.organizationCode, session);
 
     return {
       currentUser,
@@ -109,10 +83,8 @@ export class AuthService {
 
   async externalLogout(session: SessionInfo): Promise<void> {
     if (!session) {
-      this.logger.error("Logout parameter must contain session");
-      throw new UnprocessableEntityException(
-        "Logout parameter must contain session"
-      );
+      this.logger.error('Logout parameter must contain session');
+      throw new UnprocessableEntityException('Logout parameter must contain session');
     }
     await this.sessionService.killSessionByToken(session.userId);
     this.logger.info(`User (${session.email}) logged out`);
@@ -120,21 +92,14 @@ export class AuthService {
 
   // This method is called when user logs in from external provider
   // It updates the last login time of the user, and users organization, fingerprint and ip
-  public async externalLogin(
-    userLoginDto: ExternalLoginDto,
-    ip: string,
-    fingerprint: string,
-    session: SessionInfo
-  ): Promise<void> {
+  public async externalLogin(userLoginDto: ExternalLoginDto, ip: string, fingerprint: string, session: SessionInfo): Promise<void> {
     if (!session) {
-      this.logger.error("Session Expired, no token payload");
-      throw new SessionExpiredException("Session Expired, no token payload");
+      this.logger.error('Session Expired, no token payload');
+      throw new SessionExpiredException('Session Expired, no token payload');
     }
     session.organizationCode = userLoginDto.orgCode;
     session.fingerprint = fingerprint;
     await this.sessionService.updateSession(session.userId, session);
-    this.logger.info(
-      `User (${session.email}) logged in from external provider`
-    );
+    this.logger.info(`User (${session.email}) logged in from external provider`);
   }
 }

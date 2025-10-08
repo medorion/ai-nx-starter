@@ -1,9 +1,9 @@
 // src/app/services/fingerprint.service.ts
-import { Injectable } from "@angular/core";
-import FingerprintJS, { Agent, GetResult } from "@fingerprintjs/fingerprintjs";
+import { Injectable } from '@angular/core';
+import FingerprintJS, { Agent, GetResult } from '@fingerprintjs/fingerprintjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FingerprintService {
   private fpPromise: Promise<Agent>;

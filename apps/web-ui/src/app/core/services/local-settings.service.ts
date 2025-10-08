@@ -17,21 +17,21 @@ export interface LocalSettings {
  * Provides reactive observables for settings changes
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalSettingsService {
   private readonly STORAGE_KEY = 'medorion_local_settings';
-  
+
   // Default settings
   private readonly DEFAULT_SETTINGS: LocalSettings = {
     enableDashboardDebugInfo: false,
     enableFormDebugInfo: false,
-    theme: 'light'
+    theme: 'light',
   };
 
   // BehaviorSubjects for reactive settings
   private settingsSubject: BehaviorSubject<LocalSettings>;
-  
+
   // Public observables
   public settings$: Observable<LocalSettings>;
   public enableDashboardDebugInfo$: Observable<boolean>;
@@ -42,17 +42,17 @@ export class LocalSettingsService {
     // Initialize with settings from local storage or defaults
     const initialSettings = this.loadSettings();
     this.settingsSubject = new BehaviorSubject<LocalSettings>(initialSettings);
-    
+
     // Create public observables
     this.settings$ = this.settingsSubject.asObservable();
-    this.enableDashboardDebugInfo$ = new Observable(observer => {
-      this.settings$.subscribe(settings => observer.next(settings.enableDashboardDebugInfo));
+    this.enableDashboardDebugInfo$ = new Observable((observer) => {
+      this.settings$.subscribe((settings) => observer.next(settings.enableDashboardDebugInfo));
     });
-    this.enableFormDebugInfo$ = new Observable(observer => {
-      this.settings$.subscribe(settings => observer.next(settings.enableFormDebugInfo));
+    this.enableFormDebugInfo$ = new Observable((observer) => {
+      this.settings$.subscribe((settings) => observer.next(settings.enableFormDebugInfo));
     });
-    this.theme$ = new Observable(observer => {
-      this.settings$.subscribe(settings => observer.next(settings.theme));
+    this.theme$ = new Observable((observer) => {
+      this.settings$.subscribe((settings) => observer.next(settings.theme));
     });
   }
 

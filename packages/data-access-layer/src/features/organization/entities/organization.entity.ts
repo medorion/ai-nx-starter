@@ -15,7 +15,7 @@ export class Organization {
   @Column({
     type: 'enum',
     enum: OrganizationStatus,
-    default: OrganizationStatus.Active
+    default: OrganizationStatus.Active,
   })
   status: OrganizationStatus;
 

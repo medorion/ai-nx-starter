@@ -1,17 +1,14 @@
-import { Injectable } from "@nestjs/common";
-import * as crypto from "crypto";
+import { Injectable } from '@nestjs/common';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class CryptoService {
   public createHash(input: string): string {
-    return crypto.createHash("md5").update(input).digest("hex");
+    return crypto.createHash('md5').update(input).digest('hex');
   }
 
   public crateSHA256(value: string, secret: string): string {
-    const hash = crypto
-      .createHmac("sha256", secret)
-      .update(value)
-      .digest("hex");
+    const hash = crypto.createHmac('sha256', secret).update(value).digest('hex');
     return hash;
   }
 

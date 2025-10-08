@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class SolutionDbService {
   constructor(
     @InjectRepository(Solution)
-    private solutionRepository: MongoRepository<Solution>
+    private solutionRepository: MongoRepository<Solution>,
   ) {}
 
   /**
@@ -104,9 +104,9 @@ export class SolutionDbService {
    */
   async findActiveByUserId(userId: string): Promise<Solution[]> {
     return await this.solutionRepository.find({
-      where: { 
+      where: {
         allowedUserIds: { $in: [userId] },
-        isActive: true 
+        isActive: true,
       },
       order: { name: 'ASC' },
     });
@@ -135,10 +135,7 @@ export class SolutionDbService {
   async update(id: string, updateData: Partial<Solution>): Promise<Solution | null> {
     try {
       const objectId = new ObjectId(id);
-      const updateResult = await this.solutionRepository.update(
-        { _id: objectId },
-        { ...updateData, updatedAt: new Date() }
-      );
+      const updateResult = await this.solutionRepository.update({ _id: objectId }, { ...updateData, updatedAt: new Date() });
 
       if ((updateResult.affected ?? 0) === 0) {
         return null;
@@ -212,10 +209,7 @@ export class SolutionDbService {
   async setActiveStatus(id: string, isActive: boolean): Promise<Solution | null> {
     try {
       const objectId = new ObjectId(id);
-      const updateResult = await this.solutionRepository.update(
-        { _id: objectId },
-        { isActive, updatedAt: new Date() }
-      );
+      const updateResult = await this.solutionRepository.update({ _id: objectId }, { isActive, updatedAt: new Date() });
 
       if ((updateResult.affected ?? 0) === 0) {
         return null;

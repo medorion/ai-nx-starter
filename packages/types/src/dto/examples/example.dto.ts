@@ -2,18 +2,18 @@ import { IsNumber, Max, MaxLength, Min, MinLength, IsString, IsEmail, IsOptional
 
 export class ExampleDto {
   @IsString()
-  id: string = '';
+  id = '';
 
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(50)
-  name: string = '';
+  name = '';
 
   @IsNotEmpty()
   @IsNumber()
   @Min(1)
   @Max(120)
-  age: number = 0;
+  age = 0;
 
   @IsEmail()
   @IsOptional()

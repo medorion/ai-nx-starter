@@ -1,14 +1,8 @@
-import { Role } from "../../../enums/core/role.enum";
-import { IdCodeNameDto } from "../../common/id-code-name.dto";
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from "class-validator";
-import { Type } from "class-transformer";
-import { ValidateNested } from "class-validator";
+import { Role } from '../../../enums/core/role.enum';
+import { IdCodeNameDto } from '../../common/id-code-name.dto';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ValidateNested } from 'class-validator';
 
 export class SessionUserDto {
   @IsString()

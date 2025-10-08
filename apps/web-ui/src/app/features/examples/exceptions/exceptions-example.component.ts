@@ -12,10 +12,9 @@ import { LoggerService } from '../../../core/services/logger.service';
   templateUrl: './exceptions-example.component.html',
   styleUrls: ['./exceptions-example.component.less'],
   standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExceptionsExampleComponent implements OnInit {
-
   public endpoints: any[] = [];
 
   // Pre-computed mappings to avoid function calls in template
@@ -29,15 +28,15 @@ export class ExceptionsExampleComponent implements OnInit {
 
   public iconMap = new Map<number, string>([
     [455, 'clock-circle'], // Session Expired
-    [456, 'warning'],      // App Warning
-    [457, 'sync'],         // Concurrency Error
-    [458, 'lock'],         // Unauthorized Login
+    [456, 'warning'], // App Warning
+    [457, 'sync'], // Concurrency Error
+    [458, 'lock'], // Unauthorized Login
     [459, 'close-circle'], // App Error
   ]);
 
   constructor(
     private apiExceptionsService: ApiExceptionsService,
-    private logger: LoggerService
+    private logger: LoggerService,
   ) {}
 
   ngOnInit(): void {
@@ -51,18 +50,18 @@ export class ExceptionsExampleComponent implements OnInit {
     this.apiExceptionsService.getExceptionEndpoints().subscribe({
       next: (response) => {
         // Process endpoints and add computed properties
-        this.endpoints = response.endpoints.map(endpoint => ({
+        this.endpoints = response.endpoints.map((endpoint) => ({
           ...endpoint,
           displayName: endpoint.exception.replace('Exception', ''),
           buttonType: this.buttonTypeMap.get(endpoint.statusCode) || 'default',
-          iconType: this.iconMap.get(endpoint.statusCode) || 'question-circle'
+          iconType: this.iconMap.get(endpoint.statusCode) || 'question-circle',
         }));
         this.logger.info('Loaded exception endpoints:', response);
       },
       error: (error) => {
         this.logger.error('Failed to load endpoints:', error);
         // MessageService will automatically handle HTTP errors via event bus
-      }
+      },
     });
   }
 
@@ -80,7 +79,7 @@ export class ExceptionsExampleComponent implements OnInit {
       error: (error) => {
         this.logger.info('✅ Session Expired exception caught:', error);
         // MessageService will automatically handle the error via event bus
-      }
+      },
     });
   }
 
@@ -97,7 +96,7 @@ export class ExceptionsExampleComponent implements OnInit {
       error: (error) => {
         this.logger.info('✅ App Warning exception caught:', error);
         // MessageService will automatically handle the error via event bus
-      }
+      },
     });
   }
 
@@ -114,7 +113,7 @@ export class ExceptionsExampleComponent implements OnInit {
       error: (error) => {
         this.logger.info('✅ Concurrency Error exception caught:', error);
         // MessageService will automatically handle the error via event bus
-      }
+      },
     });
   }
 
@@ -131,7 +130,7 @@ export class ExceptionsExampleComponent implements OnInit {
       error: (error) => {
         this.logger.info('✅ Unauthorized Login exception caught:', error);
         // MessageService will automatically handle the error via event bus
-      }
+      },
     });
   }
 
@@ -148,10 +147,9 @@ export class ExceptionsExampleComponent implements OnInit {
       error: (error) => {
         this.logger.info('✅ App Error exception caught:', error);
         // MessageService will automatically handle the error via event bus
-      }
+      },
     });
   }
-
 
   /**
    * Trigger specific exception by status code

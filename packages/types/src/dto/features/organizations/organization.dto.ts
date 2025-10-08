@@ -2,7 +2,6 @@ import { OrganizationStatus } from '../../../enums/features/organization-status.
 import { IsString, IsNotEmpty, IsEnum, IsOptional, IsMongoId, MaxLength } from 'class-validator';
 
 export class OrganizationDto {
-  
   @IsOptional()
   @IsMongoId()
   id?: string;

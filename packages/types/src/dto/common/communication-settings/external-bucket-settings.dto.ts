@@ -1,4 +1,4 @@
 export class ExternalBucketSettingsDto {
-    public externalBucketCustomerService: string;
-    public externalBucketDecisionModelData: string;
-  }
+  public externalBucketCustomerService: string;
+  public externalBucketDecisionModelData: string;
+}

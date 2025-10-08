@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
-import { NzMessageService } from "ng-zorro-antd/message";
-import { NzModalService } from "ng-zorro-antd/modal";
-import { UsersService } from "./users.service";
-import { ClientUserDto } from "@medorion/types";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { UsersService } from './users.service';
+import { ClientUserDto } from '@medorion/types';
 
 @Component({
-  selector: "app-users",
+  selector: 'app-users',
   standalone: false,
-  templateUrl: "./users.component.html",
-  styleUrl: "./users.component.less",
+  templateUrl: './users.component.html',
+  styleUrl: './users.component.less',
 })
 export class UsersComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   users: ClientUserDto[] = [];
   filteredUsers: ClientUserDto[] = [];
   loading = false;
-  searchQuery = "";
+  searchQuery = '';
 
   // Table configuration
   pageSize = 10;
@@ -27,7 +27,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private usersService: UsersService,
     private message: NzMessageService,
-    private modal: NzModalService
+    private modal: NzModalService,
   ) {}
 
   ngOnInit(): void {
@@ -50,16 +50,14 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.applySearch();
         },
         error: (error) => {
-          this.message.error("Failed to load users");
-          console.error("Error loading users:", error);
+          this.message.error('Failed to load users');
+          console.error('Error loading users:', error);
         },
       });
   }
 
   private subscribeToLoading(): void {
-    this.usersService.loading$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((loading) => (this.loading = loading));
+    this.usersService.loading$.pipe(takeUntil(this.destroy$)).subscribe((loading) => (this.loading = loading));
   }
 
   onSearch(): void {
@@ -72,9 +70,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.filteredUsers = [...this.users];
     } else {
       this.filteredUsers = this.users.filter(
-        (user) =>
-          user.displayName?.toLowerCase().includes(query) ||
-          user.email?.toLowerCase().includes(query)
+        (user) => user.displayName?.toLowerCase().includes(query) || user.email?.toLowerCase().includes(query),
       );
     }
     this.total = this.filteredUsers.length;
@@ -83,11 +79,11 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onResetPassword(user: ClientUserDto): void {
     this.modal.confirm({
-      nzTitle: "Reset Password",
+      nzTitle: 'Reset Password',
       nzContent: `Are you sure you want to send a password reset email to <strong>${user.email}</strong>?`,
-      nzOkText: "Send Reset Email",
-      nzOkType: "primary",
-      nzCancelText: "Cancel",
+      nzOkText: 'Send Reset Email',
+      nzOkType: 'primary',
+      nzCancelText: 'Cancel',
       nzOnOk: () => this.confirmResetPassword(user),
     });
   }
@@ -101,8 +97,8 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.message.success(`Password reset email sent to ${user.email}`);
         },
         error: (error: Error) => {
-          this.message.error("Failed to send password reset email");
-          console.error("Error resetting password:", error);
+          this.message.error('Failed to send password reset email');
+          console.error('Error resetting password:', error);
         },
       });
   }
@@ -127,6 +123,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (user.displayName) {
       return `${user.displayName}`;
     }
-    return user.email || "Unknown User";
+    return user.email || 'Unknown User';
   }
 }

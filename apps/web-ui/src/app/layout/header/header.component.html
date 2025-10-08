@@ -128,10 +128,7 @@
       <!-- User Dropdown -->
       <div class="user-dropdown">
         <a nz-dropdown [nzDropdownMenu]="menu">
-          <nz-avatar 
-            *ngIf="(currentUser$ | async)?.picture; else defaultAvatar"
-            [nzSrc]="(currentUser$ | async)?.picture"
-            nzSize="small">
+          <nz-avatar *ngIf="(currentUser$ | async)?.picture; else defaultAvatar" [nzSrc]="(currentUser$ | async)?.picture" nzSize="small">
           </nz-avatar>
           <ng-template #defaultAvatar>
             <nz-avatar nzIcon="user" nzSize="small"></nz-avatar>
@@ -150,23 +147,28 @@
                 Settings
               </a>
             </li>
-            <li 
-              nz-submenu 
-              nzTitle="Switch Organization" 
+            <li
+              nz-submenu
+              nzTitle="Switch Organization"
               nzIcon="swap"
-              *ngIf="(availableOrganizations$ | async)?.length && (availableOrganizations$ | async)!.length > 1">
+              *ngIf="(availableOrganizations$ | async)?.length && (availableOrganizations$ | async)!.length > 1"
+            >
               <ul>
-                <li 
-                  nz-menu-item 
+                <li
+                  nz-menu-item
                   *ngFor="let org of availableOrganizations$ | async"
                   (click)="switchOrganization(org.code)"
-                  [class.active]="org.code === (currentOrganization$ | async)?.code">
+                  (keydown.enter)="switchOrganization(org.code)"
+                  (keydown.space)="switchOrganization(org.code)"
+                  tabindex="0"
+                  [class.active]="org.code === (currentOrganization$ | async)?.code"
+                >
                   <span nz-icon nzType="bank" nzTheme="outline"></span>
                   {{ org.name }}
                 </li>
               </ul>
             </li>
-            <li nz-menu-item (click)="logout()">
+            <li nz-menu-item (click)="logout()" (keydown.enter)="logout()" (keydown.space)="logout()" tabindex="0">
               <nz-icon nzType="logout" nzTheme="outline"></nz-icon>
               Logout
             </li>

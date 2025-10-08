@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-events-definition',
-  templateUrl: './events-definition.component.html',
   standalone: false,
+  templateUrl: './events-definition.component.html',
   styleUrl: './events-definition.component.less',
 })
 export class EventsDefinitionComponent {}

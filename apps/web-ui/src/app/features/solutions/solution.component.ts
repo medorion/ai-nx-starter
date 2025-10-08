@@ -6,8 +6,8 @@ import { IdNameDto } from '@medorion/types';
 
 @Component({
   selector: 'app-solution',
-  templateUrl: './solution.component.html',
   standalone: false,
+  templateUrl: './solution.component.html',
   styleUrl: './solution.component.less',
 })
 export class SolutionComponent implements OnInit, OnDestroy {

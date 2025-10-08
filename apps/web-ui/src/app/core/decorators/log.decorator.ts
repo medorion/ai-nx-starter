@@ -1,13 +1,9 @@
-import { LoggerService } from "../services/logger.service";
-import { LogLevel } from "../services/log-level.enum";
-import { CustomAngularContext } from "../custom-angular-context";
+import { LoggerService } from '../services/logger.service';
+import { LogLevel } from '../services/log-level.enum';
+import { CustomAngularContext } from '../custom-angular-context';
 
 export function log(level: LogLevel, message: string): MethodDecorator {
-  return function (
-    _target: any,
-    _propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ) {
+  return function (_target: any, _propertyKey: string | symbol, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {

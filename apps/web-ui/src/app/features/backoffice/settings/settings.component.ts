@@ -17,13 +17,11 @@ export class SettingsComponent {
 
   constructor(
     private localSettingsService: LocalSettingsService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {
     this.enableDashboardDebugInfo$ = this.localSettingsService.enableDashboardDebugInfo$;
     this.enableFormDebugInfo$ = this.localSettingsService.enableFormDebugInfo$;
-    this.isDarkTheme$ = this.themeService.theme$.pipe(
-      map((theme) => theme === 'dark')
-    );
+    this.isDarkTheme$ = this.themeService.theme$.pipe(map((theme) => theme === 'dark'));
   }
 
   onDashboardDebugToggle(enabled: boolean): void {

@@ -7,10 +7,7 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Get()
-  async findAll(
-    @Query('limit') limit?: number,
-    @Query('offset') offset?: number,
-  ): Promise<OrganizationDto[]> {
+  async findAll(@Query('limit') limit?: number, @Query('offset') offset?: number): Promise<OrganizationDto[]> {
     return this.organizationsService.findAll(limit, offset);
   }
 
@@ -47,19 +44,13 @@ export class OrganizationsController {
   }
 
   @Get('validate/code/:code')
-  async isCodeUnique(
-    @Param('code') code: string,
-    @Query('excludeId') excludeId?: string,
-  ): Promise<{ isUnique: boolean }> {
+  async isCodeUnique(@Param('code') code: string, @Query('excludeId') excludeId?: string): Promise<{ isUnique: boolean }> {
     const isUnique = await this.organizationsService.isCodeUnique(code, excludeId);
     return { isUnique };
   }
 
   @Get('validate/name/:name')
-  async isNameUnique(
-    @Param('name') name: string,
-    @Query('excludeId') excludeId?: string,
-  ): Promise<{ isUnique: boolean }> {
+  async isNameUnique(@Param('name') name: string, @Query('excludeId') excludeId?: string): Promise<{ isUnique: boolean }> {
     const isUnique = await this.organizationsService.isNameUnique(name, excludeId);
     return { isUnique };
   }
@@ -75,18 +66,12 @@ export class OrganizationsController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body(ValidationPipe) updateData: UpdateOrganizationDataDto,
-  ): Promise<OrganizationDto | null> {
+  async update(@Param('id') id: string, @Body(ValidationPipe) updateData: UpdateOrganizationDataDto): Promise<OrganizationDto | null> {
     return this.organizationsService.update(id, updateData);
   }
 
   @Put(':id/status')
-  async updateStatus(
-    @Param('id') id: string,
-    @Body('status') status: OrganizationStatus,
-  ): Promise<OrganizationDto | null> {
+  async updateStatus(@Param('id') id: string, @Body('status') status: OrganizationStatus): Promise<OrganizationDto | null> {
     return this.organizationsService.updateStatus(id, status);
   }
 
