@@ -169,11 +169,20 @@ For CRUD operations and feature development, follow the workflow outlined in [de
 
 Set env:
 AUTO_LOG_IN_DEV_USER=false
+On Client: apps/web-ui/src/environments/environment.ts
+autoLogInDevUser: false
 
 ### Working with no Auth0 dev user
 
 Set env:
-AUTO_LOG_IN_DEV_USER=true
+AUTO_LOG_IN_DEV_USER=true  
+On Client: apps/web-ui/src/environments/environment.ts
+autoLogInDevUser: true
+
+When switching:
+
+- Clear local storate and cace from Browser
+- In redis: FLUSHALL
 
 ## 🏗️ Technology Stack
 
