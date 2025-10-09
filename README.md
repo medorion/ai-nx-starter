@@ -19,7 +19,7 @@ For detailed technical documentation, see the [documents](./documents) folder:
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- npm or yarn
+- pnpm
 - Docker (optional, for containerized deployment)
 
 ### Installation
