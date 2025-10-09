@@ -10,7 +10,8 @@ export { NotImplementedException } from './exceptions/not-implemented.exception'
 export { ORG_CODE_PATH_PARAM } from './constants';
 
 // Guards
-export { Auth0AuthorizeGuard } from './guards/auth0-authorize.guard';
+export { Auth0AuthorizeDevGuard } from './guards/auth0-authorize-dev.guard';
+export { Auth0AuthorizeProdGuard } from './guards/auth0-authorize-prod.guard';
 
 // Decorators
 export { Authorize } from './decorators/authorize.giard';

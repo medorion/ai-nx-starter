@@ -42,14 +42,11 @@ export const routes: Routes = [
   },
 ];
 
-// // Add examples route only in development
-// if (!environment.production) {
-//   routes.unshift({
-//     path: "examples",
-//     loadChildren: () =>
-//       import("./features/examples/examples.module").then(
-//         (m) => m.ExamplesModule
-//       ),
-//     data: { breadcrumb: "Examples" },
-//   });
-// }
+// Add examples route only in development
+if (!environment.production) {
+  routes.unshift({
+    path: 'examples',
+    loadChildren: () => import('./features/examples/examples.module').then((m) => m.ExamplesModule),
+    data: { breadcrumb: 'Examples' },
+  });
+}

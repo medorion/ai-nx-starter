@@ -89,13 +89,20 @@
       }
     },
     "serve": {
-      "executor": "@nx/web:file-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "buildTarget": "web-ui:build",
-        "port": 8081,
-        "staticFilePath": "dist/apps/web-ui/browser",
-        "spa": true
-      }
+        "buildTarget": "web-ui:build:development",
+        "port": 8081
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "web-ui:build:production"
+        },
+        "development": {
+          "buildTarget": "web-ui:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
     }
   }
 }

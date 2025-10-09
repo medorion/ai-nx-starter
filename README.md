@@ -165,6 +165,16 @@ For CRUD operations and feature development, follow the workflow outlined in [de
 4. Implement UI feature based on existing examples
 5. Test and build: `npm run build`
 
+### Working wit Auth0
+
+Set env:
+AUTO_LOG_IN_DEV_USER=false
+
+### Working with no Auth0 dev user
+
+Set env:
+AUTO_LOG_IN_DEV_USER=true
+
 ## 🏗️ Technology Stack
 
 ### Frontend

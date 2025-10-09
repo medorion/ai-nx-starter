@@ -14,7 +14,7 @@ export interface UIAppContext {
   availableOrganizations$: Observable<IdCodeNameDto[]>;
   availableSolutions$: Observable<IdNameDto[]>;
 
-  init(): Observable<UIAppContextDto | null>;
+  init(): Promise<void>;
 
   switchOrganization(orgCode: string): void;
 

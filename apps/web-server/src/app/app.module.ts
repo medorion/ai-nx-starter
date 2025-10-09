@@ -12,7 +12,7 @@ import { SyncServiceFlowModule } from './features/sync-service-flow/sync-service
 import { LoggerModule } from 'nestjs-pino';
 import { AppInitializerService } from './app-initializer-service';
 import { APP_GUARD } from '@nestjs/core';
-import { Auth0AuthorizeGuard, CoreServicesModule } from '@medorion/backend-common';
+import { Auth0AuthorizeDevGuard, Auth0AuthorizeProdGuard, CoreServicesModule } from '@medorion/backend-common';
 
 @Module({
   imports: [
@@ -55,7 +55,10 @@ import { Auth0AuthorizeGuard, CoreServicesModule } from '@medorion/backend-commo
     AppInitializerService,
     {
       provide: APP_GUARD,
-      useClass: Auth0AuthorizeGuard,
+      useClass:
+        process.env.ENVIRONMENT == 'development' && process.env.AUTO_LOG_IN_DEV_USER == 'true'
+          ? Auth0AuthorizeDevGuard
+          : Auth0AuthorizeProdGuard,
     },
   ],
 })

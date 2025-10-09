@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap, catchError, of, firstValueFrom } from 'rxjs';
 import { AppConfigService, ApiAuthService } from '@medorion/api-client';
 import { UIAppContextDto, ClientUserDto, IdCodeNameDto, IdNameDto } from '@medorion/types';
 import { UIAppContext } from '../intefaces/ui-app-context.interface';
@@ -45,23 +45,13 @@ export class UiAppContextServiceDev implements UIAppContext {
   /**
    * Initialize the service by loading UI app context from server
    */
-  init(): Observable<UIAppContextDto | null> {
+  async init(): Promise<void> {
     this.logger.info('UI Context development');
     this._isLoading$.next(true);
     this._error$.next(null);
     this.appConfigService.fingerprint = localStorage.getItem(StorageKey.Fingerprint) as string;
     // Try to log in, in dev mode
-    return this.apiAuthService.getUiAppContext().pipe(
-      tap((context: UIAppContextDto) => {
-        this._uiAppContext$.next(context);
-        this._isLoading$.next(false);
-      }),
-      catchError((error) => {
-        this._error$.next('Failed to load application context');
-        this._isLoading$.next(false);
-        return of(null);
-      }),
-    );
+    await this.refreshContext();
   }
 
   /**
@@ -88,17 +78,27 @@ export class UiAppContextServiceDev implements UIAppContext {
   /**
    * Switch to a different organization
    */
-  switchOrganization(orgCode: string): void {
-    const availableOrgs = this.currentContext?.availableOrganizations || [];
-    const newOrg = availableOrgs.find((org) => org.code === orgCode);
+  async switchOrganization(orgCode: string): Promise<void> {
+    await firstValueFrom(this.apiAuthService.externalLogin({ orgCode }));
+    this.setCurrentOrganization(orgCode);
+    this.appConfigService.orgCode = orgCode;
+    await this.refreshContext();
+  }
 
-    if (newOrg && this.currentContext) {
-      const updatedContext = {
-        ...this.currentContext,
-        currentOrg: newOrg,
-      };
-      this._uiAppContext$.next(updatedContext);
-      this.appConfigService.orgCode = orgCode;
+  private setCurrentOrganization(orgCode: string): void {
+    localStorage.setItem(StorageKey.CurrentOrganization, orgCode);
+  }
+
+  private async refreshContext(): Promise<UIAppContextDto | null> {
+    try {
+      const context = await firstValueFrom(this.apiAuthService.getUiAppContext());
+      this._uiAppContext$.next(context);
+      this._isLoading$.next(false);
+      return context;
+    } catch (error) {
+      this._error$.next('Failed to load application context');
+      this._isLoading$.next(false);
+      return null;
     }
   }
 

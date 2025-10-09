@@ -2,8 +2,6 @@ import { Controller, Get, Post, Body, Session, Req, UnprocessableEntityException
 import { UIAppContextDto, ExternalLoginDto } from '@medorion/types';
 import { AuthService } from './auth.service';
 import { SessionInfo } from '@medorion/backend-common';
-import { IgnoreAuthorization } from '@medorion/backend-common';
-
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

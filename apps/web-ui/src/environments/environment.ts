@@ -1,7 +1,8 @@
 import { LogLevel } from '../app/core/services/log-level.enum';
 
 export const environment = {
-  production: true,
+  production: false,
+  autoLogInDevUser: false,
   apiUrl: 'http://localhost:3000/api',
   socketUrl: 'http://localhost:3000',
   appName: 'Enterprise App',

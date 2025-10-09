@@ -21,7 +21,7 @@ export class AppInitializerService implements OnModuleInit {
     this.logger.info('Running application initialization tasks...');
 
     const environment = this.configService.get<string>(EnvVariables.ENVIRONMENT);
-    const autoLogInSampleUser = this.configService.get<string>(EnvVariables.AUTO_LOG_IN_SAMPLE_USER);
+    const autoLogInSampleUser = this.configService.get<string>(EnvVariables.AUTO_LOG_IN_DEV_USER);
     if (environment == 'development' && autoLogInSampleUser == 'true') {
       await this.initDevUser();
     }
@@ -30,28 +30,29 @@ export class AppInitializerService implements OnModuleInit {
   }
 
   private async initDevUser() {
+    const avOrg = this.configService.get<string>(EnvVariables.DEV_USER_ORG_CODES) || '';
     const sessionInfo: SessionInfo = {
-      userId: 'developer@medorion.com',
-      email: 'developer@medorion.com',
+      userId: this.configService.get<string>(EnvVariables.DEV_USER_ID),
+      email: this.configService.get<string>(EnvVariables.DEV_USER_EMAIL),
       phone: '',
       organizationId: 'Demo',
-      organizationCode: 'dho',
+      organizationCode: this.configService.get<string>(EnvVariables.DEV_USER_ORG_CODE),
       creationDate: new Date().getTime(),
-      role: Role.Root,
+      role: this.configService.get<string>(EnvVariables.DEV_USER_ROLE) as Role,
       authorizedUrl: '',
       rootOrgId: '',
       createdAt: new Date().getTime(),
       expiresAt: new Date().getTime() + 2_592_000_000,
       serverVersion: '1.0.0',
-      fingerprint: 'FP_DEVELOPMENT',
+      fingerprint: this.configService.get<string>(EnvVariables.DEV_USER_FINDERPRINT),
       clientId: '',
-      availableOrganizations: ['dho', 'PACK', 'MHO', 'MHO'],
+      availableOrganizations: avOrg.split(','),
     };
 
     await this.sessionService.createSessionWithToken(
       sessionInfo,
       '127.0.0.1',
-      'AUTH_DEVELOPMENT',
+      this.configService.get<string>(EnvVariables.DEV_USER_ID),
       2_592_000_000, // 30 days
     );
     this.logger.info('Developer user initialized');

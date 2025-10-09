@@ -138,12 +138,12 @@ export class UIAppContextService implements UIAppContext {
   /**
    * Initialize the service by loading UI app context from server
    */
-  init(): Observable<UIAppContextDto | null> {
+  init(): Promise<void> {
     this.logger.info('UI Context production');
     this._isLoading$.next(true);
     this._error$.next(null);
     this.appConfigService.fingerprint = localStorage.getItem(StorageKey.Fingerprint) as string;
-    return of(null);
+    return Promise.resolve();
   }
 
   private onShouldLogInChange(shouldLogIn: boolean) {
