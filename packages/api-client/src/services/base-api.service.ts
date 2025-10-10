@@ -7,7 +7,7 @@ import { API_PREFIX } from '@monorepo-kit/types';
  */
 export abstract class BaseApiService {
   protected get BASE_URL(): string {
-    return `${this.config.apiUrl}/${API_PREFIX}/${this.config.orgCode}`;
+    return `${this.config.apiUrl}/${API_PREFIX}`;
   }
 
   constructor(

@@ -473,8 +473,8 @@ function extractApiMethods(
           const args = decorator.getArguments()[0];
           const paramName = args ? args.getText().replace(/['"` ]/g, '') : p.getName();
           const actualParamName = p.getName();
-          // Check for orgCode parameter name or ORG_CODE_PATH_PARAM usage
-          if (paramName === 'orgCode' || paramName.includes('ORG_CODE_PATH_PARAM') || actualParamName === 'orgCode') {
+          // Check for orgCode parameter name
+          if (paramName === 'orgCode' || actualParamName === 'orgCode') {
             return false; // Exclude orgCode path parameters
           }
         }
@@ -665,7 +665,7 @@ function generateMethodCode(
   const otherParams = params.filter((p) => !p.decorator || !['Param', 'Query', 'Body'].includes(p.decorator));
 
   // Check if the original path contains orgCode parameter (even though we filtered it out)
-  const hasOrgCodeParam = path.includes(':orgCode') || path.includes('${AppConfig.ORG_CODE}') || path.includes('ORG_CODE_PATH_PARAM');
+  const hasOrgCodeParam = path.includes(':orgCode');
   // Generate method parameters with optional markers
   const methodParams = params
     .map((p) => {
@@ -680,8 +680,7 @@ function generateMethodCode(
   // Clean the path for documentation
   const cleanedDocPath = path
     .replace(/\$\{AppConfig\.API_PREFIX\}/g, '')
-    .replace(/\$\{AppConfig\.ORG_CODE\}/g, '{config.orgCode}')
-    .replace(/\$\{ORG_CODE_PATH_PARAM\}/g, '{config.orgCode}')
+    .replace(/\$\{AppConfig\.ORG_CODE\}/g, '')
     .replace(/\$\{AppConfig\.APP_ID\}/g, 'appId')
     .replace(/\$\{AppConfig\.OBJECTIVE_ID\}/g, 'objectiveId');
   code += `   * ${methodName} - ${httpMethod.toUpperCase()} ${cleanedDocPath}
@@ -711,8 +710,6 @@ function generateMethodCode(
   let cleanedPath = endpointPath
     .replace(/\$\{AppConfig\.API_PREFIX\}/g, '')
     .replace(/\$\{AppConfig\.ORG_CODE\}/g, '')
-    .replace(/:\$\{ORG_CODE_PATH_PARAM\}/g, '')
-    .replace(/\$\{ORG_CODE_PATH_PARAM\}/g, '')
     .replace(/:orgCode/g, '')
     .replace(/\$\{AppConfig\.APP_ID\}/g, 'appId')
     .replace(/\$\{AppConfig\.OBJECTIVE_ID\}/g, 'objectiveId')
@@ -767,8 +764,6 @@ function generateMethodCode(
     let cleanedPath = endpointPath
       .replace(/\$\{AppConfig\.API_PREFIX\}/g, '')
       .replace(/\$\{AppConfig\.ORG_CODE\}/g, '')
-      .replace(/:\$\{ORG_CODE_PATH_PARAM\}/g, '')
-      .replace(/\$\{ORG_CODE_PATH_PARAM\}/g, '')
       .replace(/:orgCode/g, '')
       .replace(/^\/+|\/+$/g, '') // Remove leading/trailing slashes
       .replace(/\/+/g, '/'); // Replace multiple consecutive slashes with a single one

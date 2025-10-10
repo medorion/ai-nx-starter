@@ -26,7 +26,7 @@ export {
 } from './dto/examples/todo-item';
 
 // Export constants
-export { API_PREFIX, ORG_CODE_PATH_PARAM } from './constants/api';
+export { API_PREFIX } from './constants/api';
 
 // Export enums
 export { Role } from './enums/core/role.enum';

@@ -14,8 +14,11 @@ export class ServerEventsDemoService {
     private readonly appConfigService: AppConfigService,
   ) {
     // Initialize the SSE connection and expose it as an observable
+    // Pass token as query parameter since EventSource doesn't support custom headers
+    const config = this.appConfigService.getConfig();
+    const token = config.token || '';
     this.events$ = this.serverSideEventsService.getServerSentEvents(
-      `${this.appConfigService.apiUrl}/monorepo-kit/rest/api/v2/dho/events/stream-to-all`,
+      `${this.appConfigService.apiUrl}/monorepo-kit/rest/api/v2/events/stream-to-all?token=${encodeURIComponent(token)}`,
     );
   }
 }

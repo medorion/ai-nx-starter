@@ -1,1 +1,1 @@
-export const ORG_CODE_PATH_PARAM = 'orgCode';
+// Constants file - add shared constants here as needed

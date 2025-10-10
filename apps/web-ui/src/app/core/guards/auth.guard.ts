@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (uiAppContextService.isLoggedIn()) {
     return true;
   } else {
-    router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+    router.navigate(['/redirecting-to-login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 };

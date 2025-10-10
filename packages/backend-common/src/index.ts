@@ -8,9 +8,6 @@ export { SessionExpiredException } from './exceptions/session-expired.exception'
 export { UnauthorizedLoginException } from './exceptions/unauthorized-login.exception';
 export { NotImplementedException } from './exceptions/not-implemented.exception';
 
-// Constants
-export { ORG_CODE_PATH_PARAM } from './constants';
-
 // Guards
 export { AuthorizeGuard } from './guards/authorize.guard';
 

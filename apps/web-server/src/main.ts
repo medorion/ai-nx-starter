@@ -8,7 +8,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { API_PREFIX, ORG_CODE_PATH_PARAM } from '@monorepo-kit/types';
+import { API_PREFIX } from '@monorepo-kit/types';
 import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
@@ -21,7 +21,7 @@ async function bootstrap() {
       transform: true, // auto-transforms payloads to DTO classes
     }),
   );
-  const globalPrefix = `/${API_PREFIX}/:${ORG_CODE_PATH_PARAM}`;
+  const globalPrefix = `/${API_PREFIX}`;
   app.setGlobalPrefix(globalPrefix);
 
   // Register the global exception filter
