@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, takeUntil } from 'rxjs';
-import { TodoItemDto, CreateTodoItemDto, UpdateTodoItemDto, SubItemDto, ChecklistItemDto } from '@medorion/types';
+import { TodoItemDto, CreateTodoItemDto, UpdateTodoItemDto, SubItemDto, ChecklistItemDto } from '@monorepo-kit/types';
 import { TodoItemsService } from '../../services/todo-items.service';
 import { FormGroupService } from '../../../../../core/services/form-group.service';
 

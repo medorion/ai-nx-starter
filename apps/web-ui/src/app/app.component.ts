@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { LoggerService } from './core/services/logger.service';
 import { MessageService } from './core/services/message.service';
-import { UI_APP_CONTEXT, UIAppContext } from './core/intefaces/ui-app-context.interface';
 import { Subscription } from 'rxjs';
+import { UiAppContextService } from './core/services/ui-app-context.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
-    @Inject(UI_APP_CONTEXT) private readonly uiAppContextService: UIAppContext,
+    private readonly uiAppContextService: UiAppContextService,
     private readonly logger: LoggerService,
     private readonly messageService: MessageService,
   ) {}

@@ -9,19 +9,4 @@ export class UIAppContextDto {
   @Type(() => ClientUserDto)
   @IsNotEmpty()
   public currentUser: ClientUserDto;
-
-  @ValidateNested()
-  @Type(() => IdCodeNameDto)
-  @IsNotEmpty()
-  public currentOrg: IdCodeNameDto;
-
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => IdCodeNameDto)
-  public availableOrganizations: IdCodeNameDto[];
-
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => IdNameDto)
-  public availableSolutions: IdNameDto[];
 }

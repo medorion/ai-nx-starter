@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ApiExceptionsService } from '@medorion/api-client';
+import { ApiExceptionsService } from '@monorepo-kit/api-client';
 import { LoggerService } from '../../../core/services/logger.service';
 
 /**

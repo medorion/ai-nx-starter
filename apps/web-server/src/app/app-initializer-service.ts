@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
-import { EnvVariables, SessionInfo, SessionService } from '@medorion/backend-common';
-import { Role } from '@medorion/types';
+import { EnvVariables, SessionInfo, SessionService } from '@monorepo-kit/backend-common';
+import { Role } from '@monorepo-kit/types';
 
 @Injectable()
 export class AppInitializerService implements OnModuleInit {

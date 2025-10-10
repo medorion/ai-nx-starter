@@ -25,28 +25,13 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-
-import { SolutionsComponent } from './solutions/solutions.component';
-import { SolutionFormComponent } from './solutions/solution-form/solution-form.component';
-import { OrganizationsComponent } from './organizations/organizations.component';
-import { OrganizationFormComponent } from './organizations/organization-form/organization-form.component';
-import { UsersComponent } from './users/users.component';
-import { ServerFlowsComponent } from './server-flows/server-flows.component';
 import { SettingsComponent } from './settings/settings.component';
 
 // Import shared modules
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    SolutionsComponent,
-    SolutionFormComponent,
-    OrganizationsComponent,
-    OrganizationFormComponent,
-    UsersComponent,
-    ServerFlowsComponent,
-    SettingsComponent,
-  ],
+  declarations: [SettingsComponent],
   imports: [
     CommonModule,
     FormsModule,

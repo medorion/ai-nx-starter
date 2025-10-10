@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { ExampleDto } from '@medorion/types';
-import { ApiExampleService } from '@medorion/api-client';
+import { ExampleDto } from '@monorepo-kit/types';
+import { ApiExampleService } from '@monorepo-kit/api-client';
 
 @Injectable({
   providedIn: 'root',

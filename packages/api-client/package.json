@@ -1,5 +1,5 @@
 {
-  "name": "@medorion/api-client",
+  "name": "@monorepo-kit/api-client",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",

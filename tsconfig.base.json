@@ -8,22 +8,20 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "esModuleInterop": true,
-    "lib": ["ES2022", "dom"],
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
-    "incremental": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "esModuleInterop": true,
+    "strict": false,
     "strictPropertyInitialization": false,
+    "baseUrl": ".",
     "paths": {
-      "@medorion/backend-common": ["packages/backend-common/src/index.ts"],
-      "@medorion-monorepo/entities": ["packages/entities/src/index.ts"],
-      "@medorion-monorepo/tools": ["packages/tools/src/index.ts"],
-      "@medorion/types": ["packages/types/src/index.ts"],
-      "@medorion/api-client": ["packages/api-client/src/index.ts"],
-      "@medorion/data-access-layer": ["packages/data-access-layer/src/index.ts"]
+      "@monorepo-kit/types": ["packages/types/src/index.ts"],
+      "@monorepo-kit/api-client": ["packages/api-client/src/index.ts"],
+      "@monorepo-kit/backend-common": ["packages/backend-common/src/index.ts"],
+      "@monorepo-kit/data-access-layer": ["packages/data-access-layer/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

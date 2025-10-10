@@ -4,7 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ListItemsService } from '../../services/list-items.service';
-import { ExampleDto } from '@medorion/types';
+import { ExampleDto } from '@monorepo-kit/types';
 
 @Component({
   selector: 'app-list-items',

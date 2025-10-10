@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { UI_APP_CONTEXT, UIAppContext } from '../../core/intefaces/ui-app-context.interface';
-import { ClientUserDto, IdCodeNameDto, IdNameDto } from '@medorion/types';
+import { ClientUserDto, IdCodeNameDto, IdNameDto } from '@monorepo-kit/types';
 import { MessageService } from '../../core/services/message.service';
+import { UiAppContextService } from '../../core/services/ui-app-context.service';
 interface BreadcrumbItem {
   label: string;
   url?: string;
@@ -25,32 +25,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Observables for template
   currentUser$: Observable<ClientUserDto | null>;
-  currentOrganization$: Observable<IdCodeNameDto | null>;
-  availableOrganizations$: Observable<IdCodeNameDto[]>;
-  availableSolutions$: Observable<IdNameDto[]>;
   isLoading$: Observable<boolean>;
 
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly messageService: MessageService,
-    @Inject(UI_APP_CONTEXT) private readonly uiAppContextService: UIAppContext,
+    private readonly uiAppContextService: UiAppContextService,
   ) {
     // Initialize observables
     this.currentUser$ = this.uiAppContextService.currentUser$;
-    this.currentOrganization$ = this.uiAppContextService.currentOrganization$;
-    this.availableOrganizations$ = this.uiAppContextService.availableOrganizations$;
-    this.availableSolutions$ = this.uiAppContextService.availableSolutions$;
     this.isLoading$ = this.uiAppContextService.isLoading$;
   }
 
   ngOnInit(): void {
-    // Subscribe to solutions data for breadcrumb lookup
-    this.availableSolutions$.pipe(takeUntil(this.destroy$)).subscribe((solutions) => {
-      this.solutions = solutions;
-      this.buildBreadcrumbs(); // Rebuild breadcrumbs when solutions change
-    });
-
     // Listen to route changes
     this.router.events
       .pipe(
@@ -130,11 +118,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       label = 'Shell'; // Default component for examples root
     }
     return label ? { label, isLast } : null;
-  }
-
-  async switchOrganization(orgCode: string): Promise<void> {
-    this.uiAppContextService.switchOrganization(orgCode);
-    this.messageService.info(`Switched to organization ${orgCode}`);
   }
 
   logout(): void {

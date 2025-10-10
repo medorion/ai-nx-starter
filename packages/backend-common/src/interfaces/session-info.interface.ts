@@ -1,4 +1,4 @@
-import { Role } from '@medorion/types';
+import { Role } from '@monorepo-kit/types';
 
 export interface SessionInfo {
   userId: string;

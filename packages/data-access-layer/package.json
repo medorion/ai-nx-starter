@@ -1,5 +1,5 @@
 {
-  "name": "@medorion/data-access-layer",
+  "name": "@monorepo-kit/data-access-layer",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",

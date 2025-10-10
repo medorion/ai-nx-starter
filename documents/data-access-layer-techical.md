@@ -1,4 +1,4 @@
-#### Package @medorion/data-access-layer
+#### Package @monorepo-kit/data-access-layer
 
 /packages
 /data-access-mongo

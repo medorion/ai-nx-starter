@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ExampleModule } from './examples/example/example.module';
+import { ExampleModule } from './features/example/example.module';
 import { AuthModule } from './auth/auth.module';
-import { TodoItemModule } from './examples/todo-item/todo-item.module';
+import { TodoItemModule } from './features/todo-item/todo-item.module';
 import { DataAccessModule } from './data-access.module';
-import { ExceptionsModule } from './examples/exceptions/exceptions.module';
-import { OrganizationsModule } from './features/organizations/organizations.module';
-import { UsersModule } from './features/users/users.module';
-import { SolutionsModule } from './features/solutions/solutions.module';
-import { SyncServiceFlowModule } from './features/sync-service-flow/sync-service-flow.module';
+import { ExceptionsModule } from './features/exceptions/exceptions.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AppInitializerService } from './app-initializer-service';
 import { APP_GUARD } from '@nestjs/core';
-import { Auth0AuthorizeDevGuard, Auth0AuthorizeProdGuard, CoreServicesModule } from '@medorion/backend-common';
+import { AuthorizeGuard, CoreServicesModule } from '@monorepo-kit/backend-common';
 
 @Module({
   imports: [
@@ -45,20 +41,13 @@ import { Auth0AuthorizeDevGuard, Auth0AuthorizeProdGuard, CoreServicesModule } f
     AuthModule,
     ExceptionsModule,
     // Features
-    OrganizationsModule,
-    UsersModule,
-    SolutionsModule,
-    SyncServiceFlowModule,
   ],
   controllers: [],
   providers: [
     AppInitializerService,
     {
       provide: APP_GUARD,
-      useClass:
-        process.env.ENVIRONMENT == 'development' && process.env.AUTO_LOG_IN_DEV_USER == 'true'
-          ? Auth0AuthorizeDevGuard
-          : Auth0AuthorizeProdGuard,
+      useClass: AuthorizeGuard,
     },
   ],
 })

@@ -12,8 +12,7 @@
 
     <div class="header-right">
       <ul nz-menu nzMode="horizontal" class="app-menu">
-        <!-- Hide in production, these are just examples -->
-        <li appHideInProd nz-submenu nzTitle="Examples" nzIcon="appstore">
+        <li nz-submenu nzTitle="Examples" nzIcon="appstore">
           <ul>
             <li nz-menu-item>
               <a routerLink="/examples/buttons">
@@ -59,72 +58,17 @@
             </li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Solutions" nzIcon="appstore">
-          <ul>
-            <li nz-menu-item *ngFor="let solution of availableSolutions$ | async">
-              <a routerLink="/solutions/{{ solution.id }}">
-                <span nz-icon nzType="appstore" nzTheme="outline"></span>
-                {{ solution.name }}
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Operations" nzIcon="tool">
-          <ul>
-            <li nz-menu-item>
-              <a routerLink="/operations/snapshots">
-                <span nz-icon nzType="camera" nzTheme="outline"></span>
-                Snapshots
-              </a>
-            </li>
-            <li nz-menu-item>
-              <a routerLink="/operations/model-editor">
-                <span nz-icon nzType="edit" nzTheme="outline"></span>
-                Model Editor
-              </a>
-            </li>
-          </ul>
-        </li>
         <li nz-submenu nzTitle="Backoffice" nzIcon="user">
           <ul>
-            <li nz-menu-item>
-              <a routerLink="/backoffice/organizations">
-                <span nz-icon nzType="bank" nzTheme="outline"></span>
-                Organizations
-              </a>
-            </li>
-            <li nz-menu-item>
-              <a routerLink="/backoffice/solutions">
-                <span nz-icon nzType="appstore" nzTheme="outline"></span>
-                Solutions
-              </a>
-            </li>
-            <li nz-menu-item>
-              <a routerLink="/backoffice/users">
-                <span nz-icon nzType="team" nzTheme="outline"></span>
-                Users
-              </a>
-            </li>
             <li nz-menu-item>
               <a routerLink="/backoffice/settings">
                 <span nz-icon nzType="setting" nzTheme="outline"></span>
                 Settings
               </a>
             </li>
-            <li nz-menu-group nzTitle="Technical">
-              <ul>
-                <li nz-menu-item>
-                  <a routerLink="/backoffice/server-flows">
-                    <span nz-icon nzType="api" nzTheme="outline"></span>
-                    Server Flows
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </li>
       </ul>
-
       <!-- User Dropdown -->
       <div class="user-dropdown">
         <a nz-dropdown [nzDropdownMenu]="menu">
@@ -135,7 +79,6 @@
           </ng-template>
           <span class="user-details">
             <div class="user-email">{{ (currentUser$ | async)?.email || 'Loading...' }}</div>
-            <div class="user-org">{{ (currentOrganization$ | async)?.name || 'Loading...' }}</div>
           </span>
           <nz-icon nzType="down" />
         </a>
@@ -146,27 +89,6 @@
                 <span nz-icon nzType="setting" nzTheme="outline"></span>
                 Settings
               </a>
-            </li>
-            <li
-              nz-submenu
-              nzTitle="Switch Organization"
-              nzIcon="swap"
-              *ngIf="(availableOrganizations$ | async)?.length && (availableOrganizations$ | async)!.length > 1"
-            >
-              <ul>
-                <li
-                  nz-menu-item
-                  *ngFor="let org of availableOrganizations$ | async"
-                  (click)="switchOrganization(org.code)"
-                  (keydown.enter)="switchOrganization(org.code)"
-                  (keydown.space)="switchOrganization(org.code)"
-                  tabindex="0"
-                  [class.active]="org.code === (currentOrganization$ | async)?.code"
-                >
-                  <span nz-icon nzType="bank" nzTheme="outline"></span>
-                  {{ org.name }}
-                </li>
-              </ul>
             </li>
             <li nz-menu-item (click)="logout()" (keydown.enter)="logout()" (keydown.space)="logout()" tabindex="0">
               <nz-icon nzType="logout" nzTheme="outline"></nz-icon>

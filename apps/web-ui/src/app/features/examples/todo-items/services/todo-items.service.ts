@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { map, tap, finalize } from 'rxjs/operators';
-import { TodoItemDto, CreateTodoItemDto, UpdateTodoItemDto, SubItemDto } from '@medorion/types';
-import { ApiTodoItemService } from '@medorion/api-client';
+import { TodoItemDto, CreateTodoItemDto, UpdateTodoItemDto, SubItemDto } from '@monorepo-kit/types';
+import { ApiTodoItemService } from '@monorepo-kit/api-client';
 
 export interface TodoItemFilters {
   status?: 'pending' | 'in_progress' | 'completed' | 'archived';

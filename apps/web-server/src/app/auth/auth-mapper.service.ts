@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ClientUserDto } from '@medorion/types';
-import { SessionInfo } from '@medorion/backend-common';
+import { ClientUserDto } from '@monorepo-kit/types';
+import { SessionInfo } from '@monorepo-kit/backend-common';
 
 @Injectable()
 export class AuthMapperService {
@@ -15,7 +15,6 @@ export class AuthMapperService {
       displayName: this.extractFullName(sessionInfo.email),
       role: sessionInfo.role,
       email: sessionInfo.email,
-      organizationCode: sessionInfo.organizationCode,
       phone: sessionInfo.phone,
       picture: sessionInfo.picture,
     };

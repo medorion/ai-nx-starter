@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ListItemsService } from '../../services/list-items.service';
-import { ExampleDto } from '@medorion/types';
+import { ExampleDto } from '@monorepo-kit/types';
 import { FormGroupService } from '../../../../../core/services/form-group.service';
 
 @Component({

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AppConfigService } from '@medorion/api-client';
-import { ErrorStatusCode } from '@medorion/types';
+import { AppConfigService } from '@monorepo-kit/api-client';
+import { ErrorStatusCode } from '@monorepo-kit/types';
 import { EventBusService } from '../services/event-bus.service';
 
 /*

@@ -1,4 +1,4 @@
-import { ExampleDto } from '@medorion/types';
+import { ExampleDto } from '@monorepo-kit/types';
 
 export const SAMPLE_MEMBERS_DATA: ExampleDto[] = [
   {

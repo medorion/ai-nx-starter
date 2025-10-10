@@ -23,9 +23,5 @@ export class ClientUserDto {
 
   @IsString()
   @IsOptional()
-  public organizationCode?: string;
-
-  @IsString()
-  @IsOptional()
   public picture?: string;
 }

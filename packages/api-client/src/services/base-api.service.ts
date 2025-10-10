@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
-import { API_PREFIX } from '@medorion/types';
+import { API_PREFIX } from '@monorepo-kit/types';
 
 /**
  * Base API service with common HTTP operations
