@@ -1,13 +1,13 @@
-<div class="list-items-container">
+<div class="list-items-container inner-container">
   <!-- Header Section -->
   <div class="page-header">
     <div class="header-content">
-      <h2>ListItems <span class="text-muted text-sm"> (Manage your team listItems)</span></h2>
+      <h2>List Item (UI only example) <span class="text-muted text-sm"> (Manage your team listItems)</span></h2>
     </div>
     <div class="header-actions">
       <button nz-button nzType="primary" (click)="onCreateMember()">
         <span nz-icon nzType="plus"></span>
-        Add Member
+        Add Item
       </button>
     </div>
   </div>
@@ -48,7 +48,7 @@
         <td>
           <div class="listItem-info">
             <nz-avatar [nzText]="listItem.name.charAt(0).toUpperCase()" nzSize="small"></nz-avatar>
-            <span class="listItem-name">{{ listItem.name }}</span>
+            <span class="list-item-name">{{ listItem.name }}</span>
           </div>
         </td>
         <td>{{ listItem.age }}</td>
@@ -74,7 +74,19 @@
             >
               <span nz-icon nzType="edit"></span>
             </button>
-            <button nz-button nzType="default" nzSize="small" nzDanger (click)="onDeleteListItem(listItem)" nz-tooltip="Delete listItem">
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              nzDanger
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure you want to delete '{{ listItem.name }}'?"
+              nzPopconfirmPlacement="topRight"
+              nzOkText="Delete"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onDeleteListItem(listItem)"
+              nz-tooltip="Delete listItem"
+            >
               <span nz-icon nzType="delete"></span>
             </button>
           </div>

@@ -1,0 +1,152 @@
+<div class="welcome-container">
+  <nz-card>
+    <h1>
+      <span nz-icon nzType="thunderbolt" nzTheme="outline"></span>
+      Welcome to Monorepo Kit
+    </h1>
+    <p class="subtitle">An Nx-based monorepo for full-stack application development with Angular frontend and NestJS backend.</p>
+
+    <nz-divider></nz-divider>
+
+    <h2>📋 Prerequisites</h2>
+    <nz-alert
+      nzType="warning"
+      nzMessage="Required Services"
+      nzDescription="Make sure you have Redis and MongoDB running before starting the application."
+      nzShowIcon
+    ></nz-alert>
+    <nz-row [nzGutter]="16" style="margin-top: 16px;">
+      <nz-col [nzSpan]="12">
+        <nz-card nzSize="small">
+          <h3>
+            <span nz-icon nzType="database" nzTheme="outline"></span>
+            MongoDB
+          </h3>
+          <p>Database for storing application data</p>
+          <code>Default: mongodb://localhost:27017</code>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card nzSize="small">
+          <h3>
+            <span nz-icon nzType="database" nzTheme="outline"></span>
+            Redis
+          </h3>
+          <p>Session storage and caching</p>
+          <code>Default: redis://localhost:6379</code>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+
+    <nz-divider></nz-divider>
+
+    <h2>🚀 Quick Start</h2>
+    <p>Get started with these commands:</p>
+    <nz-list nzBordered [nzDataSource]="quickStartCommands" nzSize="small">
+      <nz-list-item *ngFor="let item of quickStartCommands">
+        <strong>{{ item.title }}:</strong> <code>{{ item.command }}</code>
+        <p>{{ item.description }}</p>
+      </nz-list-item>
+    </nz-list>
+
+    <nz-divider></nz-divider>
+
+    <h2>🏗️ Technology Stack</h2>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-card nzTitle="Frontend" nzSize="small">
+          <ul>
+            <li>Angular 19</li>
+            <li>NG-ZORRO (Ant Design)</li>
+            <li>RxJS</li>
+            <li>TypeScript</li>
+          </ul>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card nzTitle="Backend" nzSize="small">
+          <ul>
+            <li>NestJS 11</li>
+            <li>TypeORM</li>
+            <li>MongoDB</li>
+            <li>Redis (Sessions)</li>
+            <li>Pino Logger</li>
+          </ul>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+
+    <nz-divider></nz-divider>
+
+    <h2>🔨 Key Features</h2>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="8">
+        <nz-card nzSize="small">
+          <h3>
+            <span nz-icon nzType="api" nzTheme="outline"></span>
+            Auto API Client Generation
+          </h3>
+          <p>Run <code>npm run gen-api-client</code> to automatically generate TypeScript API client from NestJS controllers.</p>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card nzSize="small">
+          <h3>
+            <span nz-icon nzType="robot" nzTheme="outline"></span>
+            AI Agent Rules
+          </h3>
+          <p>Custom rules in <code>.windsurf/rules/</code> help AI agents understand project conventions and perform development tasks efficiently.</p>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card nzSize="small">
+          <h3>
+            <span nz-icon nzType="build" nzTheme="outline"></span>
+            Nx Monorepo
+          </h3>
+          <p>Powerful build system with caching, parallel execution, and dependency graph management.</p>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+
+    <nz-divider></nz-divider>
+
+    <h2>📚 Development Workflow</h2>
+    <nz-steps [nzCurrent]="5" nzSize="small">
+      <nz-step nzTitle="Create Entity" nzDescription="Define entity & DTOs in data-access-layer"></nz-step>
+      <nz-step nzTitle="Implement API" nzDescription="Create controller, service, mapper in web-server"></nz-step>
+      <nz-step nzTitle="Generate Client" nzDescription="Run npm run gen-api-client"></nz-step>
+      <nz-step nzTitle="Build UI" nzDescription="Implement UI feature using generated API"></nz-step>
+      <nz-step nzTitle="Test & Deploy" nzDescription="Run npm run build"></nz-step>
+    </nz-steps>
+
+    <nz-divider></nz-divider>
+
+    <h2>📁 Project Structure</h2>
+    <pre class="project-structure">
+monorepo-kit/
+├── apps/
+│   ├── web-ui/          # Angular frontend application
+│   └── web-server/      # NestJS backend application
+├── packages/            # Shared libraries and utilities
+│   ├── types/           # Shared TypeScript types
+│   ├── api-client/      # Auto-generated API client
+│   ├── data-access-layer/ # Database entities & services
+│   └── backend-common/  # Shared backend utilities
+├── documents/           # Technical documentation
+├── scripts/             # Build and utility scripts
+├── .windsurf/           # AI agent rules and configurations
+│   └── rules/           # Project-specific AI rules
+└── nx.json              # Nx workspace configuration
+    </pre>
+
+    <nz-divider></nz-divider>
+
+    <nz-alert
+      nzType="info"
+      nzMessage="Documentation"
+      nzDescription="For detailed technical documentation, see the documents/ folder or visit the README.md file."
+      nzShowIcon
+    ></nz-alert>
+  </nz-card>
+</div>

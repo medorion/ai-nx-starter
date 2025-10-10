@@ -1,6 +1,6 @@
 # Data Access Layer Package Rules
 
-This package provides TypeORM-based database access for the Medorion application.
+This package provides TypeORM-based database access for the Monorepo Kit application.
 
 ## Package Structure
 - `/src/entities` - Entity definitions (typed schemas)

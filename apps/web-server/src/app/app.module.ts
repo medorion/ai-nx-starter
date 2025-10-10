@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ExampleModule } from './features/example/example.module';
 import { AuthModule } from './auth/auth.module';
-import { TodoItemModule } from './features/todo-item/todo-item.module';
+import { UserModule } from './features/user/user.module';
 import { DataAccessModule } from './data-access.module';
 import { ExceptionsModule } from './features/exceptions/exceptions.module';
+import { SyncEventsModule } from './features/sync-events/sync-events.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AppInitializerService } from './app-initializer-service';
 import { APP_GUARD } from '@nestjs/core';
@@ -34,13 +35,14 @@ import { AuthorizeGuard, CoreServicesModule } from '@monorepo-kit/backend-common
     }),
     // Examples
     ExampleModule,
-    TodoItemModule,
     // Common
     DataAccessModule,
     CoreServicesModule,
     AuthModule,
     ExceptionsModule,
     // Features
+    UserModule,
+    SyncEventsModule,
   ],
   controllers: [],
   providers: [

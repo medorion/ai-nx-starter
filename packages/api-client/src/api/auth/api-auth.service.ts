@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UIAppContextDto } from '@monorepo-kit/types';
+import { ClientUserDto, LoginUserDto, UIAppContextDto } from '@monorepo-kit/types';
 import { BaseApiService } from '../../services/base-api.service';
 import { AppConfigService } from '../../services/app-config.service';
 
@@ -19,6 +19,20 @@ export class ApiAuthService extends BaseApiService {
   }
 
   /**
+   * login - POST auth/login
+   *
+   * @param loginUserDto - Body parameter
+   * @param ip - Ip parameter
+   * @returns Observable<{ token: string; user: ClientUserDto; }>
+   */
+  login(loginUserDto: LoginUserDto, ip: string): Observable<{ token: string; user: ClientUserDto; }> {
+    return this.http.post<{ token: string; user: ClientUserDto; }>(
+      `${this.BASE_URL}/auth/login`,
+      loginUserDto
+    );
+  }
+
+  /**
    * getUiAppContext - GET auth/ui-app-context
    *
    * @returns Observable<UIAppContextDto>
@@ -26,6 +40,18 @@ export class ApiAuthService extends BaseApiService {
   getUiAppContext(): Observable<UIAppContextDto> {
     return this.http.get<UIAppContextDto>(
       `${this.BASE_URL}/auth/ui-app-context`,
+    );
+  }
+
+  /**
+   * logout - POST auth/logout
+   *
+   * @returns Observable<void>
+   */
+  logout(): Observable<void> {
+    return this.http.post<void>(
+      `${this.BASE_URL}/auth/logout`,
+      {}
     );
   }
 

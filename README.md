@@ -1,6 +1,6 @@
-# Medorion Monorepo
+# Monorepo Kit
 
-[Medorion](https://medorion.com) - An Nx-based monorepo for full-stack application development with Angular frontend and NestJS backend.
+An Nx-based monorepo for full-stack application development with Angular frontend and NestJS backend.
 
 ## 📚 Documentation
 
@@ -24,8 +24,14 @@ For detailed technical documentation, see the [documents](./documents) folder:
 
 ### Installation
 
+if no pnpm installed:
+
 ```bash
-npm install
+npm install -g pnpm
+```
+
+```bash
+pnpm install
 ```
 
 ## 🏃 Running the Application

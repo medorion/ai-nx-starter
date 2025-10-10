@@ -4,8 +4,6 @@ export interface SessionInfo {
   userId: string;
   email: string;
   phone?: string;
-  organizationId?: string;
-  organizationCode: string;
   creationDate: number;
   role: Role;
   authorizedUrl?: string;

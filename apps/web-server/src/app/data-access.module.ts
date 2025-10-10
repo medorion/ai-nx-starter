@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { TodoItem, TodoItemDbService } from '@monorepo-kit/data-access-layer';
+import { TodoItem, TodoItemDbService, User, UserDbService } from '@monorepo-kit/data-access-layer';
 
 @Module({
   imports: [
@@ -10,14 +10,14 @@ import { TodoItem, TodoItemDbService } from '@monorepo-kit/data-access-layer';
       useFactory: (configService: ConfigService) => ({
         type: 'mongodb',
         url: configService.get<string>('MONGO_URI'),
-        entities: [TodoItem],
+        entities: [TodoItem, User],
         synchronize: true,
         logging: process.env.NODE_ENV === 'development',
       }),
     }),
-    TypeOrmModule.forFeature([TodoItem]),
+    TypeOrmModule.forFeature([TodoItem, User]),
   ],
-  providers: [TodoItemDbService],
-  exports: [TodoItemDbService],
+  providers: [TodoItemDbService, UserDbService],
+  exports: [TodoItemDbService, UserDbService],
 })
 export class DataAccessModule {}

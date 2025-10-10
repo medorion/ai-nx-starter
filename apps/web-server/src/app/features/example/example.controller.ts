@@ -1,7 +1,12 @@
 import { Controller, Get, Post, Put, Patch, Delete, Body, Param, Query, Session, HttpCode, HttpStatus } from '@nestjs/common';
 import { ExampleDto } from '@monorepo-kit/types';
 import { ExampleService } from './example.service';
+import { Authorize } from '@monorepo-kit/backend-common';
+import { Role } from '@monorepo-kit/types';
 
+/**
+ * Used by List/Item example
+ */
 @Controller(`examples/examples`)
 export class ExampleController {
   constructor(private readonly exampleService: ExampleService) {}
@@ -10,6 +15,7 @@ export class ExampleController {
    * GET /examples
    * Get all examples or filter by name
    */
+  @Authorize(Role.Admin)
   @Get()
   findAll(@Query('name') name?: string): ExampleDto[] {
     if (name) {
@@ -22,6 +28,7 @@ export class ExampleController {
    * GET /examples/count
    * Get total count of examples
    */
+  @Authorize(Role.Admin)
   @Get('count')
   getCount(): { count: number } {
     return { count: this.exampleService.count() };
@@ -31,6 +38,7 @@ export class ExampleController {
    * GET /examples/:id
    * Get example by ID
    */
+  @Authorize(Role.Admin)
   @Get(':id')
   findOne(@Param('id') id: string): ExampleDto {
     return this.exampleService.findOne(id);
@@ -40,6 +48,7 @@ export class ExampleController {
    * POST /examples
    * Create new example
    */
+  @Authorize(Role.Admin)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createExampleDto: Omit<ExampleDto, 'id'>): ExampleDto {
@@ -50,6 +59,7 @@ export class ExampleController {
    * PUT /examples/:id
    * Update existing example
    */
+  @Authorize(Role.Admin)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateExampleDto: Partial<ExampleDto>): ExampleDto {
     return this.exampleService.update(id, updateExampleDto);
@@ -59,6 +69,7 @@ export class ExampleController {
    * PATCH /examples/:id/status/:statusId
    * Advanced update example with multiple parameters and session
    */
+  @Authorize(Role.Admin)
   @Patch(':id/status/:statusId')
   @HttpCode(HttpStatus.OK)
   advancedUpdate(
@@ -106,7 +117,7 @@ export class ExampleController {
           timestamp: new Date().toISOString(),
         },
         updateData,
-        processedBy: 'Medorion System v2.0',
+        processedBy: 'Monorepo Kit System v2.0',
       },
     };
   }
@@ -115,6 +126,7 @@ export class ExampleController {
    * DELETE /examples/:id
    * Delete example
    */
+  @Authorize(Role.Admin)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string): void {

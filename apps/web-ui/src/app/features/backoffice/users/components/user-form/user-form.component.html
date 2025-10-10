@@ -1,0 +1,135 @@
+<div class="user-form-container inner-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>
+        <span nz-icon [nzType]="isEditMode ? 'edit' : 'plus'" nzTheme="outline"></span>
+        {{ isEditMode ? 'Edit User' : 'Create New User' }}
+      </h2>
+      <p class="subtitle">{{ isEditMode ? 'Update user information' : 'Add a new user to the system' }}</p>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="default" (click)="onCancel()">
+        <span nz-icon nzType="close"></span>
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="form-and-debug-container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <nz-card nzTitle="User Information" [nzLoading]="loading">
+        <form nz-form [formGroup]="userForm" (ngSubmit)="onSubmit()" nzLayout="vertical">
+          <!-- First Name -->
+          <nz-form-item>
+            <nz-form-label nzRequired>First Name</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter first name">
+              <input nz-input id="firstName" name="firstName" formControlName="firstName" placeholder="Enter first name" [class.error]="isFieldInvalid('firstName')" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Last Name -->
+          <nz-form-item>
+            <nz-form-label nzRequired>Last Name</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter last name">
+              <input nz-input id="lastName" name="lastName" formControlName="lastName" placeholder="Enter last name" [class.error]="isFieldInvalid('lastName')" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Email -->
+          <nz-form-item>
+            <nz-form-label nzRequired>Email</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter a valid email">
+              <input nz-input id="email" name="email" formControlName="email" type="email" placeholder="user@example.com" [class.error]="isFieldInvalid('email')" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Password -->
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!isEditMode">
+              Password
+              <span *ngIf="isEditMode" class="optional-text">(leave empty to keep current)</span>
+            </nz-form-label>
+            <nz-form-control [nzErrorTip]="isEditMode ? 'Password must be at least 6 characters' : 'Please enter password (min 6 characters)'">
+              <input
+                nz-input
+                id="password"
+                name="password"
+                formControlName="password"
+                type="password"
+                [placeholder]="isEditMode ? 'Enter new password (optional)' : 'Enter password'"
+                [class.error]="isFieldInvalid('password')"
+              />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Role -->
+          <nz-form-item>
+            <nz-form-label nzRequired>Role</nz-form-label>
+            <nz-form-control nzErrorTip="Please select a role">
+              <nz-select id="role" name="role" formControlName="role" nzPlaceHolder="Select role" [class.error]="isFieldInvalid('role')">
+                <nz-option *ngFor="let option of roleOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Phone -->
+          <nz-form-item>
+            <nz-form-label>Phone</nz-form-label>
+            <nz-form-control>
+              <input nz-input id="phone" name="phone" formControlName="phone" placeholder="Enter phone number (optional)" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Picture URL -->
+          <nz-form-item>
+            <nz-form-label>Picture URL</nz-form-label>
+            <nz-form-control>
+              <input nz-input id="picture" name="picture" formControlName="picture" placeholder="Enter picture URL (optional)" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Submit Button -->
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" style="margin-right: 8px">
+                <span nz-icon [nzType]="isEditMode ? 'save' : 'plus'"></span>
+                {{ isEditMode ? 'Update User' : 'Create User' }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="onCancel()" [disabled]="submitting">Cancel</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+    </div>
+
+    <!-- Debug Section -->
+    <div class="debug-section">
+      <nz-card nzTitle="Form Debug Info" nzSize="small">
+        <p><strong>Mode:</strong> {{ isEditMode ? 'Edit' : 'Create' }}</p>
+        <p *ngIf="isEditMode"><strong>User ID:</strong> {{ userId }}</p>
+        <p><strong>Form Valid:</strong> {{ userForm.valid ? '✅ Yes' : '❌ No' }}</p>
+        <p><strong>Form Dirty:</strong> {{ userForm.dirty ? 'Yes' : 'No' }}</p>
+        <p><strong>Form Touched:</strong> {{ userForm.touched ? 'Yes' : 'No' }}</p>
+
+        <nz-divider></nz-divider>
+
+        <h4>Form Values:</h4>
+        <pre class="json-display">{{ formDataJson }}</pre>
+
+        <nz-divider></nz-divider>
+
+        <h4>Field Status:</h4>
+        <ul class="field-status-list">
+          <li *ngFor="let field of ['firstName', 'lastName', 'email', 'password', 'role', 'phone', 'picture']">
+            <strong>{{ field }}:</strong>
+            <span [class.valid]="!isFieldInvalid(field)" [class.invalid]="isFieldInvalid(field)">
+              {{ isFieldInvalid(field) ? '❌ Invalid' : '✅ Valid' }}
+            </span>
+          </li>
+        </ul>
+      </nz-card>
+    </div>
+  </div>
+</div>

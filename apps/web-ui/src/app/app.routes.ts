@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { RedirectingToLoginComponent } from './shared/pages/redirecting-to-login/redirecting-to-login.component';
 import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
 import { LoadingComponent } from './shared/pages/loading/loading.component';
+import { LoginComponent } from './shared/pages/login/login.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,11 @@ export const routes: Routes = [
     path: 'redirecting-to-login',
     component: RedirectingToLoginComponent,
     data: { breadcrumb: 'Redirecting to login' },
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { breadcrumb: 'Login' },
   },
   {
     path: '**',

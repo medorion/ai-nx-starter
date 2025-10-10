@@ -66,6 +66,12 @@ import {
   PauseOutline,
   ApiOutline,
   ReloadOutline,
+  ThunderboltOutline,
+  RobotOutline,
+  BuildOutline,
+  FileSearchOutline,
+  SendOutline,
+  InboxOutline,
 } from '@ant-design/icons-angular/icons';
 
 // Array of all icons for easy management
@@ -133,6 +139,12 @@ const icons = [
   PauseOutline,
   ApiOutline,
   ReloadOutline,
+  ThunderboltOutline,
+  RobotOutline,
+  BuildOutline,
+  FileSearchOutline,
+  SendOutline,
+  InboxOutline,
 ];
 
 @NgModule({

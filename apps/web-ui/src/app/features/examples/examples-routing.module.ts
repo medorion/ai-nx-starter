@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ShellComponent } from './shell/shell.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { FormsComponent } from './forms/forms.component';
 import { DecoratorComponent } from './decorators/decorator.component';
 import { PubSubExampleComponent } from './pub-sub/pub-sub-example.component';
 import { ExceptionsExampleComponent } from './exceptions/exceptions-example.component';
+import { ServerEventsDemoComponent } from './server-events-demo/server-events-demo.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ShellComponent,
-    data: { breadcrumb: 'Shell' },
+    component: WelcomeComponent,
+    data: { breadcrumb: 'Welcome' },
   },
   {
-    path: 'shell',
-    component: ShellComponent,
-    data: { breadcrumb: 'Shell' },
+    path: 'welcome',
+    component: WelcomeComponent,
+    data: { breadcrumb: 'Welcome' },
   },
   {
     path: 'buttons',
@@ -44,14 +45,14 @@ const routes: Routes = [
     data: { breadcrumb: 'Exception Testing' },
   },
   {
-    path: 'list-items',
-    loadChildren: () => import('./list-item/list-items.module').then((m) => m.ListItemsModule),
-    data: { breadcrumb: 'List Items' },
+    path: 'server-events',
+    component: ServerEventsDemoComponent,
+    data: { breadcrumb: 'Server Events' },
   },
   {
-    path: 'todo-items',
-    loadChildren: () => import('./todo-items/todo-items.module').then((m) => m.TodoItemsModule),
-    data: { breadcrumb: 'Todo Items' },
+    path: 'list-items',
+    loadChildren: () => import('./list-item/list-items.module').then((m) => m.ListItemsModule),
+    data: { breadcrumb: 'List Item' },
   },
 ];
 

@@ -58,16 +58,6 @@ export class SessionService {
     });
   }
 
-  public async createExternalSession(sessionInfo: SessionInfo, userIp: string, token: string, ttl?: number): Promise<string> {
-    await this.client.set(
-      token,
-      JSON.stringify({ userIp, sessionInfo, id: sessionInfo.userId }),
-      'EX',
-      ttl ? ttl : this.serverTokenExpiration,
-    );
-    return token;
-  }
-
   // Used to initialize serrion in dev
   public async createSessionWithToken(sessionInfo: SessionInfo, userIp: string, token: string, ttl?: number): Promise<string> {
     await this.client.set(

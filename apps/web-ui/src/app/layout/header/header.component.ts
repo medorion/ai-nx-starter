@@ -5,6 +5,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ClientUserDto, IdCodeNameDto, IdNameDto } from '@monorepo-kit/types';
 import { MessageService } from '../../core/services/message.service';
 import { UiAppContextService } from '../../core/services/ui-app-context.service';
+import { AuthService } from '../../core/services/auth.service';
 interface BreadcrumbItem {
   label: string;
   url?: string;
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly messageService: MessageService,
     private readonly uiAppContextService: UiAppContextService,
+    private readonly authService: AuthService,
   ) {
     // Initialize observables
     this.currentUser$ = this.uiAppContextService.currentUser$;
@@ -89,7 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Handle special case for empty route (redirects to examples)
     if (this.router.url === '/' || this.router.url === '') {
       this.breadcrumbs.push({ label: 'Examples', url: '/examples' });
-      this.breadcrumbs.push({ label: 'Shell' });
+      this.breadcrumbs.push({ label: 'Welcome' });
     }
   }
 
@@ -113,14 +115,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         label = solution.name; // Override the "Solutions" label with actual solution name
       }
     }
-    // If no label found and this is examples root, check if it's shell
+    // If no label found and this is examples root, check if it's welcome
     if (!label && routeUrl === 'examples' && isLast) {
-      label = 'Shell'; // Default component for examples root
+      label = 'Welcome'; // Default component for examples root
     }
     return label ? { label, isLast } : null;
   }
 
-  logout(): void {
-    this.uiAppContextService.logOut();
+  async logout(): Promise<void> {
+    await this.authService.logout();
+    this.router.navigate(['/redirecting-to-login']);
   }
 }

@@ -164,7 +164,7 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
   }
 
   private navigateToList(): void {
-    this.router.navigate(['/examples/members']);
+    this.router.navigate(['/examples/list-items']);
   }
 
   // Tag management methods

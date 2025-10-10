@@ -36,7 +36,15 @@ export class UiAppContextService {
     this.logger.info('UI Context development');
     this._isLoading$.next(true);
     this._error$.next(null);
+
+    // Load token and fingerprint from localStorage
+    const token = localStorage.getItem(StorageKey.Token);
+    if (token) {
+      this.appConfigService.token = token;
+    }
+
     this.appConfigService.fingerprint = localStorage.getItem(StorageKey.Fingerprint) as string;
+
     // Try to log in, in dev mode
     await this.refreshContext();
   }
@@ -81,11 +89,20 @@ export class UiAppContextService {
 
   logOut(): void {
     // Only for dev
+    this.appConfigService.token = '';
+    localStorage.removeItem(StorageKey.Token);
+    // this.apiAuthService.logout();
     this.router.navigate(['/redirecting-to-login']);
     this.logger.info('Logout');
   }
 
+  clear() {
+    this._uiAppContext$.next(null);
+    this._isLoading$.next(false);
+    this._error$.next(null);
+  }
+
   isLoggedIn(): boolean {
-    return true;
+    return this.currentContext?.currentUser !== null;
   }
 }

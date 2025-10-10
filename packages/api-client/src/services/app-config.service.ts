@@ -1,17 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export interface IAuth0Settings {
-  domain: string;
-  clientId: string;
-  authorizationParams: {
-    redirect_uri?: string;
-    audience?: string;
-    scope?: string;
-  };
-  cacheLocation: 'localstorage' | 'memory';
-  useRefreshTokens: boolean;
-}
-
 export interface ApiConfig {
   apiUrl: string;
   enableLogging?: boolean;
@@ -21,7 +9,6 @@ export interface ApiConfig {
   token?: string;
   fingerprint?: string;
   version?: string;
-  auth0Settings: IAuth0Settings;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -35,13 +22,6 @@ export class AppConfigService {
     token: '',
     fingerprint: '',
     version: '1.0.0',
-    auth0Settings: {
-      domain: '',
-      clientId: '',
-      authorizationParams: {},
-      cacheLocation: 'localstorage',
-      useRefreshTokens: true,
-    },
   };
 
   loadConfig(): Promise<void> {

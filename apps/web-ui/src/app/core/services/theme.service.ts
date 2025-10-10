@@ -7,7 +7,7 @@ export type ThemeMode = 'light' | 'dark';
   providedIn: 'root',
 })
 export class ThemeService {
-  private readonly THEME_KEY = 'medorion-theme';
+  private readonly THEME_KEY = 'monorepo_kit-theme';
   private readonly DARK_THEME_CLASS = 'dark-theme';
 
   private themeSubject = new BehaviorSubject<ThemeMode>('light');

@@ -9,6 +9,11 @@ const routes: Routes = [
     component: SettingsComponent,
     data: { breadcrumb: 'Settings' },
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+    data: { breadcrumb: 'Users' },
+  },
 ];
 
 @NgModule({

@@ -40,40 +40,15 @@ import { UiAppContextService } from './core/services/ui-app-context.service';
 registerLocaleData(en);
 
 // Initialize app config
-function initApp(
-  appConfigService: AppConfigService,
-  authClientConfig: AuthClientConfig,
-  fingerprintService: FingerprintService,
-): () => Promise<void> {
+function initApp(appConfigService: AppConfigService): () => Promise<void> {
   return async () => {
     // Load app config
     await appConfigService.loadConfig();
-
     const config = appConfigService.getConfig();
-
-    // Only in non prod
-    if (!environment.production && environment.autoLogInDevUser) {
-      // Set dev Finferprint
-      localStorage.setItem(StorageKey.Fingerprint, appConfigService.fingerprint);
-    } else {
-      // Calc finger print
-      const fpRes = await fingerprintService.getFingerprint();
-      const visitorId = fpRes.visitorId;
-
-      // Set fingerprint
-      appConfigService.fingerprint = visitorId;
-      localStorage.setItem(StorageKey.Fingerprint, visitorId);
+    const token = localStorage.getItem(StorageKey.Token);
+    if (token) {
+      config.token = token;
     }
-
-    // Set auth config
-    const authConfig = config.auth0Settings;
-    authClientConfig.set({
-      domain: authConfig.domain,
-      clientId: authConfig.clientId,
-      authorizationParams: authConfig.authorizationParams,
-      cacheLocation: authConfig.cacheLocation,
-      useRefreshTokens: appConfigService.getConfig().auth0Settings.useRefreshTokens,
-    });
   };
 }
 

@@ -38,6 +38,8 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.validateForm.controls['password'].valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.validateForm.controls['checkPassword'].updateValueAndValidity();
     });
+    // Run validation on form
+    this.validateForm.updateValueAndValidity();
   }
 
   ngOnDestroy(): void {

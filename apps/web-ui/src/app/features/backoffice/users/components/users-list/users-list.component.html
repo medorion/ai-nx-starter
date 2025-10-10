@@ -1,0 +1,127 @@
+<div class="users-list-container inner-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Users Management</h2>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="primary" (click)="onCreateUser()">
+        <span nz-icon nzType="plus"></span>
+        Add User
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="max-width: 400px;">
+      <input type="text" nz-input id="userSearch" name="userSearch" placeholder="Search by name, email, or role..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- Users Table -->
+  <nz-table
+    #basicTable
+    [nzData]="paginatedUsers"
+    [nzLoading]="loading"
+    [nzShowPagination]="false"
+    nzSize="middle"
+    class="users-table"
+  >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Phone</th>
+        <th nzWidth="150px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of paginatedUsers">
+        <td>
+          <div class="user-info">
+            <nz-avatar [nzText]="(user.firstName && user.firstName.charAt(0) || 'U').toUpperCase()" nzSize="small"></nz-avatar>
+            <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+          </div>
+        </td>
+        <td>
+          <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+        </td>
+        <td>
+          <nz-tag [nzColor]="getRoleBadgeColor(user.role)">
+            {{ user.role }}
+          </nz-tag>
+        </td>
+        <td>
+          <span *ngIf="user.phone">{{ user.phone }}</span>
+          <span *ngIf="!user.phone" class="text-muted">No phone</span>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="onEditUser(user)"
+              nz-tooltip="Edit user"
+              style="margin-right: 4px"
+            >
+              <span nz-icon nzType="edit"></span>
+            </button>
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              nzDanger
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure you want to delete '{{ user.firstName }} {{ user.lastName }}'?"
+              nzPopconfirmPlacement="topRight"
+              nzOkText="Delete"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onDeleteUser(user)"
+              nz-tooltip="Delete user"
+            >
+              <span nz-icon nzType="delete"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && filteredUsers.length === 0"
+    [nzNotFoundContent]="searchQuery ? 'No users found matching your search' : 'No users yet'"
+    [nzNotFoundImage]="searchQuery ? 'search' : 'default'"
+  >
+    <div nz-empty-footer *ngIf="!searchQuery">
+      <button nz-button nzType="primary" (click)="onCreateUser()">
+        <span nz-icon nzType="plus"></span>
+        Add First User
+      </button>
+    </div>
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!loading && filteredUsers.length > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[5, 10, 20, 50]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+</div>

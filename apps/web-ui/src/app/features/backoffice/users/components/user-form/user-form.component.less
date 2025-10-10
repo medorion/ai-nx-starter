@@ -1,0 +1,80 @@
+.user-form-container {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+
+    .header-content {
+      h2 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        font-weight: 600;
+
+        span {
+          margin-right: 8px;
+        }
+      }
+
+      .subtitle {
+        margin: 0;
+        color: #8c8c8c;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .form-and-debug-container {
+    display: flex;
+    gap: 32px;
+
+    .form-section {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .debug-section {
+      width: 350px;
+      flex-shrink: 0;
+
+      .json-display {
+        background: #f5f5f5;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .field-status-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          padding: 4px 0;
+          font-size: 13px;
+
+          .valid {
+            color: #52c41a;
+          }
+
+          .invalid {
+            color: #ff4d4f;
+          }
+        }
+      }
+    }
+  }
+
+  .optional-text {
+    font-size: 12px;
+    color: #8c8c8c;
+    font-weight: normal;
+  }
+
+  input.error,
+  nz-select.error {
+    border-color: #ff4d4f;
+  }
+}

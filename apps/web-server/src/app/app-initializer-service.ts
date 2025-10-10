@@ -1,14 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import { ConfigService } from '@nestjs/config';
-import { EnvVariables, SessionInfo, SessionService } from '@monorepo-kit/backend-common';
+import { UserDbService } from '@monorepo-kit/data-access-layer';
 import { Role } from '@monorepo-kit/types';
 
 @Injectable()
 export class AppInitializerService implements OnModuleInit {
   constructor(
-    private readonly sessionService: SessionService,
-    private readonly configService: ConfigService,
+    private readonly userDbService: UserDbService,
     private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(AppInitializerService.name);
@@ -19,42 +17,25 @@ export class AppInitializerService implements OnModuleInit {
    */
   async onModuleInit() {
     this.logger.info('Running application initialization tasks...');
-
-    const environment = this.configService.get<string>(EnvVariables.ENVIRONMENT);
-    const autoLogInSampleUser = this.configService.get<string>(EnvVariables.AUTO_LOG_IN_DEV_USER);
-    if (environment == 'development' && autoLogInSampleUser == 'true') {
-      await this.initDevUser();
-    }
+    await this.initDemoUser();
 
     this.logger.info('Application initialization completed');
   }
 
-  private async initDevUser() {
-    const avOrg = this.configService.get<string>(EnvVariables.DEV_USER_ORG_CODES) || '';
-    const sessionInfo: SessionInfo = {
-      userId: this.configService.get<string>(EnvVariables.DEV_USER_ID),
-      email: this.configService.get<string>(EnvVariables.DEV_USER_EMAIL),
-      phone: '',
-      organizationId: 'Demo',
-      organizationCode: this.configService.get<string>(EnvVariables.DEV_USER_ORG_CODE),
-      creationDate: new Date().getTime(),
-      role: this.configService.get<string>(EnvVariables.DEV_USER_ROLE) as Role,
-      authorizedUrl: '',
-      rootOrgId: '',
-      createdAt: new Date().getTime(),
-      expiresAt: new Date().getTime() + 2_592_000_000,
-      serverVersion: '1.0.0',
-      fingerprint: this.configService.get<string>(EnvVariables.DEV_USER_FINDERPRINT),
-      clientId: '',
-      availableOrganizations: avOrg.split(','),
-    };
-
-    await this.sessionService.createSessionWithToken(
-      sessionInfo,
-      '127.0.0.1',
-      this.configService.get<string>(EnvVariables.DEV_USER_ID),
-      2_592_000_000, // 30 days
-    );
-    this.logger.info('Developer user initialized');
+  private async initDemoUser() {
+    // Make sure demo user exists
+    const demoUser = await this.userDbService.findByEmail('demo@demo.com');
+    if (!demoUser) {
+      await this.userDbService.create({
+        email: 'demo@demo.com',
+        password: 'demo',
+        firstName: 'Demo',
+        lastName: 'User',
+        role: Role.Admin,
+      });
+      this.logger.info('Demo user created');
+    } else {
+      this.logger.info('Demo user already exists');
+    }
   }
 }

@@ -5,7 +5,9 @@ import {
   ConcurencyException,
   UnauthorizedLoginException,
   AppErrorException,
+  Authorize,
 } from '@monorepo-kit/backend-common';
+import { Role } from '@monorepo-kit/types';
 
 /**
  * Exceptions controller for testing and demonstrating error handling
@@ -18,6 +20,7 @@ export class ExceptionsController {
    * Trigger SessionExpired exception (455)
    * GET /examples/exceptions/session-expired
    */
+  @Authorize(Role.Admin)
   @Get('session-expired')
   triggerSessionExpired(): never {
     throw new SessionExpiredException({
@@ -32,6 +35,7 @@ export class ExceptionsController {
    * Trigger AppWarning exception (456)
    * GET /examples/exceptions/app-warning
    */
+  @Authorize(Role.Admin)
   @Get('app-warning')
   triggerAppWarning(): never {
     throw new AppWarningException({
@@ -46,6 +50,7 @@ export class ExceptionsController {
    * Trigger Concurrency exception (457)
    * GET /examples/exceptions/concurrency-error
    */
+  @Authorize(Role.Admin)
   @Get('concurrency-error')
   triggerConcurrencyError(): never {
     throw new ConcurencyException({
@@ -66,6 +71,7 @@ export class ExceptionsController {
    * Trigger UnauthorizedLogin exception (458)
    * GET /examples/exceptions/unauthorized-login
    */
+  @Authorize(Role.Admin)
   @Get('unauthorized-login')
   triggerUnauthorizedLogin(): never {
     throw new UnauthorizedLoginException({
@@ -82,6 +88,7 @@ export class ExceptionsController {
    * Trigger AppError exception (459)
    * GET /examples/exceptions/app-error
    */
+  @Authorize(Role.Admin)
   @Get('app-error')
   triggerAppError(): never {
     throw new AppErrorException({
@@ -101,6 +108,7 @@ export class ExceptionsController {
    * Get list of available exception endpoints
    * GET /examples/exceptions
    */
+  @Authorize(Role.Admin)
   @Get()
   getExceptionEndpoints() {
     return {

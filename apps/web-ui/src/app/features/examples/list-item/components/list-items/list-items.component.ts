@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { ListItemsService } from '../../services/list-items.service';
 import { ExampleDto } from '@monorepo-kit/types';
 
@@ -29,7 +28,6 @@ export class ListItemsComponent implements OnInit, OnDestroy {
     private listItemsService: ListItemsService,
     private router: Router,
     private message: NzMessageService,
-    private modal: NzModalService,
   ) {}
 
   ngOnInit(): void {
@@ -82,30 +80,16 @@ export class ListItemsComponent implements OnInit, OnDestroy {
   }
 
   onCreateMember(): void {
-    this.router.navigate(['/examples/members/new']);
+    this.router.navigate(['/examples/list-items/new']);
   }
 
   onEditListItem(member: ExampleDto): void {
-    this.router.navigate(['/examples/members', member.id, 'edit']);
+    this.router.navigate(['/examples/list-items', member.id, 'edit']);
   }
 
   onDeleteListItem(member: ExampleDto): void {
-    this.modal.confirm({
-      nzTitle: 'Delete Member',
-      nzContent: `Are you sure you want to delete "${member.name}"?`,
-      nzOkText: 'Delete',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzCancelText: 'Cancel',
-      nzOnOk: () => {
-        this.deleteListItem(member.id);
-      },
-    });
-  }
-
-  private deleteListItem(id: string): void {
     this.listItemsService
-      .deleteListItem(id)
+      .deleteListItem(member.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

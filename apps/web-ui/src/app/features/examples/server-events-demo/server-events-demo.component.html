@@ -1,0 +1,120 @@
+<div class="server-events-container inner-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>
+        <span nz-icon nzType="api" nzTheme="outline"></span>
+        Server-Sent Events (SSE)
+      </h2>
+      <p class="subtitle">Real-time server-to-client communication demo</p>
+    </div>
+  </div>
+
+  <!-- Two Column Layout -->
+  <div nz-row [nzGutter]="16">
+    <!-- Left Column: Publish Events -->
+    <div nz-col [nzSpan]="12">
+      <nz-card nzTitle="Publish Event" [nzExtra]="publishExtra">
+        <form nz-form [formGroup]="eventForm" (ngSubmit)="onPublishEvent()" nzLayout="vertical">
+          <!-- Event Type -->
+          <nz-form-item>
+            <nz-form-label nzRequired>Event Type</nz-form-label>
+            <nz-form-control nzErrorTip="Please select an event type">
+              <nz-select id="eventType" name="eventType" formControlName="type" nzPlaceHolder="Select event type">
+                <nz-option *ngFor="let option of eventTypeOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Event Data -->
+          <nz-form-item>
+            <nz-form-label nzRequired>Event Data</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter event data">
+              <textarea
+                nz-input
+                id="eventData"
+                name="eventData"
+                formControlName="data"
+                placeholder="Enter event data (JSON or text)"
+                [nzAutosize]="{ minRows: 4, maxRows: 8 }"
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- User ID (Optional) -->
+          <nz-form-item>
+            <nz-form-label>User ID (Optional)</nz-form-label>
+            <nz-form-control nzExtra="Leave empty to broadcast to all users">
+              <input nz-input id="userId" name="userId" formControlName="userId" placeholder="Enter user ID for targeted event" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Submit Button -->
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" type="submit" [nzLoading]="publishing">
+                <span nz-icon nzType="send"></span>
+                Publish Event
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+        <ng-template #publishExtra>
+          <span nz-icon nzType="send" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
+
+      <!-- Info Card -->
+      <nz-card nzTitle="How it works" class="info-card" nzSize="small">
+        <nz-alert
+          nzType="info"
+          nzMessage="Server-Sent Events (SSE)"
+          nzDescription="When you publish an event, it's sent to the server which broadcasts it to all connected clients in real-time. The events appear in the list on the right."
+          nzShowIcon
+        ></nz-alert>
+      </nz-card>
+    </div>
+
+    <!-- Right Column: Received Events -->
+    <div nz-col [nzSpan]="12">
+      <nz-card nzTitle="Received Events" [nzExtra]="eventsExtra">
+        <div class="events-header">
+          <nz-statistic [nzValue]="receivedEvents.length" nzTitle="Total Events"></nz-statistic>
+          <button nz-button nzType="default" nzSize="small" (click)="onClearEvents()" [disabled]="receivedEvents.length === 0">
+            <span nz-icon nzType="delete"></span>
+            Clear All
+          </button>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <!-- Events List -->
+        <div class="events-list">
+          <nz-empty *ngIf="receivedEvents.length === 0" nzNotFoundContent="No events received yet"></nz-empty>
+
+          <div *ngFor="let event of receivedEvents; let i = index" class="event-item">
+            <div class="event-header">
+              <nz-tag [nzColor]="getEventTypeBadgeColor(event.type)">
+                {{ getEventTypeLabel(event.type) }}
+              </nz-tag>
+              <span class="event-time">{{ event.timestamp | date : 'HH:mm:ss' }}</span>
+            </div>
+            <div class="event-data">
+              <strong>Data:</strong>
+              <pre>{{ event.data }}</pre>
+            </div>
+            <div *ngIf="event.userId" class="event-user">
+              <span nz-icon nzType="user"></span>
+              <strong>User ID:</strong> {{ event.userId }}
+            </div>
+          </div>
+        </div>
+
+        <ng-template #eventsExtra>
+          <span nz-icon nzType="inbox" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
+    </div>
+  </div>
+</div>

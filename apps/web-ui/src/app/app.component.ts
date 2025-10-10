@@ -22,8 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Initialize the UI app context and subscribe to handle the response
     this.messageService.initializeHttpErrorHandling();
-    // Mainly used for dev mode
-    this.uiAppContextService.init();
 
     this.subscription = this.uiAppContextService.error$.subscribe((error) => {
       // Initial value is null
@@ -32,6 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.messageService.error(`Application error, ${error}`);
       }
     });
+
+    // Mainly used for dev mode
+    this.uiAppContextService.init();
   }
 
   ngOnDestroy(): void {

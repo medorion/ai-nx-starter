@@ -20,7 +20,7 @@ export interface LocalSettings {
   providedIn: 'root',
 })
 export class LocalSettingsService {
-  private readonly STORAGE_KEY = 'medorion_local_settings';
+  private readonly STORAGE_KEY = 'monorepo_kit_local_settings';
 
   // Default settings
   private readonly DEFAULT_SETTINGS: LocalSettings = {

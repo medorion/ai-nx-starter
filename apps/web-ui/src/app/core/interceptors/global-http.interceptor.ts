@@ -26,8 +26,6 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
         'Content-Type': 'application/json',
         'X-App-Version': config.version || '1.0.0',
         Authorization: `Bearer ${config.token}`,
-        'X-Organization-Code': config.orgCode,
-        'Md-Fp': `${config.fingerprint}`,
       },
     });
 

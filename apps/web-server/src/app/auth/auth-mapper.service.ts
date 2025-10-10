@@ -12,7 +12,8 @@ export class AuthMapperService {
   mapSessionInfoToClientUserDto(sessionInfo: SessionInfo): ClientUserDto {
     const clientUserDto: ClientUserDto = {
       id: sessionInfo.userId,
-      displayName: this.extractFullName(sessionInfo.email),
+      firstName: this.extractFirstName(sessionInfo.email),
+      lastName: this.extractLastName(sessionInfo.email),
       role: sessionInfo.role,
       email: sessionInfo.email,
       phone: sessionInfo.phone,

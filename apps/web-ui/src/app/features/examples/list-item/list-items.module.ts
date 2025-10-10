@@ -16,6 +16,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 // Components
 import { ListItemsComponent } from './components/list-items/list-items.component';
@@ -50,6 +51,7 @@ import { ListItemsRoutingModule } from './list-items-routing.module';
     NzToolTipModule,
     NzInputNumberModule,
     NzAlertModule,
+    NzPopconfirmModule,
   ],
 })
 export class ListItemsModule {}

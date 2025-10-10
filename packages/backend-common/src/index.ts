@@ -28,6 +28,7 @@ export { SessionInfo } from './interfaces/session-info.interface';
 // Services
 export { SessionService } from './services/session.service';
 export { CryptoService } from './services/crypto.service';
+export { SyncEventsService } from './services/sync-events.service';
 
 // Modules
 export { CoreServicesModule } from './core-services.module';

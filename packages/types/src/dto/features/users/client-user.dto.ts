@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, IsArray, IsNotEmpty, IsEnum } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsNotEmpty, IsEnum, IsDate } from 'class-validator';
 import { Role } from '../../../enums/core/role.enum';
 
 export class ClientUserDto {
@@ -7,7 +7,11 @@ export class ClientUserDto {
 
   @IsOptional()
   @IsString()
-  public displayName?: string;
+  public firstName: string;
+
+  @IsOptional()
+  @IsString()
+  public lastName: string;
 
   @IsEnum(Role)
   @IsNotEmpty()
@@ -24,4 +28,12 @@ export class ClientUserDto {
   @IsString()
   @IsOptional()
   public picture?: string;
+
+  @IsDate()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDate()
+  @IsOptional()
+  public updatedAt?: Date;
 }

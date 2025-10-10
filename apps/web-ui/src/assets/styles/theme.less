@@ -1,41 +1,42 @@
 // ============================================================================
-// LIGHT THEME - Medorion Brand Medical/Healthcare Styling
+// LIGHT THEME - Monorepo-Kit Brand Styling
 // ============================================================================
 
 // Note: Common variables are imported in styles.less before this file
 
-// Medorion Brand Colors
-@primary-color: #01a9a2; // Medorion teal/turquoise
+// Monorepo-Kit Brand Colors (from logo)
+@primary-color: #4A90E2; // Logo accent blue
+@secondary-color: #0A2540; // Logo dark navy
 @link-color: @primary-color; // Use primary color for links
-@success-color: #28a745; // Medical green
-@warning-color: #ffc107; // Medical amber
-@error-color: #dc3545; // Medical red
-@info-color: #17a2b8; // Medical teal
+@success-color: #28a745; // Success green
+@warning-color: #ffc107; // Warning amber
+@error-color: #dc3545; // Error red
+@info-color: #4A90E2; // Info blue (matches primary)
 
 // Light theme typography (using common font sizes)
 @font-family: @font-family-base;
 // @font-size-base is defined in theme-general.less (13px, reduced from 16px)
-@heading-color: #1a1a1a; // Very dark gray for headings
-@text-color: #495057; // Professional dark gray
+@heading-color: @secondary-color; // Logo dark navy for headings
+@text-color: #2c3e50; // Professional dark gray-blue
 @text-color-secondary: #6c757d; // Medium gray
 @text-color-inverse: #ffffff;
 @disabled-color: #adb5bd; // Light gray
 @border-color-base: #c8ced3; // More visible light border (darker than #dee2e6)
 
-// Layout - Clean medical interface
+// Layout - Clean professional interface
 @layout-body-background: #f8f9fa; // Very light gray background
 @layout-header-background: #ffffff; // Clean white header
 @layout-sider-background: #ffffff; // White sidebar
 @layout-trigger-background: #f8f9fa;
 @layout-trigger-color: #fff;
 
-// Component specific - Medical theme
+// Component specific - Professional theme
 @component-background: #ffffff;
 @background-color-light: #f8f9fa;
 @background-color-base: #f1f3f4;
 @box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.08); // Subtle shadows
 
-// Button styling - Professional medical (using common dimensions from theme-general.less)
+// Button styling - Professional (using common dimensions from theme-general.less)
 @btn-primary-bg: @primary-color;
 @btn-primary-border: @primary-color;
 @btn-font-weight: 400;
@@ -43,11 +44,11 @@
 @btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 @btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
 
-// Menu - Professional medical website styling (using common dimensions)
+// Menu - Professional website styling (using common dimensions)
 @menu-bg: @component-background;
-@menu-item-color: #2c3e50;
+@menu-item-color: @secondary-color;
 @menu-highlight-color: @primary-color;
-@menu-item-active-bg: rgba(1, 169, 162, 0.08);
+@menu-item-active-bg: rgba(74, 144, 226, 0.08);
 @menu-item-group-title-color: @text-color-secondary;
 
 // Shadows for light theme

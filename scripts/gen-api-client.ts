@@ -28,7 +28,7 @@ const controllers = project.getSourceFiles(CONTOLLERS_DIR);
 
 // Import API_PREFIX from @monorepo-kit/types
 const typesFile = project.getSourceFile('packages/types/src/constants/api.ts');
-let API_PREFIX = 'Medorion/rest/api/v2'; // Default fallback
+let API_PREFIX = 'monorepo-kit/rest/api/v2'; // Default fallback
 
 if (typesFile) {
   const apiPrefixExport = typesFile.getVariableDeclaration('API_PREFIX');

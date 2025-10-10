@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiExceptionsService } from '@monorepo-kit/api-client';
 import { LoggerService } from '../../../core/services/logger.service';
 
@@ -37,6 +37,7 @@ export class ExceptionsExampleComponent implements OnInit {
   constructor(
     private apiExceptionsService: ApiExceptionsService,
     private logger: LoggerService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +58,8 @@ export class ExceptionsExampleComponent implements OnInit {
           iconType: this.iconMap.get(endpoint.statusCode) || 'question-circle',
         }));
         this.logger.info('Loaded exception endpoints:', response);
+        // Trigger change detection since we're using OnPush strategy
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.logger.error('Failed to load endpoints:', error);

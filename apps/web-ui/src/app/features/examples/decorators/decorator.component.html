@@ -1,22 +1,24 @@
-Hello Decorator
+<div class="decorators-container inner-container">
+  <h2 class="title">Decorators</h2>
 
-<h2>Debounce Example</h2>
-<nz-alert nzType="info" nzMessage="Type in the input to see immediate vs debounced updates"></nz-alert>
+  <h4>Debounce Example</h4>
+  <nz-alert nzType="info" nzMessage="Type in the input to see immediate vs debounced updates"></nz-alert>
 
-<input nz-input placeholder="Type something..." type="text" (input)="onInputEvent($event)" />
+  <input nz-input placeholder="Type something..." type="text" (input)="onInputEvent($event)" />
 
-<div style="margin-top: 16px">
-  <p><strong>Current Input:</strong> {{ currentInputValue }}</p>
-  <p><strong>Debounced Value (1s delay):</strong> {{ debounceValue }}</p>
+  <div style="margin-top: 16px">
+    <p><strong>Current Input:</strong> {{ currentInputValue }}</p>
+    <p><strong>Debounced Value (1s delay):</strong> {{ debounceValue }}</p>
+  </div>
+
+  <h4>Error Handeling</h4>
+  <button nz-button (click)="onSearch()">Search</button>
+
+  <h4>Logging</h4>
+  <nz-alert nzType="info" nzMessage="Click the button to log something"></nz-alert>
+  <button nz-button (click)="onLog()">Log something</button>
+
+  <h4>Measure Time</h4>
+  <nz-alert nzType="info" nzMessage="Click the button to measure something"></nz-alert>
+  <button nz-button (click)="onMeasure()">Measure something</button>
 </div>
-
-<h2>Error Handeling</h2>
-<button nz-button (click)="onSearch()">Search</button>
-
-<h2>Logging</h2>
-<nz-alert nzType="info" nzMessage="Click the button to log something"></nz-alert>
-<button nz-button (click)="onLog()">Log something</button>
-
-<h2>Measure Time</h2>
-<nz-alert nzType="info" nzMessage="Click the button to measure something"></nz-alert>
-<button nz-button (click)="onMeasure()">Measure something</button>

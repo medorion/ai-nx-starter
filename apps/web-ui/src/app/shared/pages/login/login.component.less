@@ -1,0 +1,71 @@
+@import '../../../../assets/styles/theme-general.less';
+@import '../../../../assets/styles/theme.less';
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 143px);
+  background: @background-color-base;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: @component-background;
+  border-radius: @border-radius-base;
+  box-shadow: @box-shadow-base;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 24px;
+
+  .thunder-icon {
+    font-size: 48px;
+    color: @primary-color;
+  }
+}
+
+.login-title {
+  text-align: center;
+  font-size: @font-size-lg;
+  color: @text-color;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: @font-size-md;
+  color: @text-color-secondary;
+  margin-bottom: 32px;
+}
+
+.login-form {
+  nz-form-item {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  button[type='submit'] {
+    margin-top: 8px;
+  }
+}
+
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+
+  .demo-hint {
+    font-size: @font-size-sm;
+    color: @text-color-secondary;
+    margin: 0;
+    padding: 8px;
+    background: @background-color-light;
+    border-radius: @border-radius-base;
+  }
+}

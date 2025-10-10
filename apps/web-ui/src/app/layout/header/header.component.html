@@ -1,11 +1,11 @@
 <nz-header>
   <div class="app-header">
     <div class="logo">
-      <img src="assets/images/medorion-circles-row.svg" alt="Medorion" class="logo-img" />
+      <img src="assets/images/logo-small.png" alt="Monorepo Kit" class="logo-img" routerLink="/" style="cursor: pointer;" />
       <nz-breadcrumb class="app-breadcrumb">
-        <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs; let last = last">
-          <!-- <a *ngIf="breadcrumb.url && !last" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a> -->
-          <span>{{ breadcrumb.label }}</span>
+        <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs; let first = first; let last = last">
+          <a *ngIf="first && !last" routerLink="/">{{ breadcrumb.label }}</a>
+          <span *ngIf="!first || last">{{ breadcrumb.label }}</span>
         </nz-breadcrumb-item>
       </nz-breadcrumb>
     </div>
@@ -51,15 +51,21 @@
               </a>
             </li>
             <li nz-menu-item>
-              <a routerLink="/examples/todo-items">
-                <span nz-icon nzType="check-square" nzTheme="outline"></span>
-                Todo Items (Example UI + Server)
+              <a routerLink="/examples/server-events">
+                <span nz-icon nzType="api" nzTheme="outline"></span>
+                Server Events (SSE)
               </a>
             </li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Backoffice" nzIcon="user">
           <ul>
+            <li nz-menu-item>
+              <a routerLink="/backoffice/users">
+                <span nz-icon nzType="team" nzTheme="outline"></span>
+                Users
+              </a>
+            </li>
             <li nz-menu-item>
               <a routerLink="/backoffice/settings">
                 <span nz-icon nzType="setting" nzTheme="outline"></span>

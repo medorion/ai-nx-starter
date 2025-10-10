@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Shared modules
 import { IconsModule } from './icons/icons.module';
@@ -8,6 +8,7 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
 import { RedirectingToLoginComponent } from './pages/redirecting-to-login/redirecting-to-login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LoadingComponent } from './pages/loading/loading.component';
+import { LoginComponent } from './pages/login/login.component';
 import { FormDebugComponent } from './components/form-debug/form-debug.component';
 import { FormDebugLinkComponent } from './components/form-debug-link/form-debug-link.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -24,12 +25,15 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [
     RedirectingToLoginComponent,
     PageNotFoundComponent,
     LoadingComponent,
+    LoginComponent,
     ThemeToggleComponent,
     FormDebugComponent,
     FormDebugLinkComponent,
@@ -37,6 +41,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IconsModule,
     NzSpinModule,
     NzButtonModule,
@@ -52,6 +57,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzTableModule,
     NzSpaceModule,
     NzGridModule,
+    NzFormModule,
+    NzInputModule,
   ],
   exports: [
     IconsModule,
@@ -59,6 +66,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     RedirectingToLoginComponent,
     PageNotFoundComponent,
     LoadingComponent,
+    LoginComponent,
     FormDebugComponent,
     FormDebugLinkComponent,
   ],

@@ -1,0 +1,57 @@
+<div class="login-container">
+  <div class="login-content">
+    <div class="logo-container">
+      <nz-icon nzType="thunderbolt" nzTheme="outline" class="thunder-icon"></nz-icon>
+    </div>
+
+    <h2 class="login-title">Welcome Back</h2>
+    <p class="login-subtitle">Sign in to your account</p>
+
+    <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please enter a valid email address">
+          <nz-input-group nzPrefixIcon="mail">
+            <input
+              type="email"
+              nz-input
+              formControlName="email"
+              placeholder="Email"
+              autocomplete="email"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Password must be at least 3 characters">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <button
+          nz-button
+          nzType="primary"
+          nzBlock
+          [nzLoading]="isLoading"
+          [disabled]="isLoading"
+          type="submit"
+        >
+          Sign In
+        </button>
+      </nz-form-item>
+    </form>
+
+    <div class="login-footer">
+      <p class="demo-hint">Demo credentials: demo&#64;demo.com / demo</p>
+    </div>
+  </div>
+</div>

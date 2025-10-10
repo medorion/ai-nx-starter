@@ -65,11 +65,13 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 // Components
 import { ButtonsComponent } from './buttons/buttons.component';
-import { ShellComponent } from './shell/shell.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsComponent } from './forms/forms.component';
 import { DecoratorComponent } from './decorators/decorator.component';
 import { PubSubExampleComponent } from './pub-sub/pub-sub-example.component';
 import { ExceptionsExampleComponent } from './exceptions/exceptions-example.component';
+import { ServerEventsDemoComponent } from './server-events-demo/server-events-demo.component';
+import { ServerEventsDemoService } from './server-events-demo/server-events-demo.service';
 
 // Shared modules
 import { SharedModule } from '../../shared/shared.module';
@@ -150,18 +152,26 @@ const NG_ZORRO_MODULES = [
 ];
 
 @NgModule({
-  declarations: [ButtonsComponent, ShellComponent, FormsComponent, DecoratorComponent, PubSubExampleComponent, ExceptionsExampleComponent],
+  declarations: [
+    ButtonsComponent,
+    WelcomeComponent,
+    FormsComponent,
+    DecoratorComponent,
+    PubSubExampleComponent,
+    ExceptionsExampleComponent,
+    ServerEventsDemoComponent,
+  ],
   imports: [CommonModule, ...NG_ZORRO_MODULES, ExamplesRoutingModule, ReactiveFormsModule, FormsModule, SharedModule],
   exports: [
     ...NG_ZORRO_MODULES,
     ReactiveFormsModule,
     FormsModule,
     ButtonsComponent,
-    ShellComponent,
+    WelcomeComponent,
     FormsComponent,
     PubSubExampleComponent,
     ExceptionsExampleComponent,
   ],
-  providers: [NzMessageService, NzNotificationService],
+  providers: [NzMessageService, NzNotificationService, ServerEventsDemoService],
 })
 export class ExamplesModule {}
