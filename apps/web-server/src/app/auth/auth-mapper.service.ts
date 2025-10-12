@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ClientUserDto } from '@monorepo-kit/types';
-import { SessionInfo } from '@monorepo-kit/backend-common';
+import { ClientUserDto } from '@ai-nx-starter/types';
+import { SessionInfo } from '@ai-nx-starter/backend-common';
 
 @Injectable()
 export class AuthMapperService {

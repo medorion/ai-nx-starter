@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo-kit/data-access-layer",
+  "name": "@ai-nx-starter/data-access-layer",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",

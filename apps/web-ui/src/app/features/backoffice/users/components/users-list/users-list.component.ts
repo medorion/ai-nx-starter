@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersService } from '../../services/users.service';
-import { ClientUserDto } from '@monorepo-kit/types';
+import { ClientUserDto } from '@ai-nx-starter/types';
 
 @Component({
   selector: 'app-users-list',

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AppConfigService } from '@monorepo-kit/api-client';
-import { ErrorStatusCode } from '@monorepo-kit/types';
+import { AppConfigService } from '@ai-nx-starter/api-client';
+import { ErrorStatusCode } from '@ai-nx-starter/types';
 import { EventBusService } from '../services/event-bus.service';
 
 /*

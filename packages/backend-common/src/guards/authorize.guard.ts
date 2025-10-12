@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, 
 import { ConfigService } from '@nestjs/config';
 import { SessionService } from '../services/session.service';
 import { PinoLogger } from 'nestjs-pino';
-import { Role } from '@monorepo-kit/types';
+import { Role } from '@ai-nx-starter/types';
 import { Reflector } from '@nestjs/core';
 import { SessionInfo } from '../interfaces/session-info.interface';
 import { SessionExpiredException } from '../exceptions/session-expired.exception';

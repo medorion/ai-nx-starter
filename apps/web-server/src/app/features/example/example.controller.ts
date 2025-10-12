@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Put, Patch, Delete, Body, Param, Query, Session, HttpCode, HttpStatus } from '@nestjs/common';
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleDto } from '@ai-nx-starter/types';
 import { ExampleService } from './example.service';
-import { Authorize } from '@monorepo-kit/backend-common';
-import { Role } from '@monorepo-kit/types';
+import { Authorize } from '@ai-nx-starter/backend-common';
+import { Role } from '@ai-nx-starter/types';
 
 /**
  * Used by List/Item example

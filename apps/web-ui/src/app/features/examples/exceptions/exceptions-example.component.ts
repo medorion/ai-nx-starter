@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ApiExceptionsService } from '@monorepo-kit/api-client';
+import { ApiExceptionsService } from '@ai-nx-starter/api-client';
 import { LoggerService } from '../../../core/services/logger.service';
 
 /**

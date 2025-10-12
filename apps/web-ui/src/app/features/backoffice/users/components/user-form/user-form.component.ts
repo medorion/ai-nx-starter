@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersService } from '../../services/users.service';
-import { ClientUserDto, CreateUserDto, UpdateUserDto, Role } from '@monorepo-kit/types';
+import { ClientUserDto, CreateUserDto, UpdateUserDto, Role } from '@ai-nx-starter/types';
 
 @Component({
   selector: 'app-user-form',

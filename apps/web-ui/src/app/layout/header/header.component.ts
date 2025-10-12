@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ClientUserDto, IdCodeNameDto, IdNameDto } from '@monorepo-kit/types';
+import { ClientUserDto, IdCodeNameDto, IdNameDto } from '@ai-nx-starter/types';
 import { MessageService } from '../../core/services/message.service';
 import { UiAppContextService } from '../../core/services/ui-app-context.service';
 import { AuthService } from '../../core/services/auth.service';

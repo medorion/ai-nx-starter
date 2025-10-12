@@ -1,6 +1,6 @@
-# Monorepo Kit
+# AI-Nx-Starter
 
-An Nx-based monorepo for full-stack application development with Angular frontend and NestJS backend.
+An AI-optimized Nx monorepo starter for full-stack application development with Angular frontend and NestJS backend.
 
 ## 📚 Documentation
 
@@ -149,12 +149,13 @@ docker-compose up
 ## 📁 Project Structure
 
 ```
-monorepo-kit/
+ai-nx-starter/
 ├── apps/
 │   ├── web-ui/          # Angular frontend application
 │   └── web-server/      # NestJS backend application
 ├── packages/            # Shared libraries and utilities
 ├── documents/           # Technical documentation
+├── prompts/            # AI prompt examples
 ├── scripts/             # Build and utility scripts
 ├── docker-compose.yml   # Docker composition
 ├── Dockerfile           # Docker image definition

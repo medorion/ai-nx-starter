@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import { UserDbService } from '@monorepo-kit/data-access-layer';
-import { Role } from '@monorepo-kit/types';
+import { UserDbService } from '@ai-nx-starter/data-access-layer';
+import { Role } from '@ai-nx-starter/types';
 
 @Injectable()
 export class AppInitializerService implements OnModuleInit {

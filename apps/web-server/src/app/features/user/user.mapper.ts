@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { ClientUserDto } from '@monorepo-kit/types';
-import { User } from '@monorepo-kit/data-access-layer';
+import { ClientUserDto } from '@ai-nx-starter/types';
+import { User } from '@ai-nx-starter/data-access-layer';
 
 @Injectable()
 export class UserMapper {

@@ -26,9 +26,9 @@ console.log(`Emptied directory: ${outputDir}`);
 // Point to your controller files
 const controllers = project.getSourceFiles(CONTOLLERS_DIR);
 
-// Import API_PREFIX from @monorepo-kit/types
+// Import API_PREFIX from @ai-nx-starter/types
 const typesFile = project.getSourceFile('packages/types/src/constants/api.ts');
-let API_PREFIX = 'monorepo-kit/rest/api/v2'; // Default fallback
+let API_PREFIX = 'ai-nx-starter/rest/api/v2'; // Default fallback
 
 if (typesFile) {
   const apiPrefixExport = typesFile.getVariableDeclaration('API_PREFIX');
@@ -214,8 +214,8 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
     cleanType = cleanType.substring(8, cleanType.length - 1).trim();
   }
 
-  // Extract model name from full import path for @monorepo-kit/types
-  if (cleanType.includes('import("') && (cleanType.includes('packages/types/') || cleanType.includes('@monorepo-kit/types'))) {
+  // Extract model name from full import path for @ai-nx-starter/types
+  if (cleanType.includes('import("') && (cleanType.includes('packages/types/') || cleanType.includes('@ai-nx-starter/types'))) {
     // Handle complex types with multiple imports (e.g., { flow: X; workflow: Y; } or QueryResultDto<SyncServiceFlowDto>)
     const importMatches = Array.from(cleanType.matchAll(/import\("([^"]+)"\)\.([A-Za-z0-9_]+)/g));
 
@@ -288,7 +288,7 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
     }
   }
 
-  // Extract model name from full import path for @monorepo-kit/backend-common (legacy support)
+  // Extract model name from full import path for @ai-nx-starter/backend-common (legacy support)
   if (cleanType.includes('import("') && cleanType.includes('packages/backend-common/')) {
     // Extract the model name from the import path
     const modelNameMatch = cleanType.match(/\.([A-Za-z0-9_]+)(?:>|\[\]|$)/);
@@ -377,9 +377,9 @@ function convertToAngularType(nestType: string, availableTypes: Set<string> = ne
 }
 
 /**
- * Extract imports from a source file that match @monorepo-kit/types
+ * Extract imports from a source file that match @ai-nx-starter/types
  * @param sourceFile - The source file to analyze
- * @returns Set of imported type names from @monorepo-kit/types
+ * @returns Set of imported type names from @ai-nx-starter/types
  */
 function extractTypesImports(sourceFile: any): Set<string> {
   const typesImports = new Set<string>();
@@ -387,7 +387,7 @@ function extractTypesImports(sourceFile: any): Set<string> {
   const imports = sourceFile.getImportDeclarations();
   imports.forEach((importDecl: any) => {
     const moduleSpecifier = importDecl.getModuleSpecifierValue();
-    if (moduleSpecifier === '@monorepo-kit/types') {
+    if (moduleSpecifier === '@ai-nx-starter/types') {
       const namedImports = importDecl.getNamedImports();
       namedImports.forEach((namedImport: any) => {
         typesImports.add(namedImport.getName());
@@ -576,8 +576,8 @@ function generateServiceCode(
     method.importNames.forEach((name) => allImportNames.add(name));
   });
 
-  // Add imports from @monorepo-kit/types
-  code += `import { ${Array.from(allImportNames).join(', ')} } from '@monorepo-kit/types';
+  // Add imports from @ai-nx-starter/types
+  code += `import { ${Array.from(allImportNames).join(', ')} } from '@ai-nx-starter/types';
 `;
 
   // Add BaseApiService and AppConfigService imports - adjust path based on folder depth

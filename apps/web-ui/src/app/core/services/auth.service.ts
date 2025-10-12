@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { ApiAuthService, AppConfigService } from '@monorepo-kit/api-client';
-import { LoginUserDto } from '@monorepo-kit/types';
+import { ApiAuthService, AppConfigService } from '@ai-nx-starter/api-client';
+import { LoginUserDto } from '@ai-nx-starter/types';
 import { UiAppContextService } from './ui-app-context.service';
 import { LoggerService } from './logger.service';
 import { StorageKey } from '../enums/storage-key.enum';

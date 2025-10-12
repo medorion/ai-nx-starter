@@ -1,4 +1,4 @@
-#### Package @monorepo-kit/data-access-layer
+#### Package @ai-nx-starter/data-access-layer
 
 /packages
 /data-access-mongo

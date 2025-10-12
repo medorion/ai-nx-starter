@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServerSideEventsService } from '../../../core/services/server-side-events.service';
-import { ApiSyncEventsService, AppConfigService } from '@monorepo-kit/api-client';
-import { IMdSyncEvent } from '@monorepo-kit/types';
+import { ApiSyncEventsService, AppConfigService } from '@ai-nx-starter/api-client';
+import { IMdSyncEvent } from '@ai-nx-starter/types';
 
 @Injectable()
 export class ServerEventsDemoService {

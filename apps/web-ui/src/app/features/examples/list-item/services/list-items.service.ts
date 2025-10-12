@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { ExampleDto } from '@monorepo-kit/types';
-import { ApiExampleService } from '@monorepo-kit/api-client';
+import { ExampleDto } from '@ai-nx-starter/types';
+import { ApiExampleService } from '@ai-nx-starter/api-client';
 
 @Injectable({
   providedIn: 'root',

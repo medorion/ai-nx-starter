@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Session, Req, HttpCode, HttpStatus, ValidationPipe, Ip } from '@nestjs/common';
-import { UIAppContextDto, LoginUserDto, ClientUserDto } from '@monorepo-kit/types';
+import { UIAppContextDto, LoginUserDto, ClientUserDto } from '@ai-nx-starter/types';
 import { AuthService } from './auth.service';
-import { SessionInfo } from '@monorepo-kit/backend-common';
+import { SessionInfo } from '@ai-nx-starter/backend-common';
 import { Request } from 'express';
-import { Authorize, IgnoreAuthorization } from '@monorepo-kit/backend-common';
-import { Role } from '@monorepo-kit/types';
+import { Authorize, IgnoreAuthorization } from '@ai-nx-starter/backend-common';
+import { Role } from '@ai-nx-starter/types';
 
 @Controller('auth')
 export class AuthController {

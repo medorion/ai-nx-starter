@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleDto } from '@ai-nx-starter/types';
 import { BaseApiService } from '../../../services/base-api.service';
 import { AppConfigService } from '../../../services/app-config.service';
 
