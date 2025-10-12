@@ -1,13 +1,13 @@
-# @monorepo-kit/api-client
+# @ai-nx-starter/api-client
 
-Angular HTTP client services for the monorepo.
+Angular HTTP client services auto-generated from NestJS controllers.
 
 ## Installation
 
 This package is part of the monorepo and can be imported using:
 
 ```typescript
-import { ApiClientModule, ExampleApiService } from '@monorepo-kit/api-client';
+import { ApiClientModule, ExampleApiService } from '@ai-nx-starter/api-client';
 ```
 
 ## Setup
@@ -16,7 +16,7 @@ import { ApiClientModule, ExampleApiService } from '@monorepo-kit/api-client';
 
 ```typescript
 // app.module.ts
-import { ApiClientModule } from '@monorepo-kit/api-client';
+import { ApiClientModule } from '@ai-nx-starter/api-client';
 
 @NgModule({
   imports: [
@@ -38,8 +38,8 @@ export class AppModule {}
 ### 2. Use in your components or services:
 
 ```typescript
-import { ExampleApiService } from '@monorepo-kit/api-client';
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleApiService } from '@ai-nx-starter/api-client';
+import { ExampleDto } from '@ai-nx-starter/types';
 
 @Component({...})
 export class MyComponent {
@@ -98,7 +98,7 @@ exampleApi.search({
 Extend this class to create new API services:
 
 ```typescript
-import { BaseApiService } from '@monorepo-kit/api-client';
+import { BaseApiService } from '@ai-nx-starter/api-client';
 
 @Injectable()
 export class MyApiService extends BaseApiService {
@@ -120,7 +120,7 @@ export class MyApiService extends BaseApiService {
 Configure API behavior:
 
 ```typescript
-import { ApiConfigService } from '@monorepo-kit/api-client';
+import { ApiConfigService } from '@ai-nx-starter/api-client';
 
 constructor(private apiConfig: ApiConfigService) {
   // Update configuration

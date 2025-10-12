@@ -147,7 +147,7 @@ This project showcases AI-assisted development. When contributing:
 
 - Module/Controller/Service pattern
 - Never use TypeORM directly (use data-access-layer)
-- DTOs in `@monorepo-kit/types` package
+- DTOs in `@ai-nx-starter/types` package
 - Use class-validator for validation
 - See `documents/web-server-techical.md` for details
 

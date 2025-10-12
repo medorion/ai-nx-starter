@@ -1,6 +1,6 @@
 # data-access-layer
 
-This library provides data access layer functionality for the Monorepo Kit application.
+This library provides data access layer functionality for the AI-Nx-Starter application.
 
 ## Building
 
