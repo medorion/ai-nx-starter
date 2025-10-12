@@ -2,14 +2,15 @@
 
 ## Overview
 
-This document demonstrates real-world efficiency gains when using AI-Nx-Starter with AI coding assistants (Claude, GPT-4, Cursor, etc.).
+This document shares our experience using AI-Nx-Starter with AI coding assistants (Claude Code, Cursor AI, GitHub Copilot) during development. Results will vary based on developer experience, task complexity, and familiarity with the stack.
 
 ## Methodology
 
-- **Developer:** Mid-level full-stack TypeScript developer
-- **AI Tools:** Claude Code, Cursor AI
+- **Developers:** Mid-level full-stack TypeScript developers
+- **AI Tools:** Claude Code, Cursor AI, GitHub Copilot
 - **Comparison:** Manual development vs AI-assisted with AI-Nx-Starter
 - **Measurement:** Time to completion, code quality, test coverage
+- **Note:** These are observations from our development experience, not controlled scientific experiments
 
 ## Case Study 1: User Management CRUD
 
@@ -23,16 +24,18 @@ Build a complete user management feature with:
 
 ### Results
 
-| Metric | Manual Development | AI-Nx-Starter + AI | Improvement |
-|--------|-------------------|-------------------|-------------|
-| **Total Time** | 2h 45min | 42min | **70% faster** |
-| **Backend API** | 45min | 12min | 73% faster |
-| **API Client** | 30min | 2min (auto-gen) | 93% faster |
-| **Frontend UI** | 60min | 18min | 70% faster |
-| **Tests** | 30min | 10min | 67% faster |
-| **LOC Written** | ~800 | ~200 | 75% less manual code |
-| **First-Try Success** | 65% | 92% | 27% improvement |
-| **Build Errors** | 8 | 2 | 75% fewer errors |
+**Disclaimer:** Your results may vary significantly based on experience level, familiarity with the stack, and task complexity.
+
+| Metric | Manual Development | AI-Nx-Starter + AI | Observed Improvement |
+|--------|-------------------|-------------------|---------------------|
+| **Total Time** | ~2h 45min | ~40-50min | **Typically 60-75% faster** |
+| **Backend API** | ~45min | ~10-15min | Significantly faster |
+| **API Client** | ~30min | ~2min (auto-gen) | Nearly eliminated |
+| **Frontend UI** | ~60min | ~15-20min | Significantly faster |
+| **Tests** | ~30min | ~10-15min | Faster with AI |
+| **LOC Written** | ~800 | ~200 | ~75% less manual code |
+| **First-Try Success** | Variable | Higher with AI | Noticeable improvement |
+| **Build Errors** | Variable | Fewer with AI | Better type safety |
 
 ### Breakdown
 
@@ -309,25 +312,33 @@ Fix 12 TypeScript errors after major refactoring.
 
 ## Conclusion
 
-AI-Nx-Starter + AI coding assistants delivered:
-- **75% faster development** on average
-- **90%+ first-try success rate**
-- **71% fewer build errors**
-- **Better code quality and test coverage**
+In our experience, AI-Nx-Starter + AI coding assistants provided:
+- **Typically 60-75% faster development** for CRUD features
+- **Noticeably higher first-try success rate** with structured prompts
+- **Fewer build errors** due to type-safe auto-generation
+- **Improved code quality and consistency** through enforced patterns
 
 The combination of:
-- Auto-generated API clients
-- Structured prompt library
-- Clear architectural rules
-- Proven workflows
+- Auto-generated API clients (eliminates boilerplate)
+- Structured prompt library (reduces trial-and-error)
+- Clear architectural rules (guides AI correctly)
+- Proven workflows (repeatable results)
 
-...creates a **multiplication effect** where AI assistance becomes consistently reliable and efficient.
+...creates a **multiplication effect** where AI assistance becomes more consistently reliable and efficient.
 
-### Developer Quote
+**Your results will vary** based on experience, familiarity with the stack, and complexity of requirements.
 
-> "I was skeptical about AI code generation, but AI-Nx-Starter changed my mind. The structured prompts and auto-generation eliminated the trial-and-error. I'm building features in 30-40 minutes that used to take 2-3 hours, with better code quality. It's not magic - it's systematic AI leverage."
->
-> — Developer using AI-Nx-Starter for 2 weeks
+### Developer Observations
+
+Based on feedback from developers using AI-Nx-Starter:
+
+- The structured prompts and `.clinerules` significantly reduce trial-and-error with AI
+- Auto-generated API clients eliminate a major source of boilerplate
+- Features that previously took 2-3 hours can often be completed in 40-60 minutes
+- Code consistency improves due to enforced patterns
+- Learning curve exists but pays off quickly after first few features
+
+**Note:** Individual experiences vary. New team members may take longer initially while learning the patterns.
 
 ## Try It Yourself
 

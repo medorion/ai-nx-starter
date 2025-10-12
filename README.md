@@ -5,6 +5,8 @@
 An Nx monorepo starter designed from the ground up for AI-assisted development. Features auto-generated API clients, comprehensive prompt library, and proven workflows that maximize AI coding efficiency.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/YOUR_ORG/ai-nx-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/ai-nx-starter/actions/workflows/ci.yml)
+[![Docker](https://github.com/YOUR_ORG/ai-nx-starter/actions/workflows/docker.yml/badge.svg)](https://github.com/YOUR_ORG/ai-nx-starter/actions/workflows/docker.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ## 🤖 Why AI-Nx-Starter?
@@ -30,14 +32,36 @@ cd ai-nx-starter
 pnpm install
 ```
 
-### 2. Tell Your AI Assistant
+### 2. Environment Setup
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env with your database credentials
+# For local development with Docker, the defaults work fine
+```
+
+### 3. Start Database Services (Docker)
+
+```bash
+# Start PostgreSQL, MongoDB, and Redis
+docker-compose up -d
+
+# Verify services are running
+docker-compose ps
+```
+
+**Or use existing databases:** Update `.env` with your connection strings.
+
+### 4. Tell Your AI Assistant
 
 ```
 Read AI-DEVELOPMENT.md and familiarize yourself with the project structure.
 Then read documents/dev-workflow.md to understand the development workflow.
 ```
 
-### 3. Start Building
+### 5. Start Development
 
 ```bash
 # Start all services
@@ -47,7 +71,7 @@ npm run start
 # Backend API: http://localhost:8081/api
 ```
 
-### 4. Create Your First Feature with AI
+### 6. Create Your First Feature with AI
 
 Use this prompt:
 ```
@@ -286,6 +310,63 @@ See [ROADMAP.md](./ROADMAP.md) for planned features.
 - More AI prompt templates
 - Video tutorials
 - Performance benchmarks
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"Cannot connect to database"**
+```bash
+# Check if Docker services are running
+docker-compose ps
+
+# Restart services
+docker-compose down
+docker-compose up -d
+
+# Check logs
+docker-compose logs postgres
+docker-compose logs mongodb
+```
+
+**"Module not found" errors**
+```bash
+# Clear cache and reinstall
+rm -rf node_modules dist .nx
+pnpm install
+```
+
+**"Port already in use"**
+```bash
+# Check what's using the port
+lsof -i :3030  # or :8081
+
+# Kill the process or change PORT in .env
+```
+
+**"Gen-api-client fails"**
+```bash
+# Ensure backend builds successfully first
+npm run build
+
+# Then run generator
+npm run gen-api-client
+```
+
+**Tests fail with import errors**
+```bash
+# Install dependencies in test mode
+pnpm install
+
+# Run specific test
+npx nx test web-server --testPathPattern=user.service
+```
+
+### Need More Help?
+
+- Check [AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md) for AI workflow issues
+- Search [existing issues](https://github.com/YOUR_ORG/ai-nx-starter/issues)
+- Ask in [Discussions](https://github.com/YOUR_ORG/ai-nx-starter/discussions)
 
 ## 💬 Support
 
