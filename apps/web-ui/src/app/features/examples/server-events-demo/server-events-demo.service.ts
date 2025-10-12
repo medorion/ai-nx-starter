@@ -18,7 +18,7 @@ export class ServerEventsDemoService {
     const config = this.appConfigService.getConfig();
     const token = config.token || '';
     this.events$ = this.serverSideEventsService.getServerSentEvents(
-      `${this.appConfigService.apiUrl}/monorepo-kit/rest/api/v2/events/stream-to-all?token=${encodeURIComponent(token)}`,
+      `${this.appConfigService.apiUrl}/ai-nx-starter/rest/api/v2/events/stream-to-all?token=${encodeURIComponent(token)}`,
     );
   }
 }
