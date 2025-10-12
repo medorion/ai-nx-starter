@@ -172,7 +172,7 @@ For CRUD operations and feature development, follow the workflow outlined in [de
 4. Implement UI feature based on existing examples
 5. Test and build: `npm run build`
 
-### Working wit Auth0
+### Working with Auth0
 
 Set env:
 AUTO_LOG_IN_DEV_USER=false
@@ -188,7 +188,7 @@ autoLogInDevUser: true
 
 When switching:
 
-- Clear local storate and cace from Browser
+- Clear local storage and cache from Browser
 - In redis: FLUSHALL
 
 ## 🏗️ Technology Stack

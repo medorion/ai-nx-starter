@@ -14,7 +14,7 @@
    member.service.ts
 ```
 
-### Settinmgs (x)
+### Settings (x)
 
 - AppConfigService is used for configuration of the app.
 - its use is located in api-client package
@@ -24,10 +24,10 @@
 ### Styling (x)
 
 - Use the less files for styling.
-- Avaoid inline styles.
-- Use az much as possible, ng-zorro built in styles and classes.
-- Html base Elemnts styles can be overriden only in apps/web-ui/src/assets/styles/theme.less and corresponding dark theme
-- Do not modify font or background collors in less files., all colors are defined in global styles.
+- Avoid inline styles.
+- Use as much as possible, ng-zorro built in styles and classes.
+- HTML base elements styles can be overridden only in apps/web-ui/src/assets/styles/theme.less and corresponding dark theme
+- Do not modify font or background colors in less files, all colors are defined in global styles.
 
 ### Project Structure
 
@@ -140,7 +140,7 @@ Use Decorators for loggings and utilities.
 ### Multi language i8n
 
 - By default we use en_US
-- Curresntly deceided to use en_US only
+- Currently decided to use en_US only
 
 ### Routing
 
