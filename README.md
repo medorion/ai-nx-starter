@@ -2,17 +2,15 @@
 
 An Nx-based monorepo for full-stack application development with Angular frontend and NestJS backend.
 
-## 📚 Documentation
+> 🤖 **AI-First Development**: This project is optimized for AI-assisted development with Claude Code and Windsurf. Built-in rules and patterns enable rapid feature development with minimal manual coding.
 
-For detailed technical documentation, see the [documents](./documents) folder:
+> 🤖 **Clear And Well Defined Stucrure**: This project provides strict rules and patterns for the development of full-stack applications with Angular frontend and NestJS backend.
+> This makes it optimized for AI assisted development.
 
-- [Overview & Table of Contents](./documents/index.md)
-- [Development Workflow](./documents/dev-workflow.md)
-- [Web UI Technical Guide](./documents/web-ui-technical.md)
-- [Web Server Technical Guide](./documents/web-server-technical.md)
-- [Data Access Layer](./documents/data-access-layer-techical.md)
-- [Common Utilities](./documents/common-techical.md)
-- [Migration Scripts](./documents/migration-scripts.md)
+> 🤖 **UI**:
+
+- Exept from some usecases, UI is generated automatically by AI and scricly usess ng-zorro components in order to avoid mess in the codebase.
+- Under core folder we have predefined decorators, services and components that will simplify the development process and ai is instucted to use them. i.e Logging , Events, PubSub, etc.
 
 ## 🚀 Quick Start
 
@@ -63,16 +61,6 @@ npm run server
 ```
 
 Backend API will be available at `http://localhost:8081`
-
-### View Documentation Locally
-
-Serve the documentation folder with a local HTTP server:
-
-```bash
-npm run docs
-```
-
-This will open the documentation in your browser at `http://localhost:8081`
 
 ## 🔨 Building the Application
 
@@ -163,32 +151,136 @@ monorepo-kit/
 
 ## 🔄 Development Workflow
 
-For CRUD operations and feature development, follow the workflow outlined in [dev-workflow.md](./documents/dev-workflow.md):
+### 🤖 AI-Assisted Development
 
-1. Create Entity & DTOs in data-access-layer
-2. Implement API (controller, service, mapper) in web-server
-3. Generate API client: `npm run gen-api-client`
-4. Implement UI feature based on existing examples
-5. Test and build: `npm run build`
+This project is designed for **AI-assisted development** with tools like **Claude Code** and **Windsurf**. Both tools automatically apply project-specific rules and coding standards based on your working directory.
 
-### Working wit Auth0
+#### AI Configuration
 
-Set env:
-AUTO_LOG_IN_DEV_USER=false
-On Client: apps/web-ui/src/environments/environment.ts
-autoLogInDevUser: false
+- **Claude Code**: Rules in `.claude/` directories (auto-applied per context)
+- **Windsurf**: Rules in `.windsurf/rules/` (auto-applied with triggers)
 
-### Working with no Auth0 dev user
+Both tools automatically understand:
 
-Set env:
-AUTO_LOG_IN_DEV_USER=true  
-On Client: apps/web-ui/src/environments/environment.ts
-autoLogInDevUser: true
+- Project architecture and patterns
+- Coding standards and conventions
+- Package dependencies and boundaries
+- Best practices for each layer
 
-When switching:
+**You don't need to explain the project structure** - just start coding and the AI will follow the established patterns!
 
-- Clear local storate and cace from Browser
-- In redis: FLUSHALL
+### 📋 Feature Development Workflow
+
+When implementing a new feature, follow this AI-assisted workflow:
+
+#### Step 1: Identify Your Feature Pattern
+
+**Before starting**, check if your feature matches an existing example pattern:
+
+```bash
+# Browse available examples
+apps/web-ui/src/app/features/examples/
+├── list-item/          # CRUD with list + detail view (most common)
+├── forms/              # Complex form validation
+├── buttons/            # Action-based features
+├── decorators/         # Using utility decorators
+├── exceptions/         # Error handling patterns
+├── pub-sub/            # Real-time updates
+└── server-events-demo/ # SSE/WebSocket patterns
+```
+
+**Most common pattern**: `list-item` - Use this for typical CRUD operations with list and detail views.
+
+#### Step 2: Tell the AI What You Need
+
+Simply describe your feature to Claude Code or Windsurf:
+
+```
+"Create a Product CRUD feature following the list-item pattern"
+"Add a User management feature with list and detail views"
+"Implement a Settings form with validation"
+```
+
+The AI will automatically:
+
+- Create entities and DTOs in the right packages
+- Generate backend controllers and services
+- Follow naming conventions and architecture rules
+- Apply proper validation and error handling
+
+#### Step 3: Implement Backend (AI-Assisted)
+
+**Example prompts for Claude Code/Windsurf:**
+
+```
+"Create a Product entity with name, description, and price fields in data-access-layer"
+```
+
+The AI will:
+
+- Create entity in `packages/data-access-layer/src/product/`
+- Create DTOs in `packages/types/dto/product/`
+- Generate DbService with CRUD operations
+- Follow TypeORM and MongoDB patterns
+
+```
+"Implement Product API controller and service in web-server"
+```
+
+The AI will:
+
+- Create controller with REST endpoints
+- Create service with business logic
+- Create mapper for Entity ↔ DTO conversion
+- Apply validation and exception handling
+
+#### Step 4: Generate API Client
+
+```bash
+npm run gen-api-client
+```
+
+This auto-generates TypeScript API client services for the frontend.
+
+#### Step 5: Implement Frontend (AI-Assisted)
+
+**Example prompt:**
+
+```
+"Implement Product feature UI based on the list-item example"
+```
+
+The AI will:
+
+- Analyze the `list-item` example pattern
+- Create component structure (list, detail, form)
+- Use ng-zorro components (nz-table, nz-card)
+- Apply proper styling with theme variables
+- Implement state management with services
+- Add proper error handling and notifications
+
+#### Step 6: Build and Validate
+
+```bash
+npm run build
+```
+
+The AI will typically run this automatically after each step to ensure no errors.
+
+### 🎯 Tips for AI-Assisted Development
+
+**✅ Do:**
+
+- Reference existing examples: "based on list-item pattern"
+- Be specific about requirements: "with pagination and search"
+- Ask to follow patterns: "using the same structure as examples"
+- Request validation after changes: "run build to check for errors"
+
+**❌ Avoid:**
+
+- Explaining the entire architecture (AI already knows from rules)
+- Manually copying boilerplate (let AI generate it)
+- Skipping the build step (always validate changes)
 
 ## 🏗️ Technology Stack
 
@@ -215,6 +307,13 @@ When switching:
 - ESLint & Prettier
 - Jest (testing)
 - Playwright (e2e testing)
+
+### AI Development Tools
+
+- Claude Code (with `.claude/` rules)
+- Windsurf (with `.windsurf/rules/`)
+- Automatic context-aware coding standards
+- Built-in architectural patterns and examples
 
 ## 📄 License
 
