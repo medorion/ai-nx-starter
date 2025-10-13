@@ -10,8 +10,8 @@ This makes it optimized for AI assisted development.
 
 **UI**:
 
-- Exept from some usecases, UI is generated automatically by AI and scricly usess ng-zorro components in order to avoid mess in the codebase.
-- Under core folder we have predefined decorators, services and components that will simplify the development process and ai is instucted to use them. i.e Logging , Events, PubSub, etc.
+- Exept from some usecases, UI is generated automatically by AI and strictly uses ng-zorro components in order to avoid "spagetti code" in the codebase.
+- Under core folder we have predefined decorators, services and components that will simplify the development process and AI is instucted to use them. i.e Logging , Events, PubSub, etc.
 - Auto generated apiClient for angular frontend is available in packages/api-client
 
 **Backend**:
