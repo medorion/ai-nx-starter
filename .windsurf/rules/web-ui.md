@@ -181,6 +181,8 @@ export class FeatureStoreService {
 }
 ```
 
+**MUST** use core decorators for logging, events, pubsub, etc. as well as services and components from core folder.
+
 ### Alerting, Messaging, Confirmation
 
 - Quick feedback → MessageService (wraps NzMessageService)
@@ -253,6 +255,7 @@ Update icons module if using new icon /shared/icons/icons.module.ts
 - Use dependency injection properly
 - Write testable code with minimal coupling
 - Aviid using modals
+- Use LoggerService for logging instead of console.log
 
 ### Performance Considerations
 

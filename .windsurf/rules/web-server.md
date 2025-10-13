@@ -3,13 +3,6 @@ trigger: model_decision
 description: Applies only to apps/web-server
 ---
 
----
-
-trigger: model_decision
-description: Applies only to apps/web-server
-
----
-
 # Web Server Package Rules
 
 ## Framework
@@ -38,3 +31,4 @@ description: Applies only to apps/web-server
 - All business logic **must** reside in services.
 - All data access **must** be delegated to the data-access-layer.
 - Each class/interface should be in separate file
+- Each @Body parameter must be json object, if needed create Dto under types/dto/features

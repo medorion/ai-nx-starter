@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 # General Project Rules
 
 These rules apply to all code in this monorepo.

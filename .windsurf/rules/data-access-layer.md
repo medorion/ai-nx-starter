@@ -3,13 +3,6 @@ trigger: model_decision
 description: Applies only to packages/data-access-layer
 ---
 
----
-
-trigger: model_decision
-description: Applies only to packages/data-access-layer
-
----
-
 # Data Access Layer Package Rules
 
 ## Packages
