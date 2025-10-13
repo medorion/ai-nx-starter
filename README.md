@@ -4,13 +4,26 @@ An Nx-based monorepo for full-stack application development with Angular fronten
 
 > 🤖 **AI-First Development**: This project is optimized for AI-assisted development with Claude Code and Windsurf. Built-in rules and patterns enable rapid feature development with minimal manual coding.
 
-> 🤖 **Clear And Well Defined Stucrure**: This project provides strict rules and patterns for the development of full-stack applications with Angular frontend and NestJS backend.
-> This makes it optimized for AI assisted development.
+**Clear And Well Defined Stucrure**:
+This project provides strict rules and patterns for the development of full-stack applications with Angular frontend and NestJS backend.
+This makes it optimized for AI assisted development.
 
-> 🤖 **UI**:
+**UI**:
 
 - Exept from some usecases, UI is generated automatically by AI and scricly usess ng-zorro components in order to avoid mess in the codebase.
 - Under core folder we have predefined decorators, services and components that will simplify the development process and ai is instucted to use them. i.e Logging , Events, PubSub, etc.
+- Auto generated apiClient for angular frontend is available in packages/api-client
+
+**Backend**:
+
+- Backend is built with NestJS and provides strict rules and patterns for the development of backend.
+- Well defined data access leayer with single responsibility principle. i.e Only DbServices are allowed to access database.
+
+**Packages**:
+
+- Types and DTO trough packages/types, whgich is used both on server and client side.
+- Shared entities through packages/data-access-layer.
+- Shared services and decorators through packages/backend-common.
 
 ## 🚀 Quick Start
 
