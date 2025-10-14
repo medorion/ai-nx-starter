@@ -305,6 +305,8 @@ This example demonstrates how to document a feature for AI consumption:
 
 #### What to Include:
 
+> **Note**: Exclude any general rules already defined in `.claude/instructions.md`. Focus only on feature-specific patterns, implementations, and architectural decisions unique to this feature.
+
 1. **Architecture Overview**: Module structure and file organization
 2. **Component Deep-Dives**: Detailed explanation of each component with line references
 3. **Code Patterns**: Specific patterns used (state management, validation, routing, etc.)
