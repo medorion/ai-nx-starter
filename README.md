@@ -295,6 +295,56 @@ The AI will typically run this automatically after each step to ensure no errors
 - Manually copying boilerplate (let AI generate it)
 - Skipping the build step (always validate changes)
 
+### 📚 Documenting Complex Features for AI
+
+When you have a complete, well-implemented feature that should serve as a reference for future development, create a comprehensive markdown guide similar to the **Users feature example**:
+
+**Reference**: [`apps/web-ui/src/app/features/backoffice/users/users.md`](apps/web-ui/src/app/features/backoffice/users/users.md)
+
+This example demonstrates how to document a feature for AI consumption:
+
+#### What to Include:
+
+1. **Architecture Overview**: Module structure and file organization
+2. **Component Deep-Dives**: Detailed explanation of each component with line references
+3. **Code Patterns**: Specific patterns used (state management, validation, routing, etc.)
+4. **Data Flow**: Step-by-step explanation of CRUD operations
+5. **Integration Points**: How the feature connects to API, types, and shared modules
+6. **Reusable Patterns**: Copy-paste ready code snippets for common scenarios
+7. **Styling Patterns**: LESS/CSS structure and conventions
+8. **Customization Guide**: How to adapt the pattern for new features
+9. **Best Practices**: Key principles demonstrated by the implementation
+
+#### Why This Matters:
+
+- **AI Context**: Claude Code/Windsurf can reference these guides to understand complex implementations
+- **Consistency**: New features follow established patterns automatically
+- **Onboarding**: New developers (human or AI) can learn from comprehensive examples
+- **Maintenance**: Clear documentation makes refactoring and updates easier
+
+#### When to Create Feature Documentation:
+
+- ✅ Complex features with multiple components (CRUD, forms, workflows)
+- ✅ Features that establish patterns to be reused across the app
+- ✅ Features with non-trivial business logic or integrations
+- ✅ Reference implementations for specific UI/UX patterns
+
+#### How AI Uses These Docs:
+
+When you say:
+```
+"Create a Products feature similar to the Users feature"
+```
+
+The AI will:
+1. Read `users.md` to understand the pattern
+2. Identify key components and their responsibilities
+3. Replicate the architecture with appropriate entity names
+4. Follow the same code patterns and styling conventions
+5. Maintain consistency with the reference implementation
+
+**Pro Tip**: Place feature documentation in the feature folder (e.g., `features/users/users.md`) so Claude Code automatically sees it when working in that context.
+
 ## 🏗️ Technology Stack
 
 ### Frontend
