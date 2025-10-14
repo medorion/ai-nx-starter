@@ -307,16 +307,6 @@ This example demonstrates how to document a feature for AI consumption:
 
 > **Note**: Exclude any general rules already defined in `.claude/instructions.md`. Focus only on feature-specific patterns, implementations, and architectural decisions unique to this feature.
 
-1. **Architecture Overview**: Module structure and file organization
-2. **Component Deep-Dives**: Detailed explanation of each component with line references
-3. **Code Patterns**: Specific patterns used (state management, validation, routing, etc.)
-4. **Data Flow**: Step-by-step explanation of CRUD operations
-5. **Integration Points**: How the feature connects to API, types, and shared modules
-6. **Reusable Patterns**: Copy-paste ready code snippets for common scenarios
-7. **Styling Patterns**: LESS/CSS structure and conventions
-8. **Customization Guide**: How to adapt the pattern for new features
-9. **Best Practices**: Key principles demonstrated by the implementation
-
 #### Why This Matters:
 
 - **AI Context**: Claude Code/Windsurf can reference these guides to understand complex implementations
@@ -334,11 +324,13 @@ This example demonstrates how to document a feature for AI consumption:
 #### How AI Uses These Docs:
 
 When you say:
+
 ```
 "Create a Products feature similar to the Users feature"
 ```
 
 The AI will:
+
 1. Read `users.md` to understand the pattern
 2. Identify key components and their responsibilities
 3. Replicate the architecture with appropriate entity names
