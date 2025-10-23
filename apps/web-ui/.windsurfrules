@@ -1,30 +1,23 @@
----
-trigger: model_decision
-description: This applays only for apps/web-ui
----
+# Web UI Application Rules
 
-This applays only for apps/web-ui
-
-# Web UI Windsurf Rules
-
-This document defines coding standards and architectural rules for the Angular Web UI application.
+**Context**: Angular frontend application (`apps/web-ui`)
 
 ## Naming Conventions
 
 ### File Naming
 
-- MUST use kebab-case for all file names
-- MUST use Angular-recommended suffixes: `.component.ts`, `.service.ts`, `.directive.ts`, `.pipe.ts`, `.module.ts`
-- MUST use descriptive names that clearly indicate purpose
+- **MUST** use kebab-case for all file names
+- **MUST** use Angular-recommended suffixes: `.component.ts`, `.service.ts`, `.directive.ts`, `.pipe.ts`, `.module.ts`
+- **MUST** use descriptive names that clearly indicate purpose
 
 ### Entity/DTO/Model Naming
 
-- MUST use clear suffixes: `Dto`, `Entity`, `Model`
-- MUST be descriptive and domain-specific
+- **MUST** use clear suffixes: `Dto`, `Entity`, `Model`
+- **MUST** be descriptive and domain-specific
 
 ### Folder Organization
 
-- MUST use feature-based folder organization (not type-based)
+- **MUST** use feature-based folder organization (not type-based)
 - Group related functionality together
 - Keep components, services, and models for a feature in the same directory
 
@@ -42,36 +35,34 @@ This document defines coding standards and architectural rules for the Angular W
     /models
 ```
 
+## Configuration
+
 ### AppConfigService Rules
 
-- Configuration MUST be handled through `AppConfigService` (located in api-client package)
+- Configuration **MUST** be handled through `AppConfigService` (located in api-client package)
 - Config file location: `/apps/web-ui/src/assets/config.json`
-- Configuration MUST be generated from Docker ENV variables
-- NO hardcoded configuration values in components/services
+- Configuration **MUST** be generated from Docker ENV variables
+- **NO** hardcoded configuration values in components/services
 
 ## Styling Rules
 
 ### LESS Usage
 
-- MUST use `.less` files for all styling
-- DO NOT use inline styles in components
-- For margines and padding use helper classes from theme-general.less i.e mt-1 , p-2 ...
-- USE ng-zorro built-in styles and classes whenever possible
-- USE for font predefined classes from theme-general.less: fw-bold, fw-light...
+- **MUST** use `.less` files for all styling
+- **DO NOT** use inline styles in components
+- For margins and padding use helper classes from `theme-general.less` (e.g., `mt-1`, `p-2`)
+- **USE** ng-zorro built-in styles and classes whenever possible
+- **USE** predefined font classes from `theme-general.less`: `fw-bold`, `fw-light`, etc.
 
 ### Global Styling
 
-- HTML base element styles can ONLY be overridden in:
+- HTML base element styles can **ONLY** be overridden in:
   - `apps/web-ui/src/assets/styles/theme.less`
   - Corresponding dark theme files
-- DO NOT modify font or background colors in component `.less` files
-- ALL colors MUST be defined in global styles using theme variables
-- font-size, font-weight use predefined from theme-general.less
-- For forms use predefined form-section
-
-### Data Binding
-
-- DO NOT use functions in dta binding use ng-Swithch or maps ...
+- **DO NOT** modify font or background colors in component `.less` files
+- **ALL** colors **MUST** be defined in global styles using theme variables
+- Use predefined `font-size` and `font-weight` from `theme-general.less`
+- For forms use predefined `form-section`
 
 ### Theme Variables
 
@@ -91,48 +82,46 @@ This document defines coding standards and architectural rules for the Angular W
 
 ## Data Binding
 
-- Avoid using functions in data binding, try using ngSwitch , maps ...
+- **DO NOT** use functions in data binding
+- Use `ngSwitch`, maps, or computed properties instead
 
 ## Form Validation
 
 ### Validation Strategy
 
-- MUST use class-validator decorators for data validation
-- MUST use built-in Angular validators for form validation
-- MUST use `FormGroupService` for handling complex form validation
+- **MUST** use class-validator decorators for data validation
+- **MUST** use built-in Angular validators for form validation
+- **MUST** use `FormGroupService` for handling complex form validation
 - Reference implementation: `features/zorro-components/forms`
 
 ## UI Components
 
-- Components should be standalone: false by default, true only if specified differently
-
 ### General
 
-- Always use separate files for html,less , and ts
+- Components should be `standalone: false` by default, `true` only if specified differently
+- Always use separate files for HTML, LESS, and TypeScript
 
 ### List and Detail Views
 
-- MUST use `nz-table` for list views
-- MUST use `nz-card` for item/detail views
+- **MUST** use `nz-table` for list views
+- **MUST** use `nz-card` for item/detail views
 - Reference implementation: `features/zorro-components/list-and-item`
 
 ## Logging
 
-- Use our LoggerService
-
 ### LoggerService Usage
 
-- ALL logging MUST go through `LoggerService` wrapper
+- **ALL** logging **MUST** go through `LoggerService` wrapper
 - Configure log levels via environment configurations
-- MUST integrate with Angular's `ErrorHandler` for global crash reporting
-- NEVER log sensitive information (passwords, tokens, PII)
+- **MUST** integrate with Angular's `ErrorHandler` for global crash reporting
+- **NEVER** log sensitive information (passwords, tokens, PII)
 - Optionally send critical logs to backend/SaaS logger
 
 ## Error Handling
 
 ### Global Error Strategy
 
-- MUST implement global error handling
+- **MUST** implement global error handling
 - Optionally report to backend/Sentry for monitoring
 
 ### User Feedback Rules
@@ -145,14 +134,15 @@ This document defines coding standards and architectural rules for the Angular W
 
 ## HTTP Communication
 
-- MUST use api-client package for HTTP communication . ie. `packages/api-client/src/api/example/api-example.service.ts`
+- **MUST** use `api-client` package for HTTP communication
+- Example: `packages/api-client/src/api/example/api-example.service.ts`
 
 ## State Management
 
 ### Service-Based State
 
-- MUST use services with `BehaviorSubject` for state management
-- AVOID complex state management libraries for this application
+- **MUST** use services with `BehaviorSubject` for state management
+- **AVOID** complex state management libraries for this application
 - Follow reactive programming patterns with RxJS
 
 **Template:**
@@ -181,13 +171,7 @@ export class FeatureStoreService {
 }
 ```
 
-### Alerting, Messaging, Confirmation
-
-- Quick feedback → MessageService (wraps NzMessageService)
-- Feedback with context/details → NotificationService (wraps NzNotificationService)
-- Static inline warnings/errors → <nz-alert>
-- For confirmation use nz-popconfirm
-- Critical confirmation / blocking errors → NzModalService
+**MUST** use core decorators for logging, events, pubsub, etc. as well as services and components from core folder.
 
 ## Available Decorators
 
@@ -226,13 +210,13 @@ export class FeatureStoreService {
 
 ### Language Support
 
-- DEFAULT language: `en_US`
-- CURRENTLY supporting `en_US` only
+- **DEFAULT** language: `en_US`
+- **CURRENTLY** supporting `en_US` only
 - Prepare for future multi-language support
 
 ### Icons
 
-Update icons module if using new icon /shared/icons/icons.module.ts
+Update icons module if using new icon: `/shared/icons/icons.module.ts`
 
 ## Routing
 
@@ -252,11 +236,12 @@ Update icons module if using new icon /shared/icons/icons.module.ts
 - Maintain separation of concerns
 - Use dependency injection properly
 - Write testable code with minimal coupling
-- Aviid using modals
+- Avoid using modals
+- Use LoggerService for logging instead of console.log
 
 ### Performance Considerations
 
 - Use OnPush change detection where appropriate
 - Implement proper subscription management (use takeUntil pattern)
 - Optimize bundle size with lazy loading
-- Use track-by functions in \*ngFor loops for large lists
+- Use track-by functions in `*ngFor` loops for large lists
