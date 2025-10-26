@@ -27,12 +27,12 @@ This makes it optimized for AI assisted development.
 
 Traditional starter templates give you code. **AI-Nx-Starter gives you an AI multiplication system.**
 
-| Traditional Development | With AI-Nx-Starter |
-|------------------------|-------------------|
-| Manual API client coding | **Auto-generated** from controllers |
-| Hours writing boilerplate | **Minutes** with AI prompts |
-| Inconsistent patterns | **Enforced** via .clinerules |
-| Trial and error | **Proven** prompt templates |
+| Traditional Development   | With AI-Nx-Starter                  |
+| ------------------------- | ----------------------------------- |
+| Manual API client coding  | **Auto-generated** from controllers |
+| Hours writing boilerplate | **Minutes** with AI prompts         |
+| Inconsistent patterns     | **Enforced** via .clinerules        |
+| Trial and error           | **Proven** prompt templates         |
 
 **Real Impact:** Build a complete CRUD feature in 20-30 minutes vs 2-3 hours manually.
 
@@ -81,13 +81,14 @@ Then read documents/dev-workflow.md to understand the development workflow.
 # Start all services
 npm run start
 
-# Frontend: http://localhost:8081
-# Backend API: http://localhost:8081/api
+# Frontend: http://localhost:4200
+# Backend API: http://localhost:4200/api
 ```
 
 ### 6. Create Your First Feature with AI
 
 Use this prompt:
+
 ```
 Create a complete CRUD feature for Product following the workflow in documents/dev-workflow.md
 
@@ -114,16 +115,19 @@ See [prompts/create-crud-feature.md](./prompts/create-crud-feature.md) for the f
 ### 🏗️ Production-Ready Stack
 
 **Frontend:**
+
 - Angular 19 + NG-ZORRO (Ant Design)
 - RxJS + TypeScript
 - Auto-generated HTTP clients
 
 **Backend:**
+
 - NestJS 11 + TypeORM
 - PostgreSQL + MongoDB + Redis
 - Pino structured logging
 
 **DevOps:**
+
 - Nx monorepo with caching
 - Docker + Docker Compose
 - ESLint + Prettier
@@ -362,21 +366,21 @@ The AI will:
 
 ```bash
 # Development
-npm run start              # Run all services
-npm run ui                 # Frontend only
-npm run server             # Backend only
+npm run start  # Run all services
+npm run ui     # Frontend only
+npm run server # Backend only
 
 # Building
-npm run build              # Development build
-npm run build:prod         # Production build
+npm run build      # Development build
+npm run build:prod # Production build
 
 # Code Quality
-npm run lint               # Lint all projects
-npm run format:fix         # Auto-format code
-npm run test               # Run tests
+npm run lint       # Lint all projects
+npm run format:fix # Auto-format code
+npm run test       # Run tests
 
 # AI Workflows
-npm run gen-api-client     # Generate Angular API services ⚡
+npm run gen-api-client # Generate Angular API services ⚡
 ```
 
 ## 🐳 Docker
@@ -429,6 +433,7 @@ docker-compose up
 We welcome contributions! This project is designed to showcase AI-assisted development patterns.
 
 **Ways to Contribute:**
+
 - Share your AI prompts in `/prompts`
 - Improve AI workflow documentation
 - Add case studies with metrics
@@ -450,6 +455,7 @@ See [CASE-STUDY.md](./CASE-STUDY.md) for real-world metrics:
 See [ROADMAP.md](./ROADMAP.md) for planned features.
 
 **Coming Soon:**
+
 - GraphQL support
 - Microservices template
 - More AI prompt templates
@@ -461,6 +467,7 @@ See [ROADMAP.md](./ROADMAP.md) for planned features.
 ### Common Issues
 
 **"Cannot connect to database"**
+
 ```bash
 # Check if Docker services are running
 docker-compose ps
@@ -475,6 +482,7 @@ docker-compose logs mongodb
 ```
 
 **"Module not found" errors**
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules dist .nx
@@ -482,14 +490,16 @@ pnpm install
 ```
 
 **"Port already in use"**
+
 ```bash
 # Check what's using the port
-lsof -i :3030  # or :8081
+lsof -i :3030 # or :4200
 
 # Kill the process or change PORT in .env
 ```
 
 **"Gen-api-client fails"**
+
 ```bash
 # Ensure backend builds successfully first
 npm run build
@@ -499,6 +509,7 @@ npm run gen-api-client
 ```
 
 **Tests fail with import errors**
+
 ```bash
 # Install dependencies in test mode
 pnpm install
