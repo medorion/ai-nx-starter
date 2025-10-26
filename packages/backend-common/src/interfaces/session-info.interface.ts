@@ -1,4 +1,4 @@
-import { Role } from '@monorepo-kit/types';
+import { Role } from '@ai-nx-starter/types';
 
 export interface SessionInfo {
   userId: string;

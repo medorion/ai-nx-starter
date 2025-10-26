@@ -5,7 +5,7 @@
       "name": "Debug Angular (web-ui) - Launch Chrome",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:8081",
+      "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
@@ -27,7 +27,7 @@
       "name": "Debug Angular (web-ui) - Edge",
       "type": "msedge",
       "request": "launch",
-      "url": "http://localhost:8081",
+      "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {

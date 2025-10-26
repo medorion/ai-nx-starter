@@ -1,4 +1,4 @@
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleDto } from '@ai-nx-starter/types';
 
 export const SAMPLE_MEMBERS_DATA: ExampleDto[] = [
   {

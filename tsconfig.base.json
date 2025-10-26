@@ -18,10 +18,10 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@monorepo-kit/types": ["packages/types/src/index.ts"],
-      "@monorepo-kit/api-client": ["packages/api-client/src/index.ts"],
-      "@monorepo-kit/backend-common": ["packages/backend-common/src/index.ts"],
-      "@monorepo-kit/data-access-layer": ["packages/data-access-layer/src/index.ts"]
+      "@ai-nx-starter/types": ["packages/types/src/index.ts"],
+      "@ai-nx-starter/api-client": ["packages/api-client/src/index.ts"],
+      "@ai-nx-starter/backend-common": ["packages/backend-common/src/index.ts"],
+      "@ai-nx-starter/data-access-layer": ["packages/data-access-layer/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

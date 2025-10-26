@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServerSideEventsService } from '../../../core/services/server-side-events.service';
-import { ApiSyncEventsService, AppConfigService } from '@monorepo-kit/api-client';
-import { IMdSyncEvent } from '@monorepo-kit/types';
+import { ApiSyncEventsService, AppConfigService } from '@ai-nx-starter/api-client';
+import { IMdSyncEvent } from '@ai-nx-starter/types';
 
 @Injectable()
 export class ServerEventsDemoService {
@@ -18,7 +18,7 @@ export class ServerEventsDemoService {
     const config = this.appConfigService.getConfig();
     const token = config.token || '';
     this.events$ = this.serverSideEventsService.getServerSentEvents(
-      `${this.appConfigService.apiUrl}/monorepo-kit/rest/api/v2/events/stream-to-all?token=${encodeURIComponent(token)}`,
+      `${this.appConfigService.apiUrl}/ai-nx-starter/rest/api/v2/events/stream-to-all?token=${encodeURIComponent(token)}`,
     );
   }
 }

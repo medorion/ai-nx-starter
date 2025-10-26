@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, tap, catchError, of, firstValueFrom } from 'rxjs';
-import { AppConfigService, ApiAuthService } from '@monorepo-kit/api-client';
-import { UIAppContextDto, ClientUserDto, IdCodeNameDto, IdNameDto, ErrorStatusCode } from '@monorepo-kit/types';
+import { AppConfigService, ApiAuthService } from '@ai-nx-starter/api-client';
+import { UIAppContextDto, ClientUserDto, IdCodeNameDto, IdNameDto, ErrorStatusCode } from '@ai-nx-starter/types';
 import { LoggerService } from './logger.service';
 import { StorageKey } from '../enums/storage-key.enum';
 import { Router } from '@angular/router';

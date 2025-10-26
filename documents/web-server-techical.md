@@ -2,8 +2,8 @@
 
 - Use NestJS framework for web server.
 - Use data-access-layer for database access.
-- Never use TyeOrm directly in web server.
-- Alwaus use class validators for validation.
+- Never use TypeORM directly in web server.
+- Always use class validators for validation.
 - Use dto for request and response objects from packages/types
 - ALWAYS create module/controller/service for each feature.
 - All logic should be in services.

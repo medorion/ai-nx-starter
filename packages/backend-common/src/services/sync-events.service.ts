@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, Subject } from 'rxjs';
-import { IMdSyncEvent } from '@monorepo-kit/types';
+import { IMdSyncEvent } from '@ai-nx-starter/types';
 import { filter } from 'rxjs/operators';
 
 /**

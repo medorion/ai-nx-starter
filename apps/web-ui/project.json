@@ -92,7 +92,7 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
         "buildTarget": "web-ui:build:development",
-        "port": 8081
+        "port": 4200
       },
       "configurations": {
         "production": {

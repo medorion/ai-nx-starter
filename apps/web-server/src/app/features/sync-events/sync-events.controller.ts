@@ -1,8 +1,8 @@
 // src/events/events.controller.ts
 import { Controller, Sse, Post, Body, Param, Query, UnauthorizedException } from '@nestjs/common';
 import { Observable, interval, merge, map, filter } from 'rxjs';
-import { SyncEventsService, SessionService, SessionExpiredException, Authorize, IgnoreAuthorization } from '@monorepo-kit/backend-common';
-import { IMdSyncEvent, SyncEventType, Role } from '@monorepo-kit/types';
+import { SyncEventsService, SessionService, SessionExpiredException, Authorize, IgnoreAuthorization } from '@ai-nx-starter/backend-common';
+import { IMdSyncEvent, SyncEventType, Role } from '@ai-nx-starter/types';
 
 @Controller('events')
 export class SyncEventsController {

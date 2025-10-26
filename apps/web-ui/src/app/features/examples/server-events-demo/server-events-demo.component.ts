@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ServerEventsDemoService } from './server-events-demo.service';
-import { ApiSyncEventsService } from '@monorepo-kit/api-client';
-import { IMdSyncEvent, SyncEventType } from '@monorepo-kit/types';
+import { ApiSyncEventsService } from '@ai-nx-starter/api-client';
+import { IMdSyncEvent, SyncEventType } from '@ai-nx-starter/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 interface ReceivedEvent extends IMdSyncEvent {

@@ -1,7 +1,7 @@
 // src/events/events.module.ts
 import { Module } from '@nestjs/common';
 import { SyncEventsController } from './sync-events.controller';
-import { SyncEventsService } from '@monorepo-kit/backend-common';
+import { SyncEventsService } from '@ai-nx-starter/backend-common';
 
 @Module({
   controllers: [SyncEventsController],

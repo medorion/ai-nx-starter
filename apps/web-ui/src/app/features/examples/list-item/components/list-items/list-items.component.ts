@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ListItemsService } from '../../services/list-items.service';
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleDto } from '@ai-nx-starter/types';
 
 @Component({
   selector: 'app-list-items',

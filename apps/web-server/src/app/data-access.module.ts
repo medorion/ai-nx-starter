@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { TodoItem, TodoItemDbService, User, UserDbService } from '@monorepo-kit/data-access-layer';
+import { TodoItem, TodoItemDbService, User, UserDbService } from '@ai-nx-starter/data-access-layer';
 
 @Module({
   imports: [

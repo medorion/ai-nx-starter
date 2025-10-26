@@ -30,7 +30,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalHttpInterceptor } from './core/interceptors/global-http.interceptor';
 import { HideInProdDirective } from './shared/directives/hide-in-prod.directive';
 import { APP_INITIALIZER } from '@angular/core';
-import { AppConfigService } from '@monorepo-kit/api-client';
+import { AppConfigService } from '@ai-nx-starter/api-client';
 import { environment } from '../environments/environment';
 import { FingerprintService } from './core/services/fingerprint.service';
 import { StorageKey } from './core/enums/storage-key.enum';

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { ClientUserDto, CreateUserDto, UpdateUserDto } from '@monorepo-kit/types';
-import { UserDbService } from '@monorepo-kit/data-access-layer';
+import { ClientUserDto, CreateUserDto, UpdateUserDto } from '@ai-nx-starter/types';
+import { UserDbService } from '@ai-nx-starter/data-access-layer';
 import { UserMapper } from './user.mapper';
 
 @Injectable()

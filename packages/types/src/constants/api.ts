@@ -1,1 +1,1 @@
-export const API_PREFIX = 'monorepo-kit/rest/api/v2';
+export const API_PREFIX = 'ai-nx-starter/rest/api/v2';

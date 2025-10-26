@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Query, Body, ParseIntPipe, HttpCode, HttpStatus, ValidationPipe } from '@nestjs/common';
-import { ClientUserDto, CreateUserDto, UpdateUserDto, Role } from '@monorepo-kit/types';
+import { ClientUserDto, CreateUserDto, UpdateUserDto, Role } from '@ai-nx-starter/types';
 import { UserService } from './user.service';
-import { Authorize } from '@monorepo-kit/backend-common';
+import { Authorize } from '@ai-nx-starter/backend-common';
 
 @Controller('users')
 export class UserController {

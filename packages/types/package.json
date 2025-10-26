@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo-kit/types",
+  "name": "@ai-nx-starter/types",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",

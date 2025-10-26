@@ -22,7 +22,7 @@ export class WelcomeComponent {
     {
       title: 'Frontend Only',
       command: 'npm run ui',
-      description: 'Start Angular dev server at http://localhost:8081',
+      description: 'Start Angular dev server at http://localhost:4200',
     },
     {
       title: 'Backend Only',

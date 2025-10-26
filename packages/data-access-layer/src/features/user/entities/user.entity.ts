@@ -1,5 +1,5 @@
 import { Entity, Column, ObjectIdColumn, ObjectId, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Role } from '@monorepo-kit/types';
+import { Role } from '@ai-nx-starter/types';
 
 @Entity('users')
 export class User {

@@ -9,7 +9,7 @@ import { SyncEventsModule } from './features/sync-events/sync-events.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AppInitializerService } from './app-initializer-service';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthorizeGuard, CoreServicesModule } from '@monorepo-kit/backend-common';
+import { AuthorizeGuard, CoreServicesModule } from '@ai-nx-starter/backend-common';
 
 @Module({
   imports: [

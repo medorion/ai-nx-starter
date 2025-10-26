@@ -6,8 +6,8 @@ import {
   UnauthorizedLoginException,
   AppErrorException,
   Authorize,
-} from '@monorepo-kit/backend-common';
-import { Role } from '@monorepo-kit/types';
+} from '@ai-nx-starter/backend-common';
+import { Role } from '@ai-nx-starter/types';
 
 /**
  * Exceptions controller for testing and demonstrating error handling

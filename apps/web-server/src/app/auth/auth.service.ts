@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UIAppContextDto, ClientUserDto, LoginUserDto } from '@monorepo-kit/types';
-import { SessionInfo, SessionExpiredException, AppErrorException } from '@monorepo-kit/backend-common';
+import { UIAppContextDto, ClientUserDto, LoginUserDto } from '@ai-nx-starter/types';
+import { SessionInfo, SessionExpiredException, AppErrorException } from '@ai-nx-starter/backend-common';
 import { AuthMapperService } from './auth-mapper.service';
-import { SessionService } from '@monorepo-kit/backend-common';
-import { UserDbService } from '@monorepo-kit/data-access-layer';
+import { SessionService } from '@ai-nx-starter/backend-common';
+import { UserDbService } from '@ai-nx-starter/data-access-layer';
 import { PinoLogger } from 'nestjs-pino';
 import { randomBytes } from 'crypto';
 

@@ -1,0 +1,248 @@
+# AI-Nx-Starter Claude Code Rules
+
+## Project Overview
+AI-Nx-Starter is an Nx monorepo with Angular frontend and NestJS backend, designed for AI-assisted development.
+
+## Architecture
+
+### Package Structure
+```
+@ai-nx-starter/types          - Shared TypeScript types and DTOs
+@ai-nx-starter/api-client     - Auto-generated Angular HTTP services
+@ai-nx-starter/backend-common - Shared backend utilities
+@ai-nx-starter/data-access-layer - Database entities and services
+```
+
+### Import Rules
+ALWAYS use workspace aliases:
+```typescript
+import { UserDto } from '@ai-nx-starter/types';
+import { ApiUserService } from '@ai-nx-starter/api-client';
+import { UserDbService } from '@ai-nx-starter/data-access-layer';
+```
+
+NEVER use relative paths to packages:
+```typescript
+// ❌ WRONG
+import { UserDto } from '../../../packages/types/src/dto/user.dto';
+```
+
+## Backend Rules (NestJS)
+
+### Architecture Layers
+1. **Controller**: HTTP endpoints, validation, authorization
+2. **Service**: Business logic
+3. **Mapper**: Entity ↔ DTO transformation
+4. **DbService**: Database operations (in data-access-layer)
+
+### Key Constraints
+- NEVER import TypeORM directly in web-server
+- ALWAYS use data-access-layer services for database operations
+- DTOs MUST be in @ai-nx-starter/types package
+- Use class-validator decorators in all DTOs
+- Use @Authorize() decorator for protected endpoints
+
+### Naming Conventions
+- Controllers: `[Feature]Controller`
+- Services: `[Feature]Service`
+- Mappers: `[Feature]Mapper`
+- DbServices: `[Entity]DbService`
+
+### File Organization
+```
+apps/web-server/src/app/features/[feature]/
+├── [feature].controller.ts
+├── [feature].service.ts
+├── [feature].mapper.ts
+└── [feature].module.ts
+```
+
+## Frontend Rules (Angular)
+
+### Component Organization
+```
+apps/web-ui/src/app/features/[feature]/[component-name]/
+├── [component-name].component.ts
+├── [component-name].component.html
+├── [component-name].component.less
+└── [component-name].component.spec.ts
+```
+
+### Naming Conventions
+- Components: `[feature]-[type].component.ts` (kebab-case)
+- Services: `[feature].service.ts`
+- Use OnPush change detection
+- Use reactive forms
+
+### UI Framework
+- Use NG-ZORRO components exclusively
+- Follow theme in `apps/web-ui/src/assets/styles/theme.less`
+- Avoid inline styles
+- Use LESS for styling
+
+### API Integration
+- ALWAYS use auto-generated services from @ai-nx-starter/api-client
+- NEVER create manual HTTP calls
+- If API client is outdated, remind to run: `npm run gen-api-client`
+
+## Data Access Layer
+
+### Entity Rules
+- Location: `packages/data-access-layer/src/features/[entity]/entities/`
+- Use TypeORM decorators
+- Match DTOs from @ai-nx-starter/types
+
+### DbService Rules
+- Location: `packages/data-access-layer/src/features/[entity]/services/`
+- Name: `[Entity]DbService`
+- Provide CRUD operations
+- Handle database errors
+
+## API Client Generation
+
+### When to Run
+Run `npm run gen-api-client` after:
+- Creating new controllers
+- Modifying controller endpoints
+- Changing parameter types
+- Adding/removing routes
+
+### What It Does
+- Scans all `*.controller.ts` files
+- Generates Angular services in `packages/api-client/src/api/`
+- Updates exports in `packages/api-client/src/index.ts`
+- Creates type-safe HTTP methods
+
+## Development Workflow
+
+### Creating CRUD Features
+1. Create DTOs in `packages/types/src/dto/`
+2. Create Entity in `packages/data-access-layer/`
+3. Create DbService in `packages/data-access-layer/`
+4. Create Controller/Service/Mapper in `apps/web-server/`
+5. Run `npm run gen-api-client`
+6. Create UI components in `apps/web-ui/`
+7. Run `npm run build` after each step
+
+### Testing
+- Run `npm run build` frequently
+- Fix errors incrementally
+- Verify TypeScript types
+
+## Common Patterns
+
+### Controller Example
+```typescript
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Authorize(Role.Admin)
+  @Get()
+  findAll(): Promise<UserDto[]> {
+    return this.userService.findAll();
+  }
+}
+```
+
+### Service Example
+```typescript
+@Injectable()
+export class UserService {
+  constructor(
+    private readonly userDbService: UserDbService,
+    private readonly userMapper: UserMapper
+  ) {}
+
+  async findAll(): Promise<UserDto[]> {
+    const entities = await this.userDbService.findAll();
+    return entities.map(e => this.userMapper.toDto(e));
+  }
+}
+```
+
+### Component Example
+```typescript
+@Component({
+  selector: 'app-user-list',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class UserListComponent {
+  users$ = this.apiUserService.findAll();
+
+  constructor(private apiUserService: ApiUserService) {}
+}
+```
+
+## Error Handling
+
+### Backend
+- Use custom exceptions from @ai-nx-starter/backend-common
+- Throw AppError, AppWarning, or NotImplementedException
+- Let global exception filter handle responses
+
+### Frontend
+- Use MessageService for user feedback
+- Handle errors in subscribe error callback
+- Show loading states with *ngIf="loading"
+
+## Documentation
+
+### Code Comments
+- Add JSDoc to public methods
+- Document complex logic
+- Explain non-obvious decisions
+
+### README Updates
+After significant changes, update:
+- README.md
+- AI-DEVELOPMENT.md
+- Relevant docs in documents/
+
+## Validation
+
+### Backend DTOs
+```typescript
+export class CreateUserDto {
+  @IsString()
+  @MinLength(3)
+  name: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
+}
+```
+
+### Frontend Forms
+- Use reactive forms
+- Add validators
+- Show error messages with nz-form-control
+
+## Build and Deploy
+
+### Build Command
+```bash
+npm run build
+```
+
+### Production Build
+```bash
+npm run build:prod
+```
+
+### Docker
+```bash
+./build-docker.sh
+```
+
+## Reminders
+
+- Run `npm run gen-api-client` after backend changes
+- Use `npm run build` to verify changes
+- Follow existing patterns - check examples/ folder
+- Keep DTOs in sync between backend and database
+- Use descriptive commit messages

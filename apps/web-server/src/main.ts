@@ -8,7 +8,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { API_PREFIX } from '@monorepo-kit/types';
+import { API_PREFIX } from '@ai-nx-starter/types';
 import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {

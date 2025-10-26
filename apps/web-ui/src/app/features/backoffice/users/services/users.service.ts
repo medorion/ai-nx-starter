@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { ClientUserDto, CreateUserDto, UpdateUserDto } from '@monorepo-kit/types';
-import { ApiUserService } from '@monorepo-kit/api-client';
+import { ClientUserDto, CreateUserDto, UpdateUserDto } from '@ai-nx-starter/types';
+import { ApiUserService } from '@ai-nx-starter/api-client';
 
 @Injectable({
   providedIn: 'root',

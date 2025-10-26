@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Build script for Monorepo Kit Docker image
+# Build script for AI-Nx-Starter Docker image
 
 set -e # Exit on any error
 
-echo "🚀 Building Monorepo Kit Docker image..."
+echo "🚀 Building AI-Nx-Starter Docker image..."
 
 # Build the Docker image
-docker build -t monorepo-kit:latest .
+docker build -t ai-nx-starter:latest .
 
 echo "✅ Docker image built successfully!"
 echo ""
@@ -15,7 +15,7 @@ echo "To run the application:"
 echo "  docker-compose up -d"
 echo ""
 echo "To run just the app (if you have a separate database):"
-echo "  docker run -p 3030:3030 --name monorepo-kit-container monorepo-kit:latest"
+echo "  docker run -p 3030:3030 --name ai-nx-starter-container ai-nx-starter:latest"
 echo ""
 echo "The application will be available at:"
 echo "  - Frontend: http://localhost:3030"

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ExampleDto } from '@monorepo-kit/types';
+import { ExampleDto } from '@ai-nx-starter/types';
 
 @Injectable()
 export class ExampleService {
