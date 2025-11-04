@@ -59,7 +59,7 @@ cp .env.example .env
 ### 3. Start Database Services (Docker)
 
 ```bash
-# Start PostgreSQL, MongoDB, and Redis
+# Start MongoDB and Redis
 docker-compose up -d
 
 # Verify services are running
@@ -123,7 +123,7 @@ See [prompts/create-crud-feature.md](./prompts/create-crud-feature.md) for the f
 **Backend:**
 
 - NestJS 11 + TypeORM
-- PostgreSQL + MongoDB + Redis
+- MongoDB + Redis
 - Pino structured logging
 
 **DevOps:**
@@ -477,8 +477,8 @@ docker-compose down
 docker-compose up -d
 
 # Check logs
-docker-compose logs postgres
 docker-compose logs mongodb
+docker-compose logs redis
 ```
 
 **"Module not found" errors**
