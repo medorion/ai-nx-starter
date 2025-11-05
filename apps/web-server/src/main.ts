@@ -3,9 +3,11 @@
  * This is only a minimal backend to get started.
  */
 
-// Polyfill for crypto global (required by @nestjs/typeorm)
+// Polyfill for crypto global (required by @nestjs/typeorm in older Node versions)
 import * as crypto from 'crypto';
-(global as any).crypto = crypto;
+if (!(global as any).crypto) {
+  (global as any).crypto = crypto;
+}
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';

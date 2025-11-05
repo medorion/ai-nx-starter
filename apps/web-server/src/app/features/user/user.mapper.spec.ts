@@ -49,15 +49,15 @@ describe('UserMapper', () => {
     });
 
     it('should handle null/undefined picture', () => {
-      const userWithoutPicture = { ...mockUser, picture: '' };
-      const result = mapper.toDto(userWithoutPicture);
+      const userWithoutPicture = { ...mockUser, picture: '', id: mockUser.id };
+      const result = mapper.toDto(userWithoutPicture as User);
 
       expect(result.picture).toBe('');
     });
 
     it('should handle all roles correctly', () => {
-      const adminUser = { ...mockUser, role: Role.Admin };
-      const result = mapper.toDto(adminUser);
+      const adminUser = { ...mockUser, role: Role.Admin, id: mockUser.id };
+      const result = mapper.toDto(adminUser as User);
 
       expect(result.role).toBe(Role.Admin);
     });

@@ -195,10 +195,10 @@ describe('UserService', () => {
     };
 
     it('should update user successfully', async () => {
-      const updatedUser = { ...mockUser, ...updateDto };
+      const updatedUser = { ...mockUser, ...updateDto, id: mockUser.id };
 
       dbService.findById.mockResolvedValue(mockUser);
-      dbService.update.mockResolvedValue(updatedUser);
+      dbService.update.mockResolvedValue(updatedUser as User);
       mapper.toDto.mockReturnValue({ ...mockDto, ...updateDto });
 
       const result = await service.update('507f1f77bcf86cd799439011', updateDto);
@@ -220,10 +220,10 @@ describe('UserService', () => {
 
     it('should throw ConflictException when updating to existing email', async () => {
       const updateWithEmail: UpdateUserDto = { email: 'existing@example.com' };
-      const otherUser = { ...mockUser, id: 'other-id', email: 'existing@example.com' };
+      const otherUser = { ...mockUser, id: 'other-id', email: 'existing@example.com', _id: new ObjectId('507f1f77bcf86cd799439012') };
 
       dbService.findById.mockResolvedValue(mockUser);
-      dbService.findByEmail.mockResolvedValue(otherUser);
+      dbService.findByEmail.mockResolvedValue(otherUser as User);
 
       await expect(service.update('507f1f77bcf86cd799439011', updateWithEmail)).rejects.toThrow(
         new ConflictException('User with email existing@example.com already exists')

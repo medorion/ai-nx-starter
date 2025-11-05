@@ -1,10 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { MongoRepository, ObjectId } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { UserDbService } from './user.db-service';
 import { User } from '../entities/user.entity';
 import { Role } from '@ai-nx-starter/types';
+
+// Mock bcrypt
+jest.mock('bcrypt', () => ({
+  hash: jest.fn(),
+  compare: jest.fn(),
+}));
+
+import * as bcrypt from 'bcrypt';
 
 describe('UserDbService', () => {
   let service: UserDbService;
@@ -51,6 +58,7 @@ describe('UserDbService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('findById', () => {
@@ -155,11 +163,11 @@ describe('UserDbService', () => {
         picture: '',
       };
 
-      const createdUser = { ...mockUser, ...createData };
+      const createdUser = { ...mockUser, ...createData, id: mockUser.id };
       repository.create.mockReturnValue(createdUser as any);
-      repository.save.mockResolvedValue(createdUser);
+      repository.save.mockResolvedValue(createdUser as any);
 
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashedPassword' as never);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
 
       const result = await service.create(createData);
 
@@ -176,10 +184,10 @@ describe('UserDbService', () => {
   describe('update', () => {
     it('should update user and return updated entity', async () => {
       const updateData = { firstName: 'Updated' };
-      const updatedUser = { ...mockUser, ...updateData };
+      const updatedUser = { ...mockUser, ...updateData, id: mockUser.id };
 
       repository.update.mockResolvedValue({ affected: 1, raw: {}, generatedMaps: [] });
-      repository.findOne.mockResolvedValue(updatedUser);
+      repository.findOne.mockResolvedValue(updatedUser as any);
 
       const result = await service.update('507f1f77bcf86cd799439011', updateData);
 
@@ -196,7 +204,7 @@ describe('UserDbService', () => {
       repository.update.mockResolvedValue({ affected: 1, raw: {}, generatedMaps: [] });
       repository.findOne.mockResolvedValue(mockUser);
 
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('newHashedPassword' as never);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('newHashedPassword');
 
       await service.update('507f1f77bcf86cd799439011', updateData);
 
@@ -267,7 +275,7 @@ describe('UserDbService', () => {
 
   describe('verifyPassword', () => {
     it('should return true when password matches', async () => {
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const result = await service.verifyPassword('plainPassword', 'hashedPassword');
 
@@ -276,7 +284,7 @@ describe('UserDbService', () => {
     });
 
     it('should return false when password does not match', async () => {
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       const result = await service.verifyPassword('wrongPassword', 'hashedPassword');
 
