@@ -20,6 +20,7 @@
     "clean:deep": "pnpm -r exec rm -rf node_modules dist && rm -rf .nx tmp node_modules dist .angular"
   },
   "private": true,
+  "packageManager": "pnpm@10.20.0",
   "dependencies": {
     "@angular/animations": "^19.2.15",
     "@angular/cdk": "^19.2.4",
