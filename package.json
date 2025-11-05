@@ -8,7 +8,7 @@
     "build": "nx run-many --target=build --all --parallel=5",
     "build:prod": "nx run-many --target=build --all --parallel=5 --configuration=production",
     "start": "nx run-many --target=serve --all --parallel=5 --inspect --configuration=development --output-style=stream",
-    "gen-api-client": "node --loader ts-node/esm scripts/gen-api-client.ts",
+    "gen-api-client": "node --loader ts-node/esm tools/api-client-generator/src/generate.ts",
     "test": "nx run-many --target=test --all --parallel=5",
     "test:watch": "nx run-many --target=test --all --parallel=1 --watch",
     "test:coverage": "nx run-many --target=test --all --parallel=5 --coverage",

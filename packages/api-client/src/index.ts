@@ -6,5 +6,6 @@ export { AppConfigService, ApiConfig } from './services/app-config.service';
 export { ApiAuthService } from './api/auth/api-auth.service';
 export { ApiExampleService } from './api/features/example/api-example.service';
 export { ApiExceptionsService } from './api/features/exceptions/api-exceptions.service';
+export { ApiHealthService } from './api/health/api-health.service';
 export { ApiSyncEventsService } from './api/features/sync-events/api-sync-events.service';
 export { ApiUserService } from './api/features/user/api-user.service';
