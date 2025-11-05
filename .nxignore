@@ -1,0 +1,3 @@
+# Exclude tools directory from Nx project detection
+# tools/ contains infrastructure code (generators, scripts) not app/package code
+tools/
