@@ -20,7 +20,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "web-server:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "watch": true
       },
       "configurations": {
         "development": {
