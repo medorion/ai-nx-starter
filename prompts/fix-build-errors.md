@@ -52,7 +52,8 @@ apps/web-ui/src/app/features/products/product-list.component.ts:45:12 - error TS
 Property 'products$' does not exist on type 'ProductListComponent'.
 
 45 this.products$.subscribe(data => {
-~~~~~~~~~
+
+````
 
 apps/web-server/src/app/features/product/product.service.ts:23:5 - error TS2322:
 Type 'ProductEntity' is not assignable to type 'ProductDto'.
@@ -69,3 +70,4 @@ Type 'ProductEntity' is not assignable to type 'ProductDto'.
 
 With AI: 5-10 minutes
 Without AI: 20-45 minutes (depending on error complexity)
+````

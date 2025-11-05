@@ -7,8 +7,12 @@
 **/.env.example
 **/.npmrc
 **/.windsurfrules
+**/.clinerules
+**/.nxignore
 **/*.tsbuildinfo
 **/tsconfig*.json
+**/nginx.conf
+LICENSE
 
 # Empty files
 **/.gitkeep
