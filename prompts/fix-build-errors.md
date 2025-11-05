@@ -1,6 +1,7 @@
 # Fix Build Errors Prompt
 
 ## Description
+
 Debug and fix TypeScript compilation errors systematically.
 
 ## Prompt
@@ -46,17 +47,19 @@ I ran `npm run build` and got errors:
 
 Error Output:
 ```
+
 apps/web-ui/src/app/features/products/product-list.component.ts:45:12 - error TS2339:
 Property 'products$' does not exist on type 'ProductListComponent'.
 
-45     this.products$.subscribe(data => {
-           ~~~~~~~~~
+45 this.products$.subscribe(data => {
+~~~~~~~~~
 
 apps/web-server/src/app/features/product/product.service.ts:23:5 - error TS2322:
 Type 'ProductEntity' is not assignable to type 'ProductDto'.
 
-23     return product;
-       ~~~~~~
+23 return product;
+~~~~~~
+
 ```
 
 [... rest of the prompt ...]

@@ -1,6 +1,7 @@
 # Create CRUD Feature Prompt
 
 ## Description
+
 Generates a complete CRUD feature with backend API, database layer, and frontend UI.
 
 ## Prompt

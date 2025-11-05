@@ -21,6 +21,7 @@
 ## Exceptions
 
 If the user needs to be notified, throw these exceptions from the `backend-common` package:
+
 - `AppErrorException`
 - `AppWarningException`
 - `ConcurrencyException`

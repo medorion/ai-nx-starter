@@ -4,5 +4,15 @@
   "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
-  "types": "./src/index.d.ts"
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "@ai-nx-starter/types": "*",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.6",
+    "ioredis": "^5.8.0",
+    "nestjs-pino": "^4.4.1",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  }
 }

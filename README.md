@@ -78,6 +78,7 @@ Then read documents/dev-workflow.md to understand the development workflow.
 ### 5. Access the Application
 
 **With Docker (recommended):**
+
 ```bash
 # Already running from step 3
 # Frontend: http://localhost
@@ -86,6 +87,7 @@ Then read documents/dev-workflow.md to understand the development workflow.
 ```
 
 **Or local development (without Docker):**
+
 ```bash
 # Start dev servers (requires external MongoDB & Redis)
 npm run start
@@ -412,8 +414,8 @@ docker-compose down
 docker-compose down -v
 
 # View logs
-docker-compose logs -f app      # Backend logs
-docker-compose logs -f web-ui   # Frontend logs
+docker-compose logs -f app    # Backend logs
+docker-compose logs -f web-ui # Frontend logs
 
 # Access
 # Frontend: http://localhost

@@ -1,6 +1,7 @@
 # Add API Endpoint Prompt
 
 ## Description
+
 Adds a new endpoint to an existing controller with proper typing and documentation.
 
 ## Prompt

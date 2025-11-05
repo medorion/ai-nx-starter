@@ -33,7 +33,7 @@ export class SyncEventsController {
     // Merge the two streams, apply type filter, and wrap in SSE format
     return merge(userEventStream, heartbeatStream).pipe(
       filter((event) => !eventTypes || eventTypes.includes(event.type)),
-      map((event) => ({ data: event } as MessageEvent))
+      map((event) => ({ data: event }) as MessageEvent),
     );
   }
 
@@ -44,10 +44,7 @@ export class SyncEventsController {
    */
   @IgnoreAuthorization()
   @Sse('stream-to-all')
-  async streamEvents(
-    @Query('token') token: string,
-    @Query('types') types?: string,
-  ): Promise<Observable<MessageEvent>> {
+  async streamEvents(@Query('token') token: string, @Query('types') types?: string): Promise<Observable<MessageEvent>> {
     // Validate token manually since EventSource doesn't support headers
     await this.validateToken(token, Role.Admin);
 
@@ -55,14 +52,14 @@ export class SyncEventsController {
 
     // Create a heartbeat stream that emits a comment every 15 seconds
     const heartbeatStream = interval(15000).pipe(map(() => ({ type: SyncEventType.Heartbeat, data: 'ping' }) as IMdSyncEvent));
-    
+
     // Parse event types filter
     const eventTypes = types ? types.split(',').map((t) => t.trim() as SyncEventType) : null;
 
     // Merge the two streams, apply type filter, and wrap in SSE format
     return merge(userEventStream, heartbeatStream).pipe(
       filter((event) => !eventTypes || eventTypes.includes(event.type)),
-      map((event) => ({ data: event } as MessageEvent))
+      map((event) => ({ data: event }) as MessageEvent),
     );
   }
 

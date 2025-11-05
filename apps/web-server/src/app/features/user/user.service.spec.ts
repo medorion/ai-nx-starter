@@ -55,11 +55,7 @@ describe('UserService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        UserService,
-        { provide: UserDbService, useValue: mockDbService },
-        { provide: UserMapper, useValue: mockMapper },
-      ],
+      providers: [UserService, { provide: UserDbService, useValue: mockDbService }, { provide: UserMapper, useValue: mockMapper }],
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -115,9 +111,7 @@ describe('UserService', () => {
     it('should throw NotFoundException when user not found', async () => {
       dbService.findById.mockResolvedValue(null);
 
-      await expect(service.findById('nonexistent-id')).rejects.toThrow(
-        new NotFoundException('User with ID nonexistent-id not found')
-      );
+      await expect(service.findById('nonexistent-id')).rejects.toThrow(new NotFoundException('User with ID nonexistent-id not found'));
     });
   });
 
@@ -137,7 +131,7 @@ describe('UserService', () => {
       dbService.findByEmail.mockResolvedValue(null);
 
       await expect(service.findByEmail('nonexistent@example.com')).rejects.toThrow(
-        new NotFoundException('User with email nonexistent@example.com not found')
+        new NotFoundException('User with email nonexistent@example.com not found'),
       );
     });
   });
@@ -180,9 +174,7 @@ describe('UserService', () => {
     it('should throw ConflictException when email already exists', async () => {
       dbService.findByEmail.mockResolvedValue(mockUser);
 
-      await expect(service.create(createDto)).rejects.toThrow(
-        new ConflictException('User with email jane@example.com already exists')
-      );
+      await expect(service.create(createDto)).rejects.toThrow(new ConflictException('User with email jane@example.com already exists'));
 
       expect(dbService.create).not.toHaveBeenCalled();
     });
@@ -212,7 +204,7 @@ describe('UserService', () => {
       dbService.findById.mockResolvedValue(null);
 
       await expect(service.update('nonexistent-id', updateDto)).rejects.toThrow(
-        new NotFoundException('User with ID nonexistent-id not found')
+        new NotFoundException('User with ID nonexistent-id not found'),
       );
 
       expect(dbService.update).not.toHaveBeenCalled();
@@ -226,7 +218,7 @@ describe('UserService', () => {
       dbService.findByEmail.mockResolvedValue(otherUser as User);
 
       await expect(service.update('507f1f77bcf86cd799439011', updateWithEmail)).rejects.toThrow(
-        new ConflictException('User with email existing@example.com already exists')
+        new ConflictException('User with email existing@example.com already exists'),
       );
 
       expect(dbService.update).not.toHaveBeenCalled();
@@ -251,7 +243,7 @@ describe('UserService', () => {
       dbService.update.mockResolvedValue(null);
 
       await expect(service.update('507f1f77bcf86cd799439011', updateDto)).rejects.toThrow(
-        new NotFoundException('Failed to update user with ID 507f1f77bcf86cd799439011')
+        new NotFoundException('Failed to update user with ID 507f1f77bcf86cd799439011'),
       );
     });
   });
@@ -270,9 +262,7 @@ describe('UserService', () => {
     it('should throw NotFoundException when user not found', async () => {
       dbService.findById.mockResolvedValue(null);
 
-      await expect(service.delete('nonexistent-id')).rejects.toThrow(
-        new NotFoundException('User with ID nonexistent-id not found')
-      );
+      await expect(service.delete('nonexistent-id')).rejects.toThrow(new NotFoundException('User with ID nonexistent-id not found'));
 
       expect(dbService.delete).not.toHaveBeenCalled();
     });
@@ -282,7 +272,7 @@ describe('UserService', () => {
       dbService.delete.mockResolvedValue(false);
 
       await expect(service.delete('507f1f77bcf86cd799439011')).rejects.toThrow(
-        new NotFoundException('Failed to delete user with ID 507f1f77bcf86cd799439011')
+        new NotFoundException('Failed to delete user with ID 507f1f77bcf86cd799439011'),
       );
     });
   });

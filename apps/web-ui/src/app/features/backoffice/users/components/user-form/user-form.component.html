@@ -25,7 +25,14 @@
           <nz-form-item>
             <nz-form-label nzRequired>First Name</nz-form-label>
             <nz-form-control nzErrorTip="Please enter first name">
-              <input nz-input id="firstName" name="firstName" formControlName="firstName" placeholder="Enter first name" [class.error]="isFieldInvalid('firstName')" />
+              <input
+                nz-input
+                id="firstName"
+                name="firstName"
+                formControlName="firstName"
+                placeholder="Enter first name"
+                [class.error]="isFieldInvalid('firstName')"
+              />
             </nz-form-control>
           </nz-form-item>
 
@@ -33,7 +40,14 @@
           <nz-form-item>
             <nz-form-label nzRequired>Last Name</nz-form-label>
             <nz-form-control nzErrorTip="Please enter last name">
-              <input nz-input id="lastName" name="lastName" formControlName="lastName" placeholder="Enter last name" [class.error]="isFieldInvalid('lastName')" />
+              <input
+                nz-input
+                id="lastName"
+                name="lastName"
+                formControlName="lastName"
+                placeholder="Enter last name"
+                [class.error]="isFieldInvalid('lastName')"
+              />
             </nz-form-control>
           </nz-form-item>
 
@@ -41,7 +55,15 @@
           <nz-form-item>
             <nz-form-label nzRequired>Email</nz-form-label>
             <nz-form-control nzErrorTip="Please enter a valid email">
-              <input nz-input id="email" name="email" formControlName="email" type="email" placeholder="user@example.com" [class.error]="isFieldInvalid('email')" />
+              <input
+                nz-input
+                id="email"
+                name="email"
+                formControlName="email"
+                type="email"
+                placeholder="user@example.com"
+                [class.error]="isFieldInvalid('email')"
+              />
             </nz-form-control>
           </nz-form-item>
 
@@ -51,7 +73,9 @@
               Password
               <span *ngIf="isEditMode" class="optional-text">(leave empty to keep current)</span>
             </nz-form-label>
-            <nz-form-control [nzErrorTip]="isEditMode ? 'Password must be at least 6 characters' : 'Please enter password (min 6 characters)'">
+            <nz-form-control
+              [nzErrorTip]="isEditMode ? 'Password must be at least 6 characters' : 'Please enter password (min 6 characters)'"
+            >
               <input
                 nz-input
                 id="password"

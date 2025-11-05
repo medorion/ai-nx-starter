@@ -20,6 +20,7 @@ This directory contains ready-to-use prompts for common development tasks in AI-
 ## Contributing Prompts
 
 Found a great prompt? Add it to this directory with:
+
 - Clear description
 - Placeholder documentation
 - Expected outcomes

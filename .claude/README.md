@@ -51,17 +51,23 @@ Both sets of rules are applied, with more specific rules taking precedence.
 ## Examples
 
 ### Working on the frontend (apps/web-ui)
+
 Claude Code will apply:
+
 - General project rules (pnpm, ESLint, Prettier, etc.)
 - Web UI specific rules (Angular conventions, ng-zorro, styling, etc.)
 
 ### Working on the backend (apps/web-server)
+
 Claude Code will apply:
+
 - General project rules
 - Web Server specific rules (NestJS, validation, exceptions, etc.)
 
 ### Working on data access (packages/data-access-layer)
+
 Claude Code will apply:
+
 - General project rules
 - Data Access Layer specific rules (TypeORM, entities, DbServices, etc.)
 

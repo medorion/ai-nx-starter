@@ -5,6 +5,7 @@ This guide explains how AI-Nx-Starter leverages AI coding assistants to accelera
 ## Philosophy
 
 AI-Nx-Starter is built around the principle that AI agents work best with:
+
 - Clear architectural boundaries
 - Consistent patterns and conventions
 - Auto-generated boilerplate
@@ -15,6 +16,7 @@ AI-Nx-Starter is built around the principle that AI agents work best with:
 ### 1. Initial Setup
 
 Tell your AI assistant:
+
 ```
 Read the development workflow documentation in documents/dev-workflow.md
 ```
@@ -22,6 +24,7 @@ Read the development workflow documentation in documents/dev-workflow.md
 ### 2. Building Features
 
 Use this prompt template:
+
 ```
 I need to create a new feature for [ENTITY_NAME].
 
@@ -36,6 +39,7 @@ Follow the patterns in documents/dev-workflow.md
 ### 3. Testing Each Step
 
 After each step, verify:
+
 ```
 Run npm run build and check for errors
 ```
@@ -47,6 +51,7 @@ Run npm run build and check for errors
 Location: `/.clinerules`
 
 Defines project-specific rules that help Claude understand:
+
 - Package structure
 - Naming conventions
 - Import patterns
@@ -63,6 +68,7 @@ Similar rules for Cursor AI editor integration.
 ### Creating a CRUD Feature
 
 **Prompt:**
+
 ```
 Create a CRUD feature for Product entity with the following fields:
 - id (string)
@@ -82,6 +88,7 @@ Follow these steps:
 ### Adding API Endpoints
 
 **Prompt:**
+
 ```
 Add a new endpoint to UserController:
 - GET /users/search
@@ -95,6 +102,7 @@ After changes, run npm run gen-api-client
 ### Fixing Type Errors
 
 **Prompt:**
+
 ```
 Run npm run build and fix all TypeScript errors.
 For each error, explain what's wrong and apply the fix.
@@ -103,6 +111,7 @@ For each error, explain what's wrong and apply the fix.
 ### Generating Tests
 
 **Prompt:**
+
 ```
 Generate unit tests for [SERVICE_NAME] following Jest conventions.
 Include tests for:
@@ -122,12 +131,14 @@ npm run gen-api-client
 ```
 
 **What it does:**
+
 - Scans all `*.controller.ts` files
 - Extracts HTTP methods, routes, parameters
 - Generates type-safe Angular services
 - Updates imports in `packages/api-client/src/index.ts`
 
 **AI Prompt:**
+
 ```
 After I create or modify any controller, remind me to run:
 npm run gen-api-client
@@ -138,6 +149,7 @@ npm run gen-api-client
 ### 1. Always Provide Context
 
 Good:
+
 ```
 I need to add pagination to the Users list.
 The backend already supports it (check UserController).
@@ -145,6 +157,7 @@ Update the UI component to use pagination similar to the examples/list-item patt
 ```
 
 Bad:
+
 ```
 Add pagination to users
 ```
@@ -171,11 +184,13 @@ See examples in packages/types/src/dto
 ### 4. Request Incremental Changes
 
 Instead of:
+
 ```
 Build the entire user management system
 ```
 
 Use:
+
 ```
 Step 1: Create the User entity with basic fields
 (wait for completion and verification)
@@ -191,6 +206,7 @@ Step 3: Build the UI
 ### Analyzing Errors
 
 **Prompt:**
+
 ```
 I got this error:
 [paste error]
@@ -201,6 +217,7 @@ Analyze the error, identify the root cause, and suggest a fix.
 ### Performance Issues
 
 **Prompt:**
+
 ```
 The [COMPONENT_NAME] is rendering slowly.
 Analyze the component and suggest optimizations:
@@ -215,6 +232,7 @@ Analyze the component and suggest optimizations:
 ### Package Import Rules
 
 Always use workspace aliases:
+
 ```typescript
 // Correct
 import { UserDto } from '@ai-nx-starter/types';
@@ -227,6 +245,7 @@ import { UserDto } from '../../../packages/types/src/dto/user.dto';
 ### Architecture Constraints
 
 **Tell the AI:**
+
 ```
 Never import TypeORM directly in web-server.
 Always use data-access-layer services.
@@ -235,12 +254,14 @@ Always use data-access-layer services.
 ### Naming Conventions
 
 Backend:
+
 - Controllers: `[Feature]Controller`
 - Services: `[Feature]Service`
 - Mappers: `[Feature]Mapper`
 - DbServices: `[Entity]DbService`
 
 Frontend:
+
 - Components: `[feature]-[type].component.ts`
 - Services: `[feature].service.ts`
 - Use kebab-case for file names
@@ -289,6 +310,7 @@ Track these metrics to demonstrate AI value:
 **Problem:** Frontend imports outdated API types
 
 **Solution:** Always run after backend changes
+
 ```bash
 npm run gen-api-client
 ```
@@ -298,6 +320,7 @@ npm run gen-api-client
 **Problem:** AI generates code that doesn't match project style
 
 **Solution:** Always reference existing examples:
+
 ```
 Follow the exact pattern in [PATH_TO_EXAMPLE]
 ```
@@ -307,6 +330,7 @@ Follow the exact pattern in [PATH_TO_EXAMPLE]
 **Problem:** DTOs without validation decorators
 
 **Reminder:**
+
 ```
 All DTOs must have class-validator decorators.
 Check packages/types/src/dto for examples.
@@ -321,5 +345,6 @@ Check packages/types/src/dto for examples.
 ## Support
 
 For AI-specific questions or to share your efficiency gains:
+
 - Open an issue with the `ai-workflow` label
 - Share your prompts in discussions

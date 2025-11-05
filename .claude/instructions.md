@@ -21,6 +21,7 @@ These rules apply to all code in this monorepo.
 ## Monorepo Structure
 
 This is an Nx monorepo with the following structure:
+
 - `/apps/web-ui` - Angular frontend application
 - `/apps/web-server` - NestJS backend application
 - `/packages/api-client` - HTTP client for API communication

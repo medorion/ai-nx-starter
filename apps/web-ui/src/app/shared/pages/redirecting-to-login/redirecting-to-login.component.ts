@@ -26,7 +26,7 @@ export class RedirectingToLoginComponent implements OnInit, OnDestroy {
   private startCountdown(): void {
     this.intervalId = setInterval(() => {
       this.countdown--;
-      
+
       if (this.countdown <= 0) {
         clearInterval(this.intervalId);
         this.router.navigate(['/login']);

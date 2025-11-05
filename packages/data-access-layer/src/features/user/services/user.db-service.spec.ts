@@ -193,7 +193,7 @@ describe('UserDbService', () => {
 
       expect(repository.update).toHaveBeenCalledWith(
         { _id: expect.any(ObjectId) },
-        expect.objectContaining({ ...updateData, updatedAt: expect.any(Date) })
+        expect.objectContaining({ ...updateData, updatedAt: expect.any(Date) }),
       );
       expect(result).toEqual(updatedUser);
     });
@@ -211,7 +211,7 @@ describe('UserDbService', () => {
       expect(bcrypt.hash).toHaveBeenCalledWith('newPassword', 10);
       expect(repository.update).toHaveBeenCalledWith(
         { _id: expect.any(ObjectId) },
-        expect.objectContaining({ password: 'newHashedPassword' })
+        expect.objectContaining({ password: 'newHashedPassword' }),
       );
     });
 

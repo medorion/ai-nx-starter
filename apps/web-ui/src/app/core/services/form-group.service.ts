@@ -254,6 +254,7 @@ export class FormGroupService {
           return Validators.pattern(/^[a-zA-Z0-9]+$/);
 
         case 'isAscii':
+          // eslint-disable-next-line no-control-regex
           return Validators.pattern(/^[\x00-\x7F]+$/);
 
         case 'isBase64':

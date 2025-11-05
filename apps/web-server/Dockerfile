@@ -39,11 +39,11 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/packages ./packages
 
 # Create symlinks for workspace packages
-RUN mkdir -p node_modules/@ai-nx-starter && \
-    ln -s /app/dist/packages/types node_modules/@ai-nx-starter/types && \
-    ln -s /app/dist/packages/api-client node_modules/@ai-nx-starter/api-client && \
-    ln -s /app/dist/packages/backend-common node_modules/@ai-nx-starter/backend-common && \
-    ln -s /app/dist/packages/data-access-layer node_modules/@ai-nx-starter/data-access-layer
+RUN mkdir -p node_modules/@ai-nx-starter \
+  && ln -s /app/dist/packages/types node_modules/@ai-nx-starter/types \
+  && ln -s /app/dist/packages/api-client node_modules/@ai-nx-starter/api-client \
+  && ln -s /app/dist/packages/backend-common node_modules/@ai-nx-starter/backend-common \
+  && ln -s /app/dist/packages/data-access-layer node_modules/@ai-nx-starter/data-access-layer
 
 # Expose ports
 EXPOSE 3030

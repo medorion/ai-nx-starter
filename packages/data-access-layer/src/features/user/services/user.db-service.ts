@@ -50,13 +50,13 @@ export class UserDbService {
   async update(id: string, updateData: Partial<Omit<User, '_id' | 'id' | 'createdAt' | 'updatedAt'>>): Promise<User | null> {
     try {
       const objectId = new ObjectId(id);
-      
+
       // Hash password if it's being updated
       const dataToUpdate = { ...updateData };
       if (dataToUpdate.password) {
         dataToUpdate.password = await bcrypt.hash(dataToUpdate.password, 10);
       }
-      
+
       const updateResult = await this.userRepository.update({ _id: objectId }, { ...dataToUpdate, updatedAt: new Date() });
 
       if ((updateResult.affected ?? 0) === 0) {

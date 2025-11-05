@@ -23,6 +23,7 @@ This package is shared between server and client.
 - **ALL** DTO classes **MUST** end with `Dto`
 
 **Example:**
+
 - File: `user-registration.dto.ts`
 - Class: `UserRegistrationDto`
 

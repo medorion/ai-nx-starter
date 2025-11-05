@@ -1,5 +1,5 @@
 import nx from '@nx/eslint-plugin';
-import baseConfig from '../../eslint.config.mjs';
+import baseConfig from '../../eslint.config.js';
 
 export default [
   ...baseConfig,
@@ -24,11 +24,14 @@ export default [
           style: 'kebab-case',
         },
       ],
+      '@angular-eslint/prefer-standalone': 'off',
     },
   },
   {
     files: ['**/*.html'],
     // Override or add rules here
-    rules: {},
+    rules: {
+      '@angular-eslint/template/label-has-associated-control': 'off',
+    },
   },
 ];

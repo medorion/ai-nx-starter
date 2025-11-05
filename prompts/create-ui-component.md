@@ -1,6 +1,7 @@
 # Create UI Component Prompt
 
 ## Description
+
 Generates an Angular component following project conventions and NG-ZORRO patterns.
 
 ## Prompt

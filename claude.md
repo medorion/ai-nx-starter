@@ -11,11 +11,11 @@ AI-Nx-Starter: Nx monorepo with Angular 19 + NestJS 11. Auto-generates type-safe
 ## Commands
 
 ```bash
-npm run start              # All services
-npm run ui / server        # Individual services
-npm run build              # After EVERY change
-npm run gen-api-client     # After controller changes (generates Angular services)
-npm run lint / format:fix  # Code quality
+npm run start             # All services
+npm run ui / server       # Individual services
+npm run build             # After EVERY change
+npm run gen-api-client    # After controller changes (generates Angular services)
+npm run lint / format:fix # Code quality
 ```
 
 ## Critical Rules

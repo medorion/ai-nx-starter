@@ -14,8 +14,16 @@
 
   <!-- Search Section -->
   <div class="search-section">
-    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="max-width: 400px;">
-      <input type="text" nz-input id="userSearch" name="userSearch" placeholder="Search by name, email, or role..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="max-width: 400px">
+      <input
+        type="text"
+        nz-input
+        id="userSearch"
+        name="userSearch"
+        placeholder="Search by name, email, or role..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+      />
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSearch (click)="onSearch()">
@@ -25,14 +33,7 @@
   </div>
 
   <!-- Users Table -->
-  <nz-table
-    #basicTable
-    [nzData]="paginatedUsers"
-    [nzLoading]="loading"
-    [nzShowPagination]="false"
-    nzSize="middle"
-    class="users-table"
-  >
+  <nz-table #basicTable [nzData]="paginatedUsers" [nzLoading]="loading" [nzShowPagination]="false" nzSize="middle" class="users-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -47,7 +48,7 @@
       <tr *ngFor="let user of paginatedUsers">
         <td>
           <div class="user-info">
-            <nz-avatar [nzText]="(user.firstName && user.firstName.charAt(0) || 'U').toUpperCase()" nzSize="small"></nz-avatar>
+            <nz-avatar [nzText]="((user.firstName && user.firstName.charAt(0)) || 'U').toUpperCase()" nzSize="small"></nz-avatar>
             <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
           </div>
         </td>
@@ -65,14 +66,7 @@
         </td>
         <td>
           <div class="action-buttons">
-            <button
-              nz-button
-              nzType="default"
-              nzSize="small"
-              (click)="onEditUser(user)"
-              nz-tooltip="Edit user"
-              style="margin-right: 4px"
-            >
+            <button nz-button nzType="default" nzSize="small" (click)="onEditUser(user)" nz-tooltip="Edit user" style="margin-right: 4px">
               <span nz-icon nzType="edit"></span>
             </button>
             <button

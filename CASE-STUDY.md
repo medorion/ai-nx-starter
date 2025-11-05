@@ -15,7 +15,9 @@ This document shares our experience using AI-Nx-Starter with AI coding assistant
 ## Case Study 1: User Management CRUD
 
 ### Task
+
 Build a complete user management feature with:
+
 - User entity (name, email, role, status)
 - Backend API (list, get, create, update, delete)
 - Frontend UI (table with pagination, create/edit form)
@@ -26,22 +28,23 @@ Build a complete user management feature with:
 
 **Disclaimer:** Your results may vary significantly based on experience level, familiarity with the stack, and task complexity.
 
-| Metric | Manual Development | AI-Nx-Starter + AI | Observed Improvement |
-|--------|-------------------|-------------------|---------------------|
-| **Total Time** | ~2h 45min | ~40-50min | **Typically 60-75% faster** |
-| **Backend API** | ~45min | ~10-15min | Significantly faster |
-| **API Client** | ~30min | ~2min (auto-gen) | Nearly eliminated |
-| **Frontend UI** | ~60min | ~15-20min | Significantly faster |
-| **Tests** | ~30min | ~10-15min | Faster with AI |
-| **LOC Written** | ~800 | ~200 | ~75% less manual code |
-| **First-Try Success** | Variable | Higher with AI | Noticeable improvement |
-| **Build Errors** | Variable | Fewer with AI | Better type safety |
+| Metric                | Manual Development | AI-Nx-Starter + AI | Observed Improvement        |
+| --------------------- | ------------------ | ------------------ | --------------------------- |
+| **Total Time**        | ~2h 45min          | ~40-50min          | **Typically 60-75% faster** |
+| **Backend API**       | ~45min             | ~10-15min          | Significantly faster        |
+| **API Client**        | ~30min             | ~2min (auto-gen)   | Nearly eliminated           |
+| **Frontend UI**       | ~60min             | ~15-20min          | Significantly faster        |
+| **Tests**             | ~30min             | ~10-15min          | Faster with AI              |
+| **LOC Written**       | ~800               | ~200               | ~75% less manual code       |
+| **First-Try Success** | Variable           | Higher with AI     | Noticeable improvement      |
+| **Build Errors**      | Variable           | Fewer with AI      | Better type safety          |
 
 ### Breakdown
 
 #### Backend Development
 
 **Manual (45min):**
+
 - Write UserDto: 5min
 - Create entity: 8min
 - Write DbService: 10min
@@ -50,6 +53,7 @@ Build a complete user management feature with:
 - Create mapper: 3min
 
 **AI-Assisted (12min):**
+
 - Prompt AI with entity spec: 1min
 - AI generates all files: 8min
 - Review and adjust: 3min
@@ -57,23 +61,27 @@ Build a complete user management feature with:
 #### API Client Generation
 
 **Manual (30min):**
+
 - Create Angular service: 15min
 - Add HTTP methods: 10min
 - Handle types/params: 5min
 
 **AI-Nx-Starter (2min):**
+
 - Run `npm run gen-api-client`: 2min
 - 100% auto-generated, type-safe
 
 #### Frontend Development
 
 **Manual (60min):**
+
 - Create component structure: 10min
 - Build table component: 20min
 - Create form component: 20min
 - Wire up API calls: 10min
 
 **AI-Assisted (18min):**
+
 - Prompt AI with UI spec: 2min
 - AI generates components: 12min
 - Review and styling adjustments: 4min
@@ -81,6 +89,7 @@ Build a complete user management feature with:
 ### AI Prompts Used
 
 **1. Backend (8min execution)**
+
 ```
 Create a complete CRUD feature for User following prompts/create-crud-feature.md
 
@@ -95,6 +104,7 @@ User fields:
 ```
 
 **2. Frontend (12min execution)**
+
 ```
 Create UI components for User management following prompts/create-ui-component.md
 
@@ -110,25 +120,28 @@ Requirements:
 ## Case Study 2: Adding Search Endpoint
 
 ### Task
+
 Add advanced search endpoint to existing ProductController with filters for price range, category, and availability.
 
 ### Results
 
-| Metric | Manual | AI-Assisted | Improvement |
-|--------|--------|-------------|-------------|
-| **Time** | 25min | 6min | **76% faster** |
-| **Code Quality** | Good | Excellent | Better error handling |
-| **Build Errors** | 3 | 0 | **100% fewer** |
+| Metric           | Manual | AI-Assisted | Improvement           |
+| ---------------- | ------ | ----------- | --------------------- |
+| **Time**         | 25min  | 6min        | **76% faster**        |
+| **Code Quality** | Good   | Excellent   | Better error handling |
+| **Build Errors** | 3      | 0           | **100% fewer**        |
 
 ### Breakdown
 
 **Manual (25min):**
+
 - Design search DTO: 5min
 - Implement controller method: 8min
 - Update service logic: 7min
 - Manually update Angular service: 5min
 
 **AI-Assisted (6min):**
+
 - Use `prompts/add-api-endpoint.md`: 1min
 - AI implements backend: 3min
 - Run `npm run gen-api-client`: 1min
@@ -137,25 +150,28 @@ Add advanced search endpoint to existing ProductController with filters for pric
 ## Case Study 3: Test Generation
 
 ### Task
+
 Generate comprehensive unit tests for UserService with 80% coverage target.
 
 ### Results
 
-| Metric | Manual | AI-Assisted | Improvement |
-|--------|--------|-------------|-------------|
-| **Time** | 35min | 8min | **77% faster** |
-| **Coverage** | 75% | 85% | 10% better |
-| **Test Cases** | 12 | 18 | 50% more comprehensive |
+| Metric         | Manual | AI-Assisted | Improvement            |
+| -------------- | ------ | ----------- | ---------------------- |
+| **Time**       | 35min  | 8min        | **77% faster**         |
+| **Coverage**   | 75%    | 85%         | 10% better             |
+| **Test Cases** | 12     | 18          | 50% more comprehensive |
 
 ### Breakdown
 
 **Manual (35min):**
+
 - Setup mocks: 8min
 - Write happy path tests: 12min
 - Write error case tests: 10min
 - Edge cases: 5min
 
 **AI-Assisted (8min):**
+
 - Use `prompts/generate-tests.md`: 1min
 - AI generates 18 test cases: 5min
 - Review and run tests: 2min
@@ -176,15 +192,16 @@ Include:
 ## Case Study 4: Debugging Build Errors
 
 ### Task
+
 Fix 12 TypeScript errors after major refactoring.
 
 ### Results
 
-| Metric | Manual | AI-Assisted | Improvement |
-|--------|--------|-------------|-------------|
-| **Time** | 40min | 9min | **78% faster** |
-| **Root Cause Identified** | 8/12 initially | 12/12 | 100% accuracy |
-| **Recurring Issues Prevented** | No | Yes | Proactive |
+| Metric                         | Manual         | AI-Assisted | Improvement    |
+| ------------------------------ | -------------- | ----------- | -------------- |
+| **Time**                       | 40min          | 9min        | **78% faster** |
+| **Root Cause Identified**      | 8/12 initially | 12/12       | 100% accuracy  |
+| **Recurring Issues Prevented** | No             | Yes         | Proactive      |
 
 ### AI Advantage
 
@@ -196,23 +213,23 @@ Fix 12 TypeScript errors after major refactoring.
 
 ### Across 10 Features (Over 2 Weeks)
 
-| Metric | Average Manual | Average AI-Assisted | Improvement |
-|--------|---------------|-------------------|-------------|
-| **Feature Completion Time** | 2h 30min | 38min | **75% faster** |
-| **Code Quality Score** | 7.5/10 | 9.2/10 | 23% better |
-| **Test Coverage** | 72% | 82% | 10% better |
-| **Build Errors Per Feature** | 6.2 | 1.8 | 71% fewer |
-| **Manual Code Written** | ~750 LOC | ~180 LOC | 76% less |
+| Metric                       | Average Manual | Average AI-Assisted | Improvement    |
+| ---------------------------- | -------------- | ------------------- | -------------- |
+| **Feature Completion Time**  | 2h 30min       | 38min               | **75% faster** |
+| **Code Quality Score**       | 7.5/10         | 9.2/10              | 23% better     |
+| **Test Coverage**            | 72%            | 82%                 | 10% better     |
+| **Build Errors Per Feature** | 6.2            | 1.8                 | 71% fewer      |
+| **Manual Code Written**      | ~750 LOC       | ~180 LOC            | 76% less       |
 
 ### Developer Satisfaction
 
-| Aspect | Manual (1-10) | AI-Assisted (1-10) | Improvement |
-|--------|--------------|-------------------|-------------|
-| Development Speed | 5 | 9 | +80% |
-| Code Consistency | 6 | 9 | +50% |
-| Learning Curve | 7 | 8 | +14% |
-| Enjoyment | 6 | 9 | +50% |
-| Confidence in Code | 7 | 8 | +14% |
+| Aspect             | Manual (1-10) | AI-Assisted (1-10) | Improvement |
+| ------------------ | ------------- | ------------------ | ----------- |
+| Development Speed  | 5             | 9                  | +80%        |
+| Code Consistency   | 6             | 9                  | +50%        |
+| Learning Curve     | 7             | 8                  | +14%        |
+| Enjoyment          | 6             | 9                  | +50%        |
+| Confidence in Code | 7             | 8                  | +14%        |
 
 ## Key Success Factors
 
@@ -241,6 +258,7 @@ Fix 12 TypeScript errors after major refactoring.
 **Problem:** AI occasionally generated imports from non-existent packages
 
 **Solution:** `.clinerules` file explicitly lists valid imports
+
 - Reduced hallucinations by 90%
 
 ### Challenge 2: Complex Business Logic
@@ -248,6 +266,7 @@ Fix 12 TypeScript errors after major refactoring.
 **Problem:** AI struggled with intricate business rules
 
 **Solution:**
+
 - Break complex logic into smaller prompts
 - Provide examples from existing code
 - Manual review and refinement
@@ -257,6 +276,7 @@ Fix 12 TypeScript errors after major refactoring.
 **Problem:** Initial project understanding took time
 
 **Solution:**
+
 - Created `AI-DEVELOPMENT.md` as AI onboarding guide
 - Developers spend 15min having AI read documentation
 - Pays off immediately on first feature
@@ -266,11 +286,13 @@ Fix 12 TypeScript errors after major refactoring.
 ### Time Investment
 
 **Initial Setup:**
+
 - Reading AI-DEVELOPMENT.md: 15min
 - Familiarizing with prompts: 10min
 - **Total:** 25min one-time investment
 
 **Per Feature Savings:**
+
 - Average time saved: 1h 52min per feature
 - After 1 feature: Net savings of 1h 27min
 - After 5 features: Net savings of 9h 10min
@@ -278,11 +300,11 @@ Fix 12 TypeScript errors after major refactoring.
 ### Cost Savings (Based on $75/hr Developer Rate)
 
 | Features Built | Time Saved | Cost Savings |
-|----------------|------------|--------------|
-| 1 Feature | 1h 27min | $109 |
-| 5 Features | 9h 10min | $687 |
-| 10 Features | 18h 45min | $1,406 |
-| 20 Features | 37h 30min | $2,812 |
+| -------------- | ---------- | ------------ |
+| 1 Feature      | 1h 27min   | $109         |
+| 5 Features     | 9h 10min   | $687         |
+| 10 Features    | 18h 45min  | $1,406       |
+| 20 Features    | 37h 30min  | $2,812       |
 
 ## Recommendations
 
@@ -313,12 +335,14 @@ Fix 12 TypeScript errors after major refactoring.
 ## Conclusion
 
 In our experience, AI-Nx-Starter + AI coding assistants provided:
+
 - **Typically 60-75% faster development** for CRUD features
 - **Noticeably higher first-try success rate** with structured prompts
 - **Fewer build errors** due to type-safe auto-generation
 - **Improved code quality and consistency** through enforced patterns
 
 The combination of:
+
 - Auto-generated API clients (eliminates boilerplate)
 - Structured prompt library (reduces trial-and-error)
 - Clear architectural rules (guides AI correctly)
