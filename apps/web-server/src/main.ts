@@ -3,6 +3,10 @@
  * This is only a minimal backend to get started.
  */
 
+// Polyfill for crypto global (required by @nestjs/typeorm)
+import * as crypto from 'crypto';
+(global as any).crypto = crypto;
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app/app.module';
@@ -22,7 +26,9 @@ async function bootstrap() {
     }),
   );
   const globalPrefix = `/${API_PREFIX}`;
-  app.setGlobalPrefix(globalPrefix);
+  app.setGlobalPrefix(globalPrefix, {
+    exclude: ['health'],
+  });
 
   // Register the global exception filter
   // app.useGlobalFilters(new AllExceptionsFilter());

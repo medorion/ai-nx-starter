@@ -37,11 +37,11 @@ services:
     networks:
       - ai-nx-starter-network
 
-  # Application
+  # Backend API
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: apps/web-server/Dockerfile
     container_name: ai-nx-starter-app
     environment:
       NODE_ENV: production
@@ -61,6 +61,20 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    networks:
+      - ai-nx-starter-network
+    restart: unless-stopped
+
+  # Frontend UI
+  web-ui:
+    build:
+      context: .
+      dockerfile: apps/web-ui/Dockerfile
+    container_name: ai-nx-starter-web-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - app
     networks:
       - ai-nx-starter-network
     restart: unless-stopped

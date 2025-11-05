@@ -15,7 +15,9 @@
     "lint": "nx run-many --target=lint --all --parallel=5",
     "lint:fix": "nx run-many --target=lint:fix --all --parallel=5",
     "format:check": "prettier --check \"**/*\"",
-    "format:fix": "prettier --write \"**/*\""
+    "format:fix": "prettier --write \"**/*\"",
+    "clean": "rm -rf .nx tmp node_modules dist .angular",
+    "clean:deep": "pnpm -r exec rm -rf node_modules dist && rm -rf .nx tmp node_modules dist .angular"
   },
   "private": true,
   "dependencies": {

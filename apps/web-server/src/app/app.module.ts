@@ -10,6 +10,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { AppInitializerService } from './app-initializer-service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizeGuard, CoreServicesModule } from '@ai-nx-starter/backend-common';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -44,7 +45,7 @@ import { AuthorizeGuard, CoreServicesModule } from '@ai-nx-starter/backend-commo
     UserModule,
     SyncEventsModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [
     AppInitializerService,
     {

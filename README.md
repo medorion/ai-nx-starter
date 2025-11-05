@@ -56,17 +56,17 @@ cp .env.example .env
 # For local development with Docker, the defaults work fine
 ```
 
-### 3. Start Database Services (Docker)
+### 3. Start All Services (Docker)
 
 ```bash
-# Start MongoDB and Redis
+# Start MongoDB, Redis, Backend, and Frontend
 docker-compose up -d
 
-# Verify services are running
+# Verify all services are healthy
 docker-compose ps
 ```
 
-**Or use existing databases:** Update `.env` with your connection strings.
+**Note:** For local development without Docker, you can run services individually with `npm run ui` and `npm run server` after setting up external MongoDB and Redis.
 
 ### 4. Tell Your AI Assistant
 
@@ -75,14 +75,23 @@ Read AI-DEVELOPMENT.md and familiarize yourself with the project structure.
 Then read documents/dev-workflow.md to understand the development workflow.
 ```
 
-### 5. Start Development
+### 5. Access the Application
 
+**With Docker (recommended):**
 ```bash
-# Start all services
+# Already running from step 3
+# Frontend: http://localhost
+# Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
+# Health: http://localhost:3030/health
+```
+
+**Or local development (without Docker):**
+```bash
+# Start dev servers (requires external MongoDB & Redis)
 npm run start
 
 # Frontend: http://localhost:4200
-# Backend API: http://localhost:4200/api
+# Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
 ```
 
 ### 6. Create Your First Feature with AI
@@ -381,20 +390,35 @@ npm run test       # Run tests
 
 # AI Workflows
 npm run gen-api-client # Generate Angular API services ⚡
+
+# Cleanup
+npm run clean      # Remove build artifacts and caches
+npm run clean:deep # Deep clean (includes all packages)
 ```
 
 ## 🐳 Docker
 
 ```bash
-# Build image
-./build-docker.sh
+# Start all services (MongoDB, Redis, Backend, Frontend)
+docker-compose up -d
 
-# Run with compose
-docker-compose up
+# Build and start (if code changed)
+docker-compose up -d --build
+
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (full cleanup)
+docker-compose down -v
+
+# View logs
+docker-compose logs -f app      # Backend logs
+docker-compose logs -f web-ui   # Frontend logs
 
 # Access
-# Frontend: http://localhost:3030
-# API: http://localhost:3030/api
+# Frontend: http://localhost
+# Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
+# Health: http://localhost:3030/health
 ```
 
 ## 📚 Documentation
@@ -485,7 +509,7 @@ docker-compose logs redis
 
 ```bash
 # Clear cache and reinstall
-rm -rf node_modules dist .nx
+npm run clean
 pnpm install
 ```
 
