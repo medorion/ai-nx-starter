@@ -36,12 +36,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // Hide header/footer on login and redirecting-to-login pages
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        const hideLayoutRoutes = ['/login', '/redirecting-to-login'];
-        this.showLayout = !hideLayoutRoutes.includes(event.urlAfterRedirects);
-      });
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+      const hideLayoutRoutes = ['/login', '/redirecting-to-login'];
+      this.showLayout = !hideLayoutRoutes.includes(event.urlAfterRedirects);
+    });
 
     // Set initial state
     const hideLayoutRoutes = ['/login', '/redirecting-to-login'];
