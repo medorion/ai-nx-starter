@@ -87,12 +87,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // Move to the first child route
       route = route.firstChild;
     }
-
-    // Handle special case for empty route (redirects to examples)
-    if (this.router.url === '/' || this.router.url === '') {
-      this.breadcrumbs.push({ label: 'Examples', url: '/examples' });
-      this.breadcrumbs.push({ label: 'Welcome' });
-    }
   }
 
   private getBreadcrumbData(route: ActivatedRoute, routeUrl: string): { label: string; isLast: boolean } | null {
@@ -114,10 +108,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (solution) {
         label = solution.name; // Override the "Solutions" label with actual solution name
       }
-    }
-    // If no label found and this is examples root, check if it's welcome
-    if (!label && routeUrl === 'examples' && isLast) {
-      label = 'Welcome'; // Default component for examples root
     }
     return label ? { label, isLast } : null;
   }

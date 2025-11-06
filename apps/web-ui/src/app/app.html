@@ -1,7 +1,7 @@
 <nz-layout>
-  <app-header></app-header>
-  <nz-content class="p-2">
+  <app-header *ngIf="showLayout"></app-header>
+  <nz-content [class.p-2]="showLayout">
     <router-outlet></router-outlet>
   </nz-content>
-  <app-footer></app-footer>
+  <app-footer *ngIf="showLayout"></app-footer>
 </nz-layout>

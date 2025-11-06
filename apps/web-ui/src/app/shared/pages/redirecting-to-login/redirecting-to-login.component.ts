@@ -8,35 +8,25 @@ import { Router } from '@angular/router';
   styleUrl: './redirecting-to-login.component.less',
 })
 export class RedirectingToLoginComponent implements OnInit, OnDestroy {
-  countdown = 15;
-  private intervalId: any;
+  private timeoutId: any;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.startCountdown();
+    this.timeoutId = setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 500);
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
   }
 
-  private startCountdown(): void {
-    this.intervalId = setInterval(() => {
-      this.countdown--;
-
-      if (this.countdown <= 0) {
-        clearInterval(this.intervalId);
-        this.router.navigate(['/login']);
-      }
-    }, 1000);
-  }
-
   redirectNow(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
     this.router.navigate(['/login']);
   }

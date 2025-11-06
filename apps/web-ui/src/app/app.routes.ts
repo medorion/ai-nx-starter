@@ -3,12 +3,13 @@ import { RedirectingToLoginComponent } from './shared/pages/redirecting-to-login
 import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
 import { LoadingComponent } from './shared/pages/loading/loading.component';
 import { LoginComponent } from './shared/pages/login/login.component';
+import { WelcomeComponent } from './shared/pages/welcome/welcome.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'loading',
-    pathMatch: 'full',
+    component: WelcomeComponent,
+    data: { breadcrumb: 'Home' },
   },
   {
     path: 'loading',

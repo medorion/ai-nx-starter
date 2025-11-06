@@ -9,6 +9,7 @@ import { RedirectingToLoginComponent } from './pages/redirecting-to-login/redire
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LoadingComponent } from './pages/loading/loading.component';
 import { LoginComponent } from './pages/login/login.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { FormDebugComponent } from './components/form-debug/form-debug.component';
 import { FormDebugLinkComponent } from './components/form-debug-link/form-debug-link.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -27,6 +28,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     PageNotFoundComponent,
     LoadingComponent,
     LoginComponent,
+    WelcomeComponent,
     ThemeToggleComponent,
     FormDebugComponent,
     FormDebugLinkComponent,
@@ -59,6 +63,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzGridModule,
     NzFormModule,
     NzInputModule,
+    NzListModule,
+    NzStepsModule,
   ],
   exports: [
     IconsModule,
@@ -67,6 +73,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     PageNotFoundComponent,
     LoadingComponent,
     LoginComponent,
+    WelcomeComponent,
     FormDebugComponent,
     FormDebugLinkComponent,
   ],

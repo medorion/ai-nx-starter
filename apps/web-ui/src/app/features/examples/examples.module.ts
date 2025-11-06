@@ -65,7 +65,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 // Components
 import { ButtonsComponent } from './buttons/buttons.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsComponent } from './forms/forms.component';
 import { DecoratorComponent } from './decorators/decorator.component';
 import { PubSubExampleComponent } from './pub-sub/pub-sub-example.component';
@@ -154,7 +153,6 @@ const NG_ZORRO_MODULES = [
 @NgModule({
   declarations: [
     ButtonsComponent,
-    WelcomeComponent,
     FormsComponent,
     DecoratorComponent,
     PubSubExampleComponent,
@@ -167,7 +165,6 @@ const NG_ZORRO_MODULES = [
     ReactiveFormsModule,
     FormsModule,
     ButtonsComponent,
-    WelcomeComponent,
     FormsComponent,
     PubSubExampleComponent,
     ExceptionsExampleComponent,

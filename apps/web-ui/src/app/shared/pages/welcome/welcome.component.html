@@ -130,18 +130,24 @@
     <h2>📁 Project Structure</h2>
     <pre class="project-structure">
 ai-nx-starter/
+├── .github/
+│   └── workflows/       # GitHub Actions CI/CD workflows
+├── .vscode/             # VS Code configurations and debug settings
+├── .claude/             # Claude Code configurations
 ├── apps/
-│   ├── web-ui/          # Angular frontend application
-│   └── web-server/      # NestJS backend application
+│   ├── web-ui/          # Angular 19 frontend application
+│   └── web-server/      # NestJS 11 backend application
 ├── packages/            # Shared libraries and utilities
-│   ├── types/           # Shared TypeScript types
-│   ├── api-client/      # Auto-generated API client
-│   ├── data-access-layer/ # Database entities & services
-│   └── backend-common/  # Shared backend utilities
-├── documents/           # Technical documentation
-├── scripts/             # Build and utility scripts
-├── .windsurf/           # AI agent rules and configurations
-│   └── rules/           # Project-specific AI rules
+│   ├── types/           # Shared TypeScript types and DTOs
+│   ├── api-client/      # Auto-generated Angular API client
+│   ├── data-access-layer/ # TypeORM entities & database services
+│   └── backend-common/  # Shared backend utilities (sessions, logging)
+├── tools/
+│   └── api-client-generator/ # API client code generation tool
+├── documents/           # Technical documentation and guides
+├── prompts/             # AI prompts and development helpers
+├── CLAUDE.md            # Claude Code project instructions
+├── docker-compose.yml   # MongoDB & Redis services
 └── nx.json              # Nx workspace configuration
     </pre>
 

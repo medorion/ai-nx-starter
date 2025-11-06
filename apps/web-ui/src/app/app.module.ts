@@ -7,7 +7,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideZoneChangeDetection } from '@angular/core';
 
 // Auth0
-import { AuthModule, AuthService as Auth0Service, AuthClientConfig } from '@auth0/auth0-angular';
+import { AuthModule, AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 // ng-zorro locale
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
@@ -23,8 +23,6 @@ import { SharedModule } from './shared/shared.module';
 // Layout Module
 import { LayoutModule } from './layout/layout.module';
 
-// Examples Module
-import { ExamplesModule } from './features/examples/examples.module';
 import { GlobalErrorHandler } from './core/interceptors/global-error-handler';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalHttpInterceptor } from './core/interceptors/global-http.interceptor';
@@ -32,7 +30,6 @@ import { HideInProdDirective } from './shared/directives/hide-in-prod.directive'
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfigService } from '@ai-nx-starter/api-client';
 import { environment } from '../environments/environment';
-import { FingerprintService } from './core/services/fingerprint.service';
 import { StorageKey } from './core/enums/storage-key.enum';
 import { UiAppContextService } from './core/services/ui-app-context.service';
 
@@ -58,7 +55,6 @@ function initApp(appConfigService: AppConfigService): () => Promise<void> {
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    ExamplesModule,
     HideInProdDirective,
     SharedModule,
     LayoutModule,
@@ -83,7 +79,7 @@ function initApp(appConfigService: AppConfigService): () => Promise<void> {
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
-      deps: [AppConfigService, AuthClientConfig, FingerprintService],
+      deps: [AppConfigService],
       multi: true,
     },
     UiAppContextService,

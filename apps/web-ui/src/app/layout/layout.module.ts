@@ -32,6 +32,6 @@ import { UiAppContextService } from '../core/services/ui-app-context.service';
     SharedModule,
   ],
   providers: [UiAppContextService],
-  exports: [HeaderComponent, FooterComponent, IconsModule],
+  exports: [HeaderComponent, FooterComponent, IconsModule, NzLayoutModule],
 })
 export class LayoutModule {}

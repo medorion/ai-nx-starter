@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { FormsComponent } from './forms/forms.component';
 import { DecoratorComponent } from './decorators/decorator.component';
@@ -11,13 +10,8 @@ import { ServerEventsDemoComponent } from './server-events-demo/server-events-de
 const routes: Routes = [
   {
     path: '',
-    component: WelcomeComponent,
-    data: { breadcrumb: 'Welcome' },
-  },
-  {
-    path: 'welcome',
-    component: WelcomeComponent,
-    data: { breadcrumb: 'Welcome' },
+    redirectTo: 'buttons',
+    pathMatch: 'full',
   },
   {
     path: 'buttons',
