@@ -65,9 +65,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     let route: ActivatedRoute | null = this.activatedRoute.root;
     let url = '';
 
-    // Always start with Home
-    this.breadcrumbs.push({ label: 'Home', url: '/' });
-
     // Traverse the route tree to build breadcrumbs
     while (route) {
       if (route.snapshot.url.length > 0) {
