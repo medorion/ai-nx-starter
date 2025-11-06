@@ -3,11 +3,17 @@ import { BehaviorSubject } from 'rxjs';
 
 export type ThemeMode = 'light' | 'dark';
 
+interface LocalSettings {
+  enableDashboardDebugInfo: boolean;
+  enableFormDebugInfo: boolean;
+  theme: ThemeMode;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private readonly THEME_KEY = 'monorepo_kit-theme';
+  private readonly STORAGE_KEY = 'monorepo_kit_local_settings';
   private readonly DARK_THEME_CLASS = 'dark-theme';
 
   private themeSubject = new BehaviorSubject<ThemeMode>('light');
@@ -15,30 +21,68 @@ export class ThemeService {
   public theme$ = this.themeSubject.asObservable();
 
   constructor() {
+    // Clean up old theme key if it exists
+    try {
+      localStorage.removeItem('monorepo_kit-theme');
+    } catch {}
+
     this.initializeTheme();
   }
 
   /**
-   * Initialize theme from localStorage or system preference
+   * Initialize theme from localStorage
    */
   private initializeTheme(): void {
     const savedTheme = this.getSavedTheme();
-    const systemTheme = this.getSystemTheme();
-    const initialTheme = savedTheme || systemTheme;
+    this.setTheme(savedTheme, false);
+  }
 
-    this.setTheme(initialTheme);
-
-    // Listen for system theme changes
-    this.watchSystemTheme();
+  /**
+   * Get theme from localStorage
+   */
+  private getSavedTheme(): ThemeMode {
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      if (stored) {
+        const settings: LocalSettings = JSON.parse(stored);
+        return settings.theme || 'light';
+      }
+    } catch {}
+    return 'light';
   }
 
   /**
    * Set the theme and update DOM
    */
-  setTheme(theme: ThemeMode): void {
+  setTheme(theme: ThemeMode, saveToStorage = true): void {
     this.themeSubject.next(theme);
     this.updateDOM(theme);
-    this.saveTheme(theme);
+    if (saveToStorage) {
+      this.saveTheme(theme);
+    }
+  }
+
+  /**
+   * Save theme to localStorage
+   */
+  private saveTheme(theme: ThemeMode): void {
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      let settings: LocalSettings;
+
+      if (stored) {
+        settings = JSON.parse(stored);
+        settings.theme = theme;
+      } else {
+        settings = {
+          enableDashboardDebugInfo: false,
+          enableFormDebugInfo: false,
+          theme: theme,
+        };
+      }
+
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(settings));
+    } catch {}
   }
 
   /**
@@ -74,55 +118,6 @@ export class ThemeService {
       body.classList.add(this.DARK_THEME_CLASS);
     } else {
       body.classList.remove(this.DARK_THEME_CLASS);
-    }
-  }
-
-  /**
-   * Get saved theme from localStorage
-   */
-  private getSavedTheme(): ThemeMode | null {
-    try {
-      const saved = localStorage.getItem(this.THEME_KEY) as ThemeMode;
-      return saved === 'light' || saved === 'dark' ? saved : null;
-    } catch {
-      return null;
-    }
-  }
-
-  /**
-   * Save theme to localStorage
-   */
-  private saveTheme(theme: ThemeMode): void {
-    try {
-      localStorage.setItem(this.THEME_KEY, theme);
-    } catch {
-      // localStorage may not be available
-    }
-  }
-
-  /**
-   * Get system theme preference
-   */
-  private getSystemTheme(): ThemeMode {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
-  }
-
-  /**
-   * Watch for system theme changes
-   */
-  private watchSystemTheme(): void {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-      // Only auto-switch if no saved preference
-      mediaQuery.addEventListener('change', (e) => {
-        if (!this.getSavedTheme()) {
-          this.setTheme(e.matches ? 'dark' : 'light');
-        }
-      });
     }
   }
 }

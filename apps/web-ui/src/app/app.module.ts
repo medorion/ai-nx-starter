@@ -23,6 +23,9 @@ import { SharedModule } from './shared/shared.module';
 // Layout Module
 import { LayoutModule } from './layout/layout.module';
 
+// Feature Modules
+import { BackofficeModule } from './features/backoffice/backoffice.module';
+
 import { GlobalErrorHandler } from './core/interceptors/global-error-handler';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalHttpInterceptor } from './core/interceptors/global-http.interceptor';
@@ -32,13 +35,17 @@ import { AppConfigService } from '@ai-nx-starter/api-client';
 import { environment } from '../environments/environment';
 import { StorageKey } from './core/enums/storage-key.enum';
 import { UiAppContextService } from './core/services/ui-app-context.service';
+import { ThemeService } from './core/services/theme.service';
 
 // Register locale data
 registerLocaleData(en);
 
 // Initialize app config
-function initApp(appConfigService: AppConfigService): () => Promise<void> {
+function initApp(appConfigService: AppConfigService, themeService: ThemeService): () => Promise<void> {
   return async () => {
+    // Initialize theme first (synchronous, just reads localStorage and sets CSS class)
+    // This ensures theme is applied before any components render
+
     // Load app config
     await appConfigService.loadConfig();
     const config = appConfigService.getConfig();
@@ -58,6 +65,7 @@ function initApp(appConfigService: AppConfigService): () => Promise<void> {
     HideInProdDirective,
     SharedModule,
     LayoutModule,
+    BackofficeModule,
     AuthModule.forRoot({
       domain: 'placeholder-domain.auth0.com', // Will be overridden
       clientId: 'placeholder-client-id', // Will be overridden
@@ -79,7 +87,7 @@ function initApp(appConfigService: AppConfigService): () => Promise<void> {
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
-      deps: [AppConfigService],
+      deps: [AppConfigService, ThemeService],
       multi: true,
     },
     UiAppContextService,

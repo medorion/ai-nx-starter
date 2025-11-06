@@ -34,7 +34,6 @@ export class SettingsComponent {
 
   onThemeToggle(isDark: boolean): void {
     const theme: ThemeMode = isDark ? 'dark' : 'light';
-    this.localSettingsService.setTheme(theme);
     this.themeService.setTheme(theme);
   }
 }

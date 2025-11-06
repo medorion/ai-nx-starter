@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-fo
 import { LoadingComponent } from './shared/pages/loading/loading.component';
 import { LoginComponent } from './shared/pages/login/login.component';
 import { WelcomeComponent } from './shared/pages/welcome/welcome.component';
+import { SettingsComponent } from './features/backoffice/settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,11 @@ export const routes: Routes = [
     path: 'loading',
     component: LoadingComponent,
     data: { breadcrumb: 'Loading...' },
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    data: { breadcrumb: 'Settings' },
   },
   {
     path: 'examples',

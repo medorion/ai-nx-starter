@@ -60,5 +60,6 @@ import { SharedModule } from '../../shared/shared.module';
     NzDrawerModule,
     NzAlertModule,
   ],
+  exports: [SettingsComponent],
 })
 export class BackofficeModule {}
