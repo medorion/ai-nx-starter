@@ -24,7 +24,9 @@ export class ThemeService {
     // Clean up old theme key if it exists
     try {
       localStorage.removeItem('monorepo_kit-theme');
-    } catch {}
+    } catch {
+      // Ignore errors - localStorage may not be available
+    }
 
     this.initializeTheme();
   }
@@ -47,7 +49,9 @@ export class ThemeService {
         const settings: LocalSettings = JSON.parse(stored);
         return settings.theme || 'light';
       }
-    } catch {}
+    } catch {
+      // Ignore errors - localStorage may not be available or data may be corrupted
+    }
     return 'light';
   }
 
@@ -82,7 +86,9 @@ export class ThemeService {
       }
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(settings));
-    } catch {}
+    } catch {
+      // Ignore errors - localStorage may not be available
+    }
   }
 
   /**
