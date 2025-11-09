@@ -34,6 +34,7 @@ describe('UserDbService', () => {
   beforeEach(async () => {
     const mockRepository = {
       findOne: jest.fn(),
+      findOneBy: jest.fn(),
       find: jest.fn(),
       count: jest.fn(),
       create: jest.fn(),
@@ -63,18 +64,16 @@ describe('UserDbService', () => {
 
   describe('findById', () => {
     it('should return user when found', async () => {
-      repository.findOne.mockResolvedValue(mockUser);
+      repository.findOneBy.mockResolvedValue(mockUser);
 
       const result = await service.findById('507f1f77bcf86cd799439011');
 
       expect(result).toEqual(mockUser);
-      expect(repository.findOne).toHaveBeenCalledWith({
-        where: { _id: expect.any(ObjectId) },
-      });
+      expect(repository.findOneBy).toHaveBeenCalledWith({ _id: expect.any(ObjectId) });
     });
 
     it('should return null when user not found', async () => {
-      repository.findOne.mockResolvedValue(null);
+      repository.findOneBy.mockResolvedValue(null);
 
       const result = await service.findById('507f1f77bcf86cd799439011');
 
@@ -85,7 +84,7 @@ describe('UserDbService', () => {
       const result = await service.findById('invalid-id');
 
       expect(result).toBeNull();
-      expect(repository.findOne).not.toHaveBeenCalled();
+      expect(repository.findOneBy).not.toHaveBeenCalled();
     });
   });
 
@@ -187,7 +186,7 @@ describe('UserDbService', () => {
       const updatedUser = { ...mockUser, ...updateData, id: mockUser.id };
 
       repository.update.mockResolvedValue({ affected: 1, raw: {}, generatedMaps: [] });
-      repository.findOne.mockResolvedValue(updatedUser as any);
+      repository.findOneBy.mockResolvedValue(updatedUser as any);
 
       const result = await service.update('507f1f77bcf86cd799439011', updateData);
 
