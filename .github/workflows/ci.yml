@@ -64,10 +64,18 @@ jobs:
       - name: Verify API client generation
         shell: bash
         run: |
+          # Generate API client (now includes formatting)
           npm run gen-api-client
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "⚠️  API client is out of sync. Run 'npm run gen-api-client' locally."
-            git diff
+
+          # Check if there are any changes
+          if [ -n "$(git status --porcelain packages/api-client)" ]; then
+            echo "⚠️  API client is out of sync. Run 'npm run gen-api-client' locally and commit changes."
+            echo ""
+            echo "Changed files:"
+            git status --short packages/api-client
+            echo ""
+            echo "Diff:"
+            git diff packages/api-client
             exit 1
           else
             echo "✅ API client is up to date"
