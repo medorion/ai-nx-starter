@@ -11,7 +11,6 @@ const project = new Project({
 });
 
 const API_CLIENT_DIR = path.resolve(workspaceRoot, 'packages/api-client/src/api');
-const CONTOLLERS_DIR = path.resolve(workspaceRoot, 'apps/web-server/src/**/*.controller.ts');
 
 console.log(`Project loaded from ${configFilePath}`);
 
@@ -23,8 +22,9 @@ const outputDir = API_CLIENT_DIR;
 emptyDirectory(outputDir);
 console.log(`Emptied directory: ${outputDir}`);
 
-// Point to your controller files
-const controllers = project.getSourceFiles(CONTOLLERS_DIR);
+// Point to your controller files - use forward slashes for cross-platform glob compatibility
+const controllersGlob = 'apps/web-server/src/**/*.controller.ts';
+const controllers = project.getSourceFiles(controllersGlob);
 
 // Import API_PREFIX from @ai-nx-starter/types
 const typesFile = project.getSourceFile('packages/types/src/constants/api.ts');
@@ -164,15 +164,19 @@ function getControllerParentFolder(controllerFilePath: string): string | null {
   const relativePath = path.relative(controllersBasePath, controllerFilePath);
   const folderPath = path.dirname(relativePath);
 
+  // Normalize path to use forward slashes for consistency across platforms
+  const normalizedPath = folderPath.replace(/\\/g, '/');
+
   // Skip the "app" folder and return the actual parent folder
-  const pathParts = folderPath.split(path.sep).filter((part) => part !== '.' && part !== 'app');
+  const pathParts = normalizedPath.split('/').filter((part) => part !== '.' && part !== 'app');
 
   // If controller is directly in app folder, don't create subfolder
   if (pathParts.length === 0) {
     return null;
   }
 
-  return pathParts.join(path.sep);
+  // Return with forward slashes for consistency
+  return pathParts.join('/');
 }
 
 function getControllerPath(cls: ClassDeclaration): string {
