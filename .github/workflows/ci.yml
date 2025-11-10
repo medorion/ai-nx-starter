@@ -6,12 +6,76 @@ on:
   pull_request:
     branches: [main, develop]
 
-env:
-  NODE_VERSION: '20.x'
-
 jobs:
-  ci:
-    name: Lint, Test & Build
+  # Quick checks that run on all platforms
+  cross-platform-build:
+    name: Build & Lint (${{ matrix.os }}, Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['18', '20', '22']
+        # Reduce combinations - full matrix would be 9 jobs
+        exclude:
+          # Only test Node 18 and 22 on non-Linux to save CI time
+          - os: macos-latest
+            node: '20'
+          - os: windows-latest
+            node: '20'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: Verify API client generation
+        shell: bash
+        run: |
+          npm run gen-api-client
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "⚠️  API client is out of sync. Run 'npm run gen-api-client' locally."
+            git diff
+            exit 1
+          else
+            echo "✅ API client is up to date"
+          fi
+
+  # Full test suite with services (Linux only - services require Docker)
+  test-with-services:
+    name: Full Test Suite (Ubuntu, Node 20)
     runs-on: ubuntu-latest
 
     services:
@@ -42,7 +106,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '20'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -63,19 +127,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check formatting
-        run: npm run format:check
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
+      - name: Test with coverage
         run: npm run test:coverage
 
-      - name: Build
-        run: npm run build:prod
-
-      - name: Upload coverage
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         if: always()
         with:
@@ -84,9 +139,24 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  # Summary job that all other jobs depend on
+  ci-success:
+    name: CI Success
+    needs: [cross-platform-build, test-with-services]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.cross-platform-build.result }}" != "success" ]] || [[ "${{ needs.test-with-services.result }}" != "success" ]]; then
+            echo "One or more CI jobs failed"
+            exit 1
+          fi
+          echo "✅ All CI jobs passed successfully"
+
       - name: Upload build artifacts
+        if: github.ref == 'refs/heads/main' && needs.cross-platform-build.result == 'success'
         uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/main'
         with:
           name: build-artifacts
           path: dist/

@@ -1,5 +1,8 @@
 # AI-Nx-Starter
 
+[![CI](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Medorion/ai-nx-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/Medorion/ai-nx-starter)
+
 > **AI-Optimized Full-Stack Development** - Build production-ready applications 10x faster with AI assistance
 
 > 🤖 **AI-First Development**: This project is optimized for AI-assisted development with Claude Code and Windsurf. Built-in rules and patterns enable rapid feature development with minimal manual coding.
