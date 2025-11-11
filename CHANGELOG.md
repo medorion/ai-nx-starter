@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-11-11
+
+### Added
+
+- **Phase 2: Core CRUD Test Coverage** - 354 comprehensive tests across backend and frontend
+  - **Backend Tests (101 tests)**
+    - `example.controller.spec.ts`: 23 tests for NestJS controller CRUD endpoints
+    - `example.service.spec.ts`: 28 tests for in-memory service with auto-incrementing IDs
+    - `todo-item.db-service.spec.ts`: 50 tests for MongoDB repository with nested SubItems
+  - **Frontend Tests (253 tests)**
+    - `users.service.spec.ts`: 23 tests for API client wrapper with loading state management
+    - `user-form.component.spec.ts`: 33 tests for reactive form component (create/edit modes)
+    - `ui-app-context.service.spec.ts`: 35 tests for authentication context and user state
+    - `event-bus.service.spec.ts`: 71 tests for typed event publishing across app domains
+    - `pub-sub.service.spec.ts`: 31 tests for pub/sub with replay, filtering, debouncing
+    - `role.guard.spec.ts`: 23 tests for route guard role-based access
+    - `global-error-handler.spec.ts`: 37 tests for global error handling (all error types)
+
+### Fixed
+
+- Fixed 8 ESLint errors in `pub-sub.service.spec.ts`
+  - Changed `let` to `const` for immutable objects (prefer-const)
+  - Replaced empty arrow functions with `jest.fn()` (no-empty-function)
+- Fixed type safety issues in event payloads (added missing required fields)
+- Fixed RxJS timing issues using `fakeAsync`/`tick` for deterministic tests
+- Fixed UIAppContextDto structure (removed non-existent properties)
+- Fixed Angular form validator keys (minlength vs minLength)
+
+### Changed
+
+- Total test count increased from 117 to 321 tests (174% increase)
+- All tests passing with lint checks successful
+
 ## [1.2.2] - 2025-11-11
 
 ### Fixed
