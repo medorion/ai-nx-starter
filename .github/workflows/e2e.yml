@@ -69,12 +69,12 @@ jobs:
       - name: Start backend server
         run: |
           echo "Starting backend server..."
-          node dist/apps/web-server/src/main.js > ${{ github.workspace }}/backend.log 2>&1 &
+          npm run server > ${{ github.workspace }}/backend.log 2>&1 &
           echo $! > ${{ github.workspace }}/backend.pid
           echo "Backend PID: $(cat ${{ github.workspace }}/backend.pid)"
-          sleep 3
-          echo "Backend log:"
-          cat ${{ github.workspace }}/backend.log || true
+          sleep 5
+          echo "Backend log (first 50 lines):"
+          head -50 ${{ github.workspace }}/backend.log || true
         env:
           NODE_ENV: test
           ENVIRONMENT: test
