@@ -119,12 +119,14 @@ Permissions-Policy: (set by helmet defaults)
 ```
 
 **Configuration Notes**:
+
 - `styleSrc: 'unsafe-inline'` is enabled for NG-ZORRO/Angular Material compatibility
 - `crossOriginEmbedderPolicy` is disabled for development compatibility
 - CSP allows `data:` and `https:` for images to support common use cases
 - HSTS preload is enabled for maximum security
 
 **For Production**:
+
 - Review and adjust CSP directives based on your specific frontend needs
 - Consider enabling `crossOriginEmbedderPolicy` if not using third-party resources
 - You can also configure additional headers in your reverse proxy (nginx, Apache, etc.)
