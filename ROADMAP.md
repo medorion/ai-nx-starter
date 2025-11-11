@@ -194,7 +194,6 @@ Make AI-assisted full-stack development the default, not the exception.
 ### Planned Third-Party Integrations
 
 - [ ] **Authentication:**
-  - Auth0 (already partially done)
   - Clerk
   - Supabase Auth
   - Firebase Auth

@@ -6,9 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideZoneChangeDetection } from '@angular/core';
 
-// Auth0
-import { AuthModule, AuthService as Auth0Service } from '@auth0/auth0-angular';
-
 // ng-zorro locale
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -66,16 +63,11 @@ function initApp(appConfigService: AppConfigService, themeService: ThemeService)
     SharedModule,
     LayoutModule,
     BackofficeModule,
-    AuthModule.forRoot({
-      domain: 'placeholder-domain.auth0.com', // Will be overridden
-      clientId: 'placeholder-client-id', // Will be overridden
-    }),
   ],
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
-    Auth0Service,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,
