@@ -104,17 +104,30 @@ Please include the following information in your report:
 
 ## Security Headers
 
-Recommended security headers for production (implement in your reverse proxy or app):
+**Implemented using Helmet**: Security headers are now configured in `apps/web-server/src/main.ts` using the `helmet` package.
+
+The following security headers are automatically applied:
 
 ```
-Strict-Transport-Security: max-age=31536000; includeSubDomains
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Content-Security-Policy: default-src 'self'
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: geolocation=(), microphone=(), camera=()
+X-XSS-Protection: 0 (disabled by helmet as modern browsers use CSP)
+Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; ...
+Referrer-Policy: no-referrer
+Permissions-Policy: (set by helmet defaults)
 ```
+
+**Configuration Notes**:
+- `styleSrc: 'unsafe-inline'` is enabled for NG-ZORRO/Angular Material compatibility
+- `crossOriginEmbedderPolicy` is disabled for development compatibility
+- CSP allows `data:` and `https:` for images to support common use cases
+- HSTS preload is enabled for maximum security
+
+**For Production**:
+- Review and adjust CSP directives based on your specific frontend needs
+- Consider enabling `crossOriginEmbedderPolicy` if not using third-party resources
+- You can also configure additional headers in your reverse proxy (nginx, Apache, etc.)
 
 ## Audit Logs
 
