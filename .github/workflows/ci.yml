@@ -52,14 +52,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build
+        run: npm run build:prod
+
       - name: Check formatting
         run: npm run format:check
 
       - name: Lint
         run: npm run lint
-
-      - name: Build
-        run: npm run build:prod
 
       - name: Verify API client generation
         shell: bash
