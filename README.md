@@ -1,6 +1,7 @@
 # AI-Nx-Starter
 
 [![CI](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml)
+[![E2E Tests](https://github.com/Medorion/ai-nx-starter/actions/workflows/e2e.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/e2e.yml)
 
 > **AI-Optimized Full-Stack Development** - Accelerate full-stack development with AI assistance
 
