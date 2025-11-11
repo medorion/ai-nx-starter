@@ -7,68 +7,50 @@ on:
     branches: [main, develop]
 
 jobs:
+  # Quick checks that run on all platforms
   cross-platform-build:
     name: Build & Lint (${{ matrix.os }}, Node ${{ matrix.node }})
     runs-on: ${{ matrix.os }}
-    env:
-      CI: true
-      NX_DAEMON: "false"        # 🔴 avoid daemon state issues on macOS
-      NX_PERF_LOGGING: "true"   # optional diagnostics
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         node: ['18', '20', '22']
+        # Reduce combinations - full matrix would be 9 jobs
         exclude:
+          # Only test Node 18 and 22 on non-Linux to save CI time
           - os: macos-latest
             node: '20'
           - os: windows-latest
             node: '20'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
-        with:
-          run_install: false
 
       - name: Get pnpm store directory
         shell: bash
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
           path: ${{ env.STORE_PATH }}
-          # 🟢 include Node in the key so macOS Node 18/22 don't share a store
-          key: ${{ runner.os }}-node-${{ matrix.node }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node }}-pnpm-store-
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Reset Nx state & clear cache
-        shell: bash
-        run: |
-          npx nx reset
-          rm -rf .nx/cache || true
-
-      - name: Build (prod)
-        # you can keep npm script; NX_DAEMON is disabled via env already
-        run: npm run build:prod
 
       - name: Check formatting
         run: npm run format:check
@@ -76,13 +58,23 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Build
+        run: npm run build:prod
+
       - name: Verify API client generation
         shell: bash
         run: |
+          # Generate API client (now includes formatting)
           npm run gen-api-client
+
+          # Check if there are any changes
           if [ -n "$(git status --porcelain packages/api-client)" ]; then
             echo "⚠️  API client is out of sync. Run 'npm run gen-api-client' locally and commit changes."
+            echo ""
+            echo "Changed files:"
             git status --short packages/api-client
+            echo ""
+            echo "Diff:"
             git diff packages/api-client
             exit 1
           else
