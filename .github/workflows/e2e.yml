@@ -70,14 +70,18 @@ jobs:
         run: |
           echo "Checking build output..."
           ls -la dist/apps/
+          echo "--- web-server directory ---"
           ls -la dist/apps/web-server/ || echo "web-server directory not found"
+          echo "--- web-server contents (recursive) ---"
+          find dist/apps/web-server -type f -name "*.js" | head -20
+          echo "--- web-ui directory ---"
           ls -la dist/apps/web-ui/ || echo "web-ui directory not found"
 
       - name: Start backend server
         run: |
           cd dist/apps/web-server
           echo "Starting backend server..."
-          node main.js &
+          node src/main.js &
           echo $! > ${{ github.workspace }}/backend.pid
           echo "Backend PID: $(cat ${{ github.workspace }}/backend.pid)"
         env:
