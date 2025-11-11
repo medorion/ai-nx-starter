@@ -77,13 +77,21 @@ jobs:
           echo "--- web-ui directory ---"
           ls -la dist/apps/web-ui/ || echo "web-ui directory not found"
 
+      - name: Install backend dependencies
+        run: |
+          cd dist/apps/web-server
+          pnpm install --prod --shamefully-hoist
+
       - name: Start backend server
         run: |
           cd dist/apps/web-server
           echo "Starting backend server..."
-          node src/main.js &
+          node src/main.js > ${{ github.workspace }}/backend.log 2>&1 &
           echo $! > ${{ github.workspace }}/backend.pid
           echo "Backend PID: $(cat ${{ github.workspace }}/backend.pid)"
+          sleep 2
+          echo "Backend log (first few lines):"
+          head -30 ${{ github.workspace }}/backend.log || true
         env:
           NODE_ENV: test
           ENVIRONMENT: test
