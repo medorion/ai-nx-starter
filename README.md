@@ -541,12 +541,14 @@ Before using AI-Nx-Starter in production, be aware of these limitations:
 ### What This Means for You
 
 ✅ **Good for**:
+
 - Learning AI-assisted development
 - Rapid prototyping and MVPs
 - Personal projects and experiments
 - Understanding monorepo architecture with Nx
 
 ❌ **Not ready for**:
+
 - Production applications with real users (without significant hardening)
 - Applications requiring HIPAA, SOC2, or other compliance
 - High-traffic applications (no load testing performed)
@@ -555,6 +557,7 @@ Before using AI-Nx-Starter in production, be aware of these limitations:
 ### Our Commitment
 
 We're working to address these limitations. See:
+
 - [ROADMAP.md](./ROADMAP.md) for planned improvements
 - [SECURITY.md](./SECURITY.md) for security considerations
 - [DEPLOYMENT.md](./DEPLOYMENT.md) for production guidance

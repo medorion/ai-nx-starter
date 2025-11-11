@@ -157,6 +157,7 @@ This starter kit does not make any compliance guarantees (GDPR, HIPAA, SOC2, etc
 ## Questions
 
 For security questions that are not sensitive, you can:
+
 - Open a GitHub Discussion
 - Check existing documentation in `/documents` and `/prompts` directories
 

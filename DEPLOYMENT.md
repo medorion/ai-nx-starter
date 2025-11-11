@@ -61,8 +61,8 @@ REDIS_PORT=6379
 REDIS_PASSWORD=your-redis-password
 
 # Session & Security
-TIME_BEFORE_SESSION_EXPIRE_MS=3600000  # 1 hour
-SERVER_TOKEN_EXPIRATION_MS=7200000     # 2 hours
+TIME_BEFORE_SESSION_EXPIRE_MS=3600000 # 1 hour
+SERVER_TOKEN_EXPIRATION_MS=7200000    # 2 hours
 
 # CORS - Restrict to your frontend domain
 ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
@@ -111,7 +111,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ai_nx_starter
     volumes:
-      - /var/data/mongodb:/data/db  # Use persistent volume
+      - /var/data/mongodb:/data/db # Use persistent volume
     restart: always
     networks:
       - ai-nx-starter-network
@@ -148,7 +148,7 @@ services:
     networks:
       - ai-nx-starter-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3030/health"]
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3030/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -169,8 +169,8 @@ services:
     image: nginx:alpine
     container_name: ai-nx-starter-nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl:/etc/nginx/ssl:ro
@@ -308,9 +308,9 @@ metadata:
   name: app-config
   namespace: ai-nx-starter
 data:
-  NODE_ENV: "production"
-  LOG_LEVEL: "info"
-  PORT: "3030"
+  NODE_ENV: 'production'
+  LOG_LEVEL: 'info'
+  PORT: '3030'
 ```
 
 **3. Secrets**
@@ -343,34 +343,34 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: your-registry/ai-nx-starter-backend:latest
-        ports:
-        - containerPort: 3030
-        envFrom:
-        - configMapRef:
-            name: app-config
-        - secretRef:
-            name: app-secrets
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3030
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3030
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - name: backend
+          image: your-registry/ai-nx-starter-backend:latest
+          ports:
+            - containerPort: 3030
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secrets
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3030
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3030
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
 ```
 
 **5. Service & Ingress**
@@ -386,9 +386,9 @@ spec:
   selector:
     app: backend
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3030
+    - protocol: TCP
+      port: 80
+      targetPort: 3030
   type: ClusterIP
 ---
 # k8s/ingress.yaml
@@ -398,25 +398,25 @@ metadata:
   name: ai-nx-starter-ingress
   namespace: ai-nx-starter
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - api.yourdomain.com
-    secretName: api-tls
+    - hosts:
+        - api.yourdomain.com
+      secretName: api-tls
   rules:
-  - host: api.yourdomain.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-service
-            port:
-              number: 80
+    - host: api.yourdomain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80
 ```
 
 **Deploy to Kubernetes**
@@ -569,6 +569,7 @@ Configure structured logging for production:
 ### Recommended Monitoring Tools
 
 **Application Performance Monitoring (APM):**
+
 - Sentry (error tracking)
 - New Relic
 - Datadog
@@ -576,12 +577,14 @@ Configure structured logging for production:
 - Google Cloud Operations
 
 **Log Aggregation:**
+
 - ELK Stack (Elasticsearch, Logstash, Kibana)
 - Splunk
 - Datadog Logs
 - AWS CloudWatch Logs
 
 **Metrics & Dashboards:**
+
 - Prometheus + Grafana
 - Datadog
 - AWS CloudWatch
@@ -589,6 +592,7 @@ Configure structured logging for production:
 ### Alerting
 
 Set up alerts for:
+
 - High error rates (4xx, 5xx responses)
 - High response times (> 2 seconds)
 - Database connection failures
@@ -659,6 +663,7 @@ export class User {
 **2. Caching**
 
 Use Redis for caching:
+
 - Session data (already implemented)
 - Frequently accessed data
 - API response caching
@@ -666,6 +671,7 @@ Use Redis for caching:
 **3. Load Balancing**
 
 For high traffic:
+
 - Run multiple app instances
 - Use Nginx or cloud load balancers
 - Enable sticky sessions for WebSocket connections
@@ -769,6 +775,7 @@ After deployment:
 ## Support
 
 For deployment issues:
+
 - Check [Troubleshooting](#troubleshooting) section
 - Review application logs
 - Consult [SECURITY.md](SECURITY.md) for security concerns

@@ -66,16 +66,41 @@ jobs:
       - name: Build applications
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          echo "Checking build output..."
+          ls -la dist/apps/
+          ls -la dist/apps/web-server/ || echo "web-server directory not found"
+          ls -la dist/apps/web-ui/ || echo "web-ui directory not found"
+
       - name: Start backend server
         run: |
           cd dist/apps/web-server
+          echo "Starting backend server..."
           node main.js &
-          echo $! > backend.pid
+          echo $! > ${{ github.workspace }}/backend.pid
+          echo "Backend PID: $(cat ${{ github.workspace }}/backend.pid)"
         env:
-          NODE_ENV: production
-          MONGODB_URI: mongodb://localhost:27017/test
+          NODE_ENV: test
+          ENVIRONMENT: test
+          PORT: 3030
+          LOG_LEVEL: info
+          MONGO_URI: mongodb://localhost:27017/test
           REDIS_HOST: localhost
           REDIS_PORT: 6379
+          TIME_BEFORE_SESSION_EXPIRE_MS: 3600000
+          SERVER_TOKEN_EXPIRATION_MS: 7200000
+
+      - name: Check backend process
+        run: |
+          sleep 3
+          if ps -p $(cat ${{ github.workspace }}/backend.pid) > /dev/null; then
+            echo "Backend process is running"
+          else
+            echo "Backend process is NOT running"
+            echo "Checking for node processes:"
+            ps aux | grep node || true
+          fi
 
       - name: Wait for backend to be ready
         run: |
@@ -84,7 +109,7 @@ jobs:
       - name: Start frontend server
         run: |
           npx http-server dist/apps/web-ui/browser -p 4200 &
-          echo $! > frontend.pid
+          echo $! > ${{ github.workspace }}/frontend.pid
 
       - name: Wait for frontend to be ready
         run: |
@@ -116,5 +141,5 @@ jobs:
       - name: Stop servers
         if: always()
         run: |
-          if [ -f backend.pid ]; then kill $(cat backend.pid) || true; fi
-          if [ -f frontend.pid ]; then kill $(cat frontend.pid) || true; fi
+          if [ -f ${{ github.workspace }}/backend.pid ]; then kill $(cat ${{ github.workspace }}/backend.pid) || true; fi
+          if [ -f ${{ github.workspace }}/frontend.pid ]; then kill $(cat ${{ github.workspace }}/frontend.pid) || true; fi

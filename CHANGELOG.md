@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2025-11-11
 
 ### Added
+
 - **SECURITY.md** - Comprehensive security policy and vulnerability reporting process
   - Supported versions table
   - Detailed vulnerability reporting guidelines
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Scaling strategies (vertical and horizontal)
 
 ### Changed
+
 - **README.md** - Improved accuracy and transparency
   - Removed exaggerated claim "10x faster" → "Accelerate full-stack development"
   - Added disclaimer about variable results based on experience and task complexity
@@ -55,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-11-11
 
 ### Added
+
 - E2E testing infrastructure with Playwright
 - Cross-platform CI workflow with GitHub Actions
   - Runs on Ubuntu, macOS, and Windows
@@ -66,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CodeClimate integration
 
 ### Changed
+
 - Fixed API client generator for Windows cross-platform compatibility
 - Fixed MongoDB ObjectId handling in user service
 - Improved development start script workflow
@@ -76,6 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleaner breadcrumb navigation (removed redundant 'Home')
 
 ### Fixed
+
 - ESLint errors and warnings
 - Prettier configuration and formatting
 - Test failures related to Node.js 19+ compatibility
@@ -83,11 +88,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - pnpm version compatibility in CI
 
 ### Removed
+
 - Codecov badge from README (service not yet configured)
 
 ## [0.9.0] - 2025-11-05 (Pre-release)
 
 ### Added
+
 - Initial monorepo structure with Nx
 - Angular 19 frontend with NG-ZORRO UI components
 - NestJS 11 backend with auto-generated API client
@@ -104,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AI-DEVELOPMENT.md with workflow guides
 
 ### Infrastructure
+
 - Nx monorepo configuration
 - ESLint and Prettier setup
 - TypeScript strict mode
@@ -113,21 +121,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Categories Reference
 
 ### Added
+
 For new features.
 
 ### Changed
+
 For changes in existing functionality.
 
 ### Deprecated
+
 For soon-to-be removed features.
 
 ### Removed
+
 For now removed features.
 
 ### Fixed
+
 For any bug fixes.
 
 ### Security
+
 For vulnerability fixes and security improvements.
 
 ---
