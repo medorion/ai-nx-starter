@@ -2,9 +2,11 @@
 
 [![CI](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml)
 
-> **AI-Optimized Full-Stack Development** - Build production-ready applications 10x faster with AI assistance
+> **AI-Optimized Full-Stack Development** - Accelerate full-stack development with AI assistance
 
 > 🤖 **AI-First Development**: This project is optimized for AI-assisted development with Claude Code and Windsurf. Built-in rules and patterns enable rapid feature development with minimal manual coding.
+
+> ⚠️ **Disclaimer**: Development speed improvements vary significantly based on developer experience, task complexity, and familiarity with the stack. See [CASE-STUDY.md](./CASE-STUDY.md) for real-world observations and [Current Limitations](#-current-limitations) below.
 
 **Clear And Well Defined Structure**:
 This project provides strict rules and patterns for the development of full-stack applications with Angular frontend and NestJS backend.
@@ -36,7 +38,7 @@ Traditional starter templates give you code. **AI-Nx-Starter gives you an AI mul
 | Inconsistent patterns     | **Enforced** via .clinerules        |
 | Trial and error           | **Proven** prompt templates         |
 
-**Real Impact:** Build a complete CRUD feature in 20-30 minutes vs 2-3 hours manually.
+**Observed Impact:** In our experience, complete CRUD features that typically take 2-3 hours can often be completed in 40-60 minutes with AI assistance. Individual results vary.
 
 ## ⚡ Quick Start (AI-Powered)
 
@@ -469,14 +471,96 @@ We welcome contributions! This project is designed to showcase AI-assisted devel
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-## 📊 Proven Results
+## 📊 Development Observations
 
-See [CASE-STUDY.md](./CASE-STUDY.md) for real-world metrics:
+See [CASE-STUDY.md](./CASE-STUDY.md) for detailed development experiences and observations:
 
-- ⏱️ CRUD features: 70% faster development
-- 🎯 Code generation: 90%+ first-try success rate
-- 🧪 Test coverage: 70%+ with AI-generated tests
-- 🐛 Build errors: < 3 per feature on average
+- ⏱️ CRUD features: Typically 60-75% faster in our testing
+- 🎯 Code generation: Higher first-try success with structured prompts
+- 🧪 Test coverage: Improved coverage with AI-generated test scaffolds
+- 🐛 Build errors: Fewer errors due to type-safe auto-generation
+
+**Note:** These are observations from our development experience, not guarantees. Your results will vary.
+
+## ⚠️ Current Limitations
+
+Before using AI-Nx-Starter in production, be aware of these limitations:
+
+### Testing & Quality Assurance
+
+- **Limited test coverage**: Currently ~15% test coverage
+  - Only User feature has comprehensive tests
+  - Most features lack unit and integration tests
+  - E2E testing infrastructure just added (6 basic tests)
+  - No visual regression testing
+- **Tests not in CI**: Unit tests exist but aren't executed in CI workflow
+- **No test coverage reporting**: Coverage metrics not tracked or enforced
+
+### Security
+
+- **No security audit performed**: Code has not been professionally audited
+- **Default configuration is development-only**:
+  - In-memory session storage (not production-ready)
+  - Weak default credentials in docker-compose.yml
+  - No rate limiting implemented
+  - Security headers not configured
+- **No vulnerability scanning**: No automated dependency security scanning
+- **Auth0 mentioned but not implemented**: Authentication references exist but no actual integration
+
+### Documentation & Deployment
+
+- **No API documentation**: No Swagger/OpenAPI documentation generated
+- **Database migrations not documented**: TypeORM migration strategy undefined
+- **No deployment examples**: Production deployment guide is basic
+- **No monitoring/observability**: No APM, error tracking, or logging infrastructure
+- **No performance benchmarks**: No load testing or performance metrics
+
+### Architecture & Scalability
+
+- **Monolithic architecture**: Not suitable for microservices patterns
+- **No i18n support**: Hard-coded strings, no internationalization
+- **No accessibility testing**: WCAG compliance not verified
+- **Bundle size not optimized**: No bundle analysis or size limits
+- **No caching strategy**: Redis available but caching not implemented
+
+### Developer Experience
+
+- **8 ESLint warnings** in codebase (should be 0 for a starter)
+- **No commit hooks**: No husky/lint-staged for pre-commit quality checks
+- **No conventional commits**: Commit message format not enforced
+- **TypeScript `any` types**: Type safety not strictly enforced throughout
+- **No Dependabot**: Automated dependency updates not configured
+
+### Project Maturity
+
+- **Version 1.0.0 but feels early**: Feature set and polish don't match version number
+- **No changelog until now**: Historical changes not documented
+- **Placeholder URLs**: GitHub URLs reference YOUR_ORG, not actual repo
+- **Limited real-world usage**: Project is new with limited production deployments
+
+### What This Means for You
+
+✅ **Good for**:
+- Learning AI-assisted development
+- Rapid prototyping and MVPs
+- Personal projects and experiments
+- Understanding monorepo architecture with Nx
+
+❌ **Not ready for**:
+- Production applications with real users (without significant hardening)
+- Applications requiring HIPAA, SOC2, or other compliance
+- High-traffic applications (no load testing performed)
+- Mission-critical systems
+
+### Our Commitment
+
+We're working to address these limitations. See:
+- [ROADMAP.md](./ROADMAP.md) for planned improvements
+- [SECURITY.md](./SECURITY.md) for security considerations
+- [DEPLOYMENT.md](./DEPLOYMENT.md) for production guidance
+- [CHANGELOG.md](./CHANGELOG.md) for tracking progress
+
+**Contributions welcome!** Help us improve test coverage, security, and documentation.
 
 ## 🗺️ Roadmap
 
