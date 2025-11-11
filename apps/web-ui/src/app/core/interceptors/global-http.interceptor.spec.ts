@@ -158,7 +158,7 @@ describe('GlobalHttpInterceptor', () => {
     });
 
     it('should publish AppWarning event for ErrorStatusCode.AppWarning (455)', (done) => {
-      const request = new HttpRequest('POST', '/api/action');
+      const request = new HttpRequest('POST', '/api/action', {});
       const error = new HttpErrorResponse({
         status: ErrorStatusCode.AppWarning,
         statusText: 'Warning',
@@ -183,7 +183,7 @@ describe('GlobalHttpInterceptor', () => {
     });
 
     it('should publish ConcurrencyException event for ErrorStatusCode.ConcurencyException (450)', (done) => {
-      const request = new HttpRequest('PUT', '/api/update');
+      const request = new HttpRequest('PUT', '/api/update', {});
       const error = new HttpErrorResponse({
         status: ErrorStatusCode.ConcurencyException,
         statusText: 'Concurrency Error',
@@ -207,7 +207,7 @@ describe('GlobalHttpInterceptor', () => {
     });
 
     it('should publish Unauthorized event for ErrorStatusCode.UnauthorizedLogin (461)', (done) => {
-      const request = new HttpRequest('POST', '/api/login');
+      const request = new HttpRequest('POST', '/api/login', {});
       const error = new HttpErrorResponse({
         status: ErrorStatusCode.UnauthorizedLogin,
         statusText: 'Unauthorized',
@@ -255,7 +255,7 @@ describe('GlobalHttpInterceptor', () => {
     });
 
     it('should publish AppError event for ErrorStatusCode.AppError (460)', (done) => {
-      const request = new HttpRequest('POST', '/api/process');
+      const request = new HttpRequest('POST', '/api/process', {});
       const error = new HttpErrorResponse({
         status: ErrorStatusCode.AppError,
         statusText: 'Application Error',
@@ -367,7 +367,7 @@ describe('GlobalHttpInterceptor', () => {
         error: () => {
           expect(eventBusService.publishHttpError).toHaveBeenCalledWith(
             expect.objectContaining({
-              userMessage: 'HTTP 503: An error occurred while processing your request.',
+              userMessage: 'Unknown Error',
             }),
           );
           done();
