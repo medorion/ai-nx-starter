@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-11-11
+
+### Fixed
+
+- **macOS CI Failure** - Fixed "Failed to process project graph" error on GitHub Actions macOS runners
+  - Root cause: @swc/core 1.13.21 has a platform-specific bug affecting macOS CI environments
+  - Solution: Downgraded @swc/core from 1.13.21 to 1.13.5 (last working version)
+  - The issue was specific to GitHub Actions macOS runners; Ubuntu, Windows, and local macOS all worked fine
+- Fixed pnpm-lock.yaml formatting to pass Prettier checks
+
 ## [1.2.1] - 2025-11-11
 
 ### Changed
