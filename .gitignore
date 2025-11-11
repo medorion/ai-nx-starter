@@ -60,6 +60,8 @@ documents/temp/
 # Tests
 **/coverage
 **/.nyc_output
+**/playwright-report
+**/test-results
 
 # System Files
 **/.DS_Store

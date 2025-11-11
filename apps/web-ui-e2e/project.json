@@ -1,0 +1,31 @@
+{
+  "name": "web-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web-ui-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/web-ui-e2e"],
+      "options": {
+        "config": "apps/web-ui-e2e/playwright.config.ts"
+      }
+    },
+    "e2e-headed": {
+      "executor": "@nx/playwright:playwright",
+      "options": {
+        "config": "apps/web-ui-e2e/playwright.config.ts",
+        "headed": true
+      }
+    },
+    "e2e-ui": {
+      "executor": "@nx/playwright:playwright",
+      "options": {
+        "config": "apps/web-ui-e2e/playwright.config.ts",
+        "ui": true
+      }
+    }
+  },
+  "tags": ["type:e2e"],
+  "implicitDependencies": ["web-ui", "web-server"]
+}
