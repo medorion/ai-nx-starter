@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-11-11
+
+### Fixed
+
+- **E2E Test Workflow** - Complete overhaul to make E2E tests pass in CI
+  - Fixed environment variables (MONGODB_URI → MONGO_URI, added all required vars)
+  - Changed build process to use `npm run build:prod` (builds all workspace packages)
+  - Use `npm run server` and `npm run ui` instead of running node/http-server directly
+  - Corrected health endpoint path from `/ai-nx-starter/rest/api/v2/health` to `/health`
+  - Fixed artifact upload paths and conditions (only on failure)
+  - Result: All 6 E2E tests now pass successfully in CI
+- Fixed package name references in users.md documentation (@monorepo-kit → @ai-nx-starter)
+- Updated pnpm-lock.yaml with latest dependencies
+
+### Changed
+
+- E2E workflow now properly starts backend and frontend using nx serve
+- Artifact uploads only occur on test failures to eliminate warnings
+- Improved E2E workflow debugging with logs for backend/frontend startup
+
 ## [1.1.0] - 2025-11-11
 
 ### Added

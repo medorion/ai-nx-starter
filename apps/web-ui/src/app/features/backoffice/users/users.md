@@ -19,5 +19,5 @@ Complete CRUD implementation for managing user accounts in the backoffice applic
 
 ## API Integration
 
-- Uses `ApiUserService` from `@monorepo-kit/api-client` (auto-generated)
-- DTOs: `ClientUserDto`, `CreateUserDto`, `UpdateUserDto` from `@monorepo-kit/types`
+- Uses `ApiUserService` from `@ai-nx-starter/api-client` (auto-generated)
+- DTOs: `ClientUserDto`, `CreateUserDto`, `UpdateUserDto` from `@ai-nx-starter/types`
