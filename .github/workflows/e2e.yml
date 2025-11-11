@@ -63,8 +63,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
-      - name: Build applications
-        run: npm run build
+      - name: Build all projects (production)
+        run: npm run build:prod
 
       - name: Start backend server
         run: |
