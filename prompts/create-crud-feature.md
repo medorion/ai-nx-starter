@@ -23,24 +23,33 @@ Requirements:
 2. Create [Entity] entity in packages/data-access-layer/src/features/[entity]/entities/[entity].entity.ts
 3. Create [Entity]DbService in packages/data-access-layer/src/features/[entity]/services/[entity]-db.service.ts
 4. Create [Entity]Controller in apps/web-server/src/app/features/[entity]/[entity].controller.ts
+   - **REQUIRED:** Add Swagger decorators to ALL endpoints (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody, @ApiBearerAuth)
+   - Follow pattern in apps/web-server/src/app/features/user/user.controller.ts
 5. Create [Entity]Service in apps/web-server/src/app/features/[entity]/[entity].service.ts
 6. Create [Entity]Mapper in apps/web-server/src/app/features/[entity]/[entity].mapper.ts
-7. Run: npm run gen-api-client
-8. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
-   - [entity]-list component (with table, pagination, search)
-   - [entity]-form component (create/edit)
-   Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
+7. **REQUIRED:** Write unit tests for controller, service, and mapper (*.spec.ts files)
+   - Follow pattern in apps/web-server/src/app/features/user/
+   - Test all CRUD operations and error cases
+   - Mock dependencies with jest.fn()
+8. Run: npm run test - Ensure all tests pass
+9. Run: npm run gen-api-client
+10. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
+    - [entity]-list component (with table, pagination, search)
+    - [entity]-form component (create/edit)
+    Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
 
 Architecture Rules:
-- Use @ai-nx-starter/types for DTOs
+- Use @ai-nx-starter/types for DTOs (class-validator ONLY, NO @ApiProperty)
 - Never use TypeORM directly in web-server (only in data-access-layer)
-- Use class-validator decorators in DTOs
+- Swagger decorators ONLY in controllers, never in DTOs
 - Use NG-ZORRO components in UI
 - Follow kebab-case naming for files
 - Use PascalCase for classes
 
 After EACH step:
 - Run: npm run build
+- Run: npm run test (after writing tests)
+- Verify Swagger UI at http://localhost:3030/api/docs
 - Fix any errors before proceeding
 - Confirm completion before moving to next step
 ```

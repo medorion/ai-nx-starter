@@ -88,6 +88,7 @@ Then read documents/dev-workflow.md to understand the development workflow.
 # Already running from step 3
 # Frontend: http://localhost
 # Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
+# API Documentation: http://localhost:3030/api/docs
 # Health: http://localhost:3030/health
 ```
 
@@ -99,6 +100,7 @@ npm run start
 
 # Frontend: http://localhost:4200
 # Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
+# API Documentation: http://localhost:3030/api/docs
 ```
 
 ### 6. Create Your First Feature with AI
@@ -425,6 +427,7 @@ docker-compose logs -f web-ui # Frontend logs
 # Access
 # Frontend: http://localhost
 # Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
+# API Documentation: http://localhost:3030/api/docs
 # Health: http://localhost:3030/health
 ```
 
@@ -433,6 +436,7 @@ docker-compose logs -f web-ui # Frontend logs
 - **[AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md)** - AI workflows and best practices
 - **[CASE-STUDY.md](./CASE-STUDY.md)** - Real metrics and time savings
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
+- **[API Reference](./documents/api-reference.md)** - Complete API documentation
 - **[documents/](./documents)** - Technical guides
 
 ### AI Prompt Library
@@ -509,7 +513,6 @@ Before using AI-Nx-Starter in production, be aware of these limitations:
 
 ### Documentation & Deployment
 
-- **No API documentation**: No Swagger/OpenAPI documentation generated
 - **Database migrations not documented**: TypeORM migration strategy undefined
 - **No deployment examples**: Production deployment guide is basic
 - **No monitoring/observability**: No APM, error tracking, or logging infrastructure

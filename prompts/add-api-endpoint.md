@@ -29,19 +29,37 @@ Requirements:
 1. Add the method to apps/web-server/src/app/features/[feature]/[feature].controller.ts
 2. Implement logic in [Feature]Service if needed
 3. Use appropriate HTTP status codes and decorators
-4. Add JSDoc comments
-5. Follow the pattern in apps/web-server/src/app/features/example/example.controller.ts
+4. **Add Swagger/OpenAPI documentation decorators** (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody)
+5. Follow the pattern in apps/web-server/src/app/features/user/user.controller.ts
 6. After completion, run: npm run gen-api-client
 
+Swagger Documentation (REQUIRED):
+- Add @ApiOperation with summary and description
+- Add @ApiResponse for all status codes (success and errors)
+- Add @ApiParam for path parameters with examples
+- Add @ApiQuery for query parameters with examples
+- Add @ApiBody for request body (inline schema or DTO reference)
+- Add @ApiBearerAuth('bearer') if authentication required
+- Reference: prompts/document-api-endpoint.md for detailed examples
+
 Validation:
-- Use class-validator decorators for body DTOs
+- Use class-validator decorators for body DTOs (NOT @ApiProperty in DTOs)
 - Use @Query(), @Param(), @Body() decorators appropriately
 - Add @Authorize() decorator with appropriate roles
 
+Unit Testing (REQUIRED):
+- Write unit tests for the new endpoint in [feature].controller.spec.ts
+- Test success cases and all error scenarios
+- Mock service dependencies with jest.fn()
+- Follow pattern in apps/web-server/src/app/features/user/user.controller.spec.ts
+- Aim for >80% coverage
+
 After implementation:
+- Run: npm run test - Ensure all tests pass
 - Run: npm run build
-- Test the endpoint manually or write a test
+- Verify Swagger UI at http://localhost:3030/api/docs
 - Verify the API client was generated correctly in packages/api-client/
+- Manually test the endpoint
 ```
 
 ## Placeholders

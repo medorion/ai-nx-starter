@@ -26,10 +26,8 @@ Make AI-assisted full-stack development the default, not the exception.
 **Focus:** More AI tools and better automation
 
 - [ ] `.cursorrules` configuration for Cursor AI
-- [ ] GitHub Copilot workspace configuration
 - [ ] 10+ additional prompt templates
   - Database migrations
-  - API documentation generation
   - Component refactoring
   - Performance optimization
 - [ ] AI-powered code review prompts
@@ -43,14 +41,13 @@ Make AI-assisted full-stack development the default, not the exception.
 **Focus:** Comprehensive testing infrastructure
 
 - [ ] E2E test generation prompts
-- [ ] Integration test templates
-- [ ] Visual regression testing setup
 - [ ] Test data factory generators
 - [ ] Code coverage dashboards
-- [ ] CI/CD pipeline templates
-  - GitHub Actions workflows
-  - GitLab CI configuration
-  - Jenkins pipelines
+- [ ] Dependabot configuration
+  - Automated dependency updates
+  - Security vulnerability PR automation
+  - Grouped package updates (Angular, NestJS, Nx)
+  - Auto-merge for patch updates
 
 **Time estimate:** 4-6 weeks
 

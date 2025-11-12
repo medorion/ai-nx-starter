@@ -8,18 +8,36 @@ import {
   Authorize,
 } from '@ai-nx-starter/backend-common';
 import { Role } from '@ai-nx-starter/types';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 /**
  * Exceptions controller for testing and demonstrating error handling
  * This controller contains methods to trigger different types of exceptions
  * for testing the error handling system
  */
+@ApiTags('Exceptions')
+@ApiBearerAuth('bearer')
 @Controller('examples/exceptions')
 export class ExceptionsController {
-  /**
-   * Trigger SessionExpired exception (455)
-   * GET /examples/exceptions/session-expired
-   */
+  @ApiOperation({
+    summary: 'Trigger SessionExpired exception',
+    description:
+      'Demo endpoint that throws a SessionExpiredException (HTTP 455). Use this to test how the client handles session expiration.',
+  })
+  @ApiResponse({
+    status: 455,
+    description: 'SessionExpiredException thrown',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Your session has expired. Please log in again.' },
+        timestamp: { type: 'string' },
+        sessionId: { type: 'string' },
+        reason: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get('session-expired')
   triggerSessionExpired(): never {
@@ -31,10 +49,25 @@ export class ExceptionsController {
     });
   }
 
-  /**
-   * Trigger AppWarning exception (456)
-   * GET /examples/exceptions/app-warning
-   */
+  @ApiOperation({
+    summary: 'Trigger AppWarning exception',
+    description:
+      'Demo endpoint that throws an AppWarningException (HTTP 456). Use this to test how the client handles application warnings.',
+  })
+  @ApiResponse({
+    status: 456,
+    description: 'AppWarningException thrown',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'This is a demonstration warning from the application.' },
+        timestamp: { type: 'string' },
+        warningCode: { type: 'string' },
+        details: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get('app-warning')
   triggerAppWarning(): never {
@@ -46,10 +79,26 @@ export class ExceptionsController {
     });
   }
 
-  /**
-   * Trigger Concurrency exception (457)
-   * GET /examples/exceptions/concurrency-error
-   */
+  @ApiOperation({
+    summary: 'Trigger Concurrency exception',
+    description:
+      'Demo endpoint that throws a ConcurencyException (HTTP 457). Use this to test how the client handles concurrency conflicts (optimistic locking).',
+  })
+  @ApiResponse({
+    status: 457,
+    description: 'ConcurencyException thrown',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'The data has been modified by another user. Please refresh and try again.' },
+        timestamp: { type: 'string' },
+        entityType: { type: 'string' },
+        entityId: { type: 'string' },
+        conflictDetails: { type: 'object' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get('concurrency-error')
   triggerConcurrencyError(): never {
@@ -67,10 +116,27 @@ export class ExceptionsController {
     });
   }
 
-  /**
-   * Trigger UnauthorizedLogin exception (458)
-   * GET /examples/exceptions/unauthorized-login
-   */
+  @ApiOperation({
+    summary: 'Trigger UnauthorizedLogin exception',
+    description:
+      'Demo endpoint that throws an UnauthorizedLoginException (HTTP 458). Use this to test how the client handles failed login attempts.',
+  })
+  @ApiResponse({
+    status: 458,
+    description: 'UnauthorizedLoginException thrown',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Invalid credentials or unauthorized access attempt.' },
+        timestamp: { type: 'string' },
+        attemptedEmail: { type: 'string' },
+        loginAttempts: { type: 'number' },
+        reason: { type: 'string' },
+        lockoutTime: { type: 'number' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get('unauthorized-login')
   triggerUnauthorizedLogin(): never {
@@ -84,10 +150,26 @@ export class ExceptionsController {
     });
   }
 
-  /**
-   * Trigger AppError exception (459)
-   * GET /examples/exceptions/app-error
-   */
+  @ApiOperation({
+    summary: 'Trigger AppError exception',
+    description:
+      'Demo endpoint that throws an AppErrorException (HTTP 459). Use this to test how the client handles critical application errors.',
+  })
+  @ApiResponse({
+    status: 459,
+    description: 'AppErrorException thrown',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'A critical application error occurred during processing.' },
+        timestamp: { type: 'string' },
+        errorCode: { type: 'string' },
+        context: { type: 'object' },
+        details: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get('app-error')
   triggerAppError(): never {
@@ -104,10 +186,34 @@ export class ExceptionsController {
     });
   }
 
-  /**
-   * Get list of available exception endpoints
-   * GET /examples/exceptions
-   */
+  @ApiOperation({
+    summary: 'List exception endpoints',
+    description: 'Get a list of all available exception testing endpoints with their status codes and descriptions',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved exception endpoints list',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Exception testing endpoints available' },
+        endpoints: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              path: { type: 'string' },
+              method: { type: 'string' },
+              exception: { type: 'string' },
+              statusCode: { type: 'number' },
+              description: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   @Authorize(Role.Admin)
   @Get()
   getExceptionEndpoints() {
