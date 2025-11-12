@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2025-11-12
+
+### Changed
+
+- **Coverage Thresholds Increased** - Raised from 70% to 80% for statements/lines
+  - Updated `jest.preset.js` global thresholds
+  - Updated `.codecov.yml` project target to 80%
+  - Updated CI workflow error messages
+  - All packages now meet new threshold:
+    - web-ui: 81.31% statements
+    - web-server: 81.25% statements
+    - backend-common: 85.88% statements
+    - data-access-layer: 98.36% statements
+
+### Added
+
+- **Comprehensive Testing Documentation System**
+  - `documents/code-coverage-exclusions.md` - Decision framework for what to test vs. exclude
+    - 6-step decision process with visual flowchart
+    - Red flags for what should NEVER be excluded
+    - Best practices for documentation and refactoring
+    - Current exclusions by package with reasoning
+  - `documents/ai-testing-guidelines.md` - How AI assistants should approach testing
+    - Step-by-step workflow for creating tests
+    - Decision matrix for common code types
+    - Common pitfalls with examples from project history
+    - Proactive test generation policy (when AI should write tests automatically)
+  - `documents/testing-context-overview.md` - Meta-documentation explaining the system
+    - How AI uses the documentation
+    - Real examples from conversation history
+    - Benefits for AI, developers, and codebase
+- **AI Context Updates** - Testing & Coverage section in `CLAUDE.md`
+  - Reference to testing documentation with clear workflow
+  - Key principles: test business logic, exclude infrastructure
+  - Updated "Critical Rules" to enforce `npm run format:fix` immediately after file changes
+- **New Test Files**
+  - `apps/web-server/src/app/health/health.controller.spec.ts` - Health endpoint tests
+  - `apps/web-ui/src/app/core/services/theme.service.spec.ts` - Theme service tests
+- **Updated Test Configurations**
+  - `apps/web-server/jest.config.ts` - Added health controller exclusion removal
+  - `apps/web-ui/jest.config.ts` - Documented current exclusions
+  - `packages/backend-common/jest.config.ts` - Updated exclusions
+- **Updated Prompt Templates**
+  - `prompts/generate-tests.md` - Added "Before You Start" section referencing comprehensive guidelines
+
+### Fixed
+
+- **Formatting Enforcement** - Added explicit rule to run `npm run format:fix` after any file creation/modification
+  - Prevents Prettier warnings in future development
+  - Updated CLAUDE.md critical rules
+
 ## [1.4.0] - 2025-11-12
 
 ### Added
