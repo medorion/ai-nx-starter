@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/ci.yml)
 [![E2E Tests](https://github.com/Medorion/ai-nx-starter/actions/workflows/e2e.yml/badge.svg)](https://github.com/Medorion/ai-nx-starter/actions/workflows/e2e.yml)
+[![codecov](https://codecov.io/gh/Medorion/ai-nx-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/Medorion/ai-nx-starter)
 
 > **AI-Optimized Full-Stack Development** - Accelerate full-stack development with AI assistance
 
@@ -429,6 +430,9 @@ docker-compose logs -f web-ui # Frontend logs
 # Backend API: http://localhost:3030/ai-nx-starter/rest/api/v2
 # API Documentation: http://localhost:3030/api/docs
 # Health: http://localhost:3030/health
+
+# View test coverage (after running: npm run test:coverage)
+# Open: coverage/index.html in your browser
 ```
 
 ## 📚 Documentation
@@ -493,13 +497,12 @@ Before using AI-Nx-Starter in production, be aware of these limitations:
 
 ### Testing & Quality Assurance
 
-- **Limited test coverage**: Currently ~15% test coverage
-  - Only User feature has comprehensive tests
-  - Most features lack unit and integration tests
-  - E2E testing infrastructure just added (6 basic tests)
+- **Growing test coverage**: Currently ~80% test coverage (468+ tests) with enforcement
+  - User feature has comprehensive tests
+  - Core CRUD operations fully tested
+  - E2E testing infrastructure (6 basic tests)
+  - Coverage tracked via Codecov with 80% minimum threshold
   - No visual regression testing
-- **Tests not in CI**: Unit tests exist but aren't executed in CI workflow
-- **No test coverage reporting**: Coverage metrics not tracked or enforced
 
 ### Security
 

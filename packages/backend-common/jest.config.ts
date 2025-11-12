@@ -7,4 +7,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/backend-common',
+  collectCoverageFrom: ['src/**/*.{js,ts}', '!src/**/*.spec.{js,ts}', '!src/**/*.config.{js,ts}'],
 };

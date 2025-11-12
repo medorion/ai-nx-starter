@@ -1,0 +1,90 @@
+# Codecov Configuration
+# Documentation: https://docs.codecov.com/docs/codecov-yaml
+
+codecov:
+  require_ci_to_pass: true
+  notify:
+    wait_for_ci: true
+
+coverage:
+  precision: 2
+  round: down
+  range: '70...100'
+
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 2%
+        base: auto
+        if_ci_failed: error
+    patch:
+      default:
+        target: 70%
+        threshold: 5%
+        base: auto
+
+comment:
+  layout: 'reach,diff,flags,tree,footer'
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+ignore:
+  - '**/node_modules/**'
+  - '**/dist/**'
+  - '**/tmp/**'
+  - '**/.nx/**'
+  - '**/.angular/**'
+  - '**/coverage/**'
+  - '**/*.spec.ts'
+  - '**/*.spec.js'
+  - '**/*.config.ts'
+  - '**/*.config.js'
+  - '**/jest.config.ts'
+  - '**/jest.preset.js'
+  - '**/test-setup.ts'
+  - '**/e2e/**'
+  - '**/playwright.config.ts'
+  - 'packages/api-client/**' # Auto-generated code
+  - '**/migrations/**'
+  - '**/*.stories.ts'
+  - '**/*.d.ts'
+
+flags:
+  backend:
+    paths:
+      - apps/web-server/
+      - packages/backend-common/
+      - packages/data-access-layer/
+    carryforward: true
+
+  frontend:
+    paths:
+      - apps/web-ui/
+    carryforward: true
+
+  packages:
+    paths:
+      - packages/types/
+    carryforward: true
+
+component_management:
+  individual_components:
+    - component_id: backend
+      name: Backend
+      paths:
+        - apps/web-server/**
+        - packages/backend-common/**
+        - packages/data-access-layer/**
+
+    - component_id: frontend
+      name: Frontend
+      paths:
+        - apps/web-ui/**
+
+    - component_id: shared
+      name: Shared Packages
+      paths:
+        - packages/types/**

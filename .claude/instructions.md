@@ -231,6 +231,19 @@ describe('FeatureController', () => {
 ### Before Committing
 
 1. ✅ Write unit tests for all new code
-2. ✅ Run `npm run test` to ensure all tests pass
-3. ✅ Verify coverage is reasonable (>80% for new code)
+2. ✅ Run `npm run test:coverage` to ensure all tests pass with coverage
+3. ✅ Verify coverage meets 80% threshold (enforced globally)
 4. ✅ Fix any failing tests before committing
+5. ✅ View coverage report: `coverage/index.html` in browser
+
+### Coverage Tools
+
+- **Local Development**: Run `npm run test:coverage` to generate reports
+  - HTML report: `coverage/index.html`
+  - LCOV report: `coverage/**/lcov.info` (for CI)
+  - Terminal summary shows coverage percentages
+- **CI Integration**: Codecov automatically uploads and tracks coverage
+  - Coverage badge in README shows current coverage
+  - PRs show coverage diff in comments
+  - Builds fail if coverage drops below 80%
+- **Configuration**: See `.codecov.yml` for coverage rules and thresholds

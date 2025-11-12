@@ -191,7 +191,32 @@ jobs:
         uses: codecov/codecov-action@v4
         if: always()
         with:
-          files: ./coverage/**/coverage-final.json
+          files: ./coverage/**/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          verbose: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload backend coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/apps/web-server/lcov.info,./coverage/packages/backend-common/lcov.info,./coverage/packages/data-access-layer/lcov.info
+          flags: backend
+          name: backend-coverage
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload frontend coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/apps/web-ui/lcov.info
+          flags: frontend
+          name: frontend-coverage
           fail_ci_if_error: false
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

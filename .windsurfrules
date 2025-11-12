@@ -156,6 +156,15 @@ Follow the pattern in `apps/web-server/src/app/features/user/`:
 ### Before Committing
 
 1. ✅ Write unit tests for all new code
-2. ✅ Run `npm run test` to ensure all tests pass
-3. ✅ Verify coverage is reasonable (>80% for new code)
-4. ✅ Fix any failing tests before committing
+2. ✅ Run `npm run test:coverage` to ensure all tests pass with coverage
+3. ✅ Verify coverage meets 80% threshold (globally enforced via Codecov)
+4. ✅ View coverage report: Open `coverage/index.html` in browser
+5. ✅ Fix any failing tests before committing
+
+### Coverage Requirements
+
+- **80% minimum coverage** enforced globally (statements, branches, functions, lines)
+- Coverage tracked via Codecov in CI
+- PRs show coverage diff automatically
+- Local reports: Run `npm run test:coverage` → open `coverage/index.html`
+- Configuration: `.codecov.yml` and `jest.preset.js`

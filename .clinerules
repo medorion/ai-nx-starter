@@ -281,10 +281,12 @@ npm run build:prod
 ### Unit Testing Requirements
 - ALL new functionality MUST have unit tests
 - Test controllers, services, mappers, DbServices
-- Aim for >80% coverage
+- **80% minimum coverage enforced** (globally via Codecov and Jest)
 - Use `jest.fn()` for mocks
-- Run `npm run test` before committing
+- Run `npm run test:coverage` before committing
+- View coverage: Open `coverage/index.html` in browser
 - See `prompts/generate-tests.md` for templates
+- Coverage configuration: `.codecov.yml` and `jest.preset.js`
 
 ## Reminders
 

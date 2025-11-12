@@ -40,9 +40,26 @@ Follow the patterns in documents/dev-workflow.md
 
 After each step, verify:
 
+```bash
+# Build all packages
+npm run build
+
+# Run tests with coverage
+npm run test:coverage
+
+# View coverage report (opens HTML report)
+open coverage/index.html  # macOS
+# or
+start coverage/index.html # Windows
+# or
+xdg-open coverage/index.html # Linux
 ```
-Run npm run build and check for errors
-```
+
+**Coverage Requirements:**
+- Minimum 80% coverage enforced globally
+- Coverage automatically tracked via Codecov in CI
+- Pull requests show coverage diff
+- Builds fail if coverage drops below threshold
 
 ## AI Configuration Files
 

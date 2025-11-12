@@ -8,4 +8,11 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/web-server',
+  collectCoverageFrom: [
+    'src/**/*.{js,ts}',
+    '!src/**/*.spec.{js,ts}',
+    '!src/**/*.config.{js,ts}',
+    '!src/test-setup.ts',
+    '!src/main.ts', // Entry point, difficult to test
+  ],
 };
