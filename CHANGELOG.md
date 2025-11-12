@@ -7,6 +7,82 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-11-12
+
+### Added
+
+- **Interactive API Documentation** - Complete Swagger/OpenAPI 3.0 implementation
+  - Swagger UI accessible at `http://localhost:3030/api/docs`
+  - OpenAPI JSON specification at `/api/docs-json`
+  - 21 endpoints fully documented across 6 controllers:
+    - `AuthController`: login, ui-app-context, logout
+    - `UserController`: CRUD operations + search
+    - `ExampleController`: CRUD with complex parameter handling
+    - `SyncEventsController`: SSE streaming endpoints
+    - `ExceptionsController`: Custom exception demonstrations
+    - `HealthController`: Health check endpoint
+  - All endpoints include:
+    - @ApiOperation with summary and description
+    - @ApiResponse for all status codes (success and error cases)
+    - @ApiParam for path parameters with examples
+    - @ApiQuery for query parameters with examples
+    - @ApiBody for request bodies (inline schemas or DTO references)
+    - @ApiBearerAuth for authenticated endpoints
+- **API Reference Documentation** - `documents/api-reference.md` with 850+ lines
+  - Authentication guide with demo credentials
+  - Complete endpoint documentation with request/response examples
+  - SSE usage examples with JavaScript code
+  - Data model schemas (DTOs, enums)
+  - Error response codes (standard HTTP + custom 455-459)
+  - Rate limiting, CORS, and session management notes
+- **AI Prompt Template** - `prompts/document-api-endpoint.md`
+  - Three detailed examples (GET, POST with body, complex PATCH)
+  - Swagger decorator quick reference table
+  - Common HTTP status codes table
+  - Testing and verification checklist
+- **Documentation Resources Integration** - All AI assistants now reference `/prompts/` and `/documents/`
+  - Added "Documentation Resources" section to `CLAUDE.md`
+  - Lists all 8 prompt templates with their purposes
+  - Lists all 8 technical reference documents
+  - Updated CRUD workflow with references to specific prompt files
+  - Added 📖 emoji indicators linking to relevant prompts
+- **AI Context Updates** - Comprehensive Swagger and testing requirements
+  - Updated `.claude/instructions.md` with:
+    - Documentation Resources section (how to use `/prompts/` and `/documents/`)
+    - API Documentation section (Swagger requirements, DTOs rule, verification steps)
+    - Unit Testing section (Jest, >80% coverage target, test templates, running tests)
+  - Updated `.windsurfrules` with full Swagger and testing requirements
+  - Updated `.clinerules` with workflow updates and prompt references
+  - Updated `prompts/add-api-endpoint.md` with Swagger and testing requirements
+  - Updated `prompts/create-crud-feature.md` with comprehensive workflow
+- **Dependencies**
+  - `@nestjs/swagger@^11.2.1` - NestJS integration for OpenAPI/Swagger
+  - `swagger-ui-express@^5.0.1` - Interactive API documentation UI
+
+### Changed
+
+- **Architectural Decision**: DTOs remain framework-agnostic
+  - DTOs in `packages/types` use only `class-validator` decorators
+  - Swagger decorators (`@ApiProperty`) NEVER added to DTOs
+  - All Swagger documentation lives in controllers only
+  - Maintains clean separation between shared types and API documentation
+  - Frontend builds successfully without server-only dependencies
+- **Controller Pattern** - All controllers now follow documented Swagger pattern
+  - Controllers serve as both API implementation and documentation source
+  - `apps/web-server/src/app/features/user/user.controller.ts` established as reference example
+- **README.md** - Updated with API documentation links
+  - Added API Documentation section under "Access"
+  - Link to `documents/api-reference.md`
+  - Removed "No API documentation" from limitations section
+- **ROADMAP.md** - Updated to reflect completed API documentation
+
+### Fixed
+
+- Frontend build issues when DTOs contained `@ApiProperty` decorators
+  - Initially attempted conditional decorators (failed)
+  - Solution: Keep Swagger decorators exclusively in controllers
+  - Frontend now builds cleanly without bundling server-only dependencies
+
 ## [1.3.0] - 2025-11-11
 
 ### Added
