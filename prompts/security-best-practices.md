@@ -13,6 +13,7 @@ Security guidelines for AI assistants when generating code for AI-Nx-Starter. Th
 **RULE**: Every DTO must use class-validator decorators.
 
 ✅ **CORRECT**:
+
 ```typescript
 import { IsEmail, IsString, MinLength, IsOptional, IsEnum } from 'class-validator';
 import { Role } from '@ai-nx-starter/types';
@@ -35,15 +36,17 @@ export class CreateUserDto {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 export class CreateUserDto {
-  email: string;       // No validation!
-  password: string;    // No minimum length!
-  phone?: string;      // Unvalidated
+  email: string; // No validation!
+  password: string; // No minimum length!
+  phone?: string; // Unvalidated
 }
 ```
 
 **When generating DTOs**:
+
 - Add appropriate validators for every field
 - Use `@IsOptional()` for optional fields
 - Use `@IsEnum()` for enums, not just `@IsString()`
@@ -57,6 +60,7 @@ export class CreateUserDto {
 **RULE**: Every controller endpoint must have explicit authorization.
 
 ✅ **CORRECT**:
+
 ```typescript
 import { Authorize, Session, SessionInfo, IgnoreAuthorization } from '@ai-nx-starter/backend-common';
 import { Role } from '@ai-nx-starter/types';
@@ -64,13 +68,13 @@ import { Role } from '@ai-nx-starter/types';
 @Controller('users')
 export class UserController {
   @Get()
-  @Authorize(Role.Admin)  // ✅ Explicit authorization
+  @Authorize(Role.Admin) // ✅ Explicit authorization
   async getAll(@Session() session: SessionInfo) {
     return this.userService.findAll();
   }
 
   @Get('public')
-  @IgnoreAuthorization()  // ✅ Explicitly public
+  @IgnoreAuthorization() // ✅ Explicitly public
   async getPublic() {
     return { status: 'ok' };
   }
@@ -78,10 +82,11 @@ export class UserController {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 @Controller('users')
 export class UserController {
-  @Get()  // ❌ No authorization! Defaults to Root
+  @Get() // ❌ No authorization! Defaults to Root
   async getAll() {
     return this.userService.findAll();
   }
@@ -89,6 +94,7 @@ export class UserController {
 ```
 
 **Authorization Guidelines**:
+
 - Use `@Authorize(Role.Admin)` for standard protected endpoints
 - Use `@Authorize(Role.Root)` for sensitive operations
 - Use `@IgnoreAuthorization()` ONLY for truly public endpoints
@@ -100,6 +106,7 @@ export class UserController {
 **RULE**: Exclude passwords and sensitive fields from responses.
 
 ✅ **CORRECT**:
+
 ```typescript
 // DTO for responses
 export class ClientUserDto {
@@ -119,18 +126,20 @@ async findById(id: string): Promise<ClientUserDto> {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 // DTO with sensitive data
 export class UserDto {
   id: string;
   email: string;
-  password: string;      // ❌ NEVER include password
+  password: string; // ❌ NEVER include password
   internalNotes: string; // ❌ Internal data exposed
-  ssn: string;           // ❌ PII exposed
+  ssn: string; // ❌ PII exposed
 }
 ```
 
 **When generating DTOs**:
+
 - Create separate DTOs for requests vs responses
 - Response DTOs should only include client-safe fields
 - Use mapper services to transform entities to DTOs
@@ -141,6 +150,7 @@ export class UserDto {
 **RULE**: NEVER use TypeORM directly in web-server.
 
 ✅ **CORRECT**:
+
 ```typescript
 // In web-server
 import { UserDbService } from '@ai-nx-starter/data-access-layer';
@@ -150,12 +160,13 @@ export class UserService {
   constructor(private readonly userDbService: UserDbService) {}
 
   async findById(id: string) {
-    return this.userDbService.findById(id);  // ✅ Use DbService
+    return this.userDbService.findById(id); // ✅ Use DbService
   }
 }
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 // In web-server
 import { InjectRepository } from '@nestjs/typeorm';
@@ -164,13 +175,14 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserEntity)  // ❌ Direct TypeORM in web-server
-    private userRepository: Repository<UserEntity>
+    @InjectRepository(UserEntity) // ❌ Direct TypeORM in web-server
+    private userRepository: Repository<UserEntity>,
   ) {}
 }
 ```
 
 **Data Access Rules**:
+
 - TypeORM ONLY in `packages/data-access-layer`
 - web-server imports DbServices from `@ai-nx-starter/data-access-layer`
 - No raw queries with string concatenation
@@ -181,6 +193,7 @@ export class UserService {
 **RULE**: Never expose internal details in error messages.
 
 ✅ **CORRECT**:
+
 ```typescript
 async login(email: string, password: string) {
   const user = await this.userDbService.findByEmail(email);
@@ -194,6 +207,7 @@ async login(email: string, password: string) {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 async login(email: string, password: string) {
   const user = await this.userDbService.findByEmail(email);
@@ -209,6 +223,7 @@ async login(email: string, password: string) {
 ```
 
 **Error Handling Guidelines**:
+
 - Use generic error messages to client
 - Log detailed errors server-side with `this.logger`
 - Use structured exceptions from `@ai-nx-starter/backend-common`
@@ -220,14 +235,11 @@ async login(email: string, password: string) {
 **RULE**: Validate resource ownership before operations.
 
 ✅ **CORRECT**:
+
 ```typescript
 @Injectable()
 export class DocumentService {
-  async updateDocument(
-    id: string,
-    updates: UpdateDocumentDto,
-    session: SessionInfo
-  ) {
+  async updateDocument(id: string, updates: UpdateDocumentDto, session: SessionInfo) {
     const doc = await this.documentDbService.findById(id);
 
     // ✅ Ownership check
@@ -241,6 +253,7 @@ export class DocumentService {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 @Injectable()
 export class DocumentService {
@@ -252,6 +265,7 @@ export class DocumentService {
 ```
 
 **Business Logic Security**:
+
 - Check resource ownership in service methods
 - Don't rely solely on route guards
 - Allow Root role to bypass ownership checks (if appropriate)
@@ -263,6 +277,7 @@ export class DocumentService {
 **RULE**: Use DTOs with whitelist, never accept raw objects.
 
 ✅ **CORRECT**:
+
 ```typescript
 // DTO with only updatable fields
 export class UpdateUserDto {
@@ -283,6 +298,7 @@ async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 @Put(':id')
 async update(@Param('id') id: string, @Body() updates: any) {
@@ -292,6 +308,7 @@ async update(@Param('id') id: string, @Body() updates: any) {
 ```
 
 **Mass Assignment Prevention**:
+
 - ValidationPipe configured with `whitelist: true` (strips unknown props)
 - Create separate DTOs for create vs update operations
 - Never use `any` type for request bodies
@@ -302,6 +319,7 @@ async update(@Param('id') id: string, @Body() updates: any) {
 **RULE**: Always hash passwords, never store plain text.
 
 ✅ **CORRECT**:
+
 ```typescript
 import * as bcrypt from 'bcrypt';
 
@@ -325,6 +343,7 @@ async verifyPassword(plain: string, hashed: string) {
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 async createUser(dto: CreateUserDto) {
   // ❌ Storing plain text password!
@@ -338,6 +357,7 @@ async verifyPassword(plain: string, hashed: string) {
 ```
 
 **Password Guidelines**:
+
 - Use bcrypt with salt rounds >= 10
 - Hash on create and password update
 - Use `bcrypt.compare()` for verification, never direct comparison
@@ -350,6 +370,7 @@ async verifyPassword(plain: string, hashed: string) {
 **RULE**: Configure CORS for specific origins in production.
 
 ✅ **CORRECT** (Production):
+
 ```typescript
 app.enableCors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || [],
@@ -360,14 +381,16 @@ app.enableCors({
 ```
 
 ❌ **WRONG**:
+
 ```typescript
 app.enableCors({
-  origin: '*',  // ❌ Allows any origin in production!
-  credentials: true
+  origin: '*', // ❌ Allows any origin in production!
+  credentials: true,
 });
 ```
 
 **CORS Configuration**:
+
 - Use specific origins in production (from environment variable)
 - `origin: '*'` only acceptable for development
 - Include credentials only if needed
@@ -379,13 +402,14 @@ app.enableCors({
 **RULE**: Implement rate limiting on authentication endpoints.
 
 ✅ **CORRECT** (Future implementation):
+
 ```typescript
 import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
   @Post('login')
-  @Throttle(5, 60)  // ✅ 5 attempts per 60 seconds
+  @Throttle(5, 60) // ✅ 5 attempts per 60 seconds
   @IgnoreAuthorization()
   async login(@Body() dto: LoginUserDto) {
     return this.authService.login(dto);
@@ -394,6 +418,7 @@ export class AuthController {
 ```
 
 **Rate Limiting Guidelines**:
+
 - Limit login attempts (e.g., 5 per minute per IP)
 - Limit password reset requests
 - Consider per-user rate limits for expensive operations
@@ -404,29 +429,34 @@ export class AuthController {
 ## Common Vulnerabilities to Prevent
 
 ### XSS (Cross-Site Scripting)
+
 - ✅ Angular sanitizes by default in templates
 - ✅ Use `{{ }}` for text interpolation, not `[innerHTML]`
 - ✅ CSP headers configured via Helmet
 - ❌ NEVER use `bypassSecurityTrustHtml()` with user input
 
 ### SQL/NoSQL Injection
+
 - ✅ Use TypeORM query builders
 - ✅ Validate all inputs with class-validator
 - ✅ Use parameterized queries
 - ❌ NEVER concatenate user input into queries
 
 ### IDOR (Insecure Direct Object References)
+
 - ✅ Validate resource ownership before operations
 - ✅ Check `session.userId` matches resource owner
 - ✅ Use UUIDs for IDs, not sequential integers
 - ❌ NEVER trust client-provided IDs without validation
 
 ### Session Fixation
+
 - ✅ Generate new token on login (already implemented)
 - ✅ Invalidate old sessions on logout
 - ✅ Consider rotating session on privilege change
 
 ### CSRF (Cross-Site Request Forgery)
+
 - ✅ Use Bearer tokens in headers (not cookies)
 - ✅ Validate Origin/Referer for state-changing operations
 - ✅ Angular has built-in CSRF protection for cookie-based auth
@@ -501,38 +531,25 @@ export class DocumentController {
 
   @Get(':id')
   @Authorize(Role.Admin)
-  async findOne(
-    @Param('id') id: string,
-    @Session() session: SessionInfo
-  ): Promise<DocumentDto> {
+  async findOne(@Param('id') id: string, @Session() session: SessionInfo): Promise<DocumentDto> {
     return this.documentService.findOne(id, session);
   }
 
   @Post()
   @Authorize(Role.Admin)
-  async create(
-    @Body() dto: CreateDocumentDto,
-    @Session() session: SessionInfo
-  ): Promise<DocumentDto> {
+  async create(@Body() dto: CreateDocumentDto, @Session() session: SessionInfo): Promise<DocumentDto> {
     return this.documentService.create(dto, session);
   }
 
   @Put(':id')
   @Authorize(Role.Admin)
-  async update(
-    @Param('id') id: string,
-    @Body() dto: UpdateDocumentDto,
-    @Session() session: SessionInfo
-  ): Promise<DocumentDto> {
+  async update(@Param('id') id: string, @Body() dto: UpdateDocumentDto, @Session() session: SessionInfo): Promise<DocumentDto> {
     return this.documentService.update(id, dto, session);
   }
 
   @Delete(':id')
   @Authorize(Role.Admin)
-  async delete(
-    @Param('id') id: string,
-    @Session() session: SessionInfo
-  ): Promise<void> {
+  async delete(@Param('id') id: string, @Session() session: SessionInfo): Promise<void> {
     await this.documentService.delete(id, session);
   }
 }
@@ -542,7 +559,7 @@ export class DocumentController {
 export class DocumentService {
   constructor(
     private readonly documentDbService: DocumentDbService,
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(DocumentService.name);
   }
@@ -573,18 +590,14 @@ export class DocumentService {
   async create(dto: CreateDocumentDto, session: SessionInfo): Promise<DocumentDto> {
     const doc = await this.documentDbService.create({
       ...dto,
-      ownerId: session.userId,  // Set owner to current user
+      ownerId: session.userId, // Set owner to current user
     });
 
     this.logger.info(`Document created by ${session.email}: ${doc.id}`);
     return this.mapToDto(doc);
   }
 
-  async update(
-    id: string,
-    dto: UpdateDocumentDto,
-    session: SessionInfo
-  ): Promise<DocumentDto> {
+  async update(id: string, dto: UpdateDocumentDto, session: SessionInfo): Promise<DocumentDto> {
     const doc = await this.documentDbService.findById(id);
 
     if (!doc) {
