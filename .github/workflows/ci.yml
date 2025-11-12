@@ -187,12 +187,12 @@ jobs:
       - name: Test with coverage
         run: |
           echo "🧪 Running tests with coverage..."
-          echo "Coverage thresholds: 70% statements/lines, 60% branches/functions"
+          echo "Coverage thresholds: 80% statements/lines, 60% branches/functions"
           npm run test:coverage || {
             echo ""
             echo "❌ Tests failed! This could be due to:"
             echo "  1. Test failures - check test output above"
-            echo "  2. Coverage below threshold (70% statements/lines, 60% branches/functions)"
+            echo "  2. Coverage below threshold (80% statements/lines, 60% branches/functions)"
             echo ""
             echo "To check coverage locally:"
             echo "  npm run test:coverage"

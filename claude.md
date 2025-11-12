@@ -26,7 +26,8 @@ npm run format:fix     # Auto-fix formatting issues
 - NEVER import TypeORM in `apps/web-server` - use `data-access-layer` services
 - NEVER create manual HTTP services - use auto-generated `@ai-nx-starter/api-client`
 - Run `npm run gen-api-client` after controller changes, `npm run build` after all changes
-- **ALL files MUST pass `npm run format:check` and `npm run lint`** - apply Prettier config before completing any file
+- **ALWAYS run `npm run format:fix` IMMEDIATELY after creating or modifying ANY file** - Prettier formatting is enforced
+- **ALL files MUST pass `npm run format:check` and `npm run lint`** before considering work complete
 
 ## Formatting Rules (Prettier)
 
@@ -78,6 +79,25 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 - Swagger decorators in controllers ONLY (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody, @ApiBearerAuth)
 - TypeORM only in data-access-layer, never in web-server
 
+## Testing & Coverage
+
+**Coverage Thresholds:** 80% statements/lines, 60% branches/functions
+
+**IMPORTANT:** Before creating tests or suggesting coverage exclusions:
+
+1. ✅ **READ** `documents/code-coverage-exclusions.md` - Decision framework for what to test vs. exclude
+2. ✅ **READ** `documents/ai-testing-guidelines.md` - How AI should approach testing in this codebase
+3. ✅ **CHECK** existing `jest.config.ts` files for current exclusions
+4. ✅ **FOLLOW** the decision tree: Business logic = MUST TEST, Infrastructure = Consider excluding
+
+**Key Principles:**
+
+- ❌ NEVER exclude business logic, auth/security code, or data transformation
+- ✅ Write tests for services, controllers, guards, mappers, business components
+- ✅ Consider excluding: pure presentation components, SSE/WebSocket infrastructure, framework wrappers
+- ✅ Explain your reasoning when suggesting exclusions
+- ✅ Listen to user feedback and re-evaluate decisions
+
 ## Documentation Resources
 
 ### AI Prompt Templates (`prompts/`)
@@ -106,6 +126,8 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 - **`data-access-layer-techical.md`** - Database layer architecture
 - **`common-techical.md`** - Shared utilities and patterns
 - **`migration-scripts.md`** - Database migration guidelines
+- **`code-coverage-exclusions.md`** - Guidelines for what code to exclude from coverage (for humans & AI)
+- **`ai-testing-guidelines.md`** - How AI assistants should approach testing in this codebase
 
 **Usage:** Reference these when implementing features that touch these areas.
 

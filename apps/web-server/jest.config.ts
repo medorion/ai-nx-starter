@@ -13,6 +13,11 @@ export default {
     '!src/**/*.spec.{js,ts}',
     '!src/**/*.config.{js,ts}',
     '!src/test-setup.ts',
-    '!src/main.ts', // Entry point, difficult to test
+    '!src/main.ts', // Entry point
+    '!src/app/app-initializer-service.ts', // Startup service
+    '!src/app/features/exceptions/**', // Exception module (for testing)
+    '!src/app/features/sync-events/**', // SSE infrastructure
+    '!src/common/all-exceptions.filter.ts', // Global exception filter
+    '!src/common/base.mapper.ts', // Abstract base class
   ],
 };

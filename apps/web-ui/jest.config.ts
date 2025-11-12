@@ -38,5 +38,12 @@ export default {
     '!src/app/core/services/fingerprint.service.ts',
     '!src/app/shared/components/form-debug/**',
     '!src/app/shared/utils/**',
+    // Infrastructure services
+    '!src/app/core/services/server-side-events.service.ts',
+    '!src/app/core/sockets/socket.service.ts',
+    '!src/app/core/services/notification.service.ts',
+    // Presentational components (mostly template/UI logic)
+    '!src/app/layout/header/**',
+    '!src/app/layout/footer/**',
   ],
 };
