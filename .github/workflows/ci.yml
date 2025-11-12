@@ -185,7 +185,20 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Test with coverage
-        run: npm run test:coverage
+        run: |
+          echo "🧪 Running tests with coverage..."
+          echo "Coverage thresholds: 70% statements/lines, 60% branches/functions"
+          npm run test:coverage || {
+            echo ""
+            echo "❌ Tests failed! This could be due to:"
+            echo "  1. Test failures - check test output above"
+            echo "  2. Coverage below threshold (70% statements/lines, 60% branches/functions)"
+            echo ""
+            echo "To check coverage locally:"
+            echo "  npm run test:coverage"
+            echo "  open coverage/index.html"
+            exit 1
+          }
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

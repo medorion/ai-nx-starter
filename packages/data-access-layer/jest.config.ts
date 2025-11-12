@@ -14,5 +14,6 @@ export default {
     '!src/**/*.config.{js,ts}',
     '!src/test-setup.ts',
     '!src/**/migrations/**',
+    '!src/**/index.ts',
   ],
 };

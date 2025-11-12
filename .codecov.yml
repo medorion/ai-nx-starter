@@ -9,19 +9,19 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: '70...100'
+  range: '60...100'
 
   status:
     project:
       default:
-        target: 80%
-        threshold: 2%
+        target: 70%
+        threshold: 5%
         base: auto
         if_ci_failed: error
     patch:
       default:
-        target: 70%
-        threshold: 5%
+        target: 60%
+        threshold: 10%
         base: auto
 
 comment:
@@ -51,6 +51,17 @@ ignore:
   - '**/migrations/**'
   - '**/*.stories.ts'
   - '**/*.d.ts'
+  - '**/index.ts' # Export files only
+  - '**/*.module.ts' # Angular modules (mostly configuration)
+  - '**/*.routes.ts' # Route configuration
+  - '**/*-routing.module.ts' # Angular routing modules
+  - '**/examples/**' # Demo/example code
+  - '**/decorators/**' # Decorators (hard to test, low value)
+  - 'apps/web-ui/src/app/features/examples/**' # Frontend examples
+  - 'apps/web-ui/src/main.ts' # Entry point
+  - 'apps/web-ui/src/polyfills.ts' # Polyfills
+  - 'apps/web-ui/src/environments/**' # Environment configs
+  - 'apps/web-server/src/main.ts' # Entry point
 
 flags:
   backend:

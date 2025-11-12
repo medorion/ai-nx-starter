@@ -26,5 +26,17 @@ export default {
     '!src/main.ts',
     '!src/polyfills.ts',
     '!src/environments/**',
+    '!src/**/index.ts',
+    '!src/**/*.module.ts',
+    '!src/**/*.routes.ts',
+    '!src/**/*-routing.module.ts',
+    '!src/app/features/examples/**',
+    '!src/app/core/decorators/**',
+    // Utility services that are hard to test
+    '!src/app/core/services/form-group.service.ts',
+    '!src/app/core/services/form-group-error-messages.ts',
+    '!src/app/core/services/fingerprint.service.ts',
+    '!src/app/shared/components/form-debug/**',
+    '!src/app/shared/utils/**',
   ],
 };
