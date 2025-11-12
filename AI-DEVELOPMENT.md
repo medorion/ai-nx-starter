@@ -48,7 +48,7 @@ npm run build
 npm run test:coverage
 
 # View coverage report (opens HTML report)
-open coverage/index.html  # macOS
+open coverage/index.html # macOS
 # or
 start coverage/index.html # Windows
 # or
@@ -56,6 +56,7 @@ xdg-open coverage/index.html # Linux
 ```
 
 **Coverage Requirements:**
+
 - Minimum 80% coverage enforced globally
 - Coverage automatically tracked via Codecov in CI
 - Pull requests show coverage diff
