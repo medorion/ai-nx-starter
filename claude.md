@@ -79,6 +79,14 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 - Swagger decorators in controllers ONLY (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody, @ApiBearerAuth)
 - TypeORM only in data-access-layer, never in web-server
 
+## Logging Standards
+
+- **Backend**: Use `PinoLogger` from `nestjs-pino` - ALWAYS call `this.logger.setContext(ClassName.name)` in constructor
+- **Frontend**: Use `LoggerService` from `@app/core/services`
+- ❌ NEVER use `console.log/warn/error` directly
+- ✅ Use appropriate levels: `debug` (dev), `info` (actions), `warn` (issues), `error` (failures)
+- 📖 See `documents/logging-guidelines.md` for detailed patterns and examples
+
 ## Testing & Coverage
 
 **Coverage Thresholds:** 80% statements/lines, 60% branches/functions
@@ -121,6 +129,7 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 - **`api-reference.md`** - Complete API documentation with examples
 - **`dev-workflow.md`** - Development workflow and best practices
 - **`auth-session-model.md`** - Authentication and session management architecture
+- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
 - **`web-server-techical.md`** - Backend architecture and patterns
 - **`web-ui-technical.md`** - Frontend architecture and patterns
 - **`data-access-layer-techical.md`** - Database layer architecture
