@@ -8,7 +8,7 @@
 
 > 🤖 **AI-First Development**: This project is optimized for AI-assisted development with Claude Code and Windsurf. Built-in rules and patterns enable rapid feature development with minimal manual coding.
 
-> ⚠️ **Disclaimer**: Development speed improvements vary significantly based on developer experience, task complexity, and familiarity with the stack. See [CASE-STUDY.md](./CASE-STUDY.md) for real-world observations and [Current Limitations](#-current-limitations) below.
+> ⚠️ **Disclaimer**: Development speed improvements vary significantly based on developer experience, task complexity, and familiarity with the stack. See [Current Limitations](#-current-limitations) below.
 
 **Clear And Well Defined Structure**:
 This project provides strict rules and patterns for the development of full-stack applications with Angular frontend and NestJS backend.
@@ -199,8 +199,7 @@ ai-nx-starter/
 │   ├── generate-tests.md
 │   └── fix-build-errors.md
 ├── documents/               # Architecture and AI context
-├── CLAUDE.md                # Project rules and quick reference 🤖
-└── CASE-STUDY.md            # Real-world metrics 📊
+└── CLAUDE.md                # Project rules and quick reference 🤖
 ```
 
 ## 🔄 Development Workflow
@@ -437,7 +436,6 @@ docker-compose logs -f web-ui # Frontend logs
 - **[CLAUDE.md](./CLAUDE.md)** - Project rules and quick reference
 - **[/prompts/](./prompts/)** - Step-by-step task templates
 - **[/documents/](./documents/)** - Architecture and AI context
-- **[CASE-STUDY.md](./CASE-STUDY.md)** - Real metrics and time savings
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
 - **[API Reference](./documents/api-reference.md)** - Complete API documentation
 - **[documents/](./documents)** - Technical guides
@@ -481,7 +479,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📊 Development Observations
 
-See [CASE-STUDY.md](./CASE-STUDY.md) for detailed development experiences and observations:
+Based on our development experience with AI assistance:
 
 - ⏱️ CRUD features: Typically 60-75% faster in our testing
 - 🎯 Code generation: Higher first-try success with structured prompts

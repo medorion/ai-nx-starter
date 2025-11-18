@@ -240,8 +240,6 @@ Track these metrics:
 - Test coverage achieved
 - Code consistency score
 
-See [CASE-STUDY.md](./CASE-STUDY.md) for baseline metrics.
-
 **For troubleshooting and best practices, see `CLAUDE.md` and `/prompts/fix-build-errors.md`.**
 
 ## Contributing AI Improvements
@@ -257,7 +255,6 @@ Found a better prompt or configuration? Share it!
 - [CLAUDE.md](./CLAUDE.md) - Project rules and quick reference
 - [prompts/](./prompts/) - Step-by-step task templates
 - [documents/](./documents/) - Architecture and guidelines
-- [CASE-STUDY.md](./CASE-STUDY.md) - Real-world efficiency metrics
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - Contribution guidelines
 
 ---
