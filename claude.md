@@ -56,7 +56,7 @@ Avoid these common violations:
 2. Entity → `packages/data-access-layer/src/features/[entity]/entities/`
 3. DbService → `packages/data-access-layer/src/features/[entity]/services/`
 4. Controller/Service/Mapper → `apps/web-server/src/app/features/[entity]/`
-   - **REQUIRED:** Add Swagger decorators to ALL controller endpoints (📖 see `prompts/document-api-endpoint.md`)
+   - **REQUIRED:** Add Swagger decorators to ALL controller endpoints (📖 auto-apply using `documents/api-documentation-standards.md`)
    - **REQUIRED:** Write unit tests for controller, service, and mapper (📖 see `prompts/generate-tests.md`)
    - Follow pattern in `apps/web-server/src/app/features/user/`
 5. `npm run test` - Verify all tests pass
@@ -75,9 +75,11 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 ## Framework Rules
 
 **📖 Read `documents/security-best-practices.md` before creating DTOs or endpoints**
+**📖 Read `documents/api-documentation-standards.md` when creating/modifying controllers**
 
 - NG-ZORRO components, OnPush change detection, reactive forms, LESS styling
 - class-validator decorators in DTOs (NEVER @ApiProperty in DTOs)
+- **ALWAYS add Swagger decorators when creating/modifying endpoints** - this is automatic, not optional
 - Swagger decorators in controllers ONLY (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody, @ApiBearerAuth)
 - TypeORM only in data-access-layer, never in web-server
 
@@ -117,11 +119,11 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 **For:** Developers working with AI assistants
 
 - **`create-crud-feature.md`** - Complete CRUD features (DTOs → DB → API → UI)
-- **`add-api-endpoint.md`** - Add endpoints to existing controllers
-- **`document-api-endpoint.md`** - Add Swagger documentation to endpoints
 - **`create-ui-component.md`** - Create Angular components with NG-ZORRO
 - **`generate-tests.md`** - Write comprehensive unit tests
 - **`fix-build-errors.md`** - Troubleshoot build and lint errors
+
+**Note:** No separate prompt needed for adding endpoints - just describe what you need and AI applies all standards automatically.
 
 ### AI Context & Guidelines (`documents/`)
 
@@ -129,6 +131,7 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 **When to use:** For understanding architecture, patterns, and decision frameworks
 **For:** AI assistants (auto-loaded as context)
 
+- **`api-documentation-standards.md`** - Swagger/OpenAPI documentation patterns (auto-apply when creating endpoints)
 - **`api-reference.md`** - Complete API documentation with examples
 - **`auth-session-model.md`** - Authentication and session management architecture
 - **`logging-guidelines.md`** - Logging standards, patterns, and best practices

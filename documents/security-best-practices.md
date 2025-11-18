@@ -650,7 +650,7 @@ export class DocumentService {
 - **Auth/Session Model**: `documents/auth-session-model.md` - How authentication works
 - **Security Policy**: `SECURITY.md` - Security policy and production checklist
 - **Web Server**: `documents/web-server-techical.md` - Web server architecture
-- **Add API Endpoint**: `prompts/add-api-endpoint.md` - Endpoint creation guide
+- **API Documentation**: `documents/api-documentation-standards.md` - Swagger patterns and standards
 
 ---
 

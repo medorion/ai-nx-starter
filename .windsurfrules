@@ -101,7 +101,7 @@ After implementing endpoints:
 2. Verify at http://localhost:3030/api/docs
 3. Check all parameters, responses, and examples are correct
 
-See `prompts/document-api-endpoint.md` for detailed examples and templates.
+See `documents/api-documentation-standards.md` for detailed patterns and examples.
 
 ## Unit Testing
 

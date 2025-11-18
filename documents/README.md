@@ -26,6 +26,7 @@ Technical documentation explaining how different parts of the system are structu
 
 Rules and frameworks for AI decision-making:
 
+- **api-documentation-standards.md** - Swagger/OpenAPI documentation patterns (auto-apply when creating endpoints)
 - **logging-guidelines.md** - Logging standards, patterns, and best practices
 - **security-best-practices.md** - Security rules for code generation
 - **ai-testing-guidelines.md** - How AI should approach testing in this codebase

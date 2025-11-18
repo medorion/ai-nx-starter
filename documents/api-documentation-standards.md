@@ -1,68 +1,30 @@
-# Document API Endpoint with Swagger
+# API Documentation Standards
 
-Use this prompt template when adding Swagger documentation to a new or existing API endpoint.
+**Context for AI assistants:** When creating or modifying API endpoints, ALWAYS add Swagger documentation. This is not optional - it's part of the endpoint creation process.
 
-## Prerequisites
+## Core Requirements
 
-- Endpoint already implemented in controller
-- DTOs created and validated
-- `@nestjs/swagger` package installed (already done in this project)
+**Every API endpoint MUST have:**
 
-## Prompt Template
+1. **@ApiOperation** - Clear summary and description
+2. **@ApiResponse** - All status codes (success AND errors)
+3. **@ApiParam** - Path parameters with examples
+4. **@ApiQuery** - Query parameters with examples
+5. **@ApiBody** - Request body (reference DTO or inline schema)
+6. **@ApiBearerAuth('bearer')** - If authentication required
+7. **@ApiTags** - Controller-level tag grouping
 
-```
-Document the [ENDPOINT_NAME] endpoint in [CONTROLLER_NAME] with Swagger decorators following the project's API documentation standards.
+**Critical architectural rule:**
 
-Endpoint details:
-- Method: [HTTP_METHOD]
-- Path: [ENDPOINT_PATH]
-- Purpose: [BRIEF_DESCRIPTION]
-- Authorization: [Required/Optional, Role if required]
-- Request body: [DTO_NAME or N/A]
-- Response: [DTO_NAME or description]
+- DTOs in `packages/types` use ONLY `class-validator` decorators
+- `@ApiProperty` decorators go in controllers ONLY (inline schemas or DTO references)
+- This keeps DTOs framework-agnostic for frontend usage
 
-Requirements:
-1. Add @ApiOperation with clear summary and description
-2. Add @ApiResponse for all status codes (success and errors)
-3. Add @ApiParam for path parameters (with examples)
-4. Add @ApiQuery for query parameters (with examples)
-5. Add @ApiBody for request body (reference DTO or inline schema)
-6. Add @ApiBearerAuth('bearer') if authentication required
-7. Ensure controller has @ApiTags decorator
-8. Add @ApiProperty decorators to any DTOs used
-
-Follow the patterns in:
-- apps/web-server/src/app/features/user/user.controller.ts (comprehensive CRUD)
-- apps/web-server/src/app/auth/auth.controller.ts (authentication patterns)
-- apps/web-server/src/app/features/sync-events/sync-events.controller.ts (SSE patterns)
-```
-
-## Example Usage
+## Swagger Decorator Patterns
 
 ### Example 1: Simple GET Endpoint
 
-```
-Document the getProducts endpoint in ProductController with Swagger decorators following the project's API documentation standards.
-
-Endpoint details:
-- Method: GET
-- Path: /products
-- Purpose: Retrieve all products with optional pagination
-- Authorization: Required, Admin role
-- Request body: N/A
-- Query params: limit (optional), offset (optional)
-- Response: Array of ProductDto
-
-Requirements:
-1. Add @ApiOperation with clear summary and description
-2. Add @ApiResponse for all status codes (200, 401, 403)
-3. Add @ApiQuery for limit and offset parameters
-4. Add @ApiBearerAuth('bearer') since authentication required
-5. Ensure ProductController has @ApiTags('Products')
-6. Add @ApiProperty decorators to ProductDto
-```
-
-**Expected Output:**
+**Scenario:** GET /products with optional pagination, requires Admin role
 
 ```typescript
 @ApiTags('Products')
@@ -93,26 +55,7 @@ export class ProductController {
 
 ### Example 2: POST Endpoint with Request Body
 
-```
-Document the createProduct endpoint in ProductController with Swagger decorators following the project's API documentation standards.
-
-Endpoint details:
-- Method: POST
-- Path: /products
-- Purpose: Create a new product
-- Authorization: Required, Admin role
-- Request body: CreateProductDto
-- Response: ProductDto
-
-Requirements:
-1. Add @ApiOperation with clear summary and description
-2. Add @ApiResponse for status codes (201, 400, 401, 403)
-3. Add @ApiBody({ type: CreateProductDto })
-4. Add @ApiBearerAuth('bearer')
-5. Add @ApiProperty decorators to CreateProductDto
-```
-
-**Expected Output:**
+**Scenario:** POST /products to create new product, requires Admin role
 
 ```typescript
 @ApiOperation({
@@ -158,21 +101,7 @@ export class CreateProductDto {
 
 ### Example 3: Complex Endpoint with Multiple Parameters
 
-```
-Document the updateProductStatus endpoint in ProductController with Swagger decorators.
-
-Endpoint details:
-- Method: PATCH
-- Path: /products/:id/status/:statusId
-- Purpose: Update product status with additional metadata
-- Authorization: Required, Admin role
-- Path params: id (product ID), statusId (new status)
-- Query params: reason (optional), updatedBy (optional)
-- Request body: { notes?: string, metadata?: object }
-- Response: { success: boolean, message: string, data: ProductDto }
-```
-
-**Expected Output:**
+**Scenario:** PATCH /products/:id/status/:statusId with path params, query params, and body
 
 ```typescript
 @ApiOperation({
@@ -303,41 +232,21 @@ async updateProductStatus(
 
 ---
 
-## Testing Your Documentation
+## Verification Steps
 
-After documenting endpoints:
+After adding Swagger decorators:
 
-1. **Build the project:**
-
-   ```bash
-   npm run build
-   ```
-
-2. **Start the server:**
-
-   ```bash
-   npm run server
-   ```
-
-3. **Open Swagger UI:**
-
-   ```
-   http://localhost:3030/api/docs
-   ```
-
-4. **Verify:**
-   - Endpoint appears in correct tag group
-   - Summary and description are clear
-   - All parameters show with examples
-   - Request body schema is correct
-   - Response examples are accurate
-   - Authentication badge shows if required
-
-5. **Test the endpoint:**
-   - Click "Try it out"
-   - Fill in example values
-   - Click "Execute"
-   - Verify response matches documentation
+1. **Build:** `npm run build`
+2. **Start:** `npm run server`
+3. **Open:** `http://localhost:3030/api/docs`
+4. **Check:**
+   - Endpoint in correct tag group
+   - Summary and description clear
+   - All parameters with examples
+   - Request body schema correct
+   - Response examples accurate
+   - Auth badge if required
+5. **Test:** Use "Try it out" button
 
 ---
 
@@ -354,15 +263,22 @@ After documenting endpoints:
 
 ---
 
-## Integration with Development Workflow
+## When to Apply Documentation
 
-When adding a new endpoint following `prompts/add-api-endpoint.md`:
+**Automatically apply Swagger decorators when:**
 
-1. **Step 1-3:** Create DTOs, entity, controller, service (as usual)
-2. **Step 4:** Use this prompt to document the endpoint
-3. **Step 5:** Run `npm run gen-api-client` (generates Angular services)
-4. **Step 6:** Build and test
-5. **Step 7:** Verify in Swagger UI at `/api/docs`
+- Creating new API endpoints
+- Modifying existing endpoints (parameters, responses, etc.)
+- Adding authentication requirements
+- Changing endpoint behavior
+
+**Verification checklist:**
+
+1. Build the project: `npm run build`
+2. Start server: `npm run server`
+3. Open Swagger UI: `http://localhost:3030/api/docs`
+4. Verify endpoint appears with all documentation
+5. Test endpoint using "Try it out" button
 
 ---
 

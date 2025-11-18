@@ -160,12 +160,22 @@ See [prompts/create-crud-feature.md](./prompts/create-crud-feature.md) for the f
 
 ## 🚀 AI Workflows
 
-## 🔨 Building the Application
+### Add API Endpoints
+
+**Just describe what you need:**
 
 ```
-Use the prompt from prompts/add-api-endpoint.md
-AI generates controller method + service + auto-updates API client
+"Add a GET /products endpoint with pagination (limit, offset) and Admin role required"
+
+AI automatically:
+- Creates controller method with Swagger docs
+- Implements service logic
+- Adds validation and security
+- Generates API client
+- Writes unit tests
 ```
+
+AI applies all standards automatically via context (`documents/api-documentation-standards.md`, `documents/security-best-practices.md`).
 
 ### Fix Build Errors
 
@@ -194,7 +204,6 @@ ai-nx-starter/
 │   └── backend-common/      # Shared backend utilities
 ├── prompts/                 # AI prompt library 🤖
 │   ├── create-crud-feature.md
-│   ├── add-api-endpoint.md
 │   ├── create-ui-component.md
 │   ├── generate-tests.md
 │   └── fix-build-errors.md
@@ -443,10 +452,11 @@ docker-compose logs -f web-ui # Frontend logs
 ### AI Prompt Library
 
 - [Create CRUD Feature](./prompts/create-crud-feature.md) - Complete backend + frontend
-- [Add API Endpoint](./prompts/add-api-endpoint.md) - New controller methods
 - [Create UI Component](./prompts/create-ui-component.md) - Angular components
 - [Generate Tests](./prompts/generate-tests.md) - Unit tests
 - [Fix Build Errors](./prompts/fix-build-errors.md) - Debug TypeScript
+
+**Note:** For adding API endpoints, just describe what you need - AI applies all standards automatically.
 
 ## 🎯 Use Cases
 

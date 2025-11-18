@@ -6,7 +6,7 @@ This directory contains ready-to-use **task templates** for common development w
 
 These are **step-by-step instructions** that developers use when:
 
-- Working with AI assistants (Claude, GPT-4, Cursor, etc.)
+- Working with AI Coding agents (Claude Code, Windsurf, Cursor, etc.)
 - Following standardized workflows for common tasks
 - Ensuring consistency across the codebase
 
@@ -15,13 +15,15 @@ These are **step-by-step instructions** that developers use when:
 ### Feature Development
 
 - **[create-crud-feature.md](./create-crud-feature.md)** - Create complete CRUD feature (DTOs → DB → API → UI)
-- **[add-api-endpoint.md](./add-api-endpoint.md)** - Add new endpoint to existing controller
 - **[create-ui-component.md](./create-ui-component.md)** - Create Angular component with NG-ZORRO
 
-### Documentation & Testing
+**Note:** For adding individual API endpoints, simply describe what you need to the AI. Swagger documentation, validation, and testing are applied automatically via AI context (see `documents/api-documentation-standards.md`, `documents/security-best-practices.md`).
 
-- **[document-api-endpoint.md](./document-api-endpoint.md)** - Add Swagger documentation to endpoints
+### Testing
+
 - **[generate-tests.md](./generate-tests.md)** - Create unit tests for specific file
+
+**Note:** Swagger documentation is now automatic when creating endpoints. See `documents/api-documentation-standards.md` for AI context.
 
 ### Debugging
 
@@ -49,8 +51,8 @@ These are **step-by-step instructions** that developers use when:
 Task templates often reference documents for additional context:
 
 - `generate-tests.md` → references `documents/code-coverage-exclusions.md`
-- `add-api-endpoint.md` → references `documents/security-best-practices.md`
-- `create-crud-feature.md` → references `documents/logging-guidelines.md`
+- `create-crud-feature.md` → references `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`
+- `create-ui-component.md` → references `documents/web-ui-technical.md`
 
 ## Contributing Templates
 
