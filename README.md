@@ -177,16 +177,21 @@ AI automatically:
 
 AI applies all standards automatically via context (`documents/api-documentation-standards.md`, `documents/security-best-practices.md`).
 
-### Fix Build Errors
+### Debug Build Errors
 
-**Time: 5-10 minutes** (vs 20-45 minutes manually)
+**Just share the errors naturally:**
 
 ```
-Run: npm run build
-Copy errors
-Use prompts/fix-build-errors.md
-AI analyzes and fixes systematically
+"I got these build errors: [paste error output]"
+
+AI automatically:
+- Analyzes errors systematically
+- Explains root causes
+- Provides fixes with exact file paths
+- Verifies with npm run build
 ```
+
+**Time:** 5-10 minutes (vs 20-45 minutes manually)
 
 See [CLAUDE.md](./CLAUDE.md) for project rules and [/prompts/](./prompts/) for step-by-step workflows.
 
@@ -202,10 +207,9 @@ ai-nx-starter/
 │   ├── api-client/          # Auto-generated Angular services ⚡
 │   ├── data-access-layer/   # TypeORM entities & services
 │   └── backend-common/      # Shared backend utilities
-├── prompts/                 # AI prompt library 🤖
+├── prompts/                 # Complex workflow templates 🤖
 │   ├── create-crud-feature.md
-│   ├── create-ui-component.md
-│   └── fix-build-errors.md
+│   └── create-ui-component.md
 ├── documents/               # Architecture and AI context
 └── CLAUDE.md                # Project rules and quick reference 🤖
 ```
@@ -448,13 +452,16 @@ docker-compose logs -f web-ui # Frontend logs
 - **[API Reference](./documents/api-reference.md)** - Complete API documentation
 - **[documents/](./documents)** - Technical guides
 
-### AI Prompt Library
+### AI Workflow Templates
 
 - [Create CRUD Feature](./prompts/create-crud-feature.md) - Complete backend + frontend
 - [Create UI Component](./prompts/create-ui-component.md) - Angular components
-- [Fix Build Errors](./prompts/fix-build-errors.md) - Debug TypeScript
 
-**Note:** Tests, API docs, and individual endpoints are created automatically - just describe what you need.
+**Note:** Most tasks don't need templates - just use natural language:
+
+- "Add GET /products endpoint" → AI creates endpoint, docs, tests automatically
+- "I got these errors: [paste]" → AI debugs and fixes systematically
+- "Add tests for user.service.ts" → AI writes comprehensive tests
 
 ## 🎯 Use Cases
 

@@ -62,7 +62,7 @@ Avoid these common violations:
 5. `npm run test` - Verify all tests pass
 6. `npm run gen-api-client`
 7. UI → `apps/web-ui/src/app/features/` (📖 see `prompts/create-ui-component.md`)
-8. `npm run build` after each step (📖 see `prompts/fix-build-errors.md` if issues)
+8. `npm run build` after each step (fix errors naturally - just share them)
 9. Verify Swagger UI at `http://localhost:3030/api/docs`
 
 **Backend flow:** Controller → Service → Mapper → DbService → TypeORM
@@ -120,9 +120,8 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 - **`create-crud-feature.md`** - Complete CRUD features (DTOs → DB → API → UI)
 - **`create-ui-component.md`** - Create Angular components with NG-ZORRO
-- **`fix-build-errors.md`** - Troubleshoot build and lint errors
 
-**Note:** Tests, API docs, and individual endpoints are created automatically - just describe what you need and AI applies all standards via context.
+**Note:** Most tasks don't need prompts - just use natural language. AI automatically applies standards via `/documents/` context.
 
 ### AI Context & Guidelines (`documents/`)
 

@@ -12,18 +12,18 @@ These are **step-by-step instructions** that developers use when:
 
 ## Available Templates
 
-### Feature Development
+### Complex Workflows
 
 - **[create-crud-feature.md](./create-crud-feature.md)** - Create complete CRUD feature (DTOs → DB → API → UI)
 - **[create-ui-component.md](./create-ui-component.md)** - Create Angular component with NG-ZORRO
 
-**Note:** For adding individual API endpoints, simply describe what you need to the AI. Swagger documentation, validation, and testing are applied automatically via AI context (see `documents/api-documentation-standards.md`, `documents/security-best-practices.md`).
+**Note:** Most tasks don't need special prompts - just describe what you need in natural language:
 
-**Note:** Unit tests and API documentation are created automatically as part of development. See `documents/ai-testing-guidelines.md` and `documents/api-documentation-standards.md` for AI context.
-
-### Debugging
-
-- **[fix-build-errors.md](./fix-build-errors.md)** - Troubleshoot TypeScript/build errors
+- **API endpoints** - "Add a GET /products endpoint with pagination" → AI applies all standards automatically
+- **Unit tests** - Tests created automatically via `documents/ai-testing-guidelines.md`
+- **API docs** - Swagger added automatically via `documents/api-documentation-standards.md`
+- **Debugging** - "I got these build errors: [paste]" → AI debugs systematically
+- **Security** - Applied automatically via `documents/security-best-practices.md`
 
 ## How to Use
 
@@ -44,11 +44,10 @@ These are **step-by-step instructions** that developers use when:
 - You use `create-crud-feature.md` for a complete feature (step-by-step workflow)
 - It references `documents/ai-testing-guidelines.md` (AI context for automatic test generation)
 
-Task templates often reference documents for additional context:
+Templates reference `/documents/` for AI context:
 
-- `create-crud-feature.md` → references `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`, `documents/ai-testing-guidelines.md`
-- `create-ui-component.md` → references `documents/web-ui-technical.md`
-- `fix-build-errors.md` → references debugging patterns and build tools
+- `create-crud-feature.md` → `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`, `documents/ai-testing-guidelines.md`
+- `create-ui-component.md` → `documents/web-ui-technical.md`
 
 ## Contributing Templates
 
