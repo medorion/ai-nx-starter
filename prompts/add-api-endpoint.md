@@ -17,14 +17,6 @@ Endpoint Specifications:
 - Body: [describe body or "none"]
 - Response: [describe response type]
 
-Example:
-- Method: GET
-- Route: /users/search
-- Path params: none
-- Query params: email (string, optional), role (string, optional), status (string, optional)
-- Body: none
-- Response: UserDto[]
-
 Requirements:
 1. Add the method to apps/web-server/src/app/features/[feature]/[feature].controller.ts
 2. Implement logic in [Feature]Service if needed
@@ -42,10 +34,12 @@ Swagger Documentation (REQUIRED):
 - Add @ApiBearerAuth('bearer') if authentication required
 - Reference: prompts/document-api-endpoint.md for detailed examples
 
-Validation:
+Validation & Security:
 - Use class-validator decorators for body DTOs (NOT @ApiProperty in DTOs)
 - Use @Query(), @Param(), @Body() decorators appropriately
 - Add @Authorize() decorator with appropriate roles
+- Follow security best practices (see documents/security-best-practices.md for detailed guidelines)
+- Validate all user input, sanitize data, avoid SQL injection and XSS vulnerabilities
 
 Unit Testing (REQUIRED):
 - Write unit tests for the new endpoint in [feature].controller.spec.ts
@@ -55,10 +49,14 @@ Unit Testing (REQUIRED):
 - Aim for >80% coverage
 
 After implementation:
-- Run: npm run test - Ensure all tests pass
-- Run: npm run build
-- Verify Swagger UI at http://localhost:3030/api/docs
 - Verify the API client was generated correctly in packages/api-client/
+- Run: npm run format:check - if fails run - Run: npm run format:fix
+- Run: npm run lint
+- Run: npm run build
+- Run: npm run test - Ensure all tests pass
+- Run: npm run test:coverage - aim for 80% coverage
+- Run: npm run e2e
+- Verify Swagger UI at http://localhost:3030/api/docs
 - Manually test the endpoint
 ```
 
@@ -91,8 +89,3 @@ Endpoint Specifications:
 
 [... rest of the prompt ...]
 ```
-
-## Time Estimate
-
-With AI: 5-10 minutes
-Without AI: 20-30 minutes

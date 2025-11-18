@@ -108,37 +108,44 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 ## Documentation Resources
 
-### AI Prompt Templates (`prompts/`)
+### Task Templates (`prompts/`)
 
-**When to use:** Consult these BEFORE starting common tasks. They contain detailed step-by-step instructions.
+**What:** Step-by-step instructions for specific development tasks
+**When to use:** BEFORE starting common tasks (CRUD, endpoints, UI, tests)
+**For:** Developers working with AI assistants
 
-- **`create-crud-feature.md`** - Creating complete CRUD features (DTOs → DB → API → UI)
-- **`add-api-endpoint.md`** - Adding new endpoints to existing controllers
-- **`document-api-endpoint.md`** - Adding Swagger documentation to endpoints
-- **`create-ui-component.md`** - Creating Angular components with NG-ZORRO
-- **`generate-tests.md`** - Writing comprehensive unit tests
-- **`fix-build-errors.md`** - Troubleshooting build and lint errors
-- **`security-best-practices.md`** - Security guidelines for implementation
+- **`create-crud-feature.md`** - Complete CRUD features (DTOs → DB → API → UI)
+- **`add-api-endpoint.md`** - Add endpoints to existing controllers
+- **`document-api-endpoint.md`** - Add Swagger documentation to endpoints
+- **`create-ui-component.md`** - Create Angular components with NG-ZORRO
+- **`generate-tests.md`** - Write comprehensive unit tests
+- **`fix-build-errors.md`** - Troubleshoot build and lint errors
 
-**Usage:** Read the relevant prompt template at the START of the task to ensure you follow all requirements.
+### AI Context & Guidelines (`documents/`)
 
-### Technical Reference (`documents/`)
+**What:** Reference documentation and rules for AI assistants
+**When to use:** For understanding architecture, patterns, and decision frameworks
+**For:** AI assistants (auto-loaded as context)
 
-**When to use:** Consult these when you need to understand architecture, patterns, or implementation details.
+#### Architecture Reference
+
+- **`web-server-techical.md`** - Backend (NestJS) architecture and patterns
+- **`web-ui-technical.md`** - Frontend (Angular) architecture and patterns
+- **`data-access-layer-techical.md`** - Database layer (TypeORM) architecture
+- **`common-techical.md`** - Shared utilities and common patterns
+
+#### Guidelines & Standards
+
+- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
+- **`security-best-practices.md`** - Security rules for code generation
+- **`ai-testing-guidelines.md`** - How AI should approach testing in this codebase
+- **`code-coverage-exclusions.md`** - Decision framework for what to test vs. exclude
+
+#### Technical Reference
 
 - **`api-reference.md`** - Complete API documentation with examples
-- **`dev-workflow.md`** - Development workflow and best practices
 - **`auth-session-model.md`** - Authentication and session management architecture
-- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
-- **`web-server-techical.md`** - Backend architecture and patterns
-- **`web-ui-technical.md`** - Frontend architecture and patterns
-- **`data-access-layer-techical.md`** - Database layer architecture
-- **`common-techical.md`** - Shared utilities and patterns
-- **`migration-scripts.md`** - Database migration guidelines
-- **`code-coverage-exclusions.md`** - Guidelines for what code to exclude from coverage (for humans & AI)
-- **`ai-testing-guidelines.md`** - How AI assistants should approach testing in this codebase
-
-**Usage:** Reference these when implementing features that touch these areas.
+- **`migration-scripts.md`** - Database migration guidelines and patterns
 
 ## Reference Examples
 
