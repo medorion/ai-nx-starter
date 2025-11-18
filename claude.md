@@ -57,7 +57,7 @@ Avoid these common violations:
 3. DbService → `packages/data-access-layer/src/features/[entity]/services/`
 4. Controller/Service/Mapper → `apps/web-server/src/app/features/[entity]/`
    - **REQUIRED:** Add Swagger decorators to ALL controller endpoints (📖 auto-apply using `documents/api-documentation-standards.md`)
-   - **REQUIRED:** Write unit tests for controller, service, and mapper (📖 see `prompts/generate-tests.md`)
+   - **REQUIRED:** Write unit tests for controller, service, and mapper (📖 auto-apply using `documents/ai-testing-guidelines.md`)
    - Follow pattern in `apps/web-server/src/app/features/user/`
 5. `npm run test` - Verify all tests pass
 6. `npm run gen-api-client`
@@ -120,10 +120,9 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 - **`create-crud-feature.md`** - Complete CRUD features (DTOs → DB → API → UI)
 - **`create-ui-component.md`** - Create Angular components with NG-ZORRO
-- **`generate-tests.md`** - Write comprehensive unit tests
 - **`fix-build-errors.md`** - Troubleshoot build and lint errors
 
-**Note:** No separate prompt needed for adding endpoints - just describe what you need and AI applies all standards automatically.
+**Note:** Tests, API docs, and individual endpoints are created automatically - just describe what you need and AI applies all standards via context.
 
 ### AI Context & Guidelines (`documents/`)
 

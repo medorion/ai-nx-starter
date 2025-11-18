@@ -63,4 +63,4 @@ Instead, see:
 | `/documents/` | AI context & architecture  | AI assistants | Guidelines, patterns, reference |
 | `/prompts/`   | Task-specific instructions | Developers    | Step-by-step workflows          |
 
-**Example**: A developer uses `/prompts/generate-tests.md` to create tests, which internally references `/documents/ai-testing-guidelines.md` for AI to understand testing philosophy.
+**Example**: A developer uses `/prompts/create-crud-feature.md` for a complete feature workflow, which internally references `/documents/ai-testing-guidelines.md` and `/documents/api-documentation-standards.md` for AI to automatically generate tests and API docs.

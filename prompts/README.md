@@ -19,11 +19,7 @@ These are **step-by-step instructions** that developers use when:
 
 **Note:** For adding individual API endpoints, simply describe what you need to the AI. Swagger documentation, validation, and testing are applied automatically via AI context (see `documents/api-documentation-standards.md`, `documents/security-best-practices.md`).
 
-### Testing
-
-- **[generate-tests.md](./generate-tests.md)** - Create unit tests for specific file
-
-**Note:** Swagger documentation is now automatic when creating endpoints. See `documents/api-documentation-standards.md` for AI context.
+**Note:** Unit tests and API documentation are created automatically as part of development. See `documents/ai-testing-guidelines.md` and `documents/api-documentation-standards.md` for AI context.
 
 ### Debugging
 
@@ -45,14 +41,14 @@ These are **step-by-step instructions** that developers use when:
 
 **Example**:
 
-- You use `generate-tests.md` to create tests (step-by-step instructions)
-- It references `documents/ai-testing-guidelines.md` (AI context on testing philosophy)
+- You use `create-crud-feature.md` for a complete feature (step-by-step workflow)
+- It references `documents/ai-testing-guidelines.md` (AI context for automatic test generation)
 
 Task templates often reference documents for additional context:
 
-- `generate-tests.md` → references `documents/code-coverage-exclusions.md`
-- `create-crud-feature.md` → references `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`
+- `create-crud-feature.md` → references `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`, `documents/ai-testing-guidelines.md`
 - `create-ui-component.md` → references `documents/web-ui-technical.md`
+- `fix-build-errors.md` → references debugging patterns and build tools
 
 ## Contributing Templates
 

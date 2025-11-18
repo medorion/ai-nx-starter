@@ -205,7 +205,6 @@ ai-nx-starter/
 ├── prompts/                 # AI prompt library 🤖
 │   ├── create-crud-feature.md
 │   ├── create-ui-component.md
-│   ├── generate-tests.md
 │   └── fix-build-errors.md
 ├── documents/               # Architecture and AI context
 └── CLAUDE.md                # Project rules and quick reference 🤖
@@ -453,10 +452,9 @@ docker-compose logs -f web-ui # Frontend logs
 
 - [Create CRUD Feature](./prompts/create-crud-feature.md) - Complete backend + frontend
 - [Create UI Component](./prompts/create-ui-component.md) - Angular components
-- [Generate Tests](./prompts/generate-tests.md) - Unit tests
 - [Fix Build Errors](./prompts/fix-build-errors.md) - Debug TypeScript
 
-**Note:** For adding API endpoints, just describe what you need - AI applies all standards automatically.
+**Note:** Tests, API docs, and individual endpoints are created automatically - just describe what you need.
 
 ## 🎯 Use Cases
 
