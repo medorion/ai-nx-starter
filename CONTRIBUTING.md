@@ -64,7 +64,7 @@ npm run start
 
 ### Working on Features
 
-This project is designed for AI-assisted development. We encourage using AI coding assistants like Claude Code, Windsurf, GitHub Copilot, or Cursor:
+This project is designed for AI-assisted development. We encourage using AI coding assistants like Claude Code, GitHub Copilot, or Cursor:
 
 1. **Read `CLAUDE.md`** - Quick reference and critical rules
 2. **Review `/documents`** - Architecture patterns and standards (auto-applied by AI)

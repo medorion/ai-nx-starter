@@ -108,8 +108,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Documentation Resources section (how to use `/prompts/` and `/documents/`)
     - API Documentation section (Swagger requirements, DTOs rule, verification steps)
     - Unit Testing section (Jest, >80% coverage target, test templates, running tests)
-  - Updated `.windsurfrules` with full Swagger and testing requirements
-  - Updated `.clinerules` with workflow updates and prompt references
   - Updated `prompts/add-api-endpoint.md` with Swagger and testing requirements
   - Updated `prompts/create-crud-feature.md` with comprehensive workflow
 - **Dependencies**

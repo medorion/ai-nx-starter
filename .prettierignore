@@ -6,8 +6,6 @@
 **/.editorconfig
 **/.env.example
 **/.npmrc
-**/.windsurfrules
-**/.clinerules
 **/.nxignore
 **/*.tsbuildinfo
 **/tsconfig*.json

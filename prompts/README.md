@@ -6,7 +6,7 @@ This directory contains ready-to-use **task templates** for common development w
 
 These are **step-by-step instructions** that developers use when:
 
-- Working with AI Coding agents (Claude Code, Windsurf, Cursor, etc.)
+- Working with AI Coding agents (Claude Code, Cursor, GitHub Copilot, etc.)
 - Following standardized workflows for common tasks
 - Ensuring consistency across the codebase
 

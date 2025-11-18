@@ -87,15 +87,9 @@ mkdir -p apps/new-app/.claude
 touch apps/new-app/.claude/instructions.md
 ```
 
-## Migration from Windsurf
+## Configuration History
 
-These instructions were migrated from `.windsurf/rules/` to provide equivalent functionality in Claude Code:
-
-- `.windsurf/rules/general.md` → `.claude/instructions.md`
-- `.windsurf/rules/web-ui.md` → `apps/web-ui/.claude/instructions.md`
-- `.windsurf/rules/web-server.md` → `apps/web-server/.claude/instructions.md`
-- `.windsurf/rules/data-access-layer.md` → `packages/data-access-layer/.claude/instructions.md`
-- `.windsurf/rules/types.md` → `packages/types/.claude/instructions.md`
+This hierarchical configuration structure was designed specifically for Claude Code to provide context-aware AI assistance across the monorepo. Each directory contains relevant rules and patterns for that scope.
 
 ## Tips
 

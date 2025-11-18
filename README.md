@@ -12,7 +12,7 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster.
 
 **Traditional starters give you code.** AI-Nx-Starter gives you an **AI multiplication system**:
 
-- 📖 **Built-in AI rules** - Claude Code and Windsurf auto-apply patterns
+- 📖 **Built-in AI rules** - Claude Code auto-applies patterns
 - 🤖 **Auto-generated API clients** - Type-safe Angular services from NestJS controllers
 - ⚡ **Strict conventions** - Clear patterns = faster AI development
 - 🎯 **testing and ci as part of the flow** - comprehensive testing guidelines including coverage and e2e
@@ -186,6 +186,6 @@ See [LICENSE](./LICENSE) for details.
 
 ---
 
-**Built with AI assistance using Claude Code and Windsurf.**
+**Built with AI assistance using Claude Code.**
 
 ⭐ Star this repo if AI-assisted development interests you!
