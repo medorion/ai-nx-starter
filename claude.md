@@ -74,6 +74,8 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 ## Framework Rules
 
+**📖 Read `documents/security-best-practices.md` before creating DTOs or endpoints**
+
 - NG-ZORRO components, OnPush change detection, reactive forms, LESS styling
 - class-validator decorators in DTOs (NEVER @ApiProperty in DTOs)
 - Swagger decorators in controllers ONLY (@ApiOperation, @ApiResponse, @ApiParam, @ApiQuery, @ApiBody, @ApiBearerAuth)
@@ -127,25 +129,17 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 **When to use:** For understanding architecture, patterns, and decision frameworks
 **For:** AI assistants (auto-loaded as context)
 
-#### Architecture Reference
-
-- **`web-server-techical.md`** - Backend (NestJS) architecture and patterns
-- **`web-ui-technical.md`** - Frontend (Angular) architecture and patterns
-- **`data-access-layer-techical.md`** - Database layer (TypeORM) architecture
-- **`common-techical.md`** - Shared utilities and common patterns
-
-#### Guidelines & Standards
-
-- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
-- **`security-best-practices.md`** - Security rules for code generation
-- **`ai-testing-guidelines.md`** - How AI should approach testing in this codebase
-- **`code-coverage-exclusions.md`** - Decision framework for what to test vs. exclude
-
-#### Technical Reference
-
 - **`api-reference.md`** - Complete API documentation with examples
 - **`auth-session-model.md`** - Authentication and session management architecture
-- **`migration-scripts.md`** - Database migration guidelines and patterns
+- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
+- **`security-best-practices.md`** - Security guidelines for implementation
+- **`web-server-techical.md`** - Backend architecture and patterns
+- **`web-ui-technical.md`** - Frontend architecture and patterns
+- **`data-access-layer-techical.md`** - Database layer architecture
+- **`common-techical.md`** - Shared utilities and patterns
+- **`migration-scripts.md`** - Database migration guidelines
+- **`code-coverage-exclusions.md`** - Guidelines for what code to exclude from coverage (for humans & AI)
+- **`ai-testing-guidelines.md`** - How AI assistants should approach testing in this codebase
 
 ## Reference Examples
 
