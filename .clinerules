@@ -31,10 +31,35 @@ import { UserDto } from '../../../packages/types/src/dto/user.dto';
 
 **IMPORTANT:** Before starting any task, consult the relevant documentation:
 
-- **`/prompts/`** - AI prompt templates for common tasks (CRUD, endpoints, UI, tests, etc.)
-  - Read the relevant prompt BEFORE starting to ensure you follow all requirements
-- **`/documents/`** - Technical reference docs (API reference, architecture, auth model, etc.)
-  - Consult when you need to understand patterns or implementation details
+### Task Templates (`/prompts/`)
+
+Step-by-step instructions for specific development tasks. **Read BEFORE starting** common tasks:
+
+- `create-crud-feature.md` - Complete CRUD features (DTOs → DB → API → UI)
+- `add-api-endpoint.md` - Add endpoints to existing controllers
+- `document-api-endpoint.md` - Add Swagger documentation
+- `create-ui-component.md` - Create Angular components with NG-ZORRO
+- `generate-tests.md` - Write comprehensive unit tests
+- `fix-build-errors.md` - Troubleshoot build/lint errors
+
+### AI Context & Guidelines (`/documents/`)
+
+Reference documentation and rules for AI assistants. **Consult for architecture, patterns, and decision frameworks:**
+
+- `logging-guidelines.md` - Logging standards (PinoLogger/LoggerService, NO console.log)
+- `security-best-practices.md` - Security rules (validation, auth, SQL/XSS prevention)
+- `ai-testing-guidelines.md` - Testing approach and decision-making
+- `code-coverage-exclusions.md` - What to test vs. exclude
+- `web-server-techical.md` - Backend architecture (NestJS)
+- `web-ui-technical.md` - Frontend architecture (Angular)
+- `data-access-layer-techical.md` - Database layer (TypeORM)
+- `common-techical.md` - Shared utilities and patterns
+- `api-reference.md` - Complete API documentation
+- `auth-session-model.md` - Authentication architecture
+- `migration-scripts.md` - Database migration patterns
+
+### Core References
+
 - **`CLAUDE.md`** - Quick reference guide (always read first)
 - **`.clinerules`** - This file (comprehensive rules and standards)
 
