@@ -6,8 +6,8 @@ We release patches for security vulnerabilities. Currently supported versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| 1.4.x   | :white_check_mark: |
+| < 1.4   | :x:                |
 
 ## Reporting a Vulnerability
 
@@ -17,7 +17,7 @@ We take the security of AI-Nx-Starter seriously. If you discover a security vuln
 
 **Please do NOT report security vulnerabilities through public GitHub issues.**
 
-Instead, please report them via email to: **[security@your-domain.com]** (replace with actual email)
+Instead, please report them by opening a private security advisory on GitHub or creating a discussion in the repository.
 
 ### What to Include
 
@@ -99,7 +99,7 @@ Please include the following information in your report:
    - Don't trust client-side validation alone
 
 5. **Dependencies**: Regular security audits recommended
-   - Run `npm audit` regularly
+   - Run `pnpm audit --audit-level=high` regularly
    - Consider setting up Dependabot or Snyk
 
 ## Security Headers
@@ -180,5 +180,5 @@ For sensitive security matters, use the private reporting email above.
 
 ---
 
-**Last Updated**: 2025-11-11
-**Version**: 1.0
+**Last Updated**: 2025-11-18
+**Version**: 1.4.1
