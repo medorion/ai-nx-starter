@@ -64,12 +64,14 @@ npm run start
 
 ### Working on Features
 
-This project is designed for AI-assisted development. We encourage using AI coding assistants like Claude, GitHub Copilot, or Cursor:
+This project is designed for AI-assisted development. We encourage using AI coding assistants like Claude Code, Windsurf, GitHub Copilot, or Cursor:
 
-1. Review existing patterns in `/documents` folder
-2. Use the workflows documented in `CLAUDE.md` and `/prompts/`
-3. Follow task templates in `/prompts/` directory
-4. Generate API clients after backend changes: `npm run gen-api-client`
+1. **Read `CLAUDE.md`** - Quick reference and critical rules
+2. **Review `/documents`** - Architecture patterns and standards (auto-applied by AI)
+   - Files follow `{topic}-{type}.md` naming: `-architecture`, `-standards`, `-guidelines`
+3. **Use natural language** - Most tasks don't need special prompts (e.g., "Add a GET /products endpoint")
+4. **Complex workflows** - See `/prompts/` for step-by-step templates (CRUD features, UI components)
+5. **Generate API clients** - Run `npm run gen-api-client` after backend changes
 
 ### Testing
 
@@ -102,18 +104,18 @@ npm run build:prod
 
 This project showcases AI-assisted development. When contributing:
 
-- Document AI prompts used for significant features
-- Add prompts to `/prompts` directory if creating new patterns
-- Follow the workflow guidelines in `CLAUDE.md` and `/prompts/`
-- Include comments explaining AI-generated code modifications
+- **Use natural language** - Describe what you need; AI applies standards automatically
+- **Document complex workflows** - Add step-by-step templates to `/prompts/` if creating reusable patterns
+- **Follow established patterns** - AI reads `/documents/` for architecture and standards
+- **Include AI context in PRs** - Mention if AI was used and any significant prompts/approaches
 
 ## Pull Request Process
 
 1. **Update Documentation**: Ensure all relevant docs are updated
 2. **Follow Conventions**: Adhere to naming conventions and project structure
-3. **Test Thoroughly**: All tests must pass
-4. **Update Changelog**: Add entry to CHANGELOG.md (if exists)
-5. **AI Prompts**: If using AI, document the prompts in PR description
+3. **Test Thoroughly**: All tests must pass (80% coverage threshold)
+4. **Update Changelog**: Add entry to CHANGELOG.md under `[Unreleased]`
+5. **AI Context**: If using AI, mention approach in PR description
 6. **Clean Commits**: Squash commits if necessary for clean history
 
 ### PR Checklist
@@ -141,7 +143,7 @@ This project showcases AI-assisted development. When contributing:
 - Component naming: `feature-name.component.ts`
 - Service naming: `feature-name.service.ts`
 - Use NG-ZORRO components consistently
-- See `documents/web-ui-technical.md` for details
+- See `documents/web-ui-architecture.md` for details
 
 ### Backend (NestJS)
 
@@ -149,14 +151,16 @@ This project showcases AI-assisted development. When contributing:
 - Never use TypeORM directly (use data-access-layer)
 - DTOs in `@ai-nx-starter/types` package
 - Use class-validator for validation
-- See `documents/web-server-techical.md` for details
+- Add Swagger decorators to all endpoints (see `documents/api-documentation-standards.md`)
+- Follow security standards (see `documents/security-standards.md`)
+- See `documents/web-server-architecture.md` for details
 
 ### Data Access Layer
 
 - Entities in `/entities` folder
 - DbServices in `/services` folder
 - Naming: `EntityNameDbService`
-- See `documents/data-access-layer-techical.md` for details
+- See `documents/data-access-layer-architecture.md` for details
 
 ### Naming Conventions
 
