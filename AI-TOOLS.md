@@ -24,8 +24,6 @@ This project is optimized for AI-assisted development and supports multiple AI c
 
 ### ✅ Claude Code (Optimized)
 
-**Configuration:** `.clinerules` file in root
-
 **What's configured:**
 
 - Complete project architecture
@@ -37,8 +35,7 @@ This project is optimized for AI-assisted development and supports multiple AI c
 **Usage:**
 
 1. Use Claude Code CLI in project directory
-2. Claude automatically reads `.clinerules`
-3. Use prompts from `/prompts` directory for best results
+2. Use prompts from `/prompts` directory for best results
 
 ### ✅ Cursor AI
 
@@ -47,8 +44,8 @@ This project is optimized for AI-assisted development and supports multiple AI c
 **Recommended setup:**
 
 ```bash
-# Copy Claude rules for Cursor
-cp .clinerules .cursorrules
+# Copy Claude rules for Cursor (if using Cursor)
+cp CLAUDE.md .cursorrules
 ```
 
 **Usage:**
@@ -63,7 +60,7 @@ cp .clinerules .cursorrules
 
 **Enhanced usage:**
 
-- Read `AI-DEVELOPMENT.md` for context
+- Read `CLAUDE.md` for project context
 - Use `/prompts` templates in comments
 - Copilot learns from existing code patterns
 
@@ -71,8 +68,6 @@ cp .clinerules .cursorrules
 
 ```
 ai-nx-starter/
-├── .clinerules              # Claude Code configuration
-├── .cursorrules             # Cursor AI configuration (optional)
 ├── .windsurf/               # Windsurf configuration
 │   └── rules/
 │       ├── general.md
@@ -83,8 +78,9 @@ ai-nx-starter/
 ├── packages/
 │   └── data-access-layer/
 │       └── .windsurfrules   # Package-specific Windsurf rules
-├── AI-DEVELOPMENT.md        # AI workflow guide (all tools)
-└── prompts/                 # Reusable prompts (all tools)
+├── CLAUDE.md                # Project rules and quick reference
+├── prompts/                 # Step-by-step task templates
+└── documents/               # Architecture and AI context
 ```
 
 ## Which Tool Should I Use?
@@ -165,49 +161,7 @@ ai-nx-starter/
 - Limited project-specific rules
 - Less architectural understanding
 
-## Best Practices for All Tools
-
-### 1. Read Documentation First
-
-Before starting, have your AI read:
-
-```
-Read AI-DEVELOPMENT.md and documents/dev-workflow.md
-```
-
-### 2. Use Prompt Templates
-
-Don't freestyle - use `/prompts` templates:
-
-- `prompts/create-crud-feature.md`
-- `prompts/add-api-endpoint.md`
-- `prompts/create-ui-component.md`
-- `prompts/generate-tests.md`
-- `prompts/fix-build-errors.md`
-
-### 3. Verify After Each Step
-
-```bash
-npm run build
-```
-
-Always verify build after AI-generated code.
-
-### 4. Leverage Auto-Generation
-
-```bash
-npm run gen-api-client
-```
-
-After any controller changes, regenerate API clients.
-
-### 5. Reference Existing Patterns
-
-```
-Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
-```
-
-Point AI to existing examples for consistency.
+**For project-specific rules and workflows, see `CLAUDE.md` and `/prompts/` directory.**
 
 ## Tool-Specific Tips
 
@@ -288,31 +242,7 @@ Track these metrics:
 
 See [CASE-STUDY.md](./CASE-STUDY.md) for baseline metrics.
 
-## Troubleshooting
-
-### AI Doesn't Follow Project Patterns
-
-**Solution:**
-
-- Ensure config files are in place (`.clinerules`, `.windsurf/rules/`)
-- Explicitly reference patterns: "Follow the pattern in [PATH]"
-- Use prompt templates from `/prompts`
-
-### AI Generates Wrong Imports
-
-**Solution:**
-
-- Check `.clinerules` has correct package aliases
-- Verify `tsconfig.base.json` paths are correct
-- Remind AI: "Use @ai-nx-starter/\* imports, not relative paths"
-
-### Build Errors After AI Generation
-
-**Solution:**
-
-- Use `prompts/fix-build-errors.md`
-- Run `npm run gen-api-client` if backend changed
-- Verify step-by-step instead of generating everything at once
+**For troubleshooting and best practices, see `CLAUDE.md` and `/prompts/fix-build-errors.md`.**
 
 ## Contributing AI Improvements
 
@@ -324,9 +254,10 @@ Found a better prompt or configuration? Share it!
 
 ## Resources
 
-- [AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md) - Complete AI workflow guide
+- [CLAUDE.md](./CLAUDE.md) - Project rules and quick reference
+- [prompts/](./prompts/) - Step-by-step task templates
+- [documents/](./documents/) - Architecture and guidelines
 - [CASE-STUDY.md](./CASE-STUDY.md) - Real-world efficiency metrics
-- [prompts/](./prompts/) - Reusable prompt library
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - Contribution guidelines
 
 ---

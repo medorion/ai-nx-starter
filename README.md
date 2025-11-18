@@ -37,7 +37,6 @@ Traditional starter templates give you code. **AI-Nx-Starter gives you an AI mul
 | ------------------------- | ----------------------------------- |
 | Manual API client coding  | **Auto-generated** from controllers |
 | Hours writing boilerplate | **Minutes** with AI prompts         |
-| Inconsistent patterns     | **Enforced** via .clinerules        |
 | Trial and error           | **Proven** prompt templates         |
 
 **Observed Impact:** In our experience, complete CRUD features that typically take 2-3 hours can often be completed in 40-60 minutes with AI assistance. Individual results vary.
@@ -77,8 +76,8 @@ docker-compose ps
 ### 4. Tell Your AI Assistant
 
 ```
-Read AI-DEVELOPMENT.md and familiarize yourself with the project structure.
-Then read documents/dev-workflow.md to understand the development workflow.
+Read CLAUDE.md for project rules and quick reference.
+Then explore /prompts/ for step-by-step task templates.
 ```
 
 ### 5. Access the Application
@@ -126,9 +125,8 @@ See [prompts/create-crud-feature.md](./prompts/create-crud-feature.md) for the f
 
 ### 🤖 AI-First Architecture
 
-- **`.clinerules`** - Claude Code project configuration
-- **`/prompts`** - 5 ready-to-use AI prompt templates
-- **`AI-DEVELOPMENT.md`** - Comprehensive AI workflow guide
+- **`/prompts`** - 6 ready-to-use AI task templates
+- **`CLAUDE.md`** - Project rules and quick reference
 - **Auto-generated API clients** - Type-safe Angular services from NestJS controllers
 
 ### 🏗️ Production-Ready Stack
@@ -180,7 +178,7 @@ Use prompts/fix-build-errors.md
 AI analyzes and fixes systematically
 ```
 
-See [AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md) for complete AI workflows.
+See [CLAUDE.md](./CLAUDE.md) for project rules and [/prompts/](./prompts/) for step-by-step workflows.
 
 ## 📁 Project Structure
 
@@ -200,10 +198,9 @@ ai-nx-starter/
 │   ├── create-ui-component.md
 │   ├── generate-tests.md
 │   └── fix-build-errors.md
-├── documents/               # Technical documentation
-├── .clinerules             # Claude Code configuration 🤖
-├── AI-DEVELOPMENT.md       # AI workflow guide 🤖
-└── CASE-STUDY.md          # Real-world metrics 📊
+├── documents/               # Architecture and AI context
+├── CLAUDE.md                # Project rules and quick reference 🤖
+└── CASE-STUDY.md            # Real-world metrics 📊
 ```
 
 ## 🔄 Development Workflow
@@ -437,7 +434,9 @@ docker-compose logs -f web-ui # Frontend logs
 
 ## 📚 Documentation
 
-- **[AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md)** - AI workflows and best practices
+- **[CLAUDE.md](./CLAUDE.md)** - Project rules and quick reference
+- **[/prompts/](./prompts/)** - Step-by-step task templates
+- **[/documents/](./documents/)** - Architecture and AI context
 - **[CASE-STUDY.md](./CASE-STUDY.md)** - Real metrics and time savings
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
 - **[API Reference](./documents/api-reference.md)** - Complete API documentation
@@ -641,13 +640,13 @@ npx nx test web-server --testPathPattern=user.service
 
 ### Need More Help?
 
-- Check [AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md) for AI workflow issues
+- Check [CLAUDE.md](./CLAUDE.md) and [/prompts/](./prompts/) for AI workflow guidance
 - Search [existing issues](https://github.com/YOUR_ORG/ai-nx-starter/issues)
 - Ask in [Discussions](https://github.com/YOUR_ORG/ai-nx-starter/discussions)
 
 ## 💬 Support
 
-- **Documentation:** Check [documents/](./documents) and [AI-DEVELOPMENT.md](./AI-DEVELOPMENT.md)
+- **Documentation:** Check [CLAUDE.md](./CLAUDE.md), [/prompts/](./prompts/), and [/documents/](./documents)
 - **Issues:** [GitHub Issues](https://github.com/YOUR_ORG/ai-nx-starter/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/YOUR_ORG/ai-nx-starter/discussions)
 

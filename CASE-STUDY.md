@@ -244,7 +244,6 @@ Fix 12 TypeScript errors after major refactoring.
    - Consistent results across different features
 
 3. **Clear Architecture**
-   - AI understood project structure from `.clinerules`
    - Generated code matched existing patterns
 
 4. **Incremental Workflow**
@@ -277,7 +276,7 @@ Fix 12 TypeScript errors after major refactoring.
 
 **Solution:**
 
-- Created `AI-DEVELOPMENT.md` as AI onboarding guide
+- Created `CLAUDE.md` + `/prompts/` + `/documents/` as AI documentation structure
 - Developers spend 15min having AI read documentation
 - Pays off immediately on first feature
 
@@ -287,8 +286,9 @@ Fix 12 TypeScript errors after major refactoring.
 
 **Initial Setup:**
 
-- Reading AI-DEVELOPMENT.md: 15min
-- Familiarizing with prompts: 10min
+- Reading CLAUDE.md: 10min
+- Exploring /prompts/ templates: 10min
+- Familiarizing with /documents/: 5min
 - **Total:** 25min one-time investment
 
 **Per Feature Savings:**
@@ -325,7 +325,6 @@ Fix 12 TypeScript errors after major refactoring.
 
 4. **Document Your Patterns**
    - Add your successful prompts to `/prompts`
-   - Update `.clinerules` with project-specific rules
 
 5. **Pair Review**
    - Have AI explain complex generated code
@@ -356,7 +355,6 @@ The combination of:
 
 Based on feedback from developers using AI-Nx-Starter:
 
-- The structured prompts and `.clinerules` significantly reduce trial-and-error with AI
 - Auto-generated API clients eliminate a major source of boilerplate
 - Features that previously took 2-3 hours can often be completed in 40-60 minutes
 - Code consistency improves due to enforced patterns

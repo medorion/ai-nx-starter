@@ -302,9 +302,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Example todo-item feature
 - Sync events system for real-time updates
 - Auto-generated type-safe API client
-- Comprehensive AI development prompts and documentation
-- CLAUDE.md for AI-assisted development
-- AI-DEVELOPMENT.md with workflow guides
+- Comprehensive AI development documentation structure
+- CLAUDE.md for project rules and quick reference
+- `/prompts/` directory with step-by-step task templates
+- `/documents/` directory with architecture and AI context
 
 ### Infrastructure
 

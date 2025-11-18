@@ -14,7 +14,6 @@ Make AI-assisted full-stack development the default, not the exception.
 
 - ✅ Auto-generated API clients
 - ✅ AI prompt library (5 templates)
-- ✅ .clinerules configuration
 - ✅ Comprehensive documentation
 - ✅ Angular 19 + NestJS 11 stack
 - ✅ Case study with metrics

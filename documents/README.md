@@ -41,7 +41,7 @@ Detailed reference documentation:
 
 ## How AI Uses These Documents
 
-1. AI reads `CLAUDE.md` or `.clinerules` (always loaded as primary context)
+1. AI reads `CLAUDE.md` (always loaded as primary context)
 2. AI references specific documents from this directory as needed for deeper understanding
 3. Documents provide the **WHY** and **HOW** behind architectural decisions
 4. Guidelines inform AI decision-making (e.g., when to test, how to log, security rules)
@@ -54,7 +54,6 @@ Instead, see:
 
 - **`/prompts/`** for step-by-step task templates
 - **`CLAUDE.md`** for quick reference and critical rules
-- **`.clinerules`** for comprehensive development standards
 
 ## Relationship to `/prompts/`
 

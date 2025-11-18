@@ -146,4 +146,4 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 - Backend: `apps/web-server/src/app/features/user/`, `apps/web-server/src/app/features/example/`
 - Frontend: `apps/web-ui/src/app/features/backoffice/users/`, `apps/web-ui/src/app/features/examples/`
 - Data: `packages/data-access-layer/src/features/user/`
-- Docs: `.clinerules`, `AI-DEVELOPMENT.md`
+- Docs: `CLAUDE.md`, `/documents/`, `/prompts/`

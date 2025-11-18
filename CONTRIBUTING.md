@@ -67,8 +67,8 @@ npm run start
 This project is designed for AI-assisted development. We encourage using AI coding assistants like Claude, GitHub Copilot, or Cursor:
 
 1. Review existing patterns in `/documents` folder
-2. Use the AI workflow documented in `AI-DEVELOPMENT.md`
-3. Follow the CRUD workflow in `documents/dev-workflow.md`
+2. Use the workflows documented in `CLAUDE.md` and `/prompts/`
+3. Follow task templates in `/prompts/` directory
 4. Generate API clients after backend changes: `npm run gen-api-client`
 
 ### Testing
@@ -104,7 +104,7 @@ This project showcases AI-assisted development. When contributing:
 
 - Document AI prompts used for significant features
 - Add prompts to `/prompts` directory if creating new patterns
-- Follow the AI workflow guidelines in `AI-DEVELOPMENT.md`
+- Follow the workflow guidelines in `CLAUDE.md` and `/prompts/`
 - Include comments explaining AI-generated code modifications
 
 ## Pull Request Process
@@ -186,7 +186,7 @@ ai-nx-starter/
 
 - Open an issue for questions
 - Review existing documentation in `/documents`
-- Check `AI-DEVELOPMENT.md` for AI workflow questions
+- Check `CLAUDE.md` and `/prompts/` for AI workflow questions
 
 ## License
 
