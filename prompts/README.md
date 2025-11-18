@@ -23,7 +23,7 @@ These are **step-by-step instructions** that developers use when:
 - **Unit tests** - Tests created automatically via `documents/ai-testing-guidelines.md`
 - **API docs** - Swagger added automatically via `documents/api-documentation-standards.md`
 - **Debugging** - "I got these build errors: [paste]" → AI debugs systematically
-- **Security** - Applied automatically via `documents/security-best-practices.md`
+- **Security** - Applied automatically via `documents/security-standards.md`
 
 ## How to Use
 
@@ -47,7 +47,7 @@ These are **step-by-step instructions** that developers use when:
 Templates reference `/documents/` for AI context:
 
 - `create-crud-feature.md` → `documents/logging-guidelines.md`, `documents/api-documentation-standards.md`, `documents/ai-testing-guidelines.md`
-- `create-ui-component.md` → `documents/web-ui-technical.md`
+- `create-ui-component.md` → `documents/web-ui-architecture.md`
 
 ## Contributing Templates
 

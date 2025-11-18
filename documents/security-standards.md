@@ -647,9 +647,9 @@ export class DocumentService {
 
 ## Related Documentation
 
-- **Auth/Session Model**: `documents/auth-session-model.md` - How authentication works
+- **Auth/Session Model**: `documents/auth-session-architecture.md` - How authentication works
 - **Security Policy**: `SECURITY.md` - Security policy and production checklist
-- **Web Server**: `documents/web-server-techical.md` - Web server architecture
+- **Web Server**: `documents/web-server-architecture.md` - Web server architecture
 - **API Documentation**: `documents/api-documentation-standards.md` - Swagger patterns and standards
 
 ---

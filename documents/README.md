@@ -11,34 +11,51 @@ These documents are **loaded as context** by AI assistants (like Claude Code) to
 - Decision-making frameworks (testing, security, logging, etc.)
 - Technical reference (API, auth, migrations, etc.)
 
+## Naming Convention
+
+All documents follow the pattern: `{topic}-{type}.md`
+
+**Document Types:**
+
+- **`-architecture.md`** - System design and structural patterns (how systems are built)
+- **`-standards.md`** - Strict rules and conventions (must follow)
+- **`-guidelines.md`** - Best practices and decision frameworks (should follow)
+
+This convention ensures:
+
+- Clear categorization by file suffix
+- Alphabetical grouping of similar documents
+- Consistent language across all documentation
+
 ## Directory Contents
 
 ### Architecture Reference
 
 Technical documentation explaining how different parts of the system are structured:
 
-- **web-server-techical.md** - Backend (NestJS) architecture patterns and conventions
-- **web-ui-technical.md** - Frontend (Angular) architecture patterns and conventions
-- **data-access-layer-techical.md** - Database layer (TypeORM) architecture
-- **common-techical.md** - Shared utilities and common patterns
+- **auth-session-architecture.md** - Authentication and session management architecture
+- **backend-common-architecture.md** - Shared utilities and common patterns
+- **data-access-layer-architecture.md** - Database layer (TypeORM) architecture
+- **web-server-architecture.md** - Backend (NestJS) architecture patterns and conventions
+- **web-ui-architecture.md** - Frontend (Angular) architecture patterns and conventions
 
-### Guidelines & Standards
+### Standards
 
-Rules and frameworks for AI decision-making:
+Strict rules and conventions to follow:
 
 - **api-documentation-standards.md** - Swagger/OpenAPI documentation patterns (auto-apply when creating endpoints)
-- **logging-guidelines.md** - Logging standards, patterns, and best practices
-- **security-best-practices.md** - Security rules for code generation
+- **security-standards.md** - Security rules for code generation
+
+### Guidelines
+
+Best practices and decision frameworks for AI decision-making:
+
 - **ai-testing-guidelines.md** - How AI should approach testing in this codebase
-- **code-coverage-exclusions.md** - Decision framework for what to test vs. exclude from coverage
+- **code-coverage-guidelines.md** - Decision framework for what to test vs. exclude from coverage
+- **database-migration-guidelines.md** - Database migration guidelines and patterns
+- **logging-guidelines.md** - Logging standards, patterns, and best practices
 
-### Technical Reference
-
-Detailed reference documentation:
-
-- **api-reference.md** - Complete API documentation with examples
-- **auth-session-model.md** - Authentication and session management architecture
-- **migration-scripts.md** - Database migration guidelines and patterns
+**API Documentation:** See auto-generated Swagger UI at `http://localhost:3030/api/docs` (source of truth)
 
 ## How AI Uses These Documents
 

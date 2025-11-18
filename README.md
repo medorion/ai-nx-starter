@@ -449,8 +449,7 @@ docker-compose logs -f web-ui # Frontend logs
 - **[/prompts/](./prompts/)** - Step-by-step task templates
 - **[/documents/](./documents/)** - Architecture and AI context
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
-- **[API Reference](./documents/api-reference.md)** - Complete API documentation
-- **[documents/](./documents)** - Technical guides
+- **[API Documentation](http://localhost:3030/api/docs)** - Interactive Swagger UI (auto-generated)
 
 ### AI Workflow Templates
 

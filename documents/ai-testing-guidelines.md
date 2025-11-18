@@ -12,14 +12,14 @@ When asked to create tests or improve coverage, follow this workflow:
 
 Before writing any tests, ask these questions:
 
-1. **Read the exclusion guidelines**: Check `documents/code-coverage-exclusions.md`
+1. **Read the exclusion guidelines**: Check `documents/code-coverage-guidelines.md`
 2. **Check current exclusions**: Look at the relevant `jest.config.ts` file
 3. **Identify the code type**: Is it business logic, infrastructure, configuration, or presentation?
 4. **Review the decision framework**: Does this code fit exclusion criteria?
 
 ### Step 2: Make a Decision
 
-Use the decision tree from `code-coverage-exclusions.md`:
+Use the decision tree from `code-coverage-guidelines.md`:
 
 ```
 Is this code business critical?
@@ -322,7 +322,7 @@ If user questions your approach:
 
 ```
 I understand the auth service is complex, but according to our
-coverage exclusion guidelines (documents/code-coverage-exclusions.md):
+coverage exclusion guidelines (documents/code-coverage-guidelines.md):
 
 ❌ Auth/authorization is explicitly listed as code that should
    NEVER be excluded (security-critical)
@@ -394,7 +394,7 @@ Let me start with the service tests...
 
 Before creating tests, review these files:
 
-1. **Coverage exclusions**: `documents/code-coverage-exclusions.md`
+1. **Coverage exclusions**: `documents/code-coverage-guidelines.md`
 2. **Package Jest config**: `apps/[app-name]/jest.config.ts` or `packages/[pkg-name]/jest.config.ts`
 3. **Global Jest config**: `jest.preset.js`
 4. **Existing test patterns**: Similar `*.spec.ts` files in the same directory
@@ -583,7 +583,7 @@ AI Response:
 apps/web-ui/src/app/layout/header/header.component.ts
 
 Note: This is a presentational component (mostly template/animations).
-Per our coverage guidelines (documents/code-coverage-exclusions.md),
+Per our coverage guidelines (documents/code-coverage-guidelines.md),
 presentation components are excluded from coverage since they're better
 tested via E2E tests.
 

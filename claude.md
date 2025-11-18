@@ -74,7 +74,7 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 ## Framework Rules
 
-**📖 Read `documents/security-best-practices.md` before creating DTOs or endpoints**
+**📖 Read `documents/security-standards.md` before creating DTOs or endpoints**
 **📖 Read `documents/api-documentation-standards.md` when creating/modifying controllers**
 
 - NG-ZORRO components, OnPush change detection, reactive forms, LESS styling
@@ -97,7 +97,7 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 
 **IMPORTANT:** Before creating tests or suggesting coverage exclusions:
 
-1. ✅ **READ** `documents/code-coverage-exclusions.md` - Decision framework for what to test vs. exclude
+1. ✅ **READ** `documents/code-coverage-guidelines.md` - Decision framework for what to test vs. exclude
 2. ✅ **READ** `documents/ai-testing-guidelines.md` - How AI should approach testing in this codebase
 3. ✅ **CHECK** existing `jest.config.ts` files for current exclusions
 4. ✅ **FOLLOW** the decision tree: Business logic = MUST TEST, Infrastructure = Consider excluding
@@ -129,18 +129,27 @@ Frontend: `[feature]-[type].component.ts` (kebab-case)
 **When to use:** For understanding architecture, patterns, and decision frameworks
 **For:** AI assistants (auto-loaded as context)
 
+**Architecture:**
+
+- **`auth-session-architecture.md`** - Authentication and session management architecture
+- **`backend-common-architecture.md`** - Shared utilities and patterns
+- **`data-access-layer-architecture.md`** - Database layer architecture
+- **`web-server-architecture.md`** - Backend architecture and patterns
+- **`web-ui-architecture.md`** - Frontend architecture and patterns
+
+**Standards:**
+
 - **`api-documentation-standards.md`** - Swagger/OpenAPI documentation patterns (auto-apply when creating endpoints)
-- **`api-reference.md`** - Complete API documentation with examples
-- **`auth-session-model.md`** - Authentication and session management architecture
-- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
-- **`security-best-practices.md`** - Security guidelines for implementation
-- **`web-server-techical.md`** - Backend architecture and patterns
-- **`web-ui-technical.md`** - Frontend architecture and patterns
-- **`data-access-layer-techical.md`** - Database layer architecture
-- **`common-techical.md`** - Shared utilities and patterns
-- **`migration-scripts.md`** - Database migration guidelines
-- **`code-coverage-exclusions.md`** - Guidelines for what code to exclude from coverage (for humans & AI)
+- **`security-standards.md`** - Security guidelines for implementation
+
+**Guidelines:**
+
 - **`ai-testing-guidelines.md`** - How AI assistants should approach testing in this codebase
+- **`code-coverage-guidelines.md`** - Decision framework for what to test vs. exclude from coverage
+- **`database-migration-guidelines.md`** - Database migration guidelines
+- **`logging-guidelines.md`** - Logging standards, patterns, and best practices
+
+**Reference:**
 
 ## Reference Examples
 
