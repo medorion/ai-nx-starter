@@ -353,7 +353,6 @@ For platform-specific guidance, refer to official documentation:
 
 - **Security concerns**: See [SECURITY.md](./SECURITY.md)
 - **Architecture questions**: See [/documents/](./documents/)
-- **Roadmap & planned improvements**: See [ROADMAP.md](./ROADMAP.md)
 - **Community support**: [GitHub Discussions](https://github.com/YOUR_ORG/ai-nx-starter/discussions)
 
 ---

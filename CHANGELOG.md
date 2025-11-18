@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- **`ROADMAP.md`** - Removed placeholder roadmap file
+  - Project is in active development; roadmap will be added when ready
+  - Removed references from README.md and DEPLOYMENT.md
+
 ## [1.4.1] - 2025-11-12
 
 ### Changed

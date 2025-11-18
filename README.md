@@ -575,24 +575,11 @@ Before using AI-Nx-Starter in production, be aware of these limitations:
 
 We're working to address these limitations. See:
 
-- [ROADMAP.md](./ROADMAP.md) for planned improvements
 - [SECURITY.md](./SECURITY.md) for security considerations
 - [DEPLOYMENT.md](./DEPLOYMENT.md) for production guidance
 - [CHANGELOG.md](./CHANGELOG.md) for tracking progress
 
 **Contributions welcome!** Help us improve test coverage, security, and documentation.
-
-## 🗺️ Roadmap
-
-See [ROADMAP.md](./ROADMAP.md) for planned features.
-
-**Coming Soon:**
-
-- GraphQL support
-- Microservices template
-- More AI prompt templates
-- Video tutorials
-- Performance benchmarks
 
 ## 🔧 Troubleshooting
 
