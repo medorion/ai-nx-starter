@@ -96,8 +96,3 @@ UI Requirements:
 
 [... rest of the prompt ...]
 ```
-
-## Time Estimate
-
-With AI: 10-15 minutes
-Without AI: 45-60 minutes

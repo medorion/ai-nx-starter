@@ -36,7 +36,8 @@ Requirements:
 10. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
     - [entity]-list component (with table, pagination, search)
     - [entity]-form component (create/edit)
-    Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
+    - Follow detailed UI guidance in prompts/create-ui-component.md
+    - Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
 
 Architecture Rules:
 - Use @ai-nx-starter/types for DTOs (class-validator ONLY, NO @ApiProperty)
@@ -85,8 +86,3 @@ Entity Fields:
 
 [... rest of the prompt ...]
 ```
-
-## Time Estimate
-
-With AI: 20-30 minutes
-Without AI: 2-3 hours
