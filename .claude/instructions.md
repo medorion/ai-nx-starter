@@ -63,7 +63,7 @@ Before considering any file complete:
 
 ## Documentation Policy
 
-- **DO NOT** generate document files (*.md) unless explicitly requested by the user
+- **DO NOT** generate document files (\*.md) unless explicitly requested by the user
 - Only create documentation when the user specifically asks for it
 - NEVER create README files proactively
 
@@ -103,13 +103,51 @@ This is an Nx monorepo with the following structure:
 
 **All new functionality MUST include unit tests** - see `documents/ai-testing-guidelines.md` for detailed guidance.
 
-**Testing commands:**
+### Running Tests
 
-- `npm run test` - Run all tests
-- `npm run test:coverage` - Run with coverage check (must meet 80% threshold)
+**All packages:**
 
-**Before committing:**
+```bash
+npm run test          # Run all tests
+npm run test:coverage # Run with coverage (global thresholds enforced)
+```
+
+**Specific package (recommended for faster feedback):**
+
+```bash
+npx nx test web-server --coverage        # Backend only
+npx nx test web-ui --coverage            # Frontend only
+npx nx test data-access-layer --coverage # Database layer only
+```
+
+### Understanding Coverage Results
+
+**Coverage will FAIL if thresholds are not met:**
+
+- 80% statements
+- 80% lines
+- 60% branches
+- 60% functions
+
+**Look for red error messages like:**
+
+```
+Jest: "global" coverage threshold for statements (80%) not met: 74.07%
+Jest: "global" coverage threshold for lines (80%) not met: 74.66%
+```
+
+**Exit code 1 = coverage failure**
+
+**When coverage fails:**
+
+1. Review terminal output to see which files lack coverage
+2. Write additional tests to cover untested code paths
+3. OR exclude files per `documents/code-coverage-guidelines.md` (only for infrastructure/presentation code)
+
+### Before Committing
 
 1. ✅ Write unit tests for all new code
-2. ✅ Run `npm run test:coverage` to verify tests pass and coverage meets 80%
-3. ✅ Fix any failing tests before committing
+2. ✅ Run `npm run test` to verify tests pass
+3. ✅ Run `npm run test:coverage` to verify coverage meets 80% threshold
+4. ✅ If coverage fails, write more tests or exclude files appropriately
+5. ✅ Fix any failing tests before committing

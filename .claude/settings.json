@@ -1,9 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run test)",
+      "Bash(npm run test *)",
       "Bash(npm run build)",
-      "Bash(npm run test:coverage)",
+      "Bash(npm run test:coverage *)",
       "Bash(npm run lint)",
       "Bash(npm run gen-api-client)",
       "Bash(npm run format:check)",

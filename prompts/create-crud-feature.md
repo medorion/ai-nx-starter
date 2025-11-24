@@ -32,8 +32,11 @@ Requirements:
    - Test all CRUD operations and error cases
    - Mock dependencies with jest.fn()
 8. Run: npm run test - Ensure all tests pass
-9. Run: npm run test:coverage - Verify coverage meets 80% threshold
-   - If coverage fails, write additional tests or exclude files per documents/code-coverage-guidelines.md
+9. Run: npx nx test web-server --coverage
+   - Verify new feature files show good coverage (aim for 80%+)
+   - Check terminal output for coverage summary
+   - If coverage fails, write additional tests for uncovered code paths
+   - See documents/code-coverage-guidelines.md for guidance on what to test vs. exclude
 10. Run: npm run gen-api-client
 11. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
     - [entity]-list component (with table, pagination, search)
