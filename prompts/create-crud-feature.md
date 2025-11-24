@@ -43,6 +43,23 @@ Requirements:
     - [entity]-form component (create/edit)
     - Follow detailed UI guidance in prompts/create-ui-component.md
     - Follow the pattern in apps/web-ui/src/app/features/backoffice/users/
+12. Run: npm run build
+    - **CRITICAL:** Fix any build errors before proceeding
+    - Common issues: missing imports, incorrect component declarations, routing errors
+13. **REQUIRED:** Write unit tests for UI components (*.spec.ts files)
+    - Follow pattern in apps/web-ui/src/app/features/backoffice/users/components/
+    - Test component initialization, form validation, API calls
+    - Mock services with jest.fn()
+14. Run: npx nx test web-ui --coverage
+    - Verify UI components show good coverage
+    - Check terminal output for coverage summary
+15. Run: npm run format:fix
+    - Ensure all files are properly formatted
+16. Final verification:
+    - Run: npm run build (verify entire project builds)
+    - Run: npm run lint (verify no lint errors)
+    - Manually test the UI at http://localhost:4200
+    - Verify Swagger docs at http://localhost:3030/api/docs
 
 Architecture Rules:
 - Use @ai-nx-starter/types for DTOs (class-validator ONLY, NO @ApiProperty)
@@ -51,13 +68,7 @@ Architecture Rules:
 - Use NG-ZORRO components in UI
 - Follow kebab-case naming for files
 - Use PascalCase for classes
-
-After EACH step:
-- Run: npm run build
-- Run: npm run test (after writing tests)
-- Verify Swagger UI at http://localhost:3030/api/docs
-- Fix any errors before proceeding
-- Confirm completion before moving to next step
+- Fix errors immediately when they occur - don't skip steps
 ```
 
 ## Placeholders
