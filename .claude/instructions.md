@@ -6,12 +6,17 @@ These rules apply to all code in this monorepo.
 
 **IMPORTANT:** Before starting any task, consult the relevant documentation:
 
-- **`/prompts/`** - AI prompt templates for common tasks (CRUD, endpoints, UI, tests, etc.)
-  - Read the relevant prompt BEFORE starting to ensure you follow all requirements
-- **`/documents/`** - Technical reference docs (API reference, architecture, auth model, etc.)
-  - Consult when you need to understand patterns or implementation details
 - **`CLAUDE.md`** - Quick reference guide (always read first)
-- **`.claude/instructions.md`** - This file (comprehensive rules and standards)
+- **`/prompts/`** - Step-by-step task templates for common workflows (CRUD, UI components, etc.)
+  - Use when you need structured guidance for specific tasks
+- **`/documents/`** - Technical architecture and standards documentation
+  - `api-documentation-standards.md` - Swagger/OpenAPI patterns (auto-applied when creating endpoints)
+  - `ai-testing-guidelines.md` - Testing approach and coverage decisions (auto-applied when writing tests)
+  - `security-standards.md` - Validation, authentication, authorization patterns
+  - `logging-guidelines.md` - Backend (PinoLogger) and frontend (LoggerService) logging
+  - Architecture docs for each layer (web-server, web-ui, data-access-layer, etc.)
+
+**Documentation will be automatically applied based on context** - you don't need to read every file manually.
 
 ## Package Management
 
@@ -54,196 +59,57 @@ Before considering any file complete:
 3. ✅ Use proper indentation (2 spaces, no tabs)
 4. ✅ Add trailing commas to all multi-line objects/arrays/functions
 5. ✅ Use single quotes for strings
+6. ✅ Run `npm run format:fix` immediately after creating/modifying files
 
-## Documentation
+## Documentation Policy
 
-- **DO NOT** generate document files unless explicitly requested by the user
+- **DO NOT** generate document files (*.md) unless explicitly requested by the user
 - Only create documentation when the user specifically asks for it
+- NEVER create README files proactively
 
 ## Monorepo Structure
 
 This is an Nx monorepo with the following structure:
 
-- `/apps/web-ui` - Angular frontend application
-- `/apps/web-server` - NestJS backend application
-- `/packages/api-client` - HTTP client for API communication
+- `/apps/web-ui` - Angular 19 frontend application
+- `/apps/web-server` - NestJS 11 backend application
+- `/packages/api-client` - Auto-generated HTTP client from controllers
 - `/packages/backend-common` - Shared backend utilities and exceptions
 - `/packages/data-access-layer` - TypeORM database access layer
 - `/packages/types` - Shared types, DTOs, enums, and constants
 
 ## Cross-Package Dependencies
 
-- Frontend (`web-ui`) uses `api-client` for HTTP communication
-- Backend (`web-server`) uses `data-access-layer` for database access
-- Both frontend and backend use `types` package for shared types
-- Backend uses `backend-common` for shared utilities and error handling
+**CRITICAL RULES:**
 
-## API Documentation (Swagger/OpenAPI)
+- **NEVER** use relative paths to import from packages - use `@ai-nx-starter/*` imports
+- **NEVER** import TypeORM directly in `web-server` - use `data-access-layer` services
+- **NEVER** create manual HTTP services - use auto-generated `@ai-nx-starter/api-client`
 
-**CRITICAL**: All API endpoints MUST include Swagger documentation decorators.
+**Dependency flow:**
 
-### Required Decorators for Controllers
+- Frontend (`web-ui`) → `api-client` → HTTP requests to backend
+- Backend (`web-server`) → `data-access-layer` → TypeORM → Database
+- Both frontend and backend → `types` for shared DTOs, enums, constants
+- Backend → `backend-common` for utilities, exceptions, guards
 
-When creating or modifying ANY controller endpoint, you MUST add:
+## API Documentation
 
-1. **@ApiOperation** - Summary and description of the endpoint
-2. **@ApiResponse** - For ALL status codes (200, 201, 400, 401, 403, 404, etc.)
-3. **@ApiParam** - For path parameters (with examples)
-4. **@ApiQuery** - For query parameters (with examples)
-5. **@ApiBody** - For request bodies (inline schema or DTO reference)
-6. **@ApiBearerAuth('bearer')** - If authentication is required
-7. **@ApiTags** - At controller level for grouping
+**All endpoints MUST have Swagger decorators** - see `documents/api-documentation-standards.md` for detailed patterns.
 
-### DTOs and Swagger
-
-**NEVER add @ApiProperty decorators to DTOs in packages/types**
-
-- DTOs should only have class-validator decorators (@IsString, @IsEmail, @MinLength, etc.)
-- Swagger decorators belong ONLY in controllers
-- DTOs are shared with frontend and must remain framework-agnostic
-
-### Example Reference
-
-Follow the pattern in `apps/web-server/src/app/features/user/user.controller.ts`:
-
-```typescript
-@ApiTags('Users')
-@ApiBearerAuth('bearer')
-@Controller('users')
-export class UserController {
-  @ApiOperation({ summary: 'Get all users', description: 'Retrieve list with pagination' })
-  @ApiQuery({ name: 'limit', required: false, example: 10 })
-  @ApiResponse({ status: 200, description: 'Success', type: [UserDto] })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
-  @Authorize(Role.Admin)
-  @Get()
-  async findAll(@Query('limit') limit?: number) {}
-}
-```
-
-### Verification
-
-After implementing endpoints:
-
-1. Run `npm run build`
-2. Verify at http://localhost:3030/api/docs
-3. Check all parameters, responses, and examples are correct
-
-See `documents/api-documentation-standards.md` for detailed patterns and examples.
+**Critical rule:** NEVER add `@ApiProperty` decorators to DTOs in `packages/types` - Swagger decorators belong ONLY in controllers.
 
 ## Unit Testing
 
-**CRITICAL**: All new functionality and API endpoints MUST include unit tests.
+**All new functionality MUST include unit tests** - see `documents/ai-testing-guidelines.md` for detailed guidance.
 
-### Testing Requirements
-
-When creating or modifying code, you MUST write tests for:
-
-1. **Controllers** - Test all endpoints with different scenarios
-   - Success cases
-   - Error cases (400, 401, 403, 404, etc.)
-   - Different input combinations
-   - Authorization checks
-
-2. **Services** - Test business logic
-   - All public methods
-   - Edge cases and error handling
-   - Mock dependencies (DbServices, external services)
-
-3. **Mappers** - Test entity ↔ DTO conversions
-   - Both directions (entity to DTO, DTO to entity)
-   - Null/undefined handling
-   - Partial updates
-
-4. **DbServices** - Test database operations
-   - CRUD operations
-   - Query methods
-   - Error handling
-
-### Testing Standards
-
-- **Framework**: Jest
-- **Coverage Target**: Aim for >80% coverage
-- **File Naming**: `*.spec.ts` next to the file being tested
-- **Test Structure**: Describe blocks for each method, it blocks for each scenario
-- **Mocking**: Use `jest.fn()` for mocks, never empty arrow functions
-
-### Example Reference
-
-Follow the pattern in `apps/web-server/src/app/features/user/`:
-
-- `user.controller.spec.ts` - Controller tests
-- `user.service.spec.ts` - Service tests
-- `user.mapper.spec.ts` - Mapper tests
-
-### Test Template
-
-```typescript
-describe('FeatureController', () => {
-  let controller: FeatureController;
-  let service: FeatureService;
-
-  beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      controllers: [FeatureController],
-      providers: [
-        {
-          provide: FeatureService,
-          useValue: {
-            findAll: jest.fn(),
-            create: jest.fn(),
-            // ... other methods
-          },
-        },
-      ],
-    }).compile();
-
-    controller = module.get<FeatureController>(FeatureController);
-    service = module.get<FeatureService>(FeatureService);
-  });
-
-  describe('findAll', () => {
-    it('should return array of items', async () => {
-      const result = [
-        /* mock data */
-      ];
-      jest.spyOn(service, 'findAll').mockResolvedValue(result);
-
-      expect(await controller.findAll()).toBe(result);
-    });
-
-    it('should handle errors', async () => {
-      jest.spyOn(service, 'findAll').mockRejectedValue(new Error('DB error'));
-
-      await expect(controller.findAll()).rejects.toThrow('DB error');
-    });
-  });
-});
-```
-
-### Running Tests
+**Testing commands:**
 
 - `npm run test` - Run all tests
-- `npx nx test web-server` - Test backend only
-- `npx nx test web-ui` - Test frontend only
-- `npx nx test web-server --testPathPattern=user` - Test specific file
+- `npm run test:coverage` - Run with coverage check (must meet 80% threshold)
 
-### Before Committing
+**Before committing:**
 
 1. ✅ Write unit tests for all new code
-2. ✅ Run `npm run test:coverage` to ensure all tests pass with coverage
-3. ✅ Verify coverage meets 80% threshold (enforced globally)
-4. ✅ Fix any failing tests before committing
-5. ✅ View coverage report: `coverage/index.html` in browser
-
-### Coverage Tools
-
-- **Local Development**: Run `npm run test:coverage` to generate reports
-  - HTML report: `coverage/index.html`
-  - LCOV report: `coverage/**/lcov.info` (for CI)
-  - Terminal summary shows coverage percentages
-- **CI Integration**: Codecov automatically uploads and tracks coverage
-  - Coverage badge in README shows current coverage
-  - PRs show coverage diff in comments
-  - Builds fail if coverage drops below 80%
-- **Configuration**: See `.codecov.yml` for coverage rules and thresholds
+2. ✅ Run `npm run test:coverage` to verify tests pass and coverage meets 80%
+3. ✅ Fix any failing tests before committing

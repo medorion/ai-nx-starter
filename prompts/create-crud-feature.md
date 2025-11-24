@@ -32,8 +32,10 @@ Requirements:
    - Test all CRUD operations and error cases
    - Mock dependencies with jest.fn()
 8. Run: npm run test - Ensure all tests pass
-9. Run: npm run gen-api-client
-10. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
+9. Run: npm run test:coverage - Verify coverage meets 80% threshold
+   - If coverage fails, write additional tests or exclude files per documents/code-coverage-guidelines.md
+10. Run: npm run gen-api-client
+11. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
     - [entity]-list component (with table, pagination, search)
     - [entity]-form component (create/edit)
     - Follow detailed UI guidance in prompts/create-ui-component.md
@@ -72,17 +74,47 @@ After EACH step:
 ## Example Usage
 
 ```
-Create a complete CRUD feature for Product with the following specifications:
+  Read CLAUDE.md for project rules.
 
-Entity Fields:
-- id: string (auto-generated UUID)
-- name: string (required, min 3 chars)
-- description: string (optional)
-- price: number (required, min 0)
-- category: string (required)
-- inStock: boolean (default true)
-- createdAt: Date (auto-generated)
-- updatedAt: Date (auto-updated)
+  Create a Team management feature with the following specifications:
 
-[... rest of the prompt ...]
+  Entity Fields:
+  - id: string (auto-generated UUID)
+  - name: string (required, 3-100 chars, unique)
+  - description: string (optional, max 500 chars)
+  - ownerId: string (required, reference to User)
+  - memberIds: string[] (array of User IDs)
+  - createdAt: Date (auto-generated)
+  - updatedAt: Date (auto-updated)
+
+  Requirements:
+  1. Create TeamDto, CreateTeamDto, UpdateTeamDto in packages/types/src/dto/features/teams/
+  2. Create Team entity in packages/data-access-layer/src/features/team/entities/team.entity.ts
+  3. Create TeamDbService in packages/data-access-layer/src/features/team/services/team.db-service.ts
+  4. Create TeamController in apps/web-server/src/app/features/team/team.controller.ts
+     - **REQUIRED:** Add Swagger decorators to ALL endpoints (@ApiOperation, @ApiResponse, @ApiBearerAuth)
+     - Include endpoints:
+       * GET /teams - List all teams
+       * GET /teams/:id - Get single team with populated owner and members
+       * POST /teams - Create new team (creator becomes owner)
+       * PUT /teams/:id - Update team details
+       * DELETE /teams/:id - Delete team
+       * POST /teams/:id/members - Add user to team
+       * DELETE /teams/:id/members/:userId - Remove user from team
+  5. Create TeamService in apps/web-server/src/app/features/team/team.service.ts
+  6. Create TeamMapper in apps/web-server/src/app/features/team/team.mapper.ts
+  7. **REQUIRED:** Write unit tests for controller, service, and mapper (*.spec.ts files)
+  8. Run: npm run test - Ensure all tests pass
+  9. Run: npm run test:coverage - Verify coverage meets 80% threshold
+  10. Run: npm run gen-api-client
+  11. Create UI in apps/web-ui/src/app/features/backoffice/teams/
+      - teams-list component (table showing teams with owner and member count)
+      - team-form component (create/edit modal)
+      - team-members component (manage team members with add/remove functionality)
+        * Display list of current members
+        * Dropdown/select to add users from available users
+        * Remove button for each member
+        * Show team owner (cannot be removed)
+
+  Follow the workflow in prompts/create-crud-feature.md
 ```

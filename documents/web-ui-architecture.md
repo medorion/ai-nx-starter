@@ -146,4 +146,30 @@ Use Decorators for loggings and utilities.
 
 - See example in features/zorro-components/list-item
 
+### Adding New UI Features
+
+When creating a new UI feature, **ALWAYS** ensure it's accessible via routing and navigation:
+
+1. **Create feature module structure:**
+   - `[feature].module.ts` - Feature module declaration
+   - `[feature]-routing.module.ts` - Feature-level routes
+   - Component directories with necessary components
+
+2. **Register routing:**
+   - Add route to the appropriate parent routing module
+   - If the location is ambiguous, **ask the user where the feature should be accessible** (e.g., "Should this be under /backoffice/, /examples/, or a top-level route?")
+   - Use lazy-loading for feature modules
+
+3. **Add navigation access:**
+   - Add menu item/link to `header.component.html` or appropriate navigation component
+   - Use appropriate NG-ZORRO icon that matches the feature purpose
+   - If unclear where to add navigation, **ask the user** (e.g., "Should I add a menu item under the Backoffice submenu, Examples submenu, or create a new top-level menu item?")
+
+4. **Example patterns:**
+   - **Backoffice features** (e.g., users, teams): Registered in `backoffice-routing.module.ts`, menu item in "Backoffice" submenu
+   - **Example/demo features**: Registered in `examples-routing.module.ts`, menu item in "Examples" submenu
+   - Reference existing features for structure
+
+**RULE:** Never create a UI feature without routing and navigation access unless explicitly told otherwise by the user.
+
 ### Minimal feature flag
