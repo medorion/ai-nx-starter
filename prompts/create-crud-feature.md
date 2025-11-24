@@ -60,6 +60,13 @@ Requirements:
     - Run: npm run lint (verify no lint errors)
     - Manually test the UI at http://localhost:4200
     - Verify Swagger docs at http://localhost:3030/api/docs
+17. (Optional) Write E2E tests in apps/web-ui-e2e/src/[entity].spec.ts
+    - Test complete user workflows (create, read, update, delete)
+    - Follow pattern in apps/web-ui-e2e/src/auth.spec.ts
+    - Use Playwright test helpers from apps/web-ui-e2e/src/support/helpers.ts
+    - Run: npm run e2e
+    - Recommended for: Critical user flows, complex features, multi-step workflows
+    - Can skip for: Simple CRUD features already covered by unit tests
 
 Architecture Rules:
 - Use @ai-nx-starter/types for DTOs (class-validator ONLY, NO @ApiProperty)
