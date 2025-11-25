@@ -126,16 +126,18 @@ Architecture Rules:
   6. Create TeamMapper in apps/web-server/src/app/features/team/team.mapper.ts
   7. **REQUIRED:** Write unit tests for controller, service, and mapper (*.spec.ts files)
   8. Run: npm run test - Ensure all tests pass
-  9. Run: npm run test:coverage - Verify coverage meets 80% threshold
+  9. Run: npx nx test web-server --coverage
   10. Run: npm run gen-api-client
   11. Create UI in apps/web-ui/src/app/features/backoffice/teams/
       - teams-list component (table showing teams with owner and member count)
       - team-form component (create/edit modal)
       - team-members component (manage team members with add/remove functionality)
-        * Display list of current members
-        * Dropdown/select to add users from available users
-        * Remove button for each member
-        * Show team owner (cannot be removed)
+  12. Run: npm run build - Fix any build errors
+  13. **REQUIRED:** Write unit tests for UI components (*.spec.ts files)
+  14. Run: npx nx test web-ui --coverage
+  15. Run: npm run format:fix
+  16. Final verification: build + lint + manual test
+  17. (Optional) Write E2E tests for team workflows
 
   Follow the workflow in prompts/create-crud-feature.md
 ```
