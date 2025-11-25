@@ -129,9 +129,15 @@ Architecture Rules:
   9. Run: npx nx test web-server --coverage
   10. Run: npm run gen-api-client
   11. Create UI in apps/web-ui/src/app/features/backoffice/teams/
-      - teams-list component (table showing teams with owner and member count)
-      - team-form component (create/edit modal)
-      - team-members component (manage team members with add/remove functionality)
+      - teams-list component:
+        * NG-ZORRO table showing teams with owner and member count
+        * "Manage Members" button in each row that opens team-members modal
+      - team-form component (create/edit modal for team name/description)
+      - team-members component (modal for managing team members):
+        * Display current team members list
+        * Dropdown to select and add users to team (calls POST /teams/:id/members)
+        * Remove button for each member (calls DELETE /teams/:id/members/:userId)
+        * Show team owner (cannot be removed)
   12. Run: npm run build - Fix any build errors
   13. **REQUIRED:** Write unit tests for UI components (*.spec.ts files)
   14. Run: npx nx test web-ui --coverage
