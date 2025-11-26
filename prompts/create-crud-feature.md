@@ -31,12 +31,14 @@ Requirements:
    - Follow pattern in apps/web-server/src/app/features/user/
    - Test all CRUD operations and error cases
    - Mock dependencies with jest.fn()
-8. Run: npm run test - Ensure all tests pass
-9. Run: npx nx test web-server --coverage
-   - Verify new feature files show good coverage (aim for 80%+)
+   - **MUST achieve 80% coverage** (statements, lines, branches 60%, functions 60%)
+8. Run: npx nx test web-server --coverage
+   - **CRITICAL:** All tests must pass AND coverage must meet 80% threshold
    - Check terminal output for coverage summary
-   - If coverage fails, write additional tests for uncovered code paths
+   - If tests fail: Fix the failing tests
+   - If coverage fails: Write additional tests for uncovered code paths
    - See documents/code-coverage-guidelines.md for guidance on what to test vs. exclude
+   - **Do not proceed to next step until both tests pass and coverage is met**
 10. Run: npm run gen-api-client
 11. Create UI components in apps/web-ui/src/app/features/backoffice/[entity]/
     - [entity]-list component (with table, pagination, search)
@@ -145,5 +147,5 @@ Architecture Rules:
   16. Final verification: build + lint + manual test
   17. (Optional) Write E2E tests for team workflows
 
-  Follow the workflow in prompts/create-crud-feature.md
+  **REQUIRED** Follow the workflow in prompts/create-crud-feature.md
 ```
