@@ -7,11 +7,82 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2025-11-27
+
+### Added
+
+- **Complete CRUD Workflow Template** - Enhanced `prompts/create-crud-feature.md` to 16-step comprehensive workflow
+  - Added build verification after UI creation (Step 11)
+  - Added UI component testing requirements (Step 12)
+  - Added UI coverage verification (Step 13)
+  - Added format fix step (Step 14)
+  - Added final verification step (Step 15: build + lint + manual test + Swagger)
+  - Added optional E2E testing guidance (Step 16)
+  - Consolidated backend testing into single step with explicit coverage requirements
+  - Made coverage thresholds explicit: 80% statements/lines, 60% branches/functions
+
+- **UI Navigation Guidance** - Added "Adding New UI Features" section to `documents/web-ui-architecture.md`
+  - Ensures routing and navigation are always added for new features
+  - Provides clear guidance on where to add menu items
+  - Instructs AI to ask for clarification when location is ambiguous
+
+- **Coverage Testing Documentation** - Enhanced `\.claude/instructions.md` with comprehensive testing guidance
+  - How to run coverage for all packages vs. specific packages
+  - Understanding coverage failure messages and exit codes
+  - Clear instructions on what to do when coverage fails
+  - Package-specific commands for faster feedback
+
+- **Team Example Improvements** - Made Team feature example more explicit and realistic
+  - Added member management functionality (add/remove users)
+  - Specified "Manage Members" button in table rows
+  - Detailed team-members modal with dropdown and remove buttons
+  - Explicit API endpoint calls for member operations
+
+### Changed
+
+- **Documentation Simplification** - Reduced redundancy and improved clarity
+  - `.claude/instructions.md`: 249 → 149 lines (40% reduction)
+    - Removed redundant Swagger/Testing details already in `/documents/`
+    - Kept unique content: file checklist, monorepo structure, dependencies
+  - `.claude/README.md`: 101 → 59 lines (42% reduction)
+    - Removed verbose examples and migration history
+    - Focused on essential how-to-use information
+
+- **CRUD Template Cross-References** - Added explicit reference to `prompts/create-ui-component.md` in step 10
+  - Ensures AI applies detailed UI guidance during CRUD workflows
+  - Better integration between templates
+
+- **Coverage Commands** - Updated to use package-specific commands for clearer output
+  - Backend: `npx nx test web-server --coverage` instead of global `npm run test:coverage`
+  - Frontend: `npx nx test web-ui --coverage`
+  - Provides faster feedback and more focused results
+
 ### Removed
+
+- **Windsurf Support** - Removed all Windsurf references and configuration
+  - Deleted 7 `.windsurfrules` files (root + 6 package directories)
+  - Deleted `AI-TOOLS.md` (245 lines comparing AI tools)
+  - Updated README.md, CONTRIBUTING.md, and documentation to mention only Claude Code
+  - Focusing on Claude Code provides better maintained, hierarchical configuration
 
 - **`ROADMAP.md`** - Removed placeholder roadmap file
   - Project is in active development; roadmap will be added when ready
   - Removed references from README.md and DEPLOYMENT.md
+
+### Fixed
+
+- **Missing UI Testing** - AI agents were skipping UI component tests and builds
+  - Template now explicitly requires UI tests with coverage verification
+  - Build step prevents proceeding with broken code
+
+- **Missing Navigation** - AI agents were creating UI features without routing/navigation access
+  - Architecture documentation now mandates routing and menu items
+  - AI asks for clarification when location is ambiguous
+
+- **Coverage Confusion** - AI agents struggled to run and interpret coverage results
+  - Added clear commands with expected output examples
+  - Explicit guidance on what coverage failure looks like
+  - Instructions on how to fix coverage issues
 
 ## [1.4.1] - 2025-11-12
 

@@ -22,7 +22,7 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster.
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/YOUR_ORG/ai-nx-starter.git
+git clone https://github.com/medorion/ai-nx-starter.git
 cd ai-nx-starter
 pnpm install
 ```
@@ -53,15 +53,57 @@ npm run start
 
 ```
 Read CLAUDE.md for project rules.
-Then create a Product CRUD feature with these fields:
-- name (string, required)
-- price (number, required)
-- description (string, optional)
 
-Follow the workflow in prompts/create-crud-feature.md
+  Create a Team management feature with the following specifications:
+
+  Entity Fields:
+  - id: string (auto-generated UUID)
+  - name: string (required, 3-100 chars, unique)
+  - description: string (optional, max 500 chars)
+  - ownerId: string (required, reference to User)
+  - memberIds: string[] (array of User IDs)
+  - createdAt: Date (auto-generated)
+  - updatedAt: Date (auto-updated)
+
+  Requirements:
+  1. Create TeamDto, CreateTeamDto, UpdateTeamDto in packages/types/src/dto/features/teams/
+  2. Create Team entity in packages/data-access-layer/src/features/team/entities/team.entity.ts
+  3. Create TeamDbService in packages/data-access-layer/src/features/team/services/team.db-service.ts
+  4. Create TeamController in apps/web-server/src/app/features/team/team.controller.ts
+     - **REQUIRED:** Add Swagger decorators to ALL endpoints (@ApiOperation, @ApiResponse, @ApiBearerAuth)
+     - Include endpoints:
+       * GET /teams - List all teams
+       * GET /teams/:id - Get single team with populated owner and members
+       * POST /teams - Create new team (creator becomes owner)
+       * PUT /teams/:id - Update team details
+       * DELETE /teams/:id - Delete team
+       * POST /teams/:id/members - Add user to team
+       * DELETE /teams/:id/members/:userId - Remove user from team
+  5. Create TeamService in apps/web-server/src/app/features/team/team.service.ts
+  6. Create TeamMapper in apps/web-server/src/app/features/team/team.mapper.ts
+  7. **REQUIRED:** Write unit tests for controller, service, and mapper (*.spec.ts files)
+  8. Run: npm run test - Ensure all tests pass
+  9. Run: npx nx test web-server --coverage
+  10. Run: npm run gen-api-client
+  11. Create UI in apps/web-ui/src/app/features/backoffice/teams/
+      - teams-list component:
+        * NG-ZORRO table showing teams with owner and member count
+        * "Manage Members" button in each row that opens team-members modal
+      - team-form component (create/edit modal for team name/description)
+      - team-members component (modal for managing team members):
+        * Display current team members list
+        * Dropdown to select and add users to team (calls POST /teams/:id/members)
+        * Remove button for each member (calls DELETE /teams/:id/members/:userId)
+        * Show team owner (cannot be removed)
+  12. Run: npm run build - Fix any build errors
+  13. **REQUIRED:** Write unit tests for UI components (*.spec.ts files)
+  14. Run: npx nx test web-ui --coverage
+  15. Run: npm run format:fix
+  16. Final verification: build + lint + manual test
+  17. (Optional) Write E2E tests for team workflows
 ```
 
-**What happens:** AI creates DTOs, entities, services, controllers, tests, and UI.
+**What happens:** AI creates DTOs, entities, services, controllers, tests, UI, documentation, e2e, etc.
 
 ## 📁 Project Structure
 
@@ -146,13 +188,6 @@ npm run format:fix    # Auto-format code
 
 ## ⚠️ Current Limitations
 
-**Good for:**
-
-- Learning AI-assisted development
-- Rapid prototyping and MVPs
-- Personal projects
-- Understanding monorepo architecture
-
 **Not production-ready without additional work:**
 
 - No security audit performed
@@ -162,10 +197,6 @@ npm run format:fix    # Auto-format code
 - Limited production deployment examples
 
 See [SECURITY.md](./SECURITY.md) and [DEPLOYMENT.md](./DEPLOYMENT.md) before production use.
-
-## 🔧 Troubleshooting
-
-**Cannot connect to database:**
 
 ## 🤝 Contributing
 
