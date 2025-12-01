@@ -15,7 +15,7 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster.
 - 📖 **Built-in AI rules** - Claude Code auto-applies patterns
 - 🤖 **Auto-generated API clients** - Type-safe Angular services from NestJS controllers
 - ⚡ **Strict conventions** - Clear patterns = faster AI development
-- 🎯 **testing and ci as part of the flow** - comprehensive testing guidelines including coverage and e2e
+- 🎯 **Testing and ci as part of the flow** - comprehensive testing guidelines including coverage and e2e
 
 ## 🚀 Quick Start
 
