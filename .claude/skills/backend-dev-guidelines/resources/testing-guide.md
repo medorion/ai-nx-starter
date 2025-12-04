@@ -61,46 +61,56 @@ I'll write tests for theme.service.ts
 Before creating tests, examine existing test files to understand:
 
 1. **Testing framework conventions**:
-   - Backend uses NestJS testing utilities
-   - Frontend uses Angular TestBed with Jest
+   - Backend uses NestJS testing utilities (`@nestjs/testing`)
+   - Use `Test.createTestingModule()` for service/controller tests
 
 2. **Mock patterns**:
 
    ```typescript
    // Check existing specs to see how they mock services
-   const mockService = {
-     method: jest.fn(),
+   const mockDbService = {
+     findById: jest.fn(),
+     findAll: jest.fn(),
+     create: jest.fn(),
    };
    ```
 
 3. **Test structure**:
+
    ```typescript
-   describe('ServiceName', () => {
-     describe('methodName', () => {
-       it('should handle specific case', () => {
+   describe('UserService', () => {
+     let service: UserService;
+     let mockDbService: jest.Mocked<UserDbService>;
+
+     beforeEach(async () => {
+       const module: TestingModule = await Test.createTestingModule({
+         providers: [UserService, { provide: UserDbService, useValue: mockDbService }],
+       }).compile();
+       service = module.get<UserService>(UserService);
+     });
+
+     describe('findOne', () => {
+       it('should return user when found', async () => {
          // Test implementation
        });
      });
    });
    ```
 
-## Decision Matrix for AI Assistants
+## Decision Matrix for AI Assistants (Backend)
 
-| Code Type                         | Action                       | Reasoning                                | Example                              |
-| --------------------------------- | ---------------------------- | ---------------------------------------- | ------------------------------------ |
-| **Business Logic Service**        | ✅ Write comprehensive tests | Critical functionality, high change rate | `user.service.ts`, `auth.service.ts` |
-| **API Controller**                | ✅ Write tests               | Defines public contracts                 | `user.controller.ts`                 |
-| **Data Mapper**                   | ✅ Write tests               | Data transformation is error-prone       | `user.mapper.ts`                     |
-| **Guards/Interceptors**           | ✅ Write tests               | Security-critical                        | `authorize.guard.ts`                 |
-| **DB Service**                    | ✅ Write tests               | Data access logic                        | `user.db-service.ts`                 |
-| **Component with Business Logic** | ✅ Write tests               | Focus on logic, not templates            | `users-list.component.ts`            |
-| **Pure Utility Functions**        | ✅ Write tests               | Shared code, affects multiple features   | `validation-utils.ts`                |
-| **Theme/State Service**           | ✅ Write tests               | Application state management             | `theme.service.ts`                   |
-| **Header/Footer Component**       | ❌ Suggest exclusion         | Mostly presentational, minimal logic     | `header.component.ts`                |
-| **SSE/WebSocket Service**         | ❌ Suggest exclusion + E2E   | Requires real connections                | `server-side-events.service.ts`      |
-| **Module Declarations**           | ❌ Already excluded          | Configuration only                       | `*.module.ts`                        |
-| **Environment Files**             | ❌ Already excluded          | Configuration data                       | `environment.ts`                     |
-| **Form Utilities**                | ❌ Consider exclusion        | Complex framework wrappers               | `form-group.service.ts`              |
+| Code Type                     | Action                       | Reasoning                                | Example                              |
+| ----------------------------- | ---------------------------- | ---------------------------------------- | ------------------------------------ |
+| **Business Logic Service**    | ✅ Write comprehensive tests | Critical functionality, high change rate | `user.service.ts`, `auth.service.ts` |
+| **API Controller**            | ✅ Write tests               | Defines public contracts                 | `user.controller.ts`                 |
+| **Data Mapper**               | ✅ Write tests               | Data transformation is error-prone       | `user.mapper.ts`                     |
+| **Guards/Interceptors**       | ✅ Write tests               | Security-critical                        | `authorize.guard.ts`                 |
+| **DbService**                 | ✅ Write tests               | Data access logic                        | `user.db-service.ts`                 |
+| **Pure Utility Functions**    | ✅ Write tests               | Shared code, affects multiple features   | `validation-utils.ts`                |
+| **SSE/WebSocket Controllers** | ❌ Suggest exclusion + E2E   | Requires real connections                | `sync-events.controller.ts`          |
+| **Module Declarations**       | ❌ Already excluded          | Configuration only                       | `*.module.ts`                        |
+| **Configuration Files**       | ❌ Already excluded          | Configuration data                       | `app.config.ts`                      |
+| **main.ts / bootstrap**       | ❌ Already excluded          | Application bootstrap                    | `main.ts`                            |
 
 ## When User Asks "Why not exclude X?"
 
@@ -142,12 +152,12 @@ Coverage is at 78%, we need 80%. Let me exclude these components...
 
 ```
 Coverage is at 78%. Let me analyze what's not covered:
-1. Header component - presentational only, candidate for exclusion
-2. Theme service - business logic, needs tests
-3. Message service - wrapper with logic, needs tests
+1. sync-events.controller.ts - SSE infrastructure, candidate for exclusion
+2. user.service.ts - business logic, needs tests
+3. order.mapper.ts - data transformation, needs tests
 
 I'll write tests for #2 and #3, and suggest excluding #1 with
-documentation of why it's presentational.
+documentation of why it's infrastructure.
 ```
 
 ### ❌ Pitfall 2: Using Wrong Testing Framework Syntax
@@ -155,21 +165,21 @@ documentation of why it's presentational.
 **Before writing tests**, check the test setup:
 
 ```typescript
-// apps/web-ui/src/test-setup.ts
-import 'jest-preset-angular/setup-jest';
+// apps/web-server/src/test-setup.ts
+import 'jest';
 ```
 
 This tells you:
 
 - ✅ Use Jest syntax (`jest.fn()`, `.mockImplementation()`)
-- ✅ Angular TestBed is available
+- ✅ NestJS `Test.createTestingModule()` is available
 - ❌ Don't use Jasmine syntax (`spyOn` without `jest.`)
 
 **Check for examples**:
 
 ```bash
 # Look at existing tests to see patterns
-grep -r "jest.fn" apps/web-ui/src/**/*.spec.ts
+grep -r "jest.fn" apps/web-server/src/**/*.spec.ts
 ```
 
 ### ❌ Pitfall 3: Testing Framework Instead of Business Logic
@@ -196,22 +206,23 @@ it('should throw error for invalid discount rules', () => {
 });
 ```
 
-### ❌ Pitfall 4: Complex Component Tests Without Proper Setup
+### ❌ Pitfall 4: Complex Service Tests Without Proper Mocking
 
-If a component test needs extensive setup (many module imports, stub components):
+If a service test needs extensive setup (many dependencies, complex mocking):
 
 **Consider**:
 
-1. Is the component too complex? Should it be refactored?
-2. Is it mostly presentational? Should it be excluded?
-3. Can business logic be extracted to a testable service?
+1. Is the service too complex? Should it be refactored?
+2. Can responsibilities be split into smaller services?
+3. Are you mocking too much infrastructure?
 
-**Example from our history**:
+**Example**:
 
 ```typescript
-// Header component needs: NzIconModule, NzBreadcrumbModule,
-// NzDropdownModule, NzAvatarModule, NzLayoutModule...
-// → This suggests it's presentational and should be excluded
+// OrderService needs: OrderDbService, UserDbService, ProductDbService,
+// PaymentService, NotificationService, OrderMapper, PinoLogger...
+// → Consider if this service has too many responsibilities
+// → Each dependency should be mocked with jest.fn()
 ```
 
 ## Workflow for Creating Tests
@@ -253,48 +264,71 @@ For each test file, include:
 3. **Test organization**: `describe` blocks for methods
 4. **Comprehensive cases**: Happy path + edge cases + errors
 
-**Template**:
+**Template (NestJS Backend)**:
 
 ```typescript
-import { TestBed } from '@angular/core/testing';
-import { ServiceName } from './service-name.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserDbService } from '@ai-nx-starter/data-access-layer';
+import { UserMapper } from './user.mapper';
+import { PinoLogger } from 'nestjs-pino';
 
-describe('ServiceName', () => {
-  let service: ServiceName;
-  let mockDependency: any;
+describe('UserService', () => {
+  let service: UserService;
+  let mockDbService: jest.Mocked<UserDbService>;
+  let mockMapper: jest.Mocked<UserMapper>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Setup mocks using project conventions
-    mockDependency = {
-      method: jest.fn(),
-    };
+    mockDbService = {
+      findById: jest.fn(),
+      findByEmail: jest.fn(),
+      findAll: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    } as any;
 
-    TestBed.configureTestingModule({
-      providers: [ServiceName, { provide: DependencyService, useValue: mockDependency }],
-    });
+    mockMapper = {
+      toDto: jest.fn(),
+      toDtoArray: jest.fn(),
+    } as any;
 
-    service = TestBed.inject(ServiceName);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UserService,
+        { provide: UserDbService, useValue: mockDbService },
+        { provide: UserMapper, useValue: mockMapper },
+        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn(), debug: jest.fn() } },
+      ],
+    }).compile();
+
+    service = module.get<UserService>(UserService);
   });
 
-  describe('methodName', () => {
-    it('should handle normal case', () => {
+  describe('findOne', () => {
+    it('should return user DTO when found', async () => {
       // Arrange
-      mockDependency.method.mockReturnValue('value');
+      const mockUser = { id: '123', email: 'test@test.com' };
+      const mockDto = { id: '123', email: 'test@test.com' };
+      mockDbService.findById.mockResolvedValue(mockUser as any);
+      mockMapper.toDto.mockReturnValue(mockDto as any);
 
       // Act
-      const result = service.methodName();
+      const result = await service.findOne('123');
 
       // Assert
-      expect(result).toBe('expected');
-      expect(mockDependency.method).toHaveBeenCalled();
+      expect(result).toEqual(mockDto);
+      expect(mockDbService.findById).toHaveBeenCalledWith('123');
     });
 
-    it('should handle error case', () => {
-      // Test error handling
-    });
+    it('should throw NotFoundException when user not found', async () => {
+      // Arrange
+      mockDbService.findById.mockResolvedValue(null);
 
-    it('should validate input', () => {
-      // Test validation
+      // Act & Assert
+      await expect(service.findOne('123')).rejects.toThrow(NotFoundException);
     });
   });
 });
@@ -395,10 +429,11 @@ Let me start with the service tests...
 Before creating tests, review these files:
 
 1. **Coverage exclusions**: `documents/code-coverage-guidelines.md`
-2. **Package Jest config**: `apps/[app-name]/jest.config.ts` or `packages/[pkg-name]/jest.config.ts`
-3. **Global Jest config**: `jest.preset.js`
-4. **Existing test patterns**: Similar `*.spec.ts` files in the same directory
-5. **Test setup**: `[app-name]/src/test-setup.ts`
+2. **Backend Jest config**: `apps/web-server/jest.config.ts`
+3. **Data access layer Jest config**: `packages/data-access-layer/jest.config.ts`
+4. **Global Jest config**: `jest.preset.js`
+5. **Existing test patterns**: Similar `*.spec.ts` files in the same directory
+6. **Test setup**: `apps/web-server/src/test-setup.ts`
 
 ## Proactive Test Generation Policy
 
@@ -662,3 +697,16 @@ When working with this codebase:
 11. ✅ **Suggest exclusions** for pure presentation/infrastructure code
 
 Remember: **The goal is high-quality tests of business-critical code, not artificially inflated coverage numbers.**
+
+---
+
+**Related Files:**
+
+- [SKILL.md](../SKILL.md) - Main guide
+- [code-coverage-guide.md](code-coverage-guide.md) - Coverage exclusion guidelines
+- [services-guide.md](services-guide.md) - Service patterns to test
+- [controllers-guide.md](controllers-guide.md) - Controller patterns to test
+- [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns to test
+- [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
+- [security-guide.md](security-guide.md) - Security patterns (test authorization scenarios)
+- [logging-guide.md](logging-guide.md) - Logging patterns (mock PinoLogger)

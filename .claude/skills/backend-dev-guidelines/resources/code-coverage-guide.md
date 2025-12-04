@@ -55,24 +55,25 @@ When deciding whether to exclude code from coverage, ask these questions in orde
 
 **Rationale**: These are better tested through integration/E2E tests rather than unit tests.
 
-### 3. Is it Presentational/UI-Only Code?
+### 3. Is it Test-Only or Example Code?
 
 **EXCLUDE** if the code:
 
-- Primarily handles template rendering
-- Has minimal business logic
-- Requires full component tree setup with UI framework modules
-- Is mostly CSS/styling logic
+- Exists only for testing/demonstration purposes
+- Is example code for developers
+- Has no production usage
 
 **Example exclusions**:
 
 ```javascript
-// Presentational components (mostly template/UI logic)
-'!src/app/layout/header/**',
-'!src/app/layout/footer/**',
+// Exception testing endpoints - test-only code
+'!src/app/features/exceptions/**',
+
+// Example feature - reference implementation only
+'!src/app/features/example/**',
 ```
 
-**Note**: Components with business logic should NOT be excluded. Instead, extract business logic into testable services.
+**Note**: Controllers and services with business logic should NOT be excluded. Instead, extract business logic into testable services.
 
 ### 4. Is it a Utility or Helper with Low Testing Value?
 
@@ -80,15 +81,16 @@ When deciding whether to exclude code from coverage, ask these questions in orde
 
 - It's a simple wrapper around framework functionality
 - Testing it would essentially test the framework itself
-- It's a complex form utility that's better tested via E2E
+- It's complex infrastructure that's better tested via E2E
 
 **Example exclusions**:
 
 ```javascript
-// Utility services that are hard to test
-'!src/app/core/services/form-group.service.ts',
-'!src/app/core/services/form-group-error-messages.ts',
-'!src/app/shared/utils/**',
+// Crypto utilities - wrappers around Node crypto
+'!src/utils/crypto.ts',
+
+// Base classes with minimal logic
+'!src/common/base.mapper.ts',
 ```
 
 ### 5. Is it Example/Demo Code?
@@ -119,7 +121,7 @@ When deciding whether to exclude code from coverage, ask these questions in orde
 Each package has its own `jest.config.ts` with a `collectCoverageFrom` array:
 
 ```typescript
-// apps/web-ui/jest.config.ts
+// apps/web-server/jest.config.ts
 export default {
   // ... other config
   collectCoverageFrom: [
@@ -129,12 +131,12 @@ export default {
     '!src/test-setup.ts',
 
     // Infrastructure exclusions
-    '!src/app/core/services/server-side-events.service.ts',
-    '!src/app/core/sockets/socket.service.ts',
+    '!src/app/features/sync-events/**',
+    '!src/app/features/exceptions/**',
 
-    // Presentational components
-    '!src/app/layout/header/**',
-    '!src/app/layout/footer/**',
+    // Bootstrap and config
+    '!src/main.ts',
+    '!src/app/app-initializer-service.ts',
   ],
 };
 ```
@@ -211,14 +213,15 @@ Always add comments explaining exclusions:
 ```javascript
 collectCoverageFrom: [
   'src/**/*.{js,ts}',
-  // Infrastructure services - tested via E2E
-  '!src/app/core/services/server-side-events.service.ts',
+  // Infrastructure - SSE requires real connections, tested via E2E
+  '!src/app/features/sync-events/**',
 
-  // Utility services that are hard to test
-  '!src/app/core/services/form-group.service.ts',
+  // Bootstrap and initialization - tested via integration
+  '!src/main.ts',
+  '!src/app/app-initializer-service.ts',
 
-  // Presentational components (mostly template/UI logic)
-  '!src/app/layout/header/**',
+  // Exception testing endpoints - test-only code
+  '!src/app/features/exceptions/**',
 ],
 ```
 
@@ -233,15 +236,18 @@ collectCoverageFrom: [
 Instead of excluding:
 
 ```typescript
-// Hard to test - tightly coupled to browser APIs
-class ComplexComponent {
+// Hard to test - tightly coupled to infrastructure
+@Injectable()
+class ComplexService {
   constructor(
-    private notifications: NotificationService,
-    private sse: ServerSentEventsService,
+    private sseService: ServerSentEventsService,
+    private externalApi: ExternalApiService,
   ) {}
 
-  doBusinessLogic() {
+  async processOrder(order: Order) {
     // Complex logic mixed with infrastructure
+    await this.externalApi.notify(order);
+    this.sseService.broadcast('order-updated', order);
   }
 }
 ```
@@ -250,31 +256,39 @@ Refactor to:
 
 ```typescript
 // Easy to test - business logic extracted
-class BusinessLogicService {
-  calculateResult(data: Input): Output {
+@Injectable()
+class OrderBusinessLogicService {
+  calculateTotal(order: Order): number {
     // Pure business logic - easy to test
+  }
+
+  validateOrder(order: Order): ValidationResult {
+    // Validation logic - easy to test
   }
 }
 
-// Minimal presentation logic - can be excluded
-class SimpleComponent {
+// Thin orchestration layer - can be excluded or minimally tested
+@Injectable()
+class OrderOrchestratorService {
   constructor(
-    private logic: BusinessLogicService,
-    private notifications: NotificationService,
+    private logic: OrderBusinessLogicService,
+    private sseService: ServerSentEventsService,
   ) {}
 }
 ```
 
-### 4. Different Standards for Different Code Types
+### 4. Different Standards for Different Code Types (Backend)
 
 | Code Type                 | Coverage Target | Rationale                              |
 | ------------------------- | --------------- | -------------------------------------- |
-| Business Logic            | 90%+            | Critical, changes frequently           |
-| Services/APIs             | 80%+            | Important, well-defined contracts      |
-| Components (with logic)   | 70%+            | Mixed presentation/logic               |
+| Business Logic Services   | 90%+            | Critical, changes frequently           |
+| Controllers               | 80%+            | Important, well-defined contracts      |
+| DbServices                | 80%+            | Data access, query logic               |
+| Mappers                   | 80%+            | Data transformation, error-prone       |
+| Guards/Interceptors       | 90%+            | Security-critical                      |
 | Utilities                 | 80%+            | Shared code, affects multiple features |
-| Presentational Components | Excluded        | Low value, better tested in E2E        |
-| Infrastructure            | Excluded        | Tested via integration tests           |
+| SSE/WebSocket Controllers | Excluded        | Tested via E2E tests                   |
+| Bootstrap/Config          | Excluded        | Tested via integration tests           |
 
 ## Example Decision Tree
 
@@ -293,20 +307,14 @@ Is this code business critical?
         └─ NO → Write tests, do NOT exclude
 ```
 
-## Current Exclusions by Package
-
-### web-ui
-
-- Infrastructure: SSE, Sockets, Notifications
-- Utilities: Form helpers, Debug components
-- Presentation: Header, Footer components
-- Config: Examples, Decorators, Environments
+## Current Exclusions by Package (Backend)
 
 ### web-server
 
-- Infrastructure: SSE, Exception module (test-only)
+- Infrastructure: SSE controllers, Exception module (test-only)
 - Config: App initializer, Base classes
-- Filters: Global exception filter
+- Filters: Global exception filter (`all-exceptions.filter.ts`)
+- Bootstrap: `main.ts`
 
 ### backend-common
 
@@ -316,6 +324,7 @@ Is this code business critical?
 ### data-access-layer
 
 - (Minimal exclusions - high-value code)
+- Entity definitions and DbServices should be tested
 
 ## Measuring Success
 
@@ -348,3 +357,15 @@ Good coverage exclusions should result in:
 Code coverage exclusions are a pragmatic tool, not a way to hide untested code. Use them judiciously to focus testing efforts on business-critical code while acknowledging that some infrastructure code is better tested through other means (E2E, integration tests, manual testing).
 
 When in doubt, **write the test** rather than excluding the code.
+
+---
+
+**Related Files:**
+
+- [SKILL.md](../SKILL.md) - Main guide
+- [testing-guide.md](testing-guide.md) - AI testing guidelines and proactive test generation
+- [services-guide.md](services-guide.md) - Service patterns to test
+- [controllers-guide.md](controllers-guide.md) - Controller patterns to test
+- [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns to test
+- [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
+- [security-guide.md](security-guide.md) - Security patterns (never exclude security code)

@@ -1,14 +1,33 @@
-# Authentication & Session Security Model
+# Authentication & Session Management
+
+Complete guide to authentication, authorization, and session management using Redis and JWT patterns.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Session Architecture](#session-architecture)
+- [Session Flow](#session-flow)
+- [SessionInfo Interface](#sessioninfo-interface)
+- [SessionService](#sessionservice)
+- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [AuthorizeGuard Flow](#authorizeguard-flow)
+- [Password Security](#password-security)
+- [Security Features](#security-features)
+- [Production Considerations](#production-considerations)
+
+---
 
 ## Overview
 
 AI-Nx-Starter uses a **Redis-based session management system** with Bearer token authentication. Sessions are stored server-side in Redis with automatic expiration.
 
-## Architecture
+### Session Architecture
 
 ```
 Client → Bearer Token → AuthorizeGuard → SessionService → Redis → SessionInfo → Controller
 ```
+
+---
 
 ## Session Flow
 
@@ -514,16 +533,15 @@ curl -X POST http://localhost:3030/ai-nx-starter/rest/api/v2/auth/logout \
 - Check Redis is running: `redis-cli ping`
 - Check network connectivity
 
-## Related Files
-
-- `apps/web-server/src/app/auth/auth.service.ts` - Login/logout logic
-- `apps/web-server/src/app/auth/auth.controller.ts` - Auth endpoints
-- `packages/backend-common/src/services/session.service.ts` - Session management
-- `packages/backend-common/src/guards/authorize.guard.ts` - Authorization guard
-- `packages/backend-common/src/interfaces/session-info.interface.ts` - Session data structure
-- `packages/data-access-layer/src/features/user/services/user.db-service.ts` - User/password management
-
 ---
 
-**Last Updated**: 2025-11-11
-**Version**: 1.3.0
+**Related Files:**
+
+- [SKILL.md](../SKILL.md) - Main guide
+- [controllers-guide.md](controllers-guide.md) - Controller patterns
+- [services-guide.md](services-guide.md) - Service patterns
+- [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns
+- [security-guide.md](security-guide.md) - Input validation, authorization, password security
+- [logging-guide.md](logging-guide.md) - Logging patterns
+- [testing-guide.md](testing-guide.md) - AI testing guidelines
+- [code-coverage-guide.md](code-coverage-guide.md) - Coverage exclusion guidelines

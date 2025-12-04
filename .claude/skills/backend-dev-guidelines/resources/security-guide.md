@@ -1,16 +1,47 @@
-# Security Best Practices for AI Code Generation
+# Backend Security - Best Practices
 
-## Description
+Complete security guide for NestJS backend services with class-validator, authorization, and secure patterns.
 
-Security guidelines for AI assistants when generating code for AI-Nx-Starter. These rules help prevent common vulnerabilities and ensure secure-by-default implementations.
+## Table of Contents
+
+- [Overview](#overview)
+- [Input Validation](#input-validation)
+- [Authorization](#authorization)
+- [Sensitive Data Protection](#sensitive-data-protection)
+- [Data Access Security](#data-access-security)
+- [Error Handling Security](#error-handling-security)
+- [Resource Ownership](#resource-ownership)
+- [Mass Assignment Prevention](#mass-assignment-prevention)
+- [Password Security](#password-security)
+- [CORS and Security Headers](#cors-and-security-headers)
+- [Rate Limiting](#rate-limiting)
+- [Common Vulnerabilities](#common-vulnerabilities)
+- [Security Checklist](#security-checklist)
+- [Secure CRUD Example](#secure-crud-example)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## Critical Security Rules
+## Overview
 
-### 1. Input Validation - ALWAYS Required
+Backend security uses multiple layers of protection following defense-in-depth principles.
 
-**RULE**: Every DTO must use class-validator decorators.
+**Key Layers:**
+
+- ✅ Input validation with class-validator DTOs
+- ✅ Authorization with `@Authorize` decorators
+- ✅ Resource ownership checks in services
+- ✅ Structured error handling (no internal details)
+- ✅ Password hashing with bcrypt
+- ✅ Data access isolation (DbService pattern)
+
+**Key Principle:** Security is not optional. ALWAYS follow these guidelines.
+
+---
+
+## Input Validation
+
+### RULE: Every DTO must use class-validator decorators
 
 ✅ **CORRECT**:
 
@@ -45,7 +76,7 @@ export class CreateUserDto {
 }
 ```
 
-**When generating DTOs**:
+### Validation Guidelines
 
 - Add appropriate validators for every field
 - Use `@IsOptional()` for optional fields
@@ -55,9 +86,11 @@ export class CreateUserDto {
 - Use `@MinLength()`, `@MaxLength()` for strings
 - Use `@IsArray()`, `@ArrayMinSize()` for arrays
 
-### 2. Authorization - ALWAYS Required
+---
 
-**RULE**: Every controller endpoint must have explicit authorization.
+## Authorization
+
+### RULE: Every controller endpoint must have explicit authorization
 
 ✅ **CORRECT**:
 
@@ -93,7 +126,7 @@ export class UserController {
 }
 ```
 
-**Authorization Guidelines**:
+### Authorization Guidelines
 
 - Use `@Authorize(Role.Admin)` for standard protected endpoints
 - Use `@Authorize(Role.Root)` for sensitive operations
@@ -101,9 +134,11 @@ export class UserController {
 - ALWAYS inject `@Session() session: SessionInfo` for protected endpoints
 - Validate resource ownership in service layer
 
-### 3. Never Expose Sensitive Data
+---
 
-**RULE**: Exclude passwords and sensitive fields from responses.
+## Sensitive Data Protection
+
+### RULE: Exclude passwords and sensitive fields from responses
 
 ✅ **CORRECT**:
 
@@ -120,7 +155,7 @@ export class ClientUserDto {
 
 // Service method
 async findById(id: string): Promise<ClientUserDto> {
-  const user = await this.userDbService.findById(id);  // Password excluded by entity
+  const user = await this.userDbService.findById(id); // Password excluded by entity
   return this.mapToDto(user);
 }
 ```
@@ -138,16 +173,18 @@ export class UserDto {
 }
 ```
 
-**When generating DTOs**:
+### Data Protection Guidelines
 
 - Create separate DTOs for requests vs responses
 - Response DTOs should only include client-safe fields
 - Use mapper services to transform entities to DTOs
 - NEVER return entity objects directly to client
 
-### 4. Prevent Data Access Violations
+---
 
-**RULE**: NEVER use TypeORM directly in web-server.
+## Data Access Security
+
+### RULE: NEVER use TypeORM directly in web-server
 
 ✅ **CORRECT**:
 
@@ -181,16 +218,18 @@ export class UserService {
 }
 ```
 
-**Data Access Rules**:
+### Data Access Rules
 
 - TypeORM ONLY in `packages/data-access-layer`
 - web-server imports DbServices from `@ai-nx-starter/data-access-layer`
 - No raw queries with string concatenation
 - Use TypeORM query builders, not raw SQL/NoSQL
 
-### 5. Secure Error Handling
+---
 
-**RULE**: Never expose internal details in error messages.
+## Error Handling Security
+
+### RULE: Never expose internal details in error messages
 
 ✅ **CORRECT**:
 
@@ -198,7 +237,7 @@ export class UserService {
 async login(email: string, password: string) {
   const user = await this.userDbService.findByEmail(email);
 
-  if (!user || !await this.verifyPassword(password, user.password)) {
+  if (!user || !(await this.verifyPassword(password, user.password))) {
     // ✅ Generic message, detailed server log
     this.logger.warn(`Login failed for ${email}`);
     throw new UnauthorizedException('Invalid email or password');
@@ -213,16 +252,16 @@ async login(email: string, password: string) {
   const user = await this.userDbService.findByEmail(email);
 
   if (!user) {
-    throw new UnauthorizedException('Email not found');  // ❌ Reveals email exists
+    throw new UnauthorizedException('Email not found'); // ❌ Reveals email exists
   }
 
-  if (!await this.verifyPassword(password, user.password)) {
-    throw new UnauthorizedException('Password incorrect');  // ❌ Reveals email exists
+  if (!(await this.verifyPassword(password, user.password))) {
+    throw new UnauthorizedException('Password incorrect'); // ❌ Reveals email exists
   }
 }
 ```
 
-**Error Handling Guidelines**:
+### Error Handling Guidelines
 
 - Use generic error messages to client
 - Log detailed errors server-side with `this.logger`
@@ -230,9 +269,11 @@ async login(email: string, password: string) {
 - Don't expose stack traces in production
 - Don't reveal database structure or internal paths
 
-### 6. Authorization in Business Logic
+---
 
-**RULE**: Validate resource ownership before operations.
+## Resource Ownership
+
+### RULE: Validate resource ownership before operations
 
 ✅ **CORRECT**:
 
@@ -264,7 +305,7 @@ export class DocumentService {
 }
 ```
 
-**Business Logic Security**:
+### Ownership Guidelines
 
 - Check resource ownership in service methods
 - Don't rely solely on route guards
@@ -272,9 +313,11 @@ export class DocumentService {
 - Validate user can perform action on specific resource
 - Log security violations
 
-### 7. Prevent Mass Assignment
+---
 
-**RULE**: Use DTOs with whitelist, never accept raw objects.
+## Mass Assignment Prevention
+
+### RULE: Use DTOs with whitelist, never accept raw objects
 
 ✅ **CORRECT**:
 
@@ -293,7 +336,7 @@ export class UpdateUserDto {
 
 @Put(':id')
 async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
-  return this.userService.update(id, dto);  // ✅ Only DTO fields accepted
+  return this.userService.update(id, dto); // ✅ Only DTO fields accepted
 }
 ```
 
@@ -307,16 +350,18 @@ async update(@Param('id') id: string, @Body() updates: any) {
 }
 ```
 
-**Mass Assignment Prevention**:
+### Mass Assignment Prevention Guidelines
 
 - ValidationPipe configured with `whitelist: true` (strips unknown props)
 - Create separate DTOs for create vs update operations
 - Never use `any` type for request bodies
 - Don't expose internal/admin-only fields in update DTOs
 
-### 8. Password Security
+---
 
-**RULE**: Always hash passwords, never store plain text.
+## Password Security
+
+### RULE: Always hash passwords, never store plain text
 
 ✅ **CORRECT**:
 
@@ -329,7 +374,7 @@ async createUser(dto: CreateUserDto) {
 
   const user = await this.userDbService.create({
     ...dto,
-    password: hashedPassword
+    password: hashedPassword,
   });
 
   // ✅ Remove password from response
@@ -338,7 +383,7 @@ async createUser(dto: CreateUserDto) {
 }
 
 async verifyPassword(plain: string, hashed: string) {
-  return bcrypt.compare(plain, hashed);  // ✅ Use bcrypt compare
+  return bcrypt.compare(plain, hashed); // ✅ Use bcrypt compare
 }
 ```
 
@@ -348,15 +393,15 @@ async verifyPassword(plain: string, hashed: string) {
 async createUser(dto: CreateUserDto) {
   // ❌ Storing plain text password!
   const user = await this.userDbService.create(dto);
-  return user;  // ❌ Password included in response
+  return user; // ❌ Password included in response
 }
 
 async verifyPassword(plain: string, hashed: string) {
-  return plain === hashed;  // ❌ Plain text comparison
+  return plain === hashed; // ❌ Plain text comparison
 }
 ```
 
-**Password Guidelines**:
+### Password Guidelines
 
 - Use bcrypt with salt rounds >= 10
 - Hash on create and password update
@@ -365,9 +410,11 @@ async verifyPassword(plain: string, hashed: string) {
 - Never log passwords
 - Never return passwords in API responses
 
-### 9. CORS and Security Headers
+---
 
-**RULE**: Configure CORS for specific origins in production.
+## CORS and Security Headers
+
+### RULE: Configure CORS for specific origins in production
 
 ✅ **CORRECT** (Production):
 
@@ -389,7 +436,7 @@ app.enableCors({
 });
 ```
 
-**CORS Configuration**:
+### CORS Configuration
 
 - Use specific origins in production (from environment variable)
 - `origin: '*'` only acceptable for development
@@ -397,9 +444,11 @@ app.enableCors({
 - Limit HTTP methods to required ones
 - Security headers already configured via Helmet
 
-### 10. Rate Limiting and DoS Prevention
+---
 
-**RULE**: Implement rate limiting on authentication endpoints.
+## Rate Limiting
+
+### RULE: Implement rate limiting on authentication endpoints
 
 ✅ **CORRECT** (Future implementation):
 
@@ -417,7 +466,7 @@ export class AuthController {
 }
 ```
 
-**Rate Limiting Guidelines**:
+### Rate Limiting Guidelines
 
 - Limit login attempts (e.g., 5 per minute per IP)
 - Limit password reset requests
@@ -426,14 +475,7 @@ export class AuthController {
 
 ---
 
-## Common Vulnerabilities to Prevent
-
-### XSS (Cross-Site Scripting)
-
-- ✅ Angular sanitizes by default in templates
-- ✅ Use `{{ }}` for text interpolation, not `[innerHTML]`
-- ✅ CSP headers configured via Helmet
-- ❌ NEVER use `bypassSecurityTrustHtml()` with user input
+## Common Vulnerabilities
 
 ### SQL/NoSQL Injection
 
@@ -459,11 +501,10 @@ export class AuthController {
 
 - ✅ Use Bearer tokens in headers (not cookies)
 - ✅ Validate Origin/Referer for state-changing operations
-- ✅ Angular has built-in CSRF protection for cookie-based auth
 
 ---
 
-## Code Generation Checklist
+## Security Checklist
 
 When generating new endpoints or features, ALWAYS include:
 
@@ -480,7 +521,7 @@ When generating new endpoints or features, ALWAYS include:
 
 ---
 
-## Example: Secure CRUD Implementation
+## Secure CRUD Example
 
 ```typescript
 // DTO
@@ -645,16 +686,67 @@ export class DocumentService {
 
 ---
 
-## Related Documentation
+## Troubleshooting
 
-- **Auth/Session Model**: `documents/auth-session-architecture.md` - How authentication works
-- **Security Policy**: `SECURITY.md` - Security policy and production checklist
-- **Web Server**: `documents/web-server-architecture.md` - Web server architecture
-- **API Documentation**: `documents/api-documentation-standards.md` - Swagger patterns and standards
+### Validation not working
+
+**Check:**
+
+1. DTO class has class-validator decorators
+2. ValidationPipe is enabled globally
+3. Controller uses `@Body()` decorator
+
+**Solution:**
+
+```typescript
+// main.ts
+app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }),
+);
+```
+
+### Authorization decorator not working
+
+**Check:**
+
+1. `AuthorizeGuard` is registered globally
+2. `@Authorize(Role.X)` decorator is on method
+3. Bearer token is sent in Authorization header
+
+**Solution:**
+
+```typescript
+// Ensure guard is global in main.ts
+app.useGlobalGuards(app.get(AuthorizeGuard));
+```
+
+### Sensitive data appearing in logs
+
+**Problem:** Passwords or tokens appearing in logs
+
+**Solution:**
+
+1. Review redaction config in LoggerModule
+2. Never log `dto.password` or similar
+3. Use `select: false` on entity password fields
 
 ---
 
-**Remember**: Security is not optional. ALWAYS follow these guidelines when generating code.
+**Related Files:**
 
-**Last Updated**: 2025-11-11
-**Applies to**: AI-Nx-Starter v1.3.0+
+- [SKILL.md](../SKILL.md) - Main guide
+- [controllers-guide.md](controllers-guide.md) - Controller patterns
+- [services-guide.md](services-guide.md) - Service patterns
+- [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
+- [logging-guide.md](logging-guide.md) - Logging patterns
+- [testing-guide.md](testing-guide.md) - Testing security scenarios
+
+**References:**
+
+- Input validation: `packages/types/src/dto/`
+- Authorization: `packages/backend-common/src/decorators/`
+- Password hashing: `packages/data-access-layer/src/features/user/`

@@ -76,26 +76,26 @@ async createProduct(@Body(ValidationPipe) createProductDto: CreateProductDto): P
 }
 ```
 
-With CreateProductDto:
+**DTO in packages/types** (class-validator ONLY - no @ApiProperty):
 
 ```typescript
+// packages/types/src/dto/create-product.dto.ts
 export class CreateProductDto {
-  @ApiProperty({ description: 'Product name', example: 'Laptop', required: true })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ description: 'Product price', example: 999.99, minimum: 0, required: true })
   @IsNumber()
   @Min(0)
   price: number;
 
-  @ApiProperty({ description: 'Product description', example: 'High-performance laptop', required: false })
   @IsString()
   @IsOptional()
   description?: string;
 }
 ```
+
+**Note:** The `@ApiBody({ type: CreateProductDto })` decorator in the controller is sufficient - Swagger will infer the schema from the DTO's TypeScript types. For additional field documentation, use inline schemas in controllers (see Example 3).
 
 ---
 
@@ -194,21 +194,44 @@ async updateProductStatus(
 })
 ```
 
-### DTO-Level Decorators
+### Inline Schema in Controllers (Instead of @ApiProperty in DTOs)
+
+When you need detailed field documentation, use inline schemas in controller decorators:
 
 ```typescript
-@ApiProperty({
-  description: 'Field description',       // What this field represents
-  example: 'example-value',               // Example value
-  required: true,                         // Is it required? (default: true)
-  type: String,                           // TypeScript type
-  enum: ['A', 'B'],                       // For enum fields
-  minimum: 0,                             // For numbers
-  maximum: 100,                           // For numbers
-  minLength: 3,                           // For strings
-  maxLength: 50                           // For strings
+@ApiBody({
+  schema: {
+    type: 'object',
+    required: ['name', 'price'],
+    properties: {
+      name: {
+        type: 'string',
+        description: 'Product name',
+        example: 'Laptop',
+        minLength: 3,
+        maxLength: 50
+      },
+      price: {
+        type: 'number',
+        description: 'Product price',
+        example: 999.99,
+        minimum: 0
+      },
+      category: {
+        type: 'string',
+        enum: ['electronics', 'clothing', 'food'],
+        description: 'Product category'
+      }
+    }
+  }
 })
 ```
+
+**Why this approach:**
+
+- ✅ DTOs stay framework-agnostic (only class-validator)
+- ✅ DTOs can be shared with frontend
+- ✅ Swagger documentation lives in controllers where it belongs
 
 ---
 
@@ -256,7 +279,7 @@ After adding Swagger decorators:
 2. **Be Specific:** Don't just say "Get data" - say "Retrieve list of users with optional pagination"
 3. **Include Examples:** Every parameter and field should have realistic examples
 4. **Document All Status Codes:** Include both success and error responses
-5. **Update DTOs:** When documenting endpoints, ensure DTOs have @ApiProperty decorators
+5. **Keep DTOs Clean:** DTOs use class-validator only - use inline schemas for detailed field docs
 6. **Group by Tags:** Use clear, plural tag names (Users, Products, Orders)
 7. **Security First:** Always document authentication requirements with @ApiBearerAuth
 8. **Test Before Commit:** Always verify documentation in Swagger UI before committing
@@ -294,3 +317,15 @@ Study these fully-documented controllers:
 - **Simple Endpoint:** `apps/web-server/src/app/health/health.controller.ts`
 
 Each demonstrates different Swagger documentation patterns.
+
+---
+
+**Related Files:**
+
+- [SKILL.md](../SKILL.md) - Main guide
+- [controllers-guide.md](controllers-guide.md) - Controller patterns and structure
+- [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
+- [security-guide.md](security-guide.md) - Security best practices
+- [logging-guide.md](logging-guide.md) - Logging patterns
+- [testing-guide.md](testing-guide.md) - AI testing guidelines
+- [code-coverage-guide.md](code-coverage-guide.md) - Coverage exclusion guidelines

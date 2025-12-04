@@ -1,19 +1,41 @@
-# Logging Guidelines
+# Backend Logging - NestJS & Pino
 
-Comprehensive logging standards for AI-Nx-Starter monorepo.
+Complete guide to structured logging in NestJS backend services using Pino.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Configuration](#configuration)
+- [Usage Pattern](#usage-pattern)
+- [Log Levels](#log-levels)
+- [Best Practices](#best-practices)
+- [Sensitive Data Redaction](#sensitive-data-redaction)
+- [Real-World Examples](#real-world-examples)
+- [Testing with Loggers](#testing-with-loggers)
+- [Migration Guide](#migration-guide)
+- [Troubleshooting](#troubleshooting)
+
+---
 
 ## Overview
 
-This project uses structured logging across frontend and backend:
+Backend logging uses **Pino** via `nestjs-pino` for structured JSON logs in production and pretty-printed logs in development.
 
-- **Backend (NestJS)**: Pino logger via `nestjs-pino` - JSON structured logs in production, pretty-printed in development
-- **Frontend (Angular)**: Custom `LoggerService` - Console-based with level filtering
+**Key Benefits:**
 
-## Backend Logging (NestJS)
+- ✅ Structured JSON logs for parsing/aggregation
+- ✅ Colorized development output via `pino-pretty`
+- ✅ Automatic sensitive data redaction
+- ✅ Context-aware logging per service
+- ✅ High performance (Pino is one of the fastest loggers)
 
-### Configuration
+**Location:** `apps/web-server/src/app/app.module.ts:20-36`
 
-Location: `apps/web-server/src/app/app.module.ts:20-36`
+---
+
+## Configuration
+
+### Module Setup
 
 ```typescript
 LoggerModule.forRoot({
@@ -32,14 +54,26 @@ LoggerModule.forRoot({
 });
 ```
 
-**Key Features**:
+**Key Features:**
 
 - **Development**: Colorized, single-line output via `pino-pretty`
 - **Production**: Structured JSON logs for parsing/aggregation
-- **Redaction**: Automatically hides sensitive headers
+- **Redaction**: Automatically hides sensitive headers (`Authorization`)
 - **Level Control**: Set via `LOG_LEVEL` environment variable
 
-### Usage Pattern
+### Environment Variables
+
+```bash
+# .env or deployment config
+LOG_LEVEL=info      # none, error, warn, info, debug
+NODE_ENV=production # Controls pino-pretty transport
+```
+
+---
+
+## Usage Pattern
+
+### Standard Service Pattern
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -81,7 +115,16 @@ export class ExampleService {
 }
 ```
 
-### Log Levels
+**Key Pattern:**
+
+- ✅ Inject `PinoLogger` in constructor
+- ✅ Call `this.logger.setContext(ClassName.name)` in constructor
+- ✅ Use appropriate log levels (`debug`, `info`, `warn`, `error`)
+- ✅ Include context in log messages
+
+---
+
+## Log Levels
 
 | Level   | When to Use                             | Example                                      |
 | ------- | --------------------------------------- | -------------------------------------------- |
@@ -90,9 +133,13 @@ export class ExampleService {
 | `warn`  | Recoverable issues, validation failures | Missing optional field, deprecated API usage |
 | `error` | Failures, exceptions, critical errors   | Database errors, API failures, crashes       |
 
-### Best Practices
+**Default Level:** `info` (shows `info`, `warn`, `error` but not `debug`)
 
-✅ **DO**:
+---
+
+## Best Practices
+
+### ✅ DO
 
 ```typescript
 // Include context in log messages
@@ -106,9 +153,12 @@ this.logger.error(`Failed to process payment for order ${orderId}`, error.stack)
 
 // Use debug for development details
 this.logger.debug('Database query params', { query, params });
+
+// Log structured data
+this.logger.info('User action', { userId, action: 'login', timestamp: Date.now() });
 ```
 
-❌ **DON'T**:
+### ❌ DON'T
 
 ```typescript
 // Don't use console.log
@@ -122,28 +172,47 @@ constructor(private logger: PinoLogger) {} // ❌ Missing setContext
 
 // Don't log sensitive data
 this.logger.info(`Password: ${password}`); // ❌ Security risk
+
+// Don't log in tight loops
+for (const item of items) {
+  this.logger.debug('Processing item', item); // ❌ Performance impact
+}
 ```
 
-### Sensitive Data Redaction
+---
 
-**Always redact**:
+## Sensitive Data Redaction
 
-- Passwords (plain or hashed)
-- Full credit card numbers (PCI compliance)
-- Social security numbers
-- API keys and tokens (already redacted in headers)
-- Personal health information
+### Always Redact
 
-**Safe to log**:
+- ❌ Passwords (plain or hashed)
+- ❌ Full credit card numbers (PCI compliance)
+- ❌ Social security numbers
+- ❌ API keys and tokens (already redacted in headers)
+- ❌ Personal health information
 
-- User emails (for audit trails)
-- User IDs
-- Entity IDs
-- Timestamps
-- Operation names
-- Last 4 digits of cards (if needed)
+### Safe to Log
 
-### Real-World Examples
+- ✅ User emails (for audit trails)
+- ✅ User IDs
+- ✅ Entity IDs
+- ✅ Timestamps
+- ✅ Operation names
+- ✅ Last 4 digits of cards (if needed)
+
+### Adding Redaction Rules
+
+Edit `apps/web-server/src/app/app.module.ts`:
+
+```typescript
+redact: ['req.headers.authorization', 'password', 'creditCard', 'ssn', 'apiKey'];
+```
+
+---
+
+## Real-World Examples
+
+### Example 1: Authentication Service
 
 From `apps/web-server/src/app/auth/auth.service.ts`:
 
@@ -191,154 +260,58 @@ export class AuthService {
 }
 ```
 
-## Frontend Logging (Angular)
-
-### Service Location
-
-`apps/web-ui/src/app/core/services/logger.service.ts`
-
-### Configuration
-
-Log levels are defined in `log-level.enum.ts`:
+### Example 2: DbService with Query Logging
 
 ```typescript
-export enum LogLevel {
-  None = 0, // No logging
-  Error = 1, // Only errors
-  Warn = 2, // Errors and warnings
-  Info = 3, // Errors, warnings, and info
-  Debug = 4, // All logs including debug
-}
-```
-
-Set in environment files:
-
-```typescript
-// environment.ts (development)
-export const environment = {
-  production: false,
-  logLevel: LogLevel.Debug, // All logs in dev
-};
-
-// environment.prod.ts (production)
-export const environment = {
-  production: true,
-  logLevel: LogLevel.Error, // Only errors in prod
-};
-```
-
-### Usage Pattern
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-import { LoggerService } from '@app/core/services';
-
-@Component({
-  selector: 'app-example',
-  templateUrl: './example.component.html',
-})
-export class ExampleComponent implements OnInit {
-  constructor(private logger: LoggerService) {}
-
-  ngOnInit() {
-    this.logger.debug('Component initialized', { componentName: 'ExampleComponent' });
-    this.loadData();
+@Injectable()
+export class UserDbService {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: MongoRepository<User>,
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(UserDbService.name);
   }
 
-  loadData() {
-    this.logger.info('Loading data...');
+  async findById(id: string): Promise<User | null> {
+    try {
+      this.logger.debug(`Finding user by ID: ${id}`);
+      const objectId = new ObjectId(id);
+      const user = await this.userRepository.findOneBy({ _id: objectId } as any);
 
-    this.apiService.getData().subscribe({
-      next: (data) => {
-        this.logger.debug('Data loaded', data);
-      },
-      error: (error) => {
-        this.logger.error('Failed to load data', error);
-      },
-    });
-  }
+      if (!user) {
+        this.logger.debug(`User not found: ${id}`);
+      }
 
-  onSubmit(form: FormGroup) {
-    if (!form.valid) {
-      this.logger.warn('Form validation failed', form.errors);
-      return;
+      return user;
+    } catch (error) {
+      this.logger.error(`Error finding user ${id}`, error.stack);
+      return null;
     }
+  }
 
-    this.logger.info('Form submitted', form.value);
+  async create(userData: CreateUserData): Promise<User> {
+    this.logger.info(`Creating new user: ${userData.email}`);
+
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const user = this.userRepository.create({
+      ...userData,
+      password: hashedPassword,
+    });
+
+    const saved = await this.userRepository.save(user);
+    this.logger.info(`User created successfully: ${saved.id}`);
+
+    return saved;
   }
 }
 ```
 
-### Log Format
-
-All frontend logs follow this format:
-
-```
-[LEVEL] message ...additionalArgs
-```
-
-Examples:
-
-```
-[DEBUG] Component initialized { componentName: 'ExampleComponent' }
-[INFO] User logged in successfully
-[WARN] Deprecated API endpoint used
-[ERROR] Failed to load data Error: Network timeout
-```
-
-### Best Practices
-
-✅ **DO**:
-
-```typescript
-// Log component lifecycle events
-this.logger.debug('Component initialized');
-
-// Log user interactions
-this.logger.info('User clicked submit button');
-
-// Log API calls
-this.logger.debug('API request', { endpoint, params });
-
-// Log errors with context
-this.logger.error('API call failed', { endpoint, error });
-```
-
-❌ **DON'T**:
-
-```typescript
-// Don't use console methods directly
-console.log('Debug info'); // ❌
-
-// Don't log in production unnecessarily
-this.logger.debug('Detailed state', hugeObject); // ❌ Will be filtered in prod anyway
-
-// Don't log sensitive user data
-this.logger.info('User password', password); // ❌
-```
-
-## Environment Variables
-
-### Backend
-
-```bash
-# .env or deployment config
-LOG_LEVEL=info      # none, error, warn, info, debug
-NODE_ENV=production # Controls pino-pretty transport
-```
-
-### Frontend
-
-Set in `apps/web-ui/src/environments/environment.ts`:
-
-```typescript
-logLevel: LogLevel.Debug; // Development
-logLevel: LogLevel.Error; // Production
-```
+---
 
 ## Testing with Loggers
 
-### Backend (NestJS)
+### Mock Setup
 
 ```typescript
 describe('ExampleService', () => {
@@ -382,45 +355,11 @@ describe('ExampleService', () => {
 });
 ```
 
-### Frontend (Angular)
-
-```typescript
-describe('ExampleComponent', () => {
-  let component: ExampleComponent;
-  let logger: LoggerService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ExampleComponent],
-      providers: [
-        {
-          provide: LoggerService,
-          useValue: {
-            debug: jest.fn(),
-            info: jest.fn(),
-            warn: jest.fn(),
-            error: jest.fn(),
-          },
-        },
-      ],
-    });
-
-    component = TestBed.createComponent(ExampleComponent).componentInstance;
-    logger = TestBed.inject(LoggerService);
-  });
-
-  it('should log initialization', () => {
-    component.ngOnInit();
-    expect(logger.debug).toHaveBeenCalledWith('Component initialized', expect.any(Object));
-  });
-});
-```
+---
 
 ## Migration Guide
 
-If you find code using `console.log`:
-
-### Backend
+### From console.log to PinoLogger
 
 ```typescript
 // ❌ Before
@@ -436,53 +375,89 @@ this.logger.info(`User logged in: ${email}`);
 this.logger.error('Error occurred', error.stack);
 ```
 
-### Frontend
+### Migration Checklist
 
-```typescript
-// ❌ Before
-console.log('Component loaded');
-console.error('Error:', error);
+1. ✅ Add `PinoLogger` to constructor
+2. ✅ Call `setContext(ClassName.name)` in constructor
+3. ✅ Replace `console.log` with `logger.info`
+4. ✅ Replace `console.error` with `logger.error`
+5. ✅ Replace `console.warn` with `logger.warn`
+6. ✅ Replace `console.debug` with `logger.debug`
+7. ✅ Add context to all log messages
 
-// ✅ After
-constructor(private logger: LoggerService) {}
-
-this.logger.info('Component loaded');
-this.logger.error('Error occurred', error);
-```
+---
 
 ## Troubleshooting
 
 ### Logs not appearing in development
 
-Check:
+**Check:**
 
-1. `LOG_LEVEL` environment variable (backend)
-2. `environment.logLevel` setting (frontend)
-3. Logger service is properly injected
-4. `setContext()` is called in constructor (backend)
+1. `LOG_LEVEL` environment variable is set correctly
+2. Logger service is properly injected
+3. `setContext()` is called in constructor
+4. `pino-pretty` is installed: `npm install pino-pretty --save-dev`
+
+**Solution:**
+
+```bash
+LOG_LEVEL=debug npm run server
+```
 
 ### Logs cluttering production
 
-Backend:
+**Problem:** Too many logs in production environment
 
-- Set `LOG_LEVEL=error` in production environment
-- Ensure `NODE_ENV=production` for JSON output
+**Solution:**
 
-Frontend:
-
-- Set `logLevel: LogLevel.Error` in `environment.prod.ts`
+```bash
+# In production environment
+LOG_LEVEL=error
+NODE_ENV=production
+```
 
 ### Sensitive data in logs
 
-- Review redaction config in `app.module.ts`
-- Add fields to `redact` array
-- Never log passwords, tokens, or PII
-- Audit log statements before deployment
+**Problem:** Passwords or tokens appearing in logs
 
-## References
+**Solution:**
 
-- **Backend Logger**: [Pino Documentation](https://getpino.io/)
-- **NestJS Integration**: [nestjs-pino](https://github.com/iamolegga/nestjs-pino)
-- **Configuration**: `apps/web-server/src/app/app.module.ts:20-36`
-- **Frontend Logger**: `apps/web-ui/src/app/core/services/logger.service.ts`
-- **Example Usage**: `apps/web-server/src/app/auth/auth.service.ts`
+1. Review redaction config in `app.module.ts`
+2. Add fields to `redact` array
+3. Never log passwords, tokens, or PII
+4. Audit log statements before deployment
+
+**Example:**
+
+```typescript
+redact: ['req.headers.authorization', 'password', 'token', 'apiKey', 'creditCard'];
+```
+
+### Performance issues with logging
+
+**Problem:** Logging impacting performance
+
+**Solutions:**
+
+1. Use `debug` level for verbose logs (filtered in production)
+2. Avoid logging in tight loops
+3. Use structured logging instead of concatenating strings
+4. Set `LOG_LEVEL=error` in production
+
+---
+
+**Related Files:**
+
+- [SKILL.md](../SKILL.md) - Main guide
+- [services-guide.md](services-guide.md) - Service patterns
+- [auth-session-guide.md](auth-session-guide.md) - Authentication logging patterns
+- [security-guide.md](security-guide.md) - Never log sensitive data
+- [testing-guide.md](testing-guide.md) - Testing guidelines (mock PinoLogger)
+- [code-coverage-guide.md](code-coverage-guide.md) - Coverage exclusions
+
+**References:**
+
+- [Pino Documentation](https://getpino.io/)
+- [nestjs-pino](https://github.com/iamolegga/nestjs-pino)
+- Configuration: `apps/web-server/src/app/app.module.ts:20-36`
+- Example: `apps/web-server/src/app/auth/auth.service.ts`

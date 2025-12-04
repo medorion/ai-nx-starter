@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "description": "Skill activation triggers for Claude Code. Controls when skills automatically suggest or block actions.",
+  "skills": {
+    "backend-dev-guidelines": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Backend development patterns for Node.js/Express/TypeScript",
+      "promptTriggers": {
+        "keywords": [
+          "backend",
+          "backend development",
+          "microservice",
+          "controller",
+          "service",
+          "repository",
+          "route",
+          "routing",
+          "API",
+          "endpoint",
+          "middleware",
+          "validation",
+          "web-server",
+          "TypeORM",
+          "database access",
+          "coverage",
+          "testing",
+          "authentication",
+          "authorization",
+          "auth",
+          "login",
+          "logout",
+          "session",
+          "RBAC",
+          "guard",
+          "decorator",
+          "Redis",
+          "bearer token",
+          "JWT",
+          "security",
+          "input validation",
+          "class-validator",
+          "bcrypt",
+          "password hashing",
+          "CORS",
+          "rate limiting",
+          "XSS",
+          "injection",
+          "IDOR",
+          "mass assignment"
+        ],
+        "intentPatterns": [
+          "(create|add|implement|build).*?(route|endpoint|API|controller|service|repository)",
+          "(fix|handle|debug).*?(error|exception|backend)",
+          "(add|implement).*?(middleware|validation|error.*?handling)",
+          "(organize|structure|refactor).*?(backend|service|API)",
+          "(how to|best practice).*?(backend|map|controller|service)",
+          "(implement|add|create).*?(auth|login|logout|session|guard)",
+          "(protect|secure).*?(endpoint|route|API)",
+          "(check|validate).*?(permission|role|authorization)",
+          "(add|implement|check).*?(security|validation|sanitization)",
+          "(prevent|fix).*?(injection|XSS|CSRF|vulnerability)",
+          "(hash|encrypt).*?(password|secret|token)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "apps/web-server/src/**/*.ts",
+          "packages/types/**/*.ts",
+          "packages/data-access-layer/**/*.ts",
+          "packages/backend-common/**/*.ts"
+        ],
+        "pathExclusions": ["**/node_modules/**", "**/dist/**"],
+        "contentPatterns": [
+          "@Controller\\(",
+          "@(Get|Post|Put|Delete|Patch)\\(",
+          "@Injectable\\(\\)",
+          "export.*Controller",
+          "export.*Service",
+          "export.*DbService",
+          "export.*Mapper",
+          "@InjectRepository\\(",
+          "MongoRepository<",
+          "TypeOrmModule\\.forFeature",
+          "@ApiOperation\\(",
+          "@Authorize\\(",
+          "@IgnoreAuthorization\\(",
+          "@Session\\(",
+          "SessionInfo",
+          "SessionService",
+          "AuthorizeGuard",
+          "Test\\.createTestingModule",
+          "describe\\(",
+          "jest\\.fn\\(",
+          "class-validator",
+          "@Is(Email|String|Number|Array|Enum|Optional)\\(",
+          "@Min(Length)?\\(",
+          "@Max(Length)?\\(",
+          "bcrypt\\.(hash|compare)",
+          "ValidationPipe"
+        ]
+      }
+    }
+  },
+  "notes": {
+    "enforcement_types": {
+      "suggest": "Skill suggestion appears but doesn't block execution",
+      "block": "Requires skill to be used before proceeding (guardrail)",
+      "warn": "Shows warning but allows proceeding"
+    },
+    "priority_levels": {
+      "critical": "Highest - Always trigger when matched",
+      "high": "Important - Trigger for most matches",
+      "medium": "Moderate - Trigger for clear matches",
+      "low": "Optional - Trigger only for explicit matches"
+    },
+    "customization": {
+      "pathPatterns": "Adjust to match your project structure (blog-api, auth-service, etc.)",
+      "keywords": "Add domain-specific terms relevant to your project",
+      "intentPatterns": "Use regex for flexible user intent matching"
+    }
+  }
+}
