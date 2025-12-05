@@ -47,3 +47,29 @@ Avoid these common violations:
 - Use `jest.fn()` instead of empty arrow functions `() => {}`
 - Avoid `any` type when possible
 - Prettier formatting is enforced as error
+
+## Monorepo Structure
+
+This is an Nx monorepo with the following structure:
+
+- `/apps/web-ui` - Angular 19 frontend application
+- `/apps/web-server` - NestJS 11 backend application
+- `/packages/api-client` - Auto-generated HTTP client from controllers
+- `/packages/backend-common` - Shared backend utilities and exceptions
+- `/packages/data-access-layer` - TypeORM database access layer
+- `/packages/types` - Shared types, DTOs, enums, and constants
+
+## Cross-Package Dependencies
+
+**CRITICAL RULES:**
+
+- **NEVER** use relative paths to import from packages - use `@ai-nx-starter/*` imports
+- **NEVER** import TypeORM directly in `web-server` - use `data-access-layer` services
+- **NEVER** create manual HTTP services - use auto-generated `@ai-nx-starter/api-client`
+
+**Dependency flow:**
+
+- Frontend (`web-ui`) → `api-client` → HTTP requests to backend
+- Backend (`web-server`) → `data-access-layer` → TypeORM → Database
+- Both frontend and backend → `types` for shared DTOs, enums, constants
+- Backend → `backend-common` for utilities, exceptions, guards
