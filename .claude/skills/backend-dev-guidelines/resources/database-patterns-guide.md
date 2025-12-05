@@ -4,12 +4,125 @@ Complete guide to database access patterns using DbService and TypeORM.
 
 ## Table of Contents
 
+- [Package Overview](#package-overview)
+- [Package Structure](#package-structure)
 - [DbService Pattern](#dbservice-pattern)
 - [Entity Definition](#entity-definition)
 - [Standard DbService Methods](#standard-dbservice-methods)
 - [Query Patterns](#query-patterns)
 - [Error Handling](#error-handling)
 - [Registration](#registration)
+
+---
+
+## Package Overview
+
+### Technology Stack
+
+**Package:** `packages/data-access-layer` (`@ai-nx-starter/data-access-layer`)
+
+**Technologies:**
+
+- **NestJS** - Dependency injection and modules
+- **TypeORM** - ORM framework
+- **MongoDB** - NoSQL database
+
+### Responsibilities
+
+**Data Access Layer is responsible for:**
+
+- ✅ Entity definitions (database schema)
+- ✅ Database operations via DbService
+- ✅ TypeORM repository management
+- ✅ Query construction and optimization
+
+**Data Access Layer should NOT:**
+
+- ❌ Contain business logic (belongs in app services)
+- ❌ Know about DTOs (works with entities only)
+- ❌ Handle HTTP concerns (belongs in controllers)
+- ❌ Throw business exceptions (return null/entities)
+
+---
+
+## Package Structure
+
+### Directory Organization
+
+```
+packages/data-access-layer/src/
+├── features/                      # Feature-based organization
+│   ├── user/                      # User feature
+│   │   ├── entities/              # Entity definitions
+│   │   │   ├── user.entity.ts
+│   │   │   └── index.ts           # Export all entities
+│   │   ├── services/              # DbService implementations
+│   │   │   ├── user.db-service.ts
+│   │   │   └── user.db-service.spec.ts
+│   │   └── index.ts               # Export entities + services
+│   │
+│   ├── todo-item/                 # Todo Item feature
+│   │   ├── entities/
+│   │   │   ├── todo-item.entity.ts
+│   │   │   ├── sub-item.type.ts   # Type definitions
+│   │   │   └── index.ts
+│   │   ├── services/
+│   │   │   ├── todo-item.db-service.ts
+│   │   │   └── todo-item.db-service.spec.ts
+│   │   └── index.ts
+│   │
+│   └── [feature]/                 # Feature template
+│       ├── entities/
+│       │   ├── [entity].entity.ts
+│       │   └── index.ts
+│       ├── services/
+│       │   ├── [entity].db-service.ts
+│       │   └── [entity].db-service.spec.ts
+│       └── index.ts
+│
+├── index.ts                       # Package exports (re-export features)
+└── test-setup.ts                  # Jest configuration
+```
+
+### Organizational Rules
+
+**Features:**
+
+- ✅ Organized by business domain (e.g., `user`, `todo-item`, `organization`)
+- ✅ Each feature has its own folder with `entities/` and `services/` subfolders
+- ✅ Each feature exports through its own `index.ts`
+
+**Files:**
+
+- ✅ Each class/interface **MUST** have its own file
+- ✅ Entity files: `*.entity.ts` suffix
+- ✅ Service files: `*.db-service.ts` suffix
+- ✅ Test files: `*.spec.ts` suffix
+
+**Exports:**
+
+- ✅ Each feature folder has `index.ts` exporting entities and services
+- ✅ Main package `index.ts` re-exports all features
+- ✅ **ONLY** DbService classes and entity types exported publicly
+- ✅ Repositories **NEVER** exported
+- ✅ Entities exported **ONLY for typing** (not for direct instantiation)
+
+**Example feature `index.ts`:**
+
+```typescript
+// packages/data-access-layer/src/features/user/index.ts
+export * from './entities';
+export * from './services/user.db-service';
+```
+
+**Example package `index.ts`:**
+
+```typescript
+// packages/data-access-layer/src/index.ts
+export * from './features/user';
+export * from './features/todo-item';
+// Add new feature exports here
+```
 
 ---
 
@@ -35,6 +148,7 @@ Service → DbService → TypeORM Repository → Database
 - ❌ Contain business logic (that belongs in Service)
 - ❌ Throw business exceptions (return null, let Service handle)
 - ❌ Know about DTOs (works with entities only)
+- ❌ Use inline interfaces for method parameters (define types in entities or DTOs package)
 
 ### DbService Template
 
@@ -430,7 +544,7 @@ export * from './features/todo-item';
 **Related Files:**
 
 - [SKILL.md](../SKILL.md) - Main guide
-- [dto-guide.md](dto-guide.md) - DTO patterns and validation
+- [types-guide.md](types-guide.md) - Types Package, DTOs, enums, constants, validation
 - [services-guide.md](services-guide.md) - How Services use DbService
 - [architecture-overview.md](architecture-overview.md) - Layered architecture
 - [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization

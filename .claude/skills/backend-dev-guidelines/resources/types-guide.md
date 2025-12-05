@@ -1,71 +1,65 @@
-# DTOs - Data Transfer Objects
+# Types Package & DTOs Guide
 
-Complete guide to defining and validating DTOs with class-validator.
+Complete guide for the shared types package (`@ai-nx-starter/types`) - DTOs, enums, constants, and validation.
 
 ## Table of Contents
 
-- [DTO Overview](#dto-overview)
-- [Types Package Rules](#types-package-rules)
-- [DTO Types and Naming](#dto-types-and-naming)
+- [Types Package Overview](#types-package-overview)
+- [File Organization](#file-organization)
+- [Naming Conventions](#naming-conventions)
+- [DTOs - Data Transfer Objects](#dtos---data-transfer-objects)
 - [Validation Decorators](#validation-decorators)
 - [DTO Patterns](#dto-patterns)
 - [Advanced Validation](#advanced-validation)
+- [Enums](#enums)
+- [Constants](#constants)
 - [Best Practices](#best-practices)
 
 ---
 
-## DTO Overview
+## Types Package Overview
 
 ### Purpose
 
-DTOs (Data Transfer Objects) define the shape of data moving between client and server:
+**Location:** `packages/types` (`@ai-nx-starter/types`)
 
-```
-Client → CreateUserDto → Controller → Service → Entity → Database
-Database → Entity → Mapper → ClientUserDto → Controller → Client
-```
-
-**DTOs are responsible for:**
-
-- ✅ Defining data structure and types
-- ✅ Input validation rules (via class-validator)
-- ✅ API contract documentation
-- ✅ Type safety across the stack
-- ✅ Shared between client and server (framework-agnostic)
-
-**DTOs should NOT:**
-
-- ❌ Contain business logic (belongs in services)
-- ❌ Access the database
-- ❌ Include server or client-specific code/references
-- ❌ Include Swagger decorators (@ApiProperty belongs in controllers)
-- ❌ Have methods beyond getters/setters
-
----
-
-## Types Package Rules
-
-### Package Context
-
-**Location:** `packages/types`
-
-This package is **shared between server and client**.
+This package is **shared between server and client** (Angular frontend + NestJS backend).
 
 **Critical Rules:**
 
 - ✅ **MUST NOT** include server or client-specific references/code
 - ✅ Keep it framework-agnostic and pure TypeScript
 - ✅ Use only standard TypeScript and class-validator decorators
+- ✅ No NestJS decorators (e.g., `@ApiProperty`)
+- ✅ No Angular-specific code (e.g., `FormControl`)
+- ✅ No Node.js-specific imports (e.g., `fs`, `path`)
 
-### File Organization
+**Why it matters:**
 
-**Folder Structure:**
+- Ensures code can run in both browser and Node.js environments
+- Maintains clean separation of concerns
+- Enables type safety across the entire stack
 
-- **Constants** → `constants/` folder
-- **Enums** → `enums/` folder
-- **DTOs** → `dto/` folder
+---
 
-**DTO Organization:**
+## File Organization
+
+### Top-Level Structure
+
+```
+packages/types/src/
+├── constants/          # Shared constants
+├── enums/             # Shared enumerations
+└── dto/               # Data Transfer Objects
+```
+
+**Key Rules:**
+
+- ✅ **Constants** → `constants/` folder
+- ✅ **Enums** → `enums/` folder
+- ✅ **DTOs** → `dto/` folder
+
+### DTO Organization
 
 ```
 packages/types/src/dto/
@@ -91,13 +85,43 @@ packages/types/src/dto/
         └── update-todo-item.dto.ts
 ```
 
-**Key Rules:**
+**Organization Rules:**
 
 - ✅ Multiple DTOs for the same entity → create subfolder
 - ✅ Example: `dto/features/users/` contains all user-related DTOs
 - ✅ Group by feature domain, not by DTO type
 
-### Naming Conventions
+### Enum Organization
+
+```
+packages/types/src/enums/
+├── core/                          # Core enums
+│   ├── role.enum.ts
+│   └── status.enum.ts
+└── features/                      # Feature-specific enums
+    ├── user/
+    │   └── user-status.enum.ts
+    └── team/
+        └── team-role.enum.ts
+```
+
+### Constants Organization
+
+```
+packages/types/src/constants/
+├── common/                        # Common constants
+│   ├── defaults.ts
+│   └── limits.ts
+└── features/                      # Feature-specific constants
+    └── auth/
+        └── session-config.ts
+```
+
+---
+
+## Naming Conventions
+
+### DTO Naming
 
 **File Naming:**
 
@@ -120,6 +144,88 @@ packages/types/src/dto/
 | `CreateUser.dto.ts`        | `CreateUserDto`       | ❌    |
 | `user-dto.ts`              | `UserDto`             | ❌    |
 
+### Enum Naming
+
+**File Naming:**
+
+- ✅ Use `kebab-case` ending with `.enum.ts`
+
+**Enum Naming:**
+
+- ✅ Use `PascalCase` without `Enum` suffix
+
+**Examples:**
+
+```typescript
+// ✅ GOOD
+// File: role.enum.ts
+export enum Role {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+
+// ❌ BAD
+// File: RoleEnum.ts
+export enum RoleEnum {
+  Admin = 'admin',
+}
+```
+
+### Constants Naming
+
+**File Naming:**
+
+- ✅ Use `kebab-case` ending with `.ts`
+
+**Constant Naming:**
+
+- ✅ Use `UPPER_SNAKE_CASE` for primitive constants
+- ✅ Use `PascalCase` for object constants
+
+**Examples:**
+
+```typescript
+// ✅ GOOD
+export const DEFAULT_PAGE_SIZE = 20;
+export const ApiDefaults = {
+  timeout: 30000,
+  retries: 3,
+} as const;
+
+// ❌ BAD
+export const defaultPageSize = 20; // Use UPPER_SNAKE_CASE
+export const API_DEFAULTS = { timeout: 30000 }; // Use PascalCase for objects
+```
+
+---
+
+## DTOs - Data Transfer Objects
+
+### DTO Purpose
+
+DTOs define the shape of data moving between client and server:
+
+```
+Client → CreateUserDto → Controller → Service → Entity → Database
+Database → Entity → Mapper → ClientUserDto → Controller → Client
+```
+
+**DTOs are responsible for:**
+
+- ✅ Defining data structure and types
+- ✅ Input validation rules (via class-validator)
+- ✅ API contract documentation
+- ✅ Type safety across the stack
+
+**DTOs should NOT:**
+
+- ❌ Contain business logic (belongs in services)
+- ❌ Access the database
+- ❌ Include server or client-specific code/references
+- ❌ Include Swagger decorators (`@ApiProperty` belongs in controllers)
+- ❌ Have methods beyond getters/setters
+
 ### Validation Requirements
 
 **MUST use class-validator decorators:**
@@ -127,26 +233,25 @@ packages/types/src/dto/
 - ✅ Annotate ALL fields with validation decorators
 - ✅ Use decorators for validation AND clarity
 - ✅ Makes the DTO self-documenting
+- ✅ Use `public` access modifier for all fields
 
 ```typescript
 import { IsString, IsEmail, IsOptional } from 'class-validator';
 
 export class UserRegistrationDto {
   @IsEmail()
-  email: string;
+  public email: string;
 
   @IsString()
-  password: string;
+  public password: string;
 
   @IsString()
   @IsOptional()
-  firstName?: string;
+  public firstName?: string;
 }
 ```
 
----
-
-## DTO Types and Naming
+### DTO Types and Naming
 
 ### Standard DTO Types
 
@@ -679,7 +784,7 @@ packages/types/src/dto/
 └── team.dto.ts
 ```
 
-### 9. Export DTOs from Index Files
+### 9. Export from Index Files
 
 **File:** `packages/types/src/dto/features/users/index.ts`
 
@@ -696,6 +801,14 @@ export * from './client-user.dto';
 export * from './dto/features/users';
 export * from './dto/features/teams';
 export * from './dto/features/auth';
+
+// Export all enums
+export * from './enums/core/role.enum';
+export * from './enums/core/status.enum';
+
+// Export all constants
+export * from './constants/common/limits';
+export * from './constants/common/defaults';
 ```
 
 ### 10. Validation Happens Automatically
@@ -744,6 +857,141 @@ import { FormControl } from '@angular/forms';
 
 export class CreateUserDto {
   public emailControl: FormControl; // Client-specific!
+}
+```
+
+---
+
+## Enums
+
+### Purpose
+
+Enums define a set of named constants that represent a fixed set of values.
+
+**Use enums when:**
+
+- ✅ You have a fixed set of related values (roles, statuses, types)
+- ✅ The values are known at compile time
+- ✅ The values are used across client and server
+
+### String Enums (Preferred)
+
+```typescript
+// ✅ GOOD - String enums are JSON-serializable
+export enum Role {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+
+export enum UserStatus {
+  Active = 'active',
+  Inactive = 'inactive',
+  Suspended = 'suspended',
+}
+```
+
+**Why string enums:**
+
+- ✅ More readable in logs and debugging
+- ✅ Safer for database storage
+- ✅ Easier to serialize/deserialize
+- ✅ Better for API contracts
+
+### Numeric Enums (Avoid)
+
+```typescript
+// ❌ AVOID - Numeric enums can cause serialization issues
+export enum Role {
+  Admin, // 0
+  User, // 1
+  Guest, // 2
+}
+```
+
+**Problems with numeric enums:**
+
+- ❌ Less readable in logs
+- ❌ Can cause issues with JSON serialization
+- ❌ Database values are not self-documenting
+
+### Usage with DTOs
+
+```typescript
+import { IsEnum, IsOptional } from 'class-validator';
+import { Role } from '../../enums/core/role.enum';
+import { UserStatus } from '../../enums/features/user/user-status.enum';
+
+export class CreateUserDto {
+  @IsEnum(Role)
+  public role: Role;
+
+  @IsEnum(UserStatus)
+  @IsOptional()
+  public status?: UserStatus;
+}
+```
+
+---
+
+## Constants
+
+### Purpose
+
+Constants define reusable values that don't change at runtime.
+
+**Use constants when:**
+
+- ✅ You have magic numbers or strings that need names
+- ✅ You want to centralize configuration values
+- ✅ You need shared defaults across client and server
+
+### Primitive Constants
+
+```typescript
+// File: constants/common/limits.ts
+export const MAX_USERNAME_LENGTH = 50;
+export const MIN_PASSWORD_LENGTH = 6;
+export const DEFAULT_PAGE_SIZE = 20;
+export const MAX_FILE_SIZE_MB = 5;
+```
+
+### Object Constants
+
+```typescript
+// File: constants/common/defaults.ts
+export const PaginationDefaults = {
+  page: 1,
+  pageSize: 20,
+  maxPageSize: 100,
+} as const;
+
+export const ValidationMessages = {
+  email: 'Please provide a valid email address',
+  password: 'Password must be at least 6 characters',
+} as const;
+```
+
+**Key points:**
+
+- ✅ Use `as const` to make object constants deeply readonly
+- ✅ Group related constants in objects
+- ✅ Export object constants with `PascalCase` names
+
+### Usage with DTOs
+
+```typescript
+import { IsString, MinLength, MaxLength } from 'class-validator';
+import { MIN_PASSWORD_LENGTH, MAX_USERNAME_LENGTH } from '../../constants/common/limits';
+
+export class CreateUserDto {
+  @IsString()
+  @MaxLength(MAX_USERNAME_LENGTH)
+  public username: string;
+
+  @IsString()
+  @MinLength(MIN_PASSWORD_LENGTH)
+  public password: string;
 }
 ```
 

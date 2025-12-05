@@ -44,7 +44,7 @@ Auto-activates when working on:
 
 ### New Backend Feature Checklist
 
-- [ ] **Dto**: Create [Entity]Dto in packages/types/src/dto/[entity].dto.ts (see [dto-guide.md](resources/dto-guide.md))
+- [ ] **Dto**: Create [Entity]Dto in packages/types/src/dto/[entity].dto.ts (see [types-guide.md](resources/types-guide.md))
 - [ ] **Entity**: Create [Entity] entity in packages/data-access-layer/src/features/[entity]/entities/[entity].entity.ts
 - [ ] **DbService**: [Entity]DbService in packages/data-access-layer/src/features/[entity]/services/[entity]-db.service.ts (see [database-patterns-guide.md](resources/database-patterns-guide.md))
 - [ ] **Controller**: [Entity]Controller in apps/web-server/src/app/features/[entity]/[entity].controller.ts (see [controllers-guide.md](resources/controllers-guide.md))
@@ -287,7 +287,7 @@ create(dto: CreateUserDto): Observable<ClientUserDto> {
 | Need to...                             | Read this                                                          |
 | -------------------------------------- | ------------------------------------------------------------------ |
 | Understand architecture                | [architecture-overview.md](resources/architecture-overview.md)     |
-| Create and validate DTOs               | [dto-guide.md](resources/dto-guide.md)                             |
+| Types Package, DTOs, enums, constants  | [types-guide.md](resources/types-guide.md)                         |
 | Create controllers                     | [controllers-guide.md](resources/controllers-guide.md)             |
 | Organize business logic and exceptions | [services-guide.md](resources/services-guide.md)                   |
 | Database access                        | [database-patterns-guide.md](resources/database-patterns-guide.md) |
@@ -306,9 +306,9 @@ create(dto: CreateUserDto): Observable<ClientUserDto> {
 
 Layered architecture, request lifecycle, separation of concerns
 
-### [dto-guide.md](resources/dto-guide.md)
+### [types-guide.md](resources/types-guide.md)
 
-DTO patterns, class-validator decorators, validation rules, Types package rules, naming conventions
+Types Package & DTOs - Complete guide for DTOs, enums, constants, validation, naming conventions, and organization
 
 ### [controllers-guide.md](resources/controllers-guide.md)
 
