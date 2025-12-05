@@ -26,11 +26,25 @@ Auto-activates when working on:
 
 ---
 
+## CRITICAL: Implementation Workflow
+
+**Before writing ANY code, you MUST:**
+
+1. ✅ Read the relevant resource guides for your task (see Navigation Guide below)
+2. ✅ Use the "New Backend Feature Checklist" as your TODO list
+   **DO NOT:**
+
+- ❌ Start by reading existing implementations
+- ❌ Copy-paste from existing files without reading the guides
+- ❌ Create an abbreviated version of the checklist
+
+---
+
 ## Quick Start
 
 ### New Backend Feature Checklist
 
-- [ ] **Dto**: Create [Entity]Dto in packages/types/src/dto/[entity].dto.ts
+- [ ] **Dto**: Create [Entity]Dto in packages/types/src/dto/[entity].dto.ts (see [dto-guide.md](resources/dto-guide.md))
 - [ ] **Entity**: Create [Entity] entity in packages/data-access-layer/src/features/[entity]/entities/[entity].entity.ts
 - [ ] **DbService**: [Entity]DbService in packages/data-access-layer/src/features/[entity]/services/[entity]-db.service.ts (see [database-patterns-guide.md](resources/database-patterns-guide.md))
 - [ ] **Controller**: [Entity]Controller in apps/web-server/src/app/features/[entity]/[entity].controller.ts (see [controllers-guide.md](resources/controllers-guide.md))
@@ -38,7 +52,8 @@ Auto-activates when working on:
 - [ ] **Mapper**: [Entity]Mapper in apps/web-server/src/app/features/[entity]/[entity].mapper.ts (see [services-guide.md](resources/services-guide.md))
 - [ ] **Register**: register new DbServices and Entities in `data-access.module` (see [database-patterns-guide.md](resources/database-patterns-guide.md))
 - [ ] **Unit Tests**: Write unit tests for controller, service, and mapper (see [testing-guide.md](resources/testing-guide.md))
-- [ ] **Code Coverage**: Achieve 80% coverage (statements, lines, branches 60%, functions 60%) (see [code-coverage-guide.md](resources/code-coverage-guide.md))
+- [ ] **Verify Tests Pass**: Run: `npm run test`. 100% of tests should pass. If not fix until all pass
+- [ ] **Code Coverage**: Run: `npm run test:coverage`. Achieve 80% coverage (statements, lines, branches 60%, functions 60%) (see [code-coverage-guide.md](resources/code-coverage-guide.md))
 - [ ] **API Documentation**: Write API Endpoint documentation (see [api-documentation-guide.md](resources/api-documentation-guide.md))
 - [ ] **Client API Generate**: Run: `npm run gen-api-client`
 - [ ] **Verify Format**: Run: `npm run format:fix`
@@ -272,6 +287,7 @@ create(dto: CreateUserDto): Observable<ClientUserDto> {
 | Need to...                             | Read this                                                          |
 | -------------------------------------- | ------------------------------------------------------------------ |
 | Understand architecture                | [architecture-overview.md](resources/architecture-overview.md)     |
+| Create and validate DTOs               | [dto-guide.md](resources/dto-guide.md)                             |
 | Create controllers                     | [controllers-guide.md](resources/controllers-guide.md)             |
 | Organize business logic and exceptions | [services-guide.md](resources/services-guide.md)                   |
 | Database access                        | [database-patterns-guide.md](resources/database-patterns-guide.md) |
@@ -289,6 +305,10 @@ create(dto: CreateUserDto): Observable<ClientUserDto> {
 ### [architecture-overview.md](resources/architecture-overview.md)
 
 Layered architecture, request lifecycle, separation of concerns
+
+### [dto-guide.md](resources/dto-guide.md)
+
+DTO patterns, class-validator decorators, validation rules, Types package rules, naming conventions
 
 ### [controllers-guide.md](resources/controllers-guide.md)
 
@@ -330,4 +350,4 @@ Coverage exclusion guidelines, decision framework, what to test vs exclude
 
 **Skill Status**: COMPLETE ✅
 **Line Count**: < 500 ✅
-**Progressive Disclosure**: 10 resource files ✅
+**Progressive Disclosure**: 11 resource files ✅

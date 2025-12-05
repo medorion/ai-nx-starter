@@ -552,6 +552,7 @@ async create(dto: CreateUserDto): Promise<ClientUserDto> {
 **Related Files:**
 
 - [SKILL.md](../SKILL.md) - Main guide
+- [dto-guide.md](dto-guide.md) - DTO patterns and validation
 - [controllers-guide.md](controllers-guide.md) - Controllers that use services
 - [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns
 - [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization

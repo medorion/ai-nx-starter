@@ -430,6 +430,7 @@ export * from './features/todo-item';
 **Related Files:**
 
 - [SKILL.md](../SKILL.md) - Main guide
+- [dto-guide.md](dto-guide.md) - DTO patterns and validation
 - [services-guide.md](services-guide.md) - How Services use DbService
 - [architecture-overview.md](architecture-overview.md) - Layered architecture
 - [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization

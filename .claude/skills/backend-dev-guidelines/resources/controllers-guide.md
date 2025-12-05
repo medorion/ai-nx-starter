@@ -365,6 +365,7 @@ async delete(id: string, requesterId: string): Promise<void> {
 **Related Files:**
 
 - [SKILL.md](../SKILL.md) - Main guide
+- [dto-guide.md](dto-guide.md) - DTO patterns and validation
 - [services-guide.md](services-guide.md) - Service patterns
 - [architecture-overview.md](architecture-overview.md) - Layered architecture
 - [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
