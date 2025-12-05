@@ -18,6 +18,7 @@
           "route",
           "routing",
           "API",
+          "CRUD",
           "endpoint",
           "middleware",
           "validation",

@@ -1,6 +1,6 @@
 ---
 name: backend-dev-guidelines
-description: Comprehensive backend development guide for Node.js/NestJS/TypeScript microservices. Use when creating routes, controllers, services, repositories, middleware, DTOs, or working with NestJS APIs, dependency injection, or async patterns. Covers layered architecture (controllers → services → dbservice), error handling, performance monitoring, testing strategies.
+description: Comprehensive backend development guide for Node.js/NestJS/TypeScript microservices. Use when creating controllers, services, database access, middleware, DTOs, or working with NestJS APIs, dependency injection, or async patterns. Covers layered architecture (controllers → services → dbservice), error handling, performance monitoring, testing strategies.
 ---
 
 # Backend Development Guidelines
