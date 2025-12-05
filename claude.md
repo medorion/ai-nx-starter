@@ -26,7 +26,7 @@ npm run format:fix     # Auto-fix formatting issues
 - NEVER import TypeORM in `apps/web-server` - use `data-access-layer` services
 - NEVER create manual HTTP services - use auto-generated `@ai-nx-starter/api-client`
 - Run `npm run gen-api-client` after controller changes, `npm run build` after all changes
-- **ALWAYS run `npm run format:fix` IMMEDIATELY after creating or modifying ANY file** - Prettier formatting is enforced
+- **ALWAYS run `npx prettier --write <file_path>` IMMEDIATELY after creating or modifying ANY file** - Format only changed files, not entire project
 - **ALL files MUST pass `npm run format:check` and `npm run lint`** before considering work complete
 
 ## Formatting Rules (Prettier)

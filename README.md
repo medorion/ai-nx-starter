@@ -12,10 +12,11 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster.
 
 **Traditional starters give you code.** AI-Nx-Starter gives you an **AI multiplication system**:
 
-- 📖 **Built-in AI rules** - Claude Code auto-applies patterns
+- 📖 **Built-in AI skills** - Context-rich guides auto-applied by keywords (CRUD, controller, service, etc.)
 - 🤖 **Auto-generated API clients** - Type-safe Angular services from NestJS controllers
 - ⚡ **Strict conventions** - Clear patterns = faster AI development
 - 🎯 **Testing and ci as part of the flow** - comprehensive testing guidelines including coverage and e2e
+- 💾 **Context-optimized** - Skills load only when needed, saving tokens and improving performance
 
 ## 🚀 Quick Start
 
@@ -117,8 +118,8 @@ ai-nx-starter/
 │   ├── api-client/          # Auto-generated Angular services ⚡
 │   ├── data-access-layer/   # TypeORM entities & DB services
 │   └── backend-common/      # Shared backend utilities
-├── documents/               # AI context (architecture, standards, guidelines)
-├── prompts/                 # Step-by-step task templates
+├── .claude/
+│   └── skills/              # AI skills - auto-load on keywords, save context
 └── CLAUDE.md               # Quick reference for AI agents
 ```
 
@@ -128,8 +129,8 @@ ai-nx-starter/
 
 - **Natural language works** - Just describe what you need
 - **Auto-applied standards** - Security, validation, Swagger docs
-- **Context-aware** - AI reads `/documents/` for patterns
-- **Task templates** - `/prompts/` for complex workflows
+- **Smart skills system** - Comprehensive guides auto-load when you mention keywords like "CRUD", "controller", "service", "DTO"
+- **Context-efficient** - Skills load only when needed, reducing token usage while providing deep expertise
 
 ### Production-Ready Stack
 
@@ -175,16 +176,21 @@ npm run format:fix    # Auto-format code
 
 ## 🤖 AI Workflows
 
-**Complex workflows use templates:**
+**Skills auto-activate on keywords:**
 
-- Complete CRUD: `prompts/create-crud-feature.md`
-- UI Components: `prompts/create-ui-component.md`
+- Say "create a CRUD feature" → `backend-dev-guidelines` skill loads automatically
+- Mention "controller", "service", "DTO" → Backend patterns applied instantly
+- No manual file reading needed - AI gets context only when relevant
 
 **Key files for AI:**
 
 - `CLAUDE.md` - Quick reference and critical rules
-- `documents/` - Architecture patterns (auto-applied)
-- `prompts/` - Step-by-step workflows
+- `.claude/skills/` - Deep expertise guides (auto-loaded by keywords)
+
+**How it saves you tokens:**
+
+- Traditional: AI reads 50KB of docs for every request
+- Skills: AI loads only the 10KB backend guide when you say "CRUD"
 
 ## ⚠️ Current Limitations
 
