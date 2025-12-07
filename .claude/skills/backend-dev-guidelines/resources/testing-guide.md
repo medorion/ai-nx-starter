@@ -1,272 +1,53 @@
-# AI Testing Guidelines
+# Testing Guide - Backend Testing Strategies
 
-## Overview
+Complete guide to testing backend services with Jest and NestJS Testing utilities.
 
-This document provides guidelines for AI assistants (like Claude) when creating tests for the ai-nx-starter codebase. It explains how to use the coverage exclusion guidelines and make informed decisions about what to test.
+## Table of Contents
 
-## How to Use the Coverage Exclusion Document
+- [What to Test](#what-to-test)
+- [Testing Services](#testing-services)
+- [Testing Controllers](#testing-controllers)
+- [Testing DbServices](#testing-dbservices)
+- [Testing Mappers](#testing-mappers)
+- [Coverage Targets](#coverage-targets)
+- [Quick Reference](#quick-reference)
 
-When asked to create tests or improve coverage, follow this workflow:
+---
 
-### Step 1: Analyze the Code to be Tested
+## What to Test
 
-Before writing any tests, ask these questions:
+### Decision Matrix
 
-1. **Read the exclusion guidelines**: Check `documents/code-coverage-guidelines.md`
-2. **Check current exclusions**: Look at the relevant `jest.config.ts` file
-3. **Identify the code type**: Is it business logic, infrastructure, configuration, or presentation?
-4. **Review the decision framework**: Does this code fit exclusion criteria?
+| Code Type                        | Action                 | Reasoning                                           | Example                  |
+| -------------------------------- | ---------------------- | --------------------------------------------------- | ------------------------ |
+| **Business Logic Service**       | ✅ Write tests         | Critical functionality, high change rate            | `user.service.ts`        |
+| **API Controller**               | ✅ Write tests         | Defines public contracts                            | `user.controller.ts`     |
+| **Data Mapper**                  | ✅ Write tests         | Data transformation is error-prone                  | `user.mapper.ts`         |
+| **Guards/Interceptors**          | ✅ Write tests         | Security-critical                                   | `authorize.guard.ts`     |
+| **DbService**                    | ✅ Write tests         | Data access logic                                   | `user.db-service.ts`     |
+| **Pure Utility Functions**       | ✅ Write tests         | Shared code, affects multiple features              | `validation-utils.ts`    |
+| **SSE/WebSocket Infrastructure** | ❌ Exclude + E2E tests | Connection handling; test business logic separately | `sync-events.controller` |
+| **Module Declarations**          | ❌ Already excluded    | Configuration only                                  | `*.module.ts`            |
+| **Configuration Files**          | ❌ Already excluded    | Configuration data                                  | `app.config.ts`          |
+| **main.ts / bootstrap**          | ❌ Already excluded    | Application bootstrap                               | `main.ts`                |
 
-### Step 2: Make a Decision
+### Testing Policy
 
-Use the decision tree from `code-coverage-guidelines.md`:
+When creating new backend features:
 
-```
-Is this code business critical?
-├─ YES → Write tests, do NOT exclude
-│   ├─ Hard to test? → Refactor to make testable
-│   └─ External dependencies? → Use mocks/stubs
-│
-└─ NO → Is it infrastructure/configuration?
-    ├─ YES → EXCLUDE (document why)
-    └─ NO → Is it purely presentational?
-        ├─ YES → EXCLUDE (if minimal logic)
-        └─ NO → Write tests, do NOT exclude
-```
+- ✅ **Automatically write tests** for all business logic (Services, Controllers, DbServices, Mappers)
+- ✅ Run `npm run test` to verify all pass
+- ✅ Run `npm run test:coverage` to check completeness
+- ❌ **Don't wait to be asked** - tests are part of the workflow
 
-### Step 3: Document Your Reasoning
+---
 
-**Always explain your decision** to the user:
+## Testing Services
 
-✅ **Good Example**:
-
-```
-I see that theme.service.ts contains business logic for managing
-the application theme state and localStorage persistence. According
-to the coverage exclusion guidelines, this is business-critical code
-that should be tested. I'll write comprehensive tests for:
-- Theme switching logic
-- localStorage persistence
-- State management
-```
-
-❌ **Bad Example**:
-
-```
-I'll write tests for theme.service.ts
-```
-
-### Step 4: Check for Existing Patterns
-
-Before creating tests, examine existing test files to understand:
-
-1. **Testing framework conventions**:
-   - Backend uses NestJS testing utilities (`@nestjs/testing`)
-   - Use `Test.createTestingModule()` for service/controller tests
-
-2. **Mock patterns**:
-
-   ```typescript
-   // Check existing specs to see how they mock services
-   const mockDbService = {
-     findById: jest.fn(),
-     findAll: jest.fn(),
-     create: jest.fn(),
-   };
-   ```
-
-3. **Test structure**:
-
-   ```typescript
-   describe('UserService', () => {
-     let service: UserService;
-     let mockDbService: jest.Mocked<UserDbService>;
-
-     beforeEach(async () => {
-       const module: TestingModule = await Test.createTestingModule({
-         providers: [UserService, { provide: UserDbService, useValue: mockDbService }],
-       }).compile();
-       service = module.get<UserService>(UserService);
-     });
-
-     describe('findOne', () => {
-       it('should return user when found', async () => {
-         // Test implementation
-       });
-     });
-   });
-   ```
-
-## Decision Matrix for AI Assistants (Backend)
-
-| Code Type                     | Action                       | Reasoning                                | Example                              |
-| ----------------------------- | ---------------------------- | ---------------------------------------- | ------------------------------------ |
-| **Business Logic Service**    | ✅ Write comprehensive tests | Critical functionality, high change rate | `user.service.ts`, `auth.service.ts` |
-| **API Controller**            | ✅ Write tests               | Defines public contracts                 | `user.controller.ts`                 |
-| **Data Mapper**               | ✅ Write tests               | Data transformation is error-prone       | `user.mapper.ts`                     |
-| **Guards/Interceptors**       | ✅ Write tests               | Security-critical                        | `authorize.guard.ts`                 |
-| **DbService**                 | ✅ Write tests               | Data access logic                        | `user.db-service.ts`                 |
-| **Pure Utility Functions**    | ✅ Write tests               | Shared code, affects multiple features   | `validation-utils.ts`                |
-| **SSE/WebSocket Controllers** | ❌ Suggest exclusion + E2E   | Requires real connections                | `sync-events.controller.ts`          |
-| **Module Declarations**       | ❌ Already excluded          | Configuration only                       | `*.module.ts`                        |
-| **Configuration Files**       | ❌ Already excluded          | Configuration data                       | `app.config.ts`                      |
-| **main.ts / bootstrap**       | ❌ Already excluded          | Application bootstrap                    | `main.ts`                            |
-
-## When User Asks "Why not exclude X?"
-
-If the user questions an exclusion decision, **re-evaluate using the guidelines**:
-
-### Example from History
-
-**User**: "why not exclude health controller? why is it difficult to write tests"
-
-**Correct Response**:
-
-```
-You're absolutely right to question this. Looking at the health controller:
-
-1. It's an API endpoint that monitoring systems depend on
-2. The logic is simple and testable (just returns status + timestamp)
-3. A bug here would break monitoring/alerting
-
-According to our coverage exclusion guidelines:
-- ❌ It's business critical (monitoring)
-- ❌ It's NOT infrastructure (it's a simple endpoint)
-- ❌ It's NOT hard to test
-
-Decision: I'll write tests instead of excluding it. Here's a test
-that verifies the response format and timestamp validity...
-```
-
-## Common Pitfalls to Avoid
-
-### ❌ Pitfall 1: Excluding Code to Meet Coverage Thresholds
-
-**Wrong approach**:
-
-```
-Coverage is at 78%, we need 80%. Let me exclude these components...
-```
-
-**Right approach**:
-
-```
-Coverage is at 78%. Let me analyze what's not covered:
-1. sync-events.controller.ts - SSE infrastructure, candidate for exclusion
-2. user.service.ts - business logic, needs tests
-3. order.mapper.ts - data transformation, needs tests
-
-I'll write tests for #2 and #3, and suggest excluding #1 with
-documentation of why it's infrastructure.
-```
-
-### ❌ Pitfall 2: Using Wrong Testing Framework Syntax
-
-**Before writing tests**, check the test setup:
+### Test Structure
 
 ```typescript
-// apps/web-server/src/test-setup.ts
-import 'jest';
-```
-
-This tells you:
-
-- ✅ Use Jest syntax (`jest.fn()`, `.mockImplementation()`)
-- ✅ NestJS `Test.createTestingModule()` is available
-- ❌ Don't use Jasmine syntax (`spyOn` without `jest.`)
-
-**Check for examples**:
-
-```bash
-# Look at existing tests to see patterns
-grep -r "jest.fn" apps/web-server/src/**/*.spec.ts
-```
-
-### ❌ Pitfall 3: Testing Framework Instead of Business Logic
-
-**Wrong focus**:
-
-```typescript
-it('should inject dependencies', () => {
-  expect(service).toBeDefined();
-  expect(service['dependency']).toBeDefined();
-});
-```
-
-**Right focus**:
-
-```typescript
-it('should calculate user discount correctly', () => {
-  const result = service.calculateDiscount(user, order);
-  expect(result).toBe(10.5);
-});
-
-it('should throw error for invalid discount rules', () => {
-  expect(() => service.calculateDiscount(null, order)).toThrow('User is required');
-});
-```
-
-### ❌ Pitfall 4: Complex Service Tests Without Proper Mocking
-
-If a service test needs extensive setup (many dependencies, complex mocking):
-
-**Consider**:
-
-1. Is the service too complex? Should it be refactored?
-2. Can responsibilities be split into smaller services?
-3. Are you mocking too much infrastructure?
-
-**Example**:
-
-```typescript
-// OrderService needs: OrderDbService, UserDbService, ProductDbService,
-// PaymentService, NotificationService, OrderMapper, PinoLogger...
-// → Consider if this service has too many responsibilities
-// → Each dependency should be mocked with jest.fn()
-```
-
-## Workflow for Creating Tests
-
-### 1. Understand the Requirement
-
-```
-User: "improve coverage for web-ui"
-```
-
-**AI Response**:
-
-```
-I'll analyze the web-ui coverage to identify what needs testing.
-Let me check:
-1. Current coverage levels
-2. What's already excluded
-3. What's untested but should be tested
-
-[Runs coverage check]
-
-Analysis:
-- Current: 78% statements
-- Goal: 80% statements
-- Uncovered code:
-  - theme.service.ts (business logic) - NEEDS TESTS
-  - header.component.ts (presentational) - CANDIDATE FOR EXCLUSION
-  - message.service.ts (business logic wrapper) - NEEDS TESTS
-
-Strategy: Write tests for theme + message services, exclude header
-```
-
-### 2. Create Tests with Context
-
-For each test file, include:
-
-1. **Imports**: Based on existing patterns
-2. **Mock setup**: Following project conventions
-3. **Test organization**: `describe` blocks for methods
-4. **Comprehensive cases**: Happy path + edge cases + errors
-
-**Template (NestJS Backend)**:
-
-```typescript
+// apps/web-server/src/app/features/user/user.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -280,7 +61,6 @@ describe('UserService', () => {
   let mockMapper: jest.Mocked<UserMapper>;
 
   beforeEach(async () => {
-    // Setup mocks using project conventions
     mockDbService = {
       findById: jest.fn(),
       findByEmail: jest.fn(),
@@ -300,7 +80,7 @@ describe('UserService', () => {
         UserService,
         { provide: UserDbService, useValue: mockDbService },
         { provide: UserMapper, useValue: mockMapper },
-        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn(), debug: jest.fn() } },
+        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn() } },
       ],
     }).compile();
 
@@ -309,404 +89,374 @@ describe('UserService', () => {
 
   describe('findOne', () => {
     it('should return user DTO when found', async () => {
-      // Arrange
       const mockUser = { id: '123', email: 'test@test.com' };
       const mockDto = { id: '123', email: 'test@test.com' };
       mockDbService.findById.mockResolvedValue(mockUser as any);
       mockMapper.toDto.mockReturnValue(mockDto as any);
 
-      // Act
       const result = await service.findOne('123');
 
-      // Assert
       expect(result).toEqual(mockDto);
       expect(mockDbService.findById).toHaveBeenCalledWith('123');
+      expect(mockMapper.toDto).toHaveBeenCalledWith(mockUser);
     });
 
     it('should throw NotFoundException when user not found', async () => {
-      // Arrange
       mockDbService.findById.mockResolvedValue(null);
 
-      // Act & Assert
       await expect(service.findOne('123')).rejects.toThrow(NotFoundException);
     });
   });
 });
 ```
 
-### 3. Verify Against Guidelines
+### What to Test in Services
 
-Before submitting tests, check:
+✅ **Test these**:
 
-- ✅ Does the code warrant testing per exclusion guidelines?
-- ✅ Are tests using correct framework syntax?
-- ✅ Do tests cover business logic, not framework features?
-- ✅ Are edge cases and errors tested?
-- ✅ Are mocks properly set up?
+- Business logic and validation
+- Error handling (NotFoundException, ConflictException, etc.)
+- Calls to DbService with correct parameters
+- Calls to Mapper with correct parameters
+- Edge cases and boundary conditions
 
-## How to Handle User Pushback
+❌ **Don't test these**:
 
-If user questions your approach:
+- Framework injection (NestJS handles this)
+- Logger calls (unless critical to business logic)
+- Exact error messages (test error types instead)
 
-### Example 1: User wants to exclude business logic
+---
 
-**User**: "Let's exclude the auth service, it's hard to test"
+## Testing Controllers
 
-**AI Response**:
+### Test Structure
 
-```
-I understand the auth service is complex, but according to our
-coverage exclusion guidelines (documents/code-coverage-guidelines.md):
+```typescript
+// apps/web-server/src/app/features/user/user.controller.spec.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { CreateUserDto, ClientUserDto } from '@ai-nx-starter/types';
 
-❌ Auth/authorization is explicitly listed as code that should
-   NEVER be excluded (security-critical)
+describe('UserController', () => {
+  let controller: UserController;
+  let mockService: jest.Mocked<UserService>;
 
-Instead, I recommend:
-1. Mock the external auth provider dependencies
-2. Test the business logic in isolation
-3. Use integration tests for the full auth flow
+  beforeEach(async () => {
+    mockService = {
+      findAll: jest.fn(),
+      findOne: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    } as any;
 
-Let me show you how we can make it testable...
-```
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UserController],
+      providers: [{ provide: UserService, useValue: mockService }],
+    }).compile();
 
-### Example 2: User questions an exclusion
+    controller = module.get<UserController>(UserController);
+  });
 
-**User**: "Why exclude the notification service?"
+  describe('create', () => {
+    it('should create user and return DTO', async () => {
+      const createDto: CreateUserDto = { email: 'test@test.com', password: 'pass' };
+      const mockResult: ClientUserDto = { id: '123', email: 'test@test.com' };
+      mockService.create.mockResolvedValue(mockResult);
 
-**AI Response**:
+      const result = await controller.create(createDto);
 
-```
-Good question! Let me review the decision:
+      expect(result).toEqual(mockResult);
+      expect(mockService.create).toHaveBeenCalledWith(createDto);
+    });
+  });
 
-The notification service is excluded because:
-1. It's a wrapper around the browser Notifications API
-2. Testing requires real browser permissions
-3. It has minimal business logic (just calls browser API)
-4. It's infrastructure code (per our guidelines)
+  describe('findOne', () => {
+    it('should return user by id', async () => {
+      const mockResult: ClientUserDto = { id: '123', email: 'test@test.com' };
+      mockService.findOne.mockResolvedValue(mockResult);
 
-However, if you want to test it, we could:
-- Create a facade/interface
-- Mock the browser API
-- Test the wrapper logic
+      const result = await controller.findOne('123');
 
-Would you like me to write tests for it instead of excluding it?
-```
-
-## Integration with Development Workflow
-
-When the user is actively developing:
-
-### New Feature Scenario
-
-**User**: "I'm adding a user subscription feature"
-
-**AI Should**:
-
-1. ✅ Suggest TDD approach (tests first)
-2. ✅ Create comprehensive test coverage for business logic
-3. ✅ Only suggest exclusions for infrastructure/presentation
-4. ✅ Remind about coverage thresholds
-
-```
-I'll help you build this with tests. Based on our 80% coverage
-threshold, here's what we should test:
-
-✅ Must test:
-- SubscriptionService (business logic)
-- Subscription validation rules
-- Payment processing logic
-- State management
-
-❌ Can exclude:
-- WebSocket connection handling (infrastructure)
-- Presentational components (if logic extracted)
-
-Let me start with the service tests...
+      expect(result).toEqual(mockResult);
+      expect(mockService.findOne).toHaveBeenCalledWith('123');
+    });
+  });
+});
 ```
 
-## Quick Reference: Files to Check
+### What to Test in Controllers
 
-Before creating tests, review these files:
+✅ **Test these**:
 
-1. **Coverage exclusions**: `documents/code-coverage-guidelines.md`
+- Calls to service methods with correct parameters
+- Returns service results correctly
+- Parameter extraction (@Param, @Body, @Query)
+
+❌ **Don't test these**:
+
+- Validation decorators (class-validator handles this)
+- Authorization guards (test guards separately)
+- Swagger decorators (documentation only)
+
+---
+
+## Testing DbServices
+
+DbServices interact with TypeORM. Focus on query logic, not the framework.
+
+### Test Structure
+
+```typescript
+// packages/data-access-layer/src/features/user/services/user.db-service.spec.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserDbService } from './user.db-service';
+import { User } from '../entities/user.entity';
+
+describe('UserDbService', () => {
+  let service: UserDbService;
+  let mockRepository: jest.Mocked<Repository<User>>;
+
+  beforeEach(async () => {
+    mockRepository = {
+      findOne: jest.fn(),
+      find: jest.fn(),
+      save: jest.fn(),
+      delete: jest.fn(),
+      createQueryBuilder: jest.fn(),
+    } as any;
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UserDbService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: mockRepository,
+        },
+      ],
+    }).compile();
+
+    service = module.get<UserDbService>(UserDbService);
+  });
+
+  describe('findByEmail', () => {
+    it('should find user by email (case insensitive)', async () => {
+      const mockUser = { id: '123', email: 'test@test.com' };
+      mockRepository.findOne.mockResolvedValue(mockUser as User);
+
+      const result = await service.findByEmail('TEST@test.com');
+
+      expect(result).toEqual(mockUser);
+      expect(mockRepository.findOne).toHaveBeenCalledWith({
+        where: { email: 'test@test.com' },
+      });
+    });
+
+    it('should return null when user not found', async () => {
+      mockRepository.findOne.mockResolvedValue(null);
+
+      const result = await service.findByEmail('notfound@test.com');
+
+      expect(result).toBeNull();
+    });
+  });
+});
+```
+
+### What to Test in DbServices
+
+✅ **Test these**:
+
+- Custom query logic (WHERE clauses, joins, filters)
+- Data transformation before/after database operations
+- Error handling (not found, duplicates, validation)
+- Business rules applied at data layer
+
+❌ **Don't test these**:
+
+- TypeORM framework (`.save()`, `.find()` work correctly)
+- Database connection setup (infrastructure)
+- TypeORM decorators (framework responsibility)
+
+### Key Points
+
+1. **Mock the Repository**: Use `getRepositoryToken(Entity)` from `@nestjs/typeorm`
+2. **Test query logic**: Focus on filters, transformations, custom queries
+3. **Don't test TypeORM**: Trust the framework works
+4. **Test business rules**: e.g., "findActiveUsers only returns active=true"
+
+---
+
+## Testing Mappers
+
+### Test Structure
+
+```typescript
+// apps/web-server/src/app/features/user/user.mapper.spec.ts
+import { UserMapper } from './user.mapper';
+import { User } from '@ai-nx-starter/data-access-layer';
+import { ClientUserDto } from '@ai-nx-starter/types';
+
+describe('UserMapper', () => {
+  let mapper: UserMapper;
+
+  beforeEach(() => {
+    mapper = new UserMapper();
+  });
+
+  describe('toDto', () => {
+    it('should map User entity to ClientUserDto', () => {
+      const user: User = {
+        id: '123',
+        email: 'test@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        password: 'hashed',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as User;
+
+      const result: ClientUserDto = mapper.toDto(user);
+
+      expect(result.id).toBe('123');
+      expect(result.email).toBe('test@test.com');
+      expect(result.firstName).toBe('John');
+      expect(result.lastName).toBe('Doe');
+      expect(result.password).toBeUndefined(); // Sensitive data excluded
+    });
+
+    it('should handle null/undefined fields', () => {
+      const user: User = {
+        id: '123',
+        email: 'test@test.com',
+        firstName: null,
+        lastName: null,
+      } as User;
+
+      const result: ClientUserDto = mapper.toDto(user);
+
+      expect(result.firstName).toBeUndefined();
+      expect(result.lastName).toBeUndefined();
+    });
+  });
+
+  describe('toDtoArray', () => {
+    it('should map array of entities to DTOs', () => {
+      const users: User[] = [{ id: '1', email: 'user1@test.com' } as User, { id: '2', email: 'user2@test.com' } as User];
+
+      const result: ClientUserDto[] = mapper.toDtoArray(users);
+
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe('1');
+      expect(result[1].id).toBe('2');
+    });
+  });
+});
+```
+
+### What to Test in Mappers
+
+✅ **Test these**:
+
+- Correct field mapping (entity → DTO)
+- Sensitive data exclusion (passwords, tokens)
+- Null/undefined handling
+- Array transformations
+- Nested object mapping
+
+---
+
+## Coverage Targets
+
+### Recommended Thresholds
+
+- **Statements**: 80%
+- **Lines**: 80%
+- **Branches**: 60%
+- **Functions**: 60%
+
+### Run Coverage
+
+```bash
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests for specific project
+npx nx test web-server --coverage
+npx nx test data-access-layer --coverage
+```
+
+### Coverage Analysis
+
+After running coverage, review the report:
+
+1. **Identify untested files** - Look for 0% coverage
+2. **Check if business logic** - Use decision matrix above
+3. **Write tests or exclude** - Based on code type
+4. **Re-run coverage** - Verify thresholds met
+
+---
+
+## Quick Reference
+
+### Files to Check Before Testing
+
+1. **Coverage exclusions**: [code-coverage-guide.md](code-coverage-guide.md)
 2. **Backend Jest config**: `apps/web-server/jest.config.ts`
-3. **Data access layer Jest config**: `packages/data-access-layer/jest.config.ts`
-4. **Global Jest config**: `jest.preset.js`
-5. **Existing test patterns**: Similar `*.spec.ts` files in the same directory
-6. **Test setup**: `apps/web-server/src/test-setup.ts`
+3. **Data access Jest config**: `packages/data-access-layer/jest.config.ts`
+4. **Test setup**: `apps/web-server/src/test-setup.ts`
+5. **Existing patterns**: Similar `*.spec.ts` files
 
-## Proactive Test Generation Policy
+### Common Mocks
 
-### When AI Should Automatically Write Tests (Without Being Asked)
+```typescript
+// Mock PinoLogger
+const mockLogger = {
+  setContext: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+};
 
-The AI should **proactively offer or write tests** in these scenarios:
+// Mock DbService
+const mockDbService = {
+  findById: jest.fn(),
+  findAll: jest.fn(),
+  create: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+};
 
-#### ✅ Always Write Tests For:
-
-1. **New API Endpoints/Controllers**
-
-   ```
-   User: "Add a POST /api/subscriptions endpoint"
-
-   AI Should:
-   - Write the controller method
-   - Automatically create controller.spec.ts tests
-   - Explain: "I've added the endpoint and comprehensive tests covering
-     request validation, success cases, and error handling."
-   ```
-
-2. **New Services with Business Logic**
-
-   ```
-   User: "Create a SubscriptionService to handle billing"
-
-   AI Should:
-   - Write the service
-   - Automatically create service.spec.ts tests
-   - Test all public methods
-   ```
-
-3. **New Guards/Interceptors/Pipes** (Security-Critical)
-
-   ```
-   User: "Add a rate limiting guard"
-
-   AI Should:
-   - Write the guard
-   - Automatically create guard.spec.ts tests
-   - Test security scenarios thoroughly
-   ```
-
-4. **New Mappers/Transformers**
-
-   ```
-   User: "Create a mapper for Subscription entities"
-
-   AI Should:
-   - Write the mapper
-   - Automatically create mapper.spec.ts tests
-   - Test data transformations
-   ```
-
-5. **When Completing CRUD Feature**
-
-   ```
-   User: "Create a full CRUD for subscriptions"
-
-   AI Should:
-   - Follow prompts/create-crud-feature.md
-   - Step 4 explicitly requires: "Write unit tests for controller, service, and mapper"
-   - Don't wait to be asked - tests are part of the workflow
-   ```
-
-#### ⚠️ Offer (But Don't Automatically Write) Tests For:
-
-1. **New UI Components with Logic**
-
-   ```
-   User: "Create a subscription-form component"
-
-   AI Should Say:
-   - "I've created the component. Would you like me to write tests for
-     the form validation and submission logic?"
-   - Or: "I've created the component with tests for the business logic
-     (form validation, API calls). The presentation layer is excluded
-     per our guidelines."
-   ```
-
-2. **Utility Functions**
-
-   ```
-   User: "Add a date formatting utility"
-
-   AI Should:
-   - Write the utility
-   - Offer: "This is shared code. Should I add tests to ensure it
-     works correctly across different date formats?"
-   ```
-
-#### ❌ Don't Write Tests For (Unless Specifically Asked):
-
-1. **Configuration/Module Files**
-   - Already excluded from coverage
-   - No business logic to test
-
-2. **Pure Presentation Components**
-   - If user creates a header/footer component
-   - Suggest exclusion instead
-
-3. **Infrastructure Code**
-   - SSE/WebSocket services
-   - Suggest E2E tests instead
-
-### Policy Decision Tree
-
-```
-User creates new code
-    ↓
-Is it in the CRUD workflow? (prompts/create-crud-feature.md)
-├─ YES → Tests are required by workflow, write them automatically
-└─ NO → Continue...
-    ↓
-Is it business logic? (Service, Controller, Guard, Mapper)
-├─ YES → Write tests automatically
-│   └─ Explain what you tested and why
-└─ NO → Continue...
-    ↓
-Is it a UI component?
-├─ Has business logic → Offer to write tests
-└─ Pure presentation → Suggest exclusion
-    ↓
-Is it infrastructure?
-└─ Suggest E2E tests or exclusion
+// Mock Mapper
+const mockMapper = {
+  toDto: jest.fn(),
+  toDtoArray: jest.fn(),
+};
 ```
 
-### How to Communicate
+### Test Naming Conventions
 
-**Good Examples**:
-
-✅ **Proactive (API Controller)**:
-
+```typescript
+describe('ClassName', () => {
+  describe('methodName', () => {
+    it('should [expected behavior] when [condition]', () => {
+      // Test implementation
+    });
+  });
+});
 ```
-User: "Add a GET /api/subscriptions/:id endpoint"
-
-AI Response:
-"I've added the endpoint with comprehensive tests:
-
-apps/web-server/src/app/features/subscription/subscription.controller.ts
-- New getSubscriptionById() method with Swagger docs
-
-apps/web-server/src/app/features/subscription/subscription.controller.spec.ts
-- Test for successful retrieval
-- Test for not found (404)
-- Test for invalid ID format
-- Test for unauthorized access
-
-All tests pass ✓
-Coverage: 95% for this controller
-"
-```
-
-✅ **Offering (UI Component)**:
-
-```
-User: "Create a subscription-list component"
-
-AI Response:
-"I've created the component:
-
-apps/web-ui/src/app/features/subscriptions/subscription-list/
-- subscription-list.component.ts (with sorting/filtering logic)
-- subscription-list.component.html (NG-ZORRO table)
-- subscription-list.component.less
-
-The component includes business logic for filtering and sorting.
-Would you like me to write tests for this logic? Or should we
-exclude the presentation layer and extract the logic to a service
-that we can test more easily?
-"
-```
-
-✅ **Explaining Exclusion**:
-
-```
-User: "Create a fancy animated header component"
-
-AI Response:
-"I've created the header component:
-
-apps/web-ui/src/app/layout/header/header.component.ts
-
-Note: This is a presentational component (mostly template/animations).
-Per our coverage guidelines (documents/code-coverage-guidelines.md),
-presentation components are excluded from coverage since they're better
-tested via E2E tests.
-
-If there's business logic you'd like to add (state management, API calls),
-I can extract that to a testable service.
-"
-```
-
-❌ **Bad Example (Silent)**:
-
-```
-User: "Add a subscription service"
-
-AI Response:
-"Here's the service:"
-[Shows only the service code, no tests]
-
-❌ Problem: User has to ask for tests separately, tests might be forgotten
-```
-
-### Integration with Existing Workflows
-
-Update CRUD workflow in `prompts/create-crud-feature.md` to make testing explicit:
-
-**Step 4**: Controller/Service/Mapper
-
-- ✅ Write the code
-- ✅ **Automatically write tests** (don't wait to be asked)
-- ✅ Run `npm run test` to verify
-- ✅ Only then proceed to step 5
-
-### User Override
-
-Users can always override this behavior:
-
-```
-User: "Create a subscription service, skip tests for now"
-
-AI Should:
-- Create the service without tests
-- Warn: "Note: This service will need tests before PR/deployment
-  (80% coverage threshold). Should I create a TODO or write them later?"
-```
-
-### Rationale
-
-**Why proactively write tests?**
-
-1. ✅ **Tests are required** (80% threshold)
-2. ✅ **Easier to write immediately** (code is fresh in context)
-3. ✅ **Prevents forgetting** (tests won't be skipped)
-4. ✅ **TDD benefits** (catches issues early)
-5. ✅ **Better code quality** (forces thinking about edge cases)
-6. ✅ **Saves time** (user doesn't have to ask separately)
-
-**When NOT to be proactive?**
-
-- ❌ Presentation-only components (offer exclusion)
-- ❌ Exploratory/prototype code (user might delete it)
-- ❌ Infrastructure setup (needs E2E tests)
-
-## Summary: AI Assistant Responsibilities
-
-When working with this codebase:
-
-1. ✅ **Read and understand** the coverage exclusion guidelines
-2. ✅ **Check existing exclusions** before suggesting new ones
-3. ✅ **Explain your reasoning** for test vs. exclude decisions
-4. ✅ **Follow project conventions** for mocking and test structure
-5. ✅ **Prioritize business logic** over framework testing
-6. ✅ **Listen to user feedback** and re-evaluate decisions
-7. ✅ **Suggest refactoring** when code is hard to test
-8. ✅ **Document why** when suggesting exclusions
-9. ✅ **Proactively write tests** for business logic (don't wait to be asked)
-10. ✅ **Offer tests** for UI components with logic
-11. ✅ **Suggest exclusions** for pure presentation/infrastructure code
-
-Remember: **The goal is high-quality tests of business-critical code, not artificially inflated coverage numbers.**
 
 ---
 
 **Related Files:**
 
-- [SKILL.md](../SKILL.md) - Main guide
+- [SKILL.md](../SKILL.md) - Main backend guidelines
 - [code-coverage-guide.md](code-coverage-guide.md) - Coverage exclusion guidelines
-- [services-guide.md](services-guide.md) - Service patterns to test
-- [controllers-guide.md](controllers-guide.md) - Controller patterns to test
-- [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns to test
-- [auth-session-guide.md](auth-session-guide.md) - Authentication and authorization
-- [security-guide.md](security-guide.md) - Security patterns (test authorization scenarios)
-- [logging-guide.md](logging-guide.md) - Logging patterns (mock PinoLogger)
+- [services-guide.md](services-guide.md) - Service patterns
+- [controllers-guide.md](controllers-guide.md) - Controller patterns
+- [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns

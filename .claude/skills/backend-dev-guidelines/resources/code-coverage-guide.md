@@ -363,7 +363,7 @@ When in doubt, **write the test** rather than excluding the code.
 **Related Files:**
 
 - [SKILL.md](../SKILL.md) - Main guide
-- [testing-guide.md](testing-guide.md) - AI testing guidelines and proactive test generation
+- [testing-guide.md](testing-guide.md) - Backend testing strategies and patterns
 - [services-guide.md](services-guide.md) - Service patterns to test
 - [controllers-guide.md](controllers-guide.md) - Controller patterns to test
 - [database-patterns-guide.md](database-patterns-guide.md) - DbService patterns to test

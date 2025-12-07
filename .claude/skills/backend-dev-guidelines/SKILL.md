@@ -51,9 +51,9 @@ Auto-activates when working on:
 - [ ] **Service**: Create [Entity]Service in apps/web-server/src/app/features/[entity]/[entity].service.ts (see [services-guide.md](resources/services-guide.md))
 - [ ] **Mapper**: [Entity]Mapper in apps/web-server/src/app/features/[entity]/[entity].mapper.ts (see [services-guide.md](resources/services-guide.md))
 - [ ] **Register**: register new DbServices and Entities in `data-access.module` (see [database-patterns-guide.md](resources/database-patterns-guide.md))
-- [ ] **Unit Tests**: Write unit tests for controller, service, and mapper (see [testing-guide.md](resources/testing-guide.md))
+- [ ] **Unit Tests**: Write comprehensive unit tests for all components with business logic (see [testing-guide.md](resources/testing-guide.md))
 - [ ] **Verify Tests Pass**: Run: `npm run test`. 100% of tests should pass. If not fix until all pass
-- [ ] **Code Coverage**: Run: `npm run test:coverage`. Achieve 80% coverage (statements, lines, branches 60%, functions 60%) (see [code-coverage-guide.md](resources/code-coverage-guide.md))
+- [ ] **Code Coverage**: Run: `npm run test:coverage`. Review coverage report and write tests for any untested files with business logic. Achieve 80% coverage (statements, lines, branches 60%, functions 60%) (see [code-coverage-guide.md](resources/code-coverage-guide.md))
 - [ ] **API Documentation**: Write API Endpoint documentation (see [api-documentation-guide.md](resources/api-documentation-guide.md))
 - [ ] **Client API Generate**: Run: `npm run gen-api-client`
 - [ ] **Verify Format**: Run: `npm run format:fix`
