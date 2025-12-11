@@ -233,7 +233,7 @@ Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
 
-MIT © [Your Organization]
+MIT © Medorion
 
 See [LICENSE](./LICENSE) for details.
 
