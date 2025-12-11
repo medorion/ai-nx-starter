@@ -380,6 +380,78 @@ export const routes: Routes = [
 
 ---
 
+## Project-Specific Extensions
+
+This project includes additional utilities, decorators, and conventions beyond standard Angular:
+
+### Configuration
+
+- **AppConfigService**: All configuration MUST go through `AppConfigService` (in api-client package)
+- Config file: `/apps/web-ui/src/assets/config.json` (generated from Docker ENV variables)
+- **NO** hardcoded configuration values in components/services
+
+### Component Defaults
+
+- Components are `standalone: false` by default (use `standalone: true` only when specified)
+- Always use separate files for HTML, LESS, and TypeScript
+
+### Styling Utilities
+
+**Helper classes from `theme-general.less`:**
+
+- Margins/padding: `mt-1`, `p-2`, etc.
+- Font weights: `fw-bold`, `fw-light`, etc.
+- Form sections: Use predefined `form-section` class
+
+**Global styling rules:**
+
+- HTML base element styles can ONLY be overridden in `apps/web-ui/src/assets/styles/theme.less`
+- **NO** font or background color modifications in component `.less` files
+- ALL colors MUST use theme variables
+
+### Available Decorators
+
+Project-specific decorators in `core/`:
+
+- `@catchError()` - Error handling wrapper
+- `@log()` - Method logging
+- `@measure()` - Performance measurement
+- `@debounce(300)` - Input debouncing
+- `@engagement()` - User engagement tracking
+- `@requireRole('admin')` - Role-based access control
+- `@minFeatureFlag('feature')` - Feature flag requirements
+
+### Available Components
+
+Utility components in `core/`:
+
+- Busy indicator component
+- Display Flow component (for async operations)
+- Standardized context menu component
+
+### Available Utilities
+
+Helper functions:
+
+- `sleep()` - Delays/testing function
+
+### Form Validation
+
+- Use `FormGroupService` for handling complex form validation
+- Reference: `features/zorro-components/forms`
+
+### Icons
+
+- Update icons module when using new icons: `/shared/icons/icons.module.ts`
+
+### Internationalization
+
+- Default language: `en_US`
+- Currently supporting `en_US` only
+- Code prepared for future multi-language support
+
+---
+
 ## Navigation Guide
 
 | Need to...               | Read this resource                                                               |
