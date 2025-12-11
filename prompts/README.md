@@ -18,11 +18,25 @@ Learn how to write effective backend feature prompts that work with the `backend
 - Real-world examples (simple CRUD, workflows, integrations)
 - Common mistakes to avoid
 
+### [frontend-prompt-guide.md](frontend-prompt-guide.md)
+
+Learn how to write effective frontend UI prompts that work with the `frontend-dev-guidelines` skill.
+
+**Key topics:**
+
+- Prompt template and structure
+- Good vs bad examples
+- When to add more detail
+- Real-world examples (list pages, forms, dashboards, data tables)
+- Common mistakes to avoid
+
 ## Philosophy
 
 **Skills define HOW. Prompts define WHAT.**
 
 The skills system (`.claude/skills/`) contains implementation patterns, checklists, and best practices. Your prompts should focus on:
+
+**Backend:**
 
 - Entity requirements
 - Business rules
@@ -30,12 +44,21 @@ The skills system (`.claude/skills/`) contains implementation patterns, checklis
 - Authorization logic
 - Special cases
 
+**Frontend:**
+
+- UI requirements
+- User interactions
+- Data to display
+- Validation rules
+- Navigation flows
+
 Let the skills handle:
 
 - Implementation steps
 - File structure
+- Code patterns (Angular/NestJS)
+- Component/service structure
 - Testing approach
-- Code patterns
 - Verification commands
 
 ## Quick Reference
@@ -53,12 +76,30 @@ Create a CRUD feature for [Entity].
 - Validation logic
 ```
 
+### Minimal Frontend Prompt
+
+```
+Create a [page/component] for [Feature].
+
+## UI Requirements
+- What to display (fields, layout)
+- Visual states (loading, empty, error)
+
+## User Interactions
+- Actions users can perform
+- Forms and validation
+
+## Data Requirements
+- What to fetch from API
+- When to fetch data
+```
+
 ### When to Expand
 
 Only add detail for:
 
 - Non-standard patterns
-- Complex workflows
+- Complex workflows/UI flows
 - External integrations
 - Performance requirements
 
