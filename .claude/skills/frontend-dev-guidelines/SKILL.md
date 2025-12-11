@@ -429,6 +429,13 @@ Utility components in `core/`:
 - Display Flow component (for async operations)
 - Standardized context menu component
 
+### Available Directives
+
+Project-specific directives:
+
+- `appHideInProd` - Hide elements in production
+- Role directive (TODO: implement)
+
 ### Available Utilities
 
 Helper functions:

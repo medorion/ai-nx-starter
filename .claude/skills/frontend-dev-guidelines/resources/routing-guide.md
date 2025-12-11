@@ -786,6 +786,50 @@ export class BreadcrumbComponent {
 - ✅ Use `<router-outlet>` for child routes
 - ✅ Protect routes with authentication/authorization guards
 
+---
+
+## Adding New UI Features - Routing and Navigation Checklist
+
+**CRITICAL RULE:** When creating a new UI feature, **ALWAYS** ensure it's accessible via routing and navigation.
+
+### 1. Create Feature Module Structure
+
+- `[feature].module.ts` - Feature module declaration
+- `[feature]-routing.module.ts` - Feature-level routes
+- Component directories with necessary components
+
+### 2. Register Routing
+
+- Add route to the appropriate parent routing module
+- **If location is ambiguous**, ask the user: "Should this be under /backoffice/, /examples/, or a top-level route?"
+- Use lazy-loading for feature modules
+
+### 3. Add Navigation Access
+
+- Add menu item/link to `header.component.html` or appropriate navigation component
+- Use appropriate NG-ZORRO icon that matches the feature purpose
+- **If unclear where to add navigation**, ask the user: "Should I add a menu item under the Backoffice submenu, Examples submenu, or create a new top-level menu item?"
+
+### 4. Example Patterns
+
+**Backoffice features** (e.g., users, teams):
+
+- Registered in `backoffice-routing.module.ts`
+- Menu item in "Backoffice" submenu in header
+
+**Example/demo features**:
+
+- Registered in `examples-routing.module.ts`
+- Menu item in "Examples" submenu in header
+
+**Reference existing features for structure and patterns.**
+
+### Rule
+
+**Never create a UI feature without routing and navigation access unless explicitly told otherwise by the user.**
+
+---
+
 **See Also:**
 
 - [component-patterns-guide.md](component-patterns-guide.md) - Lazy loading patterns
