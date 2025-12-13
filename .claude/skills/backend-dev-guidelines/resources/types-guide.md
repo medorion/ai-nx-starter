@@ -1061,8 +1061,11 @@ export class RemoveTeamMemberDto {
 
 ### Pattern 3: Query/Filter DTOs
 
+**CRITICAL:** Query parameters from URLs are always strings. Use `@Type()` to transform them to numbers.
+
 ```typescript
 import { IsOptional, IsEnum, IsString, IsNumber, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UserQueryDto {
   @IsOptional()
@@ -1074,16 +1077,50 @@ export class UserQueryDto {
   public search?: string;
 
   @IsOptional()
+  @Type(() => Number) // ✅ REQUIRED: Transforms string to number
   @IsNumber()
   @Min(1)
   public page?: number;
 
   @IsOptional()
+  @Type(() => Number) // ✅ REQUIRED: Transforms string to number
   @IsNumber()
   @Min(1)
   @Max(100)
   public limit?: number;
 }
+```
+
+**Why `@Type()` is required:**
+
+- ✅ HTTP query parameters are always strings (e.g., `?page=1` → `"1"`)
+- ✅ `@Type(() => Number)` transforms `"1"` → `1` before validation
+- ✅ Without it, validation fails: "must be a number conforming to the specified constraints"
+- ✅ Import from `class-transformer`, not `class-validator`
+
+**Common transformation patterns:**
+
+```typescript
+import { Type } from 'class-transformer';
+
+// String to Number
+@Type(() => Number)
+@IsNumber()
+public age?: number;
+
+// String to Boolean
+@Type(() => Boolean)
+@IsBoolean()
+public active?: boolean;
+
+// String to Date
+@Type(() => Date)
+@IsDate()
+public startDate?: Date;
+
+// For ISO date strings, use @IsDateString() instead (no @Type needed)
+@IsDateString()
+public endDate?: string;
 ```
 
 ---
