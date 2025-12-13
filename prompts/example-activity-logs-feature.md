@@ -1,208 +1,80 @@
 # Activity Logs Feature - Full Stack Example
 
-**⚠️ IMPORTANT: If using this file in Claude Code, start with:**
+**⚠️ If using this file in Claude Code:** Start with `Use the backend-dev-guidelines skill and frontend-dev-guidelines skill to implement this feature.`
 
-```
-Use the backend-dev-guidelines skill and frontend-dev-guidelines skill to implement this feature.
-```
-
-Then paste or reference this file content.
-
----
-
-This is a complete end-to-end example showing how to request a full-stack feature with proper backend and frontend requirements.
+Complete end-to-end example for requesting a full-stack feature with proper backend and frontend requirements.
 
 ---
 
 ## Backend: Activity Logs API
 
-Create a read-only API for Activity Logs that tracks user actions across the system.
+Read-only API tracking user actions across the system.
 
-### Entity Fields
+**Entity Fields:** id (UUID), userId (User ref), action (e.g., "USER_CREATED"), entityType (optional), entityId (optional), metadata (JSON), ipAddress, userAgent, timestamp (indexed)
 
-- id: string (auto-generated UUID)
-- userId: string (required, reference to User)
-- action: string (required, e.g., "USER_CREATED", "TEAM_UPDATED", "LOGIN_SUCCESS")
-- entityType: string (optional, e.g., "User", "Team", "Post")
-- entityId: string (optional, ID of affected entity)
-- metadata: object (optional, additional context as JSON)
-- ipAddress: string (optional, user's IP address)
-- userAgent: string (optional, browser/client info)
-- timestamp: Date (auto-generated, indexed for queries)
+**API Endpoints:**
 
-### API Endpoints
+- GET /activity-logs - List with pagination, filtering, sorting (query params: page, pageSize, userId, action, entityType, startDate, endDate, sortBy, sortOrder)
+- GET /activity-logs/:id - Single log with populated user details
+- GET /activity-logs/user/:userId - User-specific logs (paginated)
 
-- GET /activity-logs - List all logs with pagination, filtering, and sorting
-  - Query params: page, pageSize, userId, action, entityType, startDate, endDate, sortBy, sortOrder
-- GET /activity-logs/:id - Get single log entry with populated user details
-- GET /activity-logs/user/:userId - Get logs for specific user (paginated)
+**Note:** No create/update/delete endpoints - logs created automatically by the system.
 
-**Note:** No create/update/delete endpoints - logs are created internally by the system, not via API.
+**Business Rules:**
 
-### Business Rules
+- Only Admin can view logs
+- Logs immutable (no updates/deletes)
+- Pagination: default 50/page, max 100
+- Date range filtering required (default: last 30 days)
+- Return populated user info (name, email)
+- Sort by timestamp DESC by default
 
-- Only Admin role can view activity logs
-- Logs are immutable (no updates or deletes)
-- Pagination required (default: 50 items per page, max: 100)
-- Date range filtering required for performance (default: last 30 days)
-- Return populated user info (name, email) in responses
-- Sort by timestamp descending by default
+**Database:** Indexes on userId, action, entityType, timestamp. Efficient date range queries. Consider retention policy (e.g., auto-delete >1 year).
 
-### Special Requirements
+**Automatic Logging (CRITICAL):**
 
-- Add database indexes on: userId, action, entityType, timestamp
-- Implement efficient date range queries
-- Consider data retention policy (e.g., auto-delete logs older than 1 year)
+Implement NestJS Interceptor OR @LogActivity decorator (or both):
+
+- **Interceptor:** Captures all HTTP requests/responses, extracts user/action/IP/user-agent, async/fire-and-forget
+- **Decorator:** `@LogActivity(action, entityType?)` for specific events, extracts entityId from response
+- Requirements: Async (no blocking), queue support (Bull/Redis), auto-populate metadata, error handling (don't break app), unit tests, coverage ≥80%
+- After backend: Run `npm run gen-api-client`
 
 ---
 
 ## Frontend: Activity Logs Dashboard
 
-Create an activity logs dashboard page for administrators to view and filter system activity.
+Admin dashboard to view and filter system activity.
 
-### UI Requirements
+**UI:** NG-ZORRO table with columns (timestamp, user w/avatar, action badge, entity link, IP, details button) | Date range picker (default: 7 days) | Filters (action multi-select, entity type multi-select, user searchable) | Search input | Loading/empty states | Server-side pagination (50/page)
 
-- Display logs in a table with columns:
-  - Timestamp (formatted as "MMM DD, YYYY HH:mm:ss")
-  - User (name with avatar, email in tooltip)
-  - Action (badge with color coding)
-  - Entity (type + ID as link if applicable)
-  - IP Address
-  - Details button (opens modal with full metadata)
-- Date range picker (default: last 7 days)
-- Filter dropdowns:
-  - Action type (multi-select)
-  - Entity type (multi-select)
-  - User (searchable select)
-- Search input for free-text search across action/entity
-- Loading spinner while fetching
-- Empty state when no logs match filters
-- Server-side pagination controls (50 items per page)
+**Interactions:** Click row → expand details | Click user → profile | Click entity → navigate | Details button → JSON modal | Filters/date range → immediate update | Search → debounced 300ms | Export to CSV | Refresh button
 
-### User Interactions
+**Data:** Fetch with ApiActivityLogService on load | Server-side pagination/filtering/sorting | Cache user dropdown 5min | Refresh on filter change
 
-- Click row to expand inline details panel showing metadata
-- Click user name to navigate to user profile
-- Click entity ID to navigate to entity (if applicable)
-- "Details" button opens modal with formatted JSON metadata
-- Date range picker updates results immediately
-- Filters update results immediately
-- Search input debounced (300ms)
-- Pagination controls at bottom
-- "Export to CSV" button (downloads filtered results)
-- "Refresh" button to reload current view
+**Business Rules:** Admin-only (route guard) | User-friendly action names | Color-coded badges (CREATE=green, UPDATE=blue, DELETE=red, LOGIN/LOGOUT=gray, ERROR=orange) | Show "System" if userId null
 
-### Data Requirements
+**Routing:** /backoffice/activity-logs | Breadcrumb: Dashboard > Activity Logs | Menu item under "Backoffice" (icon: file-text)
 
-- Fetch logs on page load using ApiActivityLogService.getActivityLogs()
-- Use server-side pagination, filtering, and sorting
-- Fetch user list for filter dropdown using ApiUserService.getUsers()
-- Refresh data when filters change
-- Cache user dropdown data for 5 minutes
-
-### Business Rules
-
-- Only Admin can access this page (use route guard)
-- Show user-friendly action names (map "USER_CREATED" → "User Created")
-- Color-code action badges:
-  - CREATE actions: green
-  - UPDATE actions: blue
-  - DELETE actions: red
-  - LOGIN/LOGOUT: gray
-  - ERROR actions: orange
-- Disable entity link if entityType/entityId not present
-- Show "System" as user if userId is null (system-generated logs)
-
-### Special Requirements
-
-- Use virtual scrolling if results exceed 200 items
-- Export respects current filters (max 10,000 rows)
-- Add breadcrumb: Dashboard > Activity Logs
-- Add route: /backoffice/activity-logs
-- Add navigation menu item under "Backoffice" submenu with icon (nz-icon: file-text)
+**Performance:** Virtual scrolling if >200 items | Export max 10k rows
 
 ---
 
-## Implementation Notes
+## Deliverables & Verification
 
-The skills will automatically guide implementation with their checklists. This prompt focuses on WHAT to build (requirements, business rules, UI), not HOW to build it (implementation steps, patterns, file structure).
+**Backend:** DTOs (types/), entity w/indexes (data-access-layer/), DbService, controller (Swagger), service, mapper, interceptor/decorator, unit tests (controller, service, mapper, dbservice, interceptor, decorator), coverage ≥80%, gen-api-client
 
-### Expected Outcome
+**Frontend:** Feature structure (apps/web-ui/.../activity-logs/), list component, details modal, filters/search/pagination, routing, navigation, unit tests, coverage ≥80%
 
-**Backend:**
-
-- DTOs in packages/types/
-- Entity with indexes in data-access-layer
-- ActivityLogDbService with efficient queries
-- Controller with Swagger documentation
-- Service and mapper
-- Unit tests (controller, service, mapper, dbservice)
-- Auto-generated Angular service via gen-api-client
-
-**Frontend:**
-
-- Feature structure in apps/web-ui/src/app/features/backoffice/activity-logs/
-- activity-logs-list component with NG-ZORRO table
-- activity-log-details modal component
-- Filtering, search, and pagination
-- Route in backoffice-routing.module.ts
-- Navigation menu item in header.component.html
-
-**Quality:**
-
-- All tests passing
-- Build successful
-- Lint and format passing
-- E2E tests (optional)
-
----
-
-## Final Deliverables
-
-After implementation is complete, provide a summary report showing:
-
-### Test Results
-
-Run `npm run test` and report:
-
-- Total number of test suites passed/failed
-- Total number of tests passed/failed
-- Specific test files covered:
-  - Backend: activity-log.controller.spec.ts, activity-log.service.spec.ts, activity-log.mapper.spec.ts, activity-log-db.service.spec.ts
-  - Frontend: activity-logs-list.component.spec.ts, activity-log-details.component.spec.ts (if created)
-
-### Code Coverage
-
-Run `npm run test:coverage` and report:
-
-- Overall coverage percentages (Statements, Branches, Functions, Lines)
-- Coverage for each module:
-  - packages/data-access-layer
-  - apps/web-server
-  - apps/web-ui
-- Identify any files below the project's coverage threshold
-
-### API Client Generation
-
-- Confirm `npm run gen-api-client` was executed after backend implementation
-- Verify ApiActivityLogService was generated in packages/api-client/src/api/features/activity-log/
-- Confirm the service includes all endpoints: findAll(), findOne(), findByUser()
-
-### Build Verification
-
-- Confirm `npm run build` completes successfully
-- Confirm `npm run lint` passes
-- Confirm `npm run format:check` passes
-
-**Example Report Format:**
+**Final Report:**
 
 ```
 ✅ Implementation Complete
 
-API Client: ✅ Generated (ApiActivityLogService with 3 endpoints)
-Tests: 45 passed, 0 failed (8 test suites)
-Coverage: 85.2% statements, 78.4% branches, 82.1% functions, 84.9% lines
-Build: ✅ Success
-Lint: ✅ Passed
-Format: ✅ Passed
+Automatic Logging: ✅ [Interceptor/Decorator] tested (sample endpoint → DB entry created)
+API Client: ✅ ApiActivityLogService (findAll, findOne, findByUser)
+Tests: [X] passed, 0 failed ([Y] suites) - Backend: ✅ | Frontend: ✅
+Coverage: [X]% statements, [Y]% branches, [Z]% functions, [W]% lines
+  - data-access-layer: [X]% | web-server: [Y]% | web-ui: [Z]%
+Build: ✅ | Lint: ✅ | Format: ✅
 ```
