@@ -30,6 +30,20 @@ Learn how to write effective frontend UI prompts that work with the `frontend-de
 - Real-world examples (list pages, forms, dashboards, data tables)
 - Common mistakes to avoid
 
+### [example-activity-logs-feature.md](example-activity-logs-feature.md)
+
+Complete end-to-end example prompt for a full-stack Activity Logs feature that triggers both backend and frontend skills.
+
+**What's included:**
+
+- Backend API with read-only endpoints, pagination, filtering
+- Frontend dashboard with table, filters, search, export
+- Complete business rules and authorization
+- UI/UX specifications
+- Performance considerations
+
+**Use this as a template** for creating your own full-stack features.
+
 ## Philosophy
 
 **Skills define HOW. Prompts define WHAT.**
