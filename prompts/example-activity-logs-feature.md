@@ -1,6 +1,16 @@
 # Activity Logs Feature - Full Stack Example
 
-This prompt demonstrates how to request a complete end-to-end feature that triggers both backend and frontend skills.
+**⚠️ IMPORTANT: If using this file in Claude Code, start with:**
+
+```
+Use the backend-dev-guidelines skill and frontend-dev-guidelines skill to implement this feature.
+```
+
+Then paste or reference this file content.
+
+---
+
+This is a complete end-to-end example showing how to request a full-stack feature with proper backend and frontend requirements.
 
 ---
 

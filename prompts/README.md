@@ -75,6 +75,19 @@ Let the skills handle:
 - Testing approach
 - Verification commands
 
+## Using Example Prompts in Claude Code
+
+**Important:** When using example prompt files (like `example-activity-logs-feature.md`) in Claude Code:
+
+1. **Don't just attach the file** - The skill activation hook won't see the file contents
+2. **Instead, explicitly invoke skills first:**
+   ```
+   Use the backend-dev-guidelines skill and frontend-dev-guidelines skill.
+   ```
+3. **Then paste or reference the prompt content**
+
+**Why?** The skill activation hook runs on your message text, not on file contents read by Claude afterwards.
+
 ## Quick Reference
 
 ### Minimal Backend Prompt
