@@ -182,6 +182,12 @@ Run `npm run test:coverage` and report:
   - apps/web-ui
 - Identify any files below the project's coverage threshold
 
+### API Client Generation
+
+- Confirm `npm run gen-api-client` was executed after backend implementation
+- Verify ApiActivityLogService was generated in packages/api-client/src/api/features/activity-log/
+- Confirm the service includes all endpoints: findAll(), findOne(), findByUser()
+
 ### Build Verification
 
 - Confirm `npm run build` completes successfully
@@ -193,6 +199,7 @@ Run `npm run test:coverage` and report:
 ```
 ✅ Implementation Complete
 
+API Client: ✅ Generated (ApiActivityLogService with 3 endpoints)
 Tests: 45 passed, 0 failed (8 test suites)
 Coverage: 85.2% statements, 78.4% branches, 82.1% functions, 84.9% lines
 Build: ✅ Success
