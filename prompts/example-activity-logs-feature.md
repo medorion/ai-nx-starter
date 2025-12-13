@@ -41,7 +41,7 @@ Create a read-only API for Activity Logs that tracks user actions across the sys
 
 ### Business Rules
 
-- Only Admin and SuperAdmin roles can view activity logs
+- Only Admin role can view activity logs
 - Logs are immutable (no updates or deletes)
 - Pagination required (default: 50 items per page, max: 100)
 - Date range filtering required for performance (default: last 30 days)
@@ -102,7 +102,7 @@ Create an activity logs dashboard page for administrators to view and filter sys
 
 ### Business Rules
 
-- Only Admin and SuperAdmin can access this page (use route guard)
+- Only Admin can access this page (use route guard)
 - Show user-friendly action names (map "USER_CREATED" → "User Created")
 - Color-code action badges:
   - CREATE actions: green
@@ -147,11 +147,10 @@ The skills will automatically guide implementation with their checklists. This p
 - Filtering, search, and pagination
 - Route in backoffice-routing.module.ts
 - Navigation menu item in header.component.html
-- Unit tests for components
 
 **Quality:**
 
-- All tests passing
 - Build successful
 - Lint and format passing
+- All tests passing and coverage rates as defined in the skill
 - E2E tests (optional)
