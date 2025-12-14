@@ -50,7 +50,7 @@ Admin dashboard to view and filter system activity.
 
 **Interactions:** Click row → expand details | Click user → profile | Click entity → navigate | Details button → JSON modal | Filters/date range → immediate update | Search → debounced 300ms | Export to CSV | Refresh button
 
-**Data:** Fetch with ApiActivityLogService on load | Server-side pagination/filtering/sorting | Cache user dropdown 5min | Refresh on filter change
+**Data:** Fetch with ApiActivityLogService on load | Server-side pagination/filtering/sorting | Refresh on filter change
 
 **Business Rules:** Admin-only (route guard) | User-friendly action names | Color-coded badges (CREATE=green, UPDATE=blue, DELETE=red, LOGIN/LOGOUT=gray, ERROR=orange) | Show "System" if userId null
 
