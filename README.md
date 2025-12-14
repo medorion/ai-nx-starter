@@ -199,6 +199,7 @@ npm run format:fix    # Auto-format code
 - `.claude/skills/frontend-dev-guidelines/` - Angular 19 patterns and checklists
 - `prompts/backend-prompt-guide.md` - How to write effective backend prompts
 - `prompts/frontend-prompt-guide.md` - How to write effective frontend prompts
+- `prompts/example-activity-logs-feature.md` - Real-world full-stack feature example
 
 **How it saves you tokens:**
 
@@ -212,10 +213,11 @@ npm run format:fix    # Auto-format code
 2. **Read the prompt guides** - Learn to write effective prompts:
    - `prompts/backend-prompt-guide.md` - Backend feature prompts
    - `prompts/frontend-prompt-guide.md` - Frontend UI prompts
+   - `prompts/example-activity-logs-feature.md` - Complete full-stack example
 3. **Review the skills** - Understand what patterns Claude will apply:
    - `.claude/skills/backend-dev-guidelines/SKILL.md`
    - `.claude/skills/frontend-dev-guidelines/SKILL.md`
-4. **Try the example prompt** - Create the Team feature from Quick Start section
+4. **Try an example** - Use the Team feature (Quick Start) or Activity Logs example as templates
 5. **Iterate** - The more you use it, the better your prompts will get
 
 **Pro tip:** Keep prompts focused on WHAT you want (requirements, business rules), not HOW to build it (implementation details). The skills handle the HOW.
