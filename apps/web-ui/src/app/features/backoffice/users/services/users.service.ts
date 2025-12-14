@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, finalize } from 'rxjs';
 import { ClientUserDto, CreateUserDto, UpdateUserDto } from '@ai-nx-starter/types';
 import { ApiUserService } from '@ai-nx-starter/api-client';
 
@@ -14,17 +14,17 @@ export class UsersService {
 
   getUsers(limit?: number, offset?: number): Observable<ClientUserDto[]> {
     this.loadingSubject.next(true);
-    return this.apiUserService.findAll(limit, offset).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.findAll(limit, offset).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 
   getUserById(id: string): Observable<ClientUserDto> {
     this.loadingSubject.next(true);
-    return this.apiUserService.findById(id).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.findById(id).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 
   getUserByEmail(email: string): Observable<ClientUserDto> {
     this.loadingSubject.next(true);
-    return this.apiUserService.findByEmail(email).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.findByEmail(email).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 
   getCount(): Observable<{ count: number }> {
@@ -33,16 +33,16 @@ export class UsersService {
 
   createUser(createUserDto: CreateUserDto): Observable<ClientUserDto> {
     this.loadingSubject.next(true);
-    return this.apiUserService.create(createUserDto).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.create(createUserDto).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 
   updateUser(id: string, updateUserDto: UpdateUserDto): Observable<ClientUserDto> {
     this.loadingSubject.next(true);
-    return this.apiUserService.update(id, updateUserDto).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.update(id, updateUserDto).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 
   deleteUser(id: string): Observable<void> {
     this.loadingSubject.next(true);
-    return this.apiUserService.delete(id).pipe(tap(() => this.loadingSubject.next(false)));
+    return this.apiUserService.delete(id).pipe(finalize(() => this.loadingSubject.next(false)));
   }
 }

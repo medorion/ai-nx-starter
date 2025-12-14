@@ -107,9 +107,12 @@ describe('UsersService', () => {
       });
 
       service.getUsers().subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
 
@@ -144,9 +147,12 @@ describe('UsersService', () => {
       });
 
       service.getUserById('user-123').subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
   });
@@ -172,9 +178,12 @@ describe('UsersService', () => {
       });
 
       service.getUserByEmail('test@example.com').subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
 
@@ -274,9 +283,12 @@ describe('UsersService', () => {
       });
 
       service.createUser(createDto).subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
 
@@ -340,9 +352,12 @@ describe('UsersService', () => {
       });
 
       service.updateUser('user-123', updateDto).subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
 
@@ -405,9 +420,12 @@ describe('UsersService', () => {
       });
 
       service.deleteUser('user-123').subscribe(() => {
-        expect(loadingStates).toContain(true);
-        expect(loadingStates[loadingStates.length - 1]).toBe(false);
-        done();
+        // Wait for finalize to execute
+        setTimeout(() => {
+          expect(loadingStates).toContain(true);
+          expect(loadingStates[loadingStates.length - 1]).toBe(false);
+          done();
+        }, 0);
       });
     });
   });
