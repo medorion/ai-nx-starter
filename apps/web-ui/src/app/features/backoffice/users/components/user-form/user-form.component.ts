@@ -25,6 +25,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   roleOptions = [
     { label: 'Root', value: Role.Root },
     { label: 'Admin', value: Role.Admin },
+    { label: 'User', value: Role.User },
   ];
 
   constructor(
