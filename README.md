@@ -59,27 +59,31 @@ Create a Team management feature.
 
 ## Backend: Team CRUD API
 
-**Entity Fields:** id (UUID), name (required, 3-100 chars, unique), description (optional, max 500 chars), ownerId (User ref), createdAt, updatedAt
+**Entity Fields:** id (UUID), name (required, 3-100 chars, unique), description (optional, max 500 chars), ownerId (User ref), memberIds (User refs array), createdAt, updatedAt
 
 **API Endpoints:**
 - GET /teams - List all teams
-- GET /teams/:id - Single team with populated owner
+- GET /teams/:id - Single team with populated owner and members
 - POST /teams - Create team (creator becomes owner)
 - PUT /teams/:id - Update team
 - DELETE /teams/:id - Delete team
+- POST /teams/:id/members - Add member to team
+- DELETE /teams/:id/members/:userId - Remove member from team
 
 **Business Rules:**
 - Only team owner can update/delete their team
 - Admin can manage all teams
+- Team owner can add/remove members
 - Team name must be unique
+- Owner is automatically added to members
 
 ## Frontend: Team List & Form
 
-**UI:** NG-ZORRO table with columns (name, description, owner, actions) | Create button | Edit/Delete buttons | Empty state
+**UI:** NG-ZORRO table with columns (name, description, owner, member count, actions) | Create button | Edit/Delete buttons | Empty state
 
-**Interactions:** Create → modal form | Edit → modal form (pre-filled) | Delete → confirmation dialog
+**Interactions:** Create → modal form | Edit → modal form (pre-filled) with members section | Delete → confirmation dialog | Add member → user picker | Remove member → confirmation
 
-**Data:** Fetch with ApiTeamService on load | Refresh after create/update/delete
+**Data:** Fetch with ApiTeamService on load | Refresh after create/update/delete | Show member avatars/names
 
 **Routing:** /backoffice/teams | Menu item under "Backoffice"
 ```
