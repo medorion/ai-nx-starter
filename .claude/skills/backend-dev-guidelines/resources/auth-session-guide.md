@@ -205,6 +205,7 @@ Roles have numeric weights. Higher weight = more permissions.
 userRoleWeights = new Map<Role, number>([
   [Role.Root, 120], // Highest privileges
   [Role.Admin, 90], // Standard admin
+  [Role.User, 60], // Regular user
 ]);
 ```
 
@@ -238,6 +239,13 @@ import { Role } from '@ai-nx-starter/types';
 
 @Controller('users')
 export class UserController {
+  @Get('profile')
+  @Authorize(Role.User) // Requires User or higher (most common)
+  async getProfile(@Session() session: SessionInfo) {
+    // Any authenticated user (weight >= 60) can access
+    return this.userService.findById(session.userId);
+  }
+
   @Get()
   @Authorize(Role.Admin) // Requires Admin or higher
   async getAll(@Session() session: SessionInfo) {
