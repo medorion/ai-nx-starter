@@ -53,55 +53,35 @@ npm run start
 **Open Claude Code and say:**
 
 ```
-Read CLAUDE.md for project rules.
+Use the backend-dev-guidelines skill and frontend-dev-guidelines skill.
 
-Create a Team management feature with the following specifications:
+Create a Team management feature.
 
-Entity Fields:
-- id: string (auto-generated UUID)
-- name: string (required, 3-100 chars, unique)
-- description: string (optional, max 500 chars)
-- ownerId: string (required, reference to User)
-- memberIds: string[] (array of User IDs)
-- createdAt: Date (auto-generated)
-- updatedAt: Date (auto-updated)
+## Backend: Team CRUD API
 
-Requirements:
-1. Create TeamDto, CreateTeamDto, UpdateTeamDto in packages/types/src/dto/features/teams/
-2. Create Team entity in packages/data-access-layer/src/features/team/entities/team.entity.ts
-3. Create TeamDbService in packages/data-access-layer/src/features/team/services/team.db-service.ts
-4. Create TeamController in apps/web-server/src/app/features/team/team.controller.ts
-   - **REQUIRED:** Add Swagger decorators to ALL endpoints (@ApiOperation, @ApiResponse, @ApiBearerAuth)
-   - Include endpoints:
-     * GET /teams - List all teams
-     * GET /teams/:id - Get single team with populated owner and members
-     * POST /teams - Create new team (creator becomes owner)
-     * PUT /teams/:id - Update team details
-     * DELETE /teams/:id - Delete team
-     * POST /teams/:id/members - Add user to team
-     * DELETE /teams/:id/members/:userId - Remove user from team
-5. Create TeamService in apps/web-server/src/app/features/team/team.service.ts
-6. Create TeamMapper in apps/web-server/src/app/features/team/team.mapper.ts
-7. **REQUIRED:** Write unit tests for controller, service, and mapper (*.spec.ts files)
-8. Run: npm run test - Ensure all tests pass
-9. Run: npx nx test web-server --coverage
-10. Run: npm run gen-api-client
-11. Create UI in apps/web-ui/src/app/features/backoffice/teams/
-    - teams-list component:
-      * NG-ZORRO table showing teams with owner and member count
-      * "Manage Members" button in each row that opens team-members modal
-    - team-form component (create/edit modal for team name/description)
-    - team-members component (modal for managing team members):
-      * Display current team members list
-      * Dropdown to select and add users to team (calls POST /teams/:id/members)
-      * Remove button for each member (calls DELETE /teams/:id/members/:userId)
-      * Show team owner (cannot be removed)
-12. Run: npm run build - Fix any build errors
-13. **REQUIRED:** Write unit tests for UI components (*.spec.ts files)
-14. Run: npx nx test web-ui --coverage
-15. Run: npm run format:fix
-16. Final verification: build + lint + manual test
-17. (Optional) Write E2E tests for team workflows
+**Entity Fields:** id (UUID), name (required, 3-100 chars, unique), description (optional, max 500 chars), ownerId (User ref), createdAt, updatedAt
+
+**API Endpoints:**
+- GET /teams - List all teams
+- GET /teams/:id - Single team with populated owner
+- POST /teams - Create team (creator becomes owner)
+- PUT /teams/:id - Update team
+- DELETE /teams/:id - Delete team
+
+**Business Rules:**
+- Only team owner can update/delete their team
+- Admin can manage all teams
+- Team name must be unique
+
+## Frontend: Team List & Form
+
+**UI:** NG-ZORRO table with columns (name, description, owner, actions) | Create button | Edit/Delete buttons | Empty state
+
+**Interactions:** Create → modal form | Edit → modal form (pre-filled) | Delete → confirmation dialog
+
+**Data:** Fetch with ApiTeamService on load | Refresh after create/update/delete
+
+**Routing:** /backoffice/teams | Menu item under "Backoffice"
 ```
 
 **What happens:** Claude Code creates DTOs, entities, services, controllers, tests, UI, documentation, e2e, etc.
