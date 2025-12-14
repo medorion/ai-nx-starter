@@ -517,10 +517,11 @@ describe('UserFormComponent', () => {
   });
 
   describe('Role Options', () => {
-    it('should have Root and Admin role options', () => {
-      expect(component.roleOptions).toHaveLength(2);
+    it('should have Root, Admin, and User role options', () => {
+      expect(component.roleOptions).toHaveLength(3);
       expect(component.roleOptions[0]).toEqual({ label: 'Root', value: Role.Root });
       expect(component.roleOptions[1]).toEqual({ label: 'Admin', value: Role.Admin });
+      expect(component.roleOptions[2]).toEqual({ label: 'User', value: Role.User });
     });
   });
 
