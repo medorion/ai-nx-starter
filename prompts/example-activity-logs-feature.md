@@ -33,10 +33,8 @@ Read-only API tracking user actions across the system.
 
 **Automatic Logging (CRITICAL):**
 
-Implement NestJS Interceptor OR @LogActivity decorator (or both):
-
-- **Interceptor:** Captures all HTTP requests/responses, extracts user/action/IP/user-agent, async/fire-and-forget
-- **Decorator:** `@LogActivity(action, entityType?)` for specific events, extracts entityId from response
+Implement @LogActivity decorator:
+`@LogActivity(action, entityType?)` for specific events, extracts entityId from response
 - Requirements: Async (no blocking), queue support (Bull/Redis), auto-populate metadata, error handling (don't break app), unit tests, coverage ≥80%
 - After backend: Run `npm run gen-api-client`
 
