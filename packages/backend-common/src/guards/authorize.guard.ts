@@ -20,6 +20,7 @@ export class AuthorizeGuard implements CanActivate {
     this.logger.setContext(AuthorizeGuard.name);
     this.userRoleWeights.set(Role.Root, 120);
     this.userRoleWeights.set(Role.Admin, 90);
+    this.userRoleWeights.set(Role.User, 60);
   }
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
