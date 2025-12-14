@@ -6,6 +6,7 @@ Complete guide to clean route definitions and controller patterns.
 
 - [Controllers Golden Rules](#controllers-golden-rules)
 - [Input Validation Flow](#input-validation-flow)
+- [Query Parameters](#query-parameters)
 - [Good Examples](#good-examples)
 - [Error Handling](#error-handling)
 - [HTTP Status Codes](#http-status-codes)
@@ -52,6 +53,183 @@ Complete guide to clean route definitions and controller patterns.
 - DTOs = Define validation rules (@IsEmail(), @MinLength())
 - Controllers = Accept input (@Body()) - validation happens automatically
 - ValidationPipe = Executes the validation (NestJS magic)
+
+---
+
+## Query Parameters
+
+### CRITICAL: API Client Generator Constraint
+
+**NEVER use DTO objects with @Query(ValidationPipe)** - The API client generator cannot expand DTOs into individual query parameters.
+
+This is a critical constraint specific to this codebase's API client generation tool.
+
+### The Problem
+
+❌ **WRONG** (causes API client to fail):
+
+```typescript
+@Get()
+async findAll(@Query(ValidationPipe) query: QueryActivityLogsDto): Promise<QueryResultDto<ActivityLogDto>> {
+  return this.activityLogService.findAll(query);
+}
+```
+
+**What happens:**
+
+- The API client generator doesn't know how to expand the DTO into query parameters
+- It treats the entire DTO as a single parameter and calls `.toString()` on it
+- Results in: `?ValidationPipe=[object Object]`
+- Backend receives `400 Bad Request` because it can't parse the query
+
+### The Solution
+
+✅ **CORRECT** (API client generates proper query params):
+
+```typescript
+@Get()
+@ApiQuery({ name: 'page', required: false, description: 'Page number', example: 1 })
+@ApiQuery({ name: 'pageSize', required: false, description: 'Items per page', example: 50 })
+@ApiQuery({ name: 'userId', required: false, description: 'Filter by user ID' })
+@ApiQuery({ name: 'status', required: false, description: 'Filter by status' })
+async findAll(
+  @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+  @Query('pageSize', new ParseIntPipe({ optional: true })) pageSize?: number,
+  @Query('userId') userId?: string,
+  @Query('status') status?: string,
+): Promise<QueryResultDto<ActivityLogDto>> {
+  // Manually construct DTO inside controller
+  const query: QueryActivityLogsDto = { page, pageSize, userId, status };
+  return this.activityLogService.findAll(query);
+}
+```
+
+**What happens:**
+
+- API client generator reads each `@Query('paramName')` decorator
+- Generates proper HTTP query parameters: `?page=1&pageSize=50&userId=abc&status=active`
+- Backend receives correct query parameters
+
+### Key Patterns
+
+**1. Use individual @Query() decorators:**
+
+```typescript
+// ✅ Each parameter gets its own decorator
+@Query('page', new ParseIntPipe({ optional: true })) page?: number
+@Query('userId') userId?: string
+```
+
+**2. Use ParseIntPipe for optional numbers:**
+
+```typescript
+// ✅ Correctly parses query string to number
+@Query('page', new ParseIntPipe({ optional: true })) page?: number
+
+// ❌ Would receive string "1" instead of number 1
+@Query('page') page?: number
+```
+
+**3. Manually construct DTO in controller:**
+
+```typescript
+// ✅ Controller builds DTO from individual params
+const query: QueryActivityLogsDto = { page, pageSize, userId, status };
+return this.service.findAll(query);
+```
+
+**4. Add @ApiQuery for each parameter:**
+
+```typescript
+// ✅ Documents each query param in Swagger
+@ApiQuery({ name: 'page', required: false, description: 'Page number', example: 1 })
+@ApiQuery({ name: 'pageSize', required: false, description: 'Items per page', example: 50 })
+```
+
+### Real-World Example
+
+**File**: `apps/web-server/src/app/features/activity-log/activity-log.controller.ts`
+
+```typescript
+@ApiOperation({ summary: 'Get all activity logs' })
+@ApiQuery({ name: 'page', required: false, description: 'Page number (default: 1)', example: 1 })
+@ApiQuery({ name: 'pageSize', required: false, description: 'Items per page (default: 50, max: 100)', example: 50 })
+@ApiQuery({ name: 'userId', required: false, description: 'Filter by user ID', example: 'user-123' })
+@ApiQuery({ name: 'action', required: false, description: 'Filter by action', example: 'USER_CREATED' })
+@ApiQuery({ name: 'entityType', required: false, description: 'Filter by entity type', example: 'User' })
+@ApiQuery({ name: 'startDate', required: false, description: 'Start date for filtering (ISO 8601)', example: '2025-01-01T00:00:00Z' })
+@ApiQuery({ name: 'endDate', required: false, description: 'End date for filtering (ISO 8601)', example: '2025-12-31T23:59:59Z' })
+@ApiQuery({ name: 'sortBy', required: false, description: 'Field to sort by (default: timestamp)', example: 'timestamp' })
+@ApiQuery({ name: 'sortOrder', required: false, description: 'Sort order (ASC or DESC)', enum: ['ASC', 'DESC'] })
+@Authorize(Role.Admin)
+@Get()
+async findAll(
+  @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+  @Query('pageSize', new ParseIntPipe({ optional: true })) pageSize?: number,
+  @Query('userId') userId?: string,
+  @Query('action') action?: string,
+  @Query('entityType') entityType?: string,
+  @Query('startDate') startDate?: string,
+  @Query('endDate') endDate?: string,
+  @Query('sortBy') sortBy?: string,
+  @Query('sortOrder') sortOrder?: string,
+): Promise<QueryResultDto<ActivityLogDto>> {
+  const query: QueryActivityLogsDto = {
+    page,
+    pageSize,
+    userId,
+    action,
+    entityType,
+    startDate: startDate ? new Date(startDate) : undefined,
+    endDate: endDate ? new Date(endDate) : undefined,
+    sortBy,
+    sortOrder: sortOrder as any,
+  };
+  return await this.activityLogService.findAll(query);
+}
+```
+
+### Why This Pattern Exists
+
+**API Client Generation Tool:**
+
+- The tool (`tools/api-client-generator/src/generate.ts`) reads controller decorators
+- It looks for individual `@Query('paramName')` decorators to generate TypeScript methods
+- It cannot introspect DTO class properties at runtime
+- When it sees `@Query(ValidationPipe)`, it treats the entire parameter as a single query param
+
+**Frontend Result:**
+
+```typescript
+// Generated in packages/api-client/src/api/features/activity-log/api-activity-log.service.ts
+findAll(
+  page?: number,
+  pageSize?: number,
+  userId?: string,
+  action?: string,
+  entityType?: string,
+  startDate?: string,
+  endDate?: string,
+  sortBy?: string,
+  sortOrder?: string,
+): Observable<QueryResultDto<ActivityLogDto>> {
+  let params = new HttpParams();
+  if (page !== undefined) params = params.set('page', page.toString());
+  if (pageSize !== undefined) params = params.set('pageSize', pageSize.toString());
+  // ... etc for all parameters
+  return this.http.get<QueryResultDto<ActivityLogDto>>(`${this.BASE_URL}/activity-logs`, { params });
+}
+```
+
+### After Controller Changes
+
+**ALWAYS regenerate the API client:**
+
+```bash
+npm run gen-api-client
+```
+
+This ensures the frontend has type-safe methods matching your backend API.
 
 ---
 
