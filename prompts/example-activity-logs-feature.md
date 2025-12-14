@@ -35,6 +35,7 @@ Read-only API tracking user actions across the system.
 
 Implement @LogActivity decorator:
 `@LogActivity(action, entityType?)` for specific events, extracts entityId from response
+
 - Requirements: Async (no blocking), queue support (Bull/Redis), auto-populate metadata, error handling (don't break app), unit tests, coverage ≥80%
 - After backend: Run `npm run gen-api-client`
 
