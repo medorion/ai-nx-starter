@@ -7,6 +7,85 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2025-12-14
+
+### Added
+
+- **Activity Logs Feature** - Complete full-stack audit logging system for tracking user actions and system events
+  - **Backend Implementation**
+    - DTOs: `ActivityLogDto`, `QueryActivityLogsDto` with pagination, filtering, and sorting
+    - Database: MongoDB entity with optimized indexes on userId, action, entityType, timestamp
+    - DbService: `ActivityLogDbService` with findAll, findById, findByUserId, create, count methods
+    - API: 3 GET endpoints (list, single, user-specific) with Admin-only authorization
+    - Service: `ActivityLogService` with user population using Map-based batch fetching
+    - Mapper: `ActivityLogMapper` for entity-to-DTO transformations
+    - Decorators: `@LogActivity()` for method-level automatic logging
+    - Interceptors: `ActivityLoggingInterceptor` for HTTP request/response logging
+    - Fire-and-forget async logging with setImmediate (non-blocking)
+    - Tests: 97% coverage in data-access-layer, 69% in web-server
+  - **Frontend Implementation**
+    - Components: `ActivityLogsListComponent` with NG-ZORRO table, filters, pagination
+    - Components: `ActivityLogDetailsComponent` modal with metadata viewer
+    - Service: `ActivityLogsService` with BehaviorSubject state management
+    - Features: Date range filtering (7-day default), action/entity type multi-select
+    - Features: CSV export (max 10k rows), action badge color coding
+    - Performance: OnPush change detection, trackBy functions, server-side pagination
+    - Routing: `/backoffice/activity-logs` route with lazy loading
+    - Navigation: Added "Activity Logs" menu item under Backoffice submenu
+    - Tests: Comprehensive unit tests for components and services
+
+- **Query Parameters Documentation** - Critical documentation in backend-dev-guidelines skill
+  - New section in `controllers-guide.md` explaining API client generator constraint
+  - Comprehensive guide on why `@Query(ValidationPipe)` with DTOs doesn't work
+  - Solution pattern: Individual `@Query()` decorators with manual DTO construction
+  - Real-world example from Activity Logs controller with 9 query parameters
+  - Key patterns: ParseIntPipe usage, @ApiQuery documentation, date handling
+  - Explanation of API client generator internals and limitations
+
+### Changed
+
+- **Controller Pattern** - Updated Activity Log controller to use individual query parameters
+  - Refactored from `@Query(ValidationPipe) query: QueryActivityLogsDto` pattern
+  - Now uses individual `@Query('paramName')` decorators for each parameter
+  - Manually constructs DTO inside controller method
+  - Ensures API client generator creates proper HTTP query parameters
+
+- **API Client Generation** - Regenerated with individual query parameter support
+  - `ApiActivityLogService.findAll()` now accepts 9 individual parameters
+  - Generates proper query strings: `?page=1&pageSize=50&userId=abc&...`
+  - Fixed `[object Object]` serialization issue
+
+### Fixed
+
+- **API Client Query Serialization** - Fixed 400 Bad Request errors
+  - Root cause: API client was serializing DTO as `?ValidationPipe=[object Object]`
+  - Solution: Individual `@Query()` decorators generate proper query parameters
+  - Updated frontend service to pass individual parameters instead of DTO object
+
+- **TypeScript Strict Mode** - Fixed template errors with optional user objects
+  - Added optional chaining for user properties: `log.user.firstName?.[0]`
+  - Prevents "possibly undefined" errors in activity log templates
+
+- **Component Configuration** - Fixed standalone component issues
+  - Added `standalone: false` to ActivityLogsListComponent and ActivityLogDetailsComponent
+  - Aligns with project's NgModule pattern (not Angular 19 standalone default)
+
+- **Frontend Tests** - Updated test assertions for new API signature
+  - Changed from DTO object expectations to individual parameter assertions
+  - All 6 ActivityLogsService tests passing
+
+### Documentation
+
+- **Example Prompts** - Added `prompts/example-activity-logs-feature.md`
+  - Complete example of full-stack feature implementation
+  - Demonstrates proper prompt structure for complex features
+  - Shows integration of backend and frontend with testing requirements
+
+- **Backend Skill** - Enhanced `backend-dev-guidelines/resources/controllers-guide.md`
+  - 180+ lines of new documentation on query parameters
+  - Prevents future API client generation errors
+  - Includes problem explanation, solution pattern, and real examples
+
 ## [1.5.0] - 2025-11-27
 
 ### Added
