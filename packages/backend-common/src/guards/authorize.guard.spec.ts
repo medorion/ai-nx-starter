@@ -238,8 +238,8 @@ describe('AuthorizeGuard', () => {
       const result = guard.isUserRoleValid(Role.Admin, userSessionInfo);
 
       expect(result).toBe(false);
-      // User role has no weight defined, so it logs error about weight not found instead
-      expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('Validate user role, role weight not found'));
+      // User role (weight 60) < Admin role (weight 90), so it logs info about insufficient role
+      expect(logger.info).toHaveBeenCalledWith(expect.stringContaining('Validate user role, user'));
     });
 
     it('should return false when required role is invalid', () => {
@@ -258,16 +258,13 @@ describe('AuthorizeGuard', () => {
       expect(logger.error).toHaveBeenCalledWith('Validate user role, InvalidRole is not valid value for UserRole.');
     });
 
-    it('should return false when role weight is not defined', () => {
-      // User role has no weight defined in the guard
+    it('should return true when user has User role and User role is required', () => {
+      // User role has weight 60, and 60 >= 60
       const userSessionInfo = { ...mockSessionInfo, role: Role.User };
 
       const result = guard.isUserRoleValid(Role.User, userSessionInfo);
 
-      expect(result).toBe(false);
-      expect(logger.error).toHaveBeenCalledWith(
-        expect.stringContaining('Validate user role, role weight not found for user role User or required role User'),
-      );
+      expect(result).toBe(true);
     });
   });
 });
