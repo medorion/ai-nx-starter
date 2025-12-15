@@ -172,6 +172,8 @@ async findOne(@Param('id') id: string): Promise<ClientUserDto> {
 - ✅ Global exception filter handles all errors automatically
 - ❌ No manual `handleError()` methods needed
 
+→ See [services-guide.md](resources/services-guide.md) and [controllers-guide.md](resources/controllers-guide.md)
+
 ### 2. Authorize requests using guard middleware
 
 ```typescript
@@ -181,6 +183,8 @@ async findOne(@Param('id') id: string): Promise<ClientUserDto> {
   }
 ```
 
+→ See [auth-session-guide.md](resources/auth-session-guide.md)
+
 ### 3. Validate input using class-validator
 
 ```typescript
@@ -188,6 +192,8 @@ async findOne(@Param('id') id: string): Promise<ClientUserDto> {
     return this.userService.create(createUserDto);
   }
 ```
+
+→ See [types-guide.md](resources/types-guide.md) and [controllers-guide.md](resources/controllers-guide.md)
 
 ### 4. Use Swagger decorators for API documentation
 
@@ -198,6 +204,8 @@ async findOne(@Param('id') id: string): Promise<ClientUserDto> {
        return this.userService.create(createUserDto);
      }
 ```
+
+→ See [api-documentation-guide.md](resources/api-documentation-guide.md)
 
 ### 5. Use Mapper to transform an entity to DTO
 
@@ -213,12 +221,16 @@ In the service use toDto() to return a DTO object
      }
 ```
 
+→ See [services-guide.md](resources/services-guide.md)
+
 ### 6. Use DbService for database access
 
 ```typescript
 // ✅ ALWAYS
 const entity = await this.userDbService.create(createUserDto);
 ```
+
+→ See [database-patterns-guide.md](resources/database-patterns-guide.md)
 
 ### 7. Constructor Conventions and Logger Setup
 
@@ -240,6 +252,8 @@ export class UserService {
 - ✅ Use `private readonly` for all injected dependencies
 - ✅ Set logger context in constructor: `this.logger.setContext(ClassName.name)`
 - ✅ Register providers in module's `providers` array
+
+→ See [services-guide.md](resources/services-guide.md) and [logging-guide.md](resources/logging-guide.md)
 
 ### 8. Generate API Client After Controller Changes
 

@@ -26,35 +26,37 @@ Establish consistency and best practices for Angular 19 frontend development usi
 
 Creating a component? Follow this checklist:
 
-- [ ] Use `@Component` decorator with standalone: true (Angular 19 default)
-- [ ] Lazy load feature modules via router or use dynamic component loading for heavy components
-- [ ] Handle loading states in template with `*ngIf` and NG-ZORRO `nz-spin`
-- [ ] Use auto-generated `@ai-nx-starter/api-client` services with RxJS operators
+- [ ] Use `@Component` decorator with standalone: true (Angular 19 default) → [component-patterns-guide.md](resources/component-patterns-guide.md)
+- [ ] Lazy load feature modules via router or use dynamic component loading for heavy components → [component-patterns-guide.md](resources/component-patterns-guide.md#lazy-loading-pattern)
+- [ ] Handle loading states in template with `*ngIf` and NG-ZORRO `nz-spin` → [loading-and-error-states-guide.md](resources/loading-and-error-states-guide.md)
+- [ ] Use auto-generated `@ai-nx-starter/api-client` services with RxJS operators → [data-fetching-guide.md](resources/data-fetching-guide.md)
 - [ ] Import from packages: `@ai-nx-starter/types`, `@ai-nx-starter/api-client`
-- [ ] Styles: Inline if <100 lines, separate `.less` file if >100 lines
-- [ ] Use component methods for event handlers (avoid inline arrow functions in templates)
+- [ ] Styles: Inline if <100 lines, separate `.less` file if >100 lines → [styling-guide.md](resources/styling-guide.md)
+- [ ] Use component methods for event handlers (avoid inline arrow functions in templates) → [component-patterns-guide.md](resources/component-patterns-guide.md)
 - [ ] Export component class (named export, not default)
-- [ ] Use `*ngIf="data$ | async as data"` pattern for observables (no manual subscriptions)
-- [ ] Use `NzMessageService` or `NzNotificationService` for user notifications
-- [ ] Apply `OnPush` change detection strategy for performance
-- [ ] Implement `OnDestroy` and unsubscribe from manual subscriptions (or use `takeUntilDestroyed()`)
+- [ ] Use `*ngIf="data$ | async as data"` pattern for observables (no manual subscriptions) → [data-fetching-guide.md](resources/data-fetching-guide.md)
+- [ ] Use `NzMessageService` or `NzNotificationService` for user notifications → [loading-and-error-states-guide.md](resources/loading-and-error-states-guide.md)
+- [ ] Apply `OnPush` change detection strategy for performance → [performance-guide.md](resources/performance-guide.md)
+- [ ] Implement `OnDestroy` and unsubscribe from manual subscriptions (or use `takeUntilDestroyed()`) → [performance-guide.md](resources/performance-guide.md)
+- [ ] Write tests for business logic, user interactions, and data fetching → [testing-guide.md](resources/testing-guide.md)
 
 ### New Feature Checklist
 
 Creating a feature? Set up this structure:
 
-- [ ] Create `features/{feature-name}/` directory in `apps/web-ui/src/app/`
-- [ ] Create subdirectories: `components/`, `services/`, `models/`, `guards/`, `directives/` (as needed)
+- [ ] Create `features/{feature-name}/` directory in `apps/web-ui/src/app/` → [file-organization-guide.md](resources/file-organization-guide.md)
+- [ ] Create subdirectories: `components/`, `services/`, `models/`, `guards/`, `directives/` (as needed) → [file-organization-guide.md](resources/file-organization-guide.md)
 - [ ] Define DTOs/types in `@ai-nx-starter/types` package (shared with backend)
-- [ ] Use auto-generated API services from `@ai-nx-starter/api-client` (NO manual HTTP services)
-- [ ] Create feature routing module: `{feature-name}-routing.module.ts` or use standalone route config
-- [ ] Configure lazy loading in parent router: `loadChildren` or `loadComponent`
-- [ ] Create feature barrel export: `index.ts` for public API
-- [ ] Apply `OnPush` change detection to all feature components
-- [ ] Handle loading states with `*ngIf` and NG-ZORRO `nz-spin` or `nz-skeleton`
-- [ ] Use RxJS operators (`map`, `switchMap`, `catchError`) for data transformation
-- [ ] Implement error handling with `@ai-nx-starter/backend-common` exception types
-- [ ] Add route guards if authentication/authorization required
+- [ ] Use auto-generated API services from `@ai-nx-starter/api-client` (NO manual HTTP services) → [data-fetching-guide.md](resources/data-fetching-guide.md)
+- [ ] Create feature routing module: `{feature-name}-routing.module.ts` or use standalone route config → [routing-guide.md](resources/routing-guide.md)
+- [ ] Configure lazy loading in parent router: `loadChildren` or `loadComponent` → [routing-guide.md](resources/routing-guide.md)
+- [ ] Create feature barrel export: `index.ts` for public API → [file-organization-guide.md](resources/file-organization-guide.md)
+- [ ] Apply `OnPush` change detection to all feature components → [performance-guide.md](resources/performance-guide.md)
+- [ ] Handle loading states with `*ngIf` and NG-ZORRO `nz-spin` or `nz-skeleton` → [loading-and-error-states-guide.md](resources/loading-and-error-states-guide.md)
+- [ ] Use RxJS operators (`map`, `switchMap`, `catchError`) for data transformation → [data-fetching-guide.md](resources/data-fetching-guide.md)
+- [ ] Implement error handling with `@ai-nx-starter/backend-common` exception types → [loading-and-error-states-guide.md](resources/loading-and-error-states-guide.md)
+- [ ] Add route guards if authentication/authorization required → [common-patterns-guide.md](resources/common-patterns-guide.md)
+- [ ] Write tests for components, services, guards, and business logic → [testing-guide.md](resources/testing-guide.md)
 
 ---
 
