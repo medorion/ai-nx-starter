@@ -663,6 +663,64 @@ padding: @padding-lg @padding-md; // top/bottom: 24px, left/right: 16px
 
 **Note**: Use `::ng-deep` sparingly, only when you need to style child components. Prefer component-scoped styles.
 
+### Inline Styles on NG-ZORRO Components
+
+**Important**: Not all NG-ZORRO components support `[nzStyle]` or `[ngStyle]` bindings. Always check the component API documentation.
+
+#### ✅ Correct Approaches:
+
+**Option 1: Native `style` attribute (preferred for simple cases)**
+
+```html
+<!-- Static inline style -->
+<nz-avatar style="background-color: #1890ff"></nz-avatar>
+
+<!-- Dynamic with string interpolation -->
+<nz-avatar [style]="'background-color: ' + dynamicColor"></nz-avatar>
+```
+
+**Option 2: Individual style bindings**
+
+```html
+<nz-avatar [style.background-color]="teamColor"></nz-avatar> <nz-tag [style.margin-left.px]="8"></nz-tag>
+```
+
+**Option 3: Component-specific properties (when available)**
+
+```html
+<!-- Some components have specific color/size properties -->
+<nz-tag [nzColor]="'blue'"></nz-tag>
+<nz-button [nzSize]="'large'"></nz-button>
+```
+
+#### ❌ Common Mistakes:
+
+```html
+<!-- DON'T: [nzStyle] doesn't work on nz-avatar -->
+<nz-avatar [nzStyle]="{ backgroundColor: '#1890ff' }"></nz-avatar>
+
+<!-- DON'T: [ngStyle] may not work on all NG-ZORRO components -->
+<nz-avatar [ngStyle]="{ 'background-color': color }"></nz-avatar>
+```
+
+#### 💡 Best Practices:
+
+1. **Prefer component-specific properties** when available (e.g., `nzColor`, `nzSize`)
+2. **Use native `style` for simple static styles**
+3. **Use `[style.property]` bindings for dynamic single properties**
+4. **Only use `::ng-deep` in component LESS files** when you need to override child component styles
+5. **Check NG-ZORRO docs** before assuming a component supports `[nzStyle]` or `[ngStyle]`
+
+#### Common NG-ZORRO Components and Styling:
+
+| Component   | Preferred Styling Approach    | Notes                               |
+| ----------- | ----------------------------- | ----------------------------------- |
+| `nz-avatar` | `style` or `[style.property]` | No `[nzStyle]` support              |
+| `nz-tag`    | `[nzColor]` property          | Use predefined colors when possible |
+| `nz-button` | Component properties          | `nzType`, `nzSize`, `nzDanger`      |
+| `nz-card`   | LESS with `::ng-deep`         | Override `.ant-card` classes        |
+| `nz-table`  | LESS with `::ng-deep`         | Override `.ant-table` classes       |
+
 ### Button Styles
 
 ```less
