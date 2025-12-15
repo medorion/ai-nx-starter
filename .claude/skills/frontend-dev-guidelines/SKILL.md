@@ -475,6 +475,7 @@ Helper functions:
 | See full examples        | [complete-examples-guide.md](resources/complete-examples-guide.md)               |
 | Logging and debugging    | [logging-guide.md](resources/logging-guide.md)                                   |
 | Security best practices  | [security-guide.md](resources/security-guide.md)                                 |
+| Write tests              | [testing-guide.md](resources/testing-guide.md)                                   |
 
 ---
 
