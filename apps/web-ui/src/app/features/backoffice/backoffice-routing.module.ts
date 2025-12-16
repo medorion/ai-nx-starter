@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
     data: { breadcrumb: 'Users' },
   },
+  {
+    path: 'teams',
+    loadChildren: () => import('./teams/teams.module').then((m) => m.TeamsModule),
+    data: { breadcrumb: 'Teams' },
+  },
 ];
 
 @NgModule({

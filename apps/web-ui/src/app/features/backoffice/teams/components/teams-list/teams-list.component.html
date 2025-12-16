@@ -1,0 +1,123 @@
+<div class="teams-list-container inner-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2>Teams Management</h2>
+    </div>
+    <div class="header-actions">
+      <button nz-button nzType="primary" (click)="onCreateTeam()">
+        <span nz-icon nzType="plus"></span>
+        Create Team
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="max-width: 400px">
+      <input
+        type="text"
+        nz-input
+        id="teamSearch"
+        name="teamSearch"
+        placeholder="Search by name, description, or owner..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- Teams Table -->
+  <nz-table #basicTable [nzData]="paginatedTeams" [nzLoading]="loading" [nzShowPagination]="false" nzSize="middle" class="teams-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Owner</th>
+        <th>Member Count</th>
+        <th nzWidth="150px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let team of paginatedTeams">
+        <td>
+          <strong>{{ team.name }}</strong>
+        </td>
+        <td>
+          <span *ngIf="team.description">{{ team.description }}</span>
+          <span *ngIf="!team.description" class="text-muted">No description</span>
+        </td>
+        <td>
+          <div class="user-info" *ngIf="team.owner">
+            <nz-avatar
+              [nzText]="((team.owner.firstName && team.owner.firstName.charAt(0)) || 'U').toUpperCase()"
+              nzSize="small"
+            ></nz-avatar>
+            <span class="user-name">{{ team.owner.firstName }} {{ team.owner.lastName }}</span>
+          </div>
+          <span *ngIf="!team.owner" class="text-muted">Unknown</span>
+        </td>
+        <td>
+          <nz-tag [nzColor]="'blue'"> {{ team.memberIds.length || 0 }} members </nz-tag>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button nz-button nzType="default" nzSize="small" (click)="onEditTeam(team)" nz-tooltip="Edit team" style="margin-right: 4px">
+              <span nz-icon nzType="edit"></span>
+            </button>
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              nzDanger
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure you want to delete '{{ team.name }}'?"
+              nzPopconfirmPlacement="topRight"
+              nzOkText="Delete"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onDeleteTeam(team)"
+              nz-tooltip="Delete team"
+            >
+              <span nz-icon nzType="delete"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Empty State -->
+  <nz-empty
+    *ngIf="!loading && filteredTeams.length === 0"
+    [nzNotFoundContent]="searchQuery ? 'No teams found matching your search' : 'No teams yet'"
+    [nzNotFoundImage]="searchQuery ? 'search' : 'default'"
+  >
+    <div nz-empty-footer *ngIf="!searchQuery">
+      <button nz-button nzType="primary" (click)="onCreateTeam()">
+        <span nz-icon nzType="plus"></span>
+        Create First Team
+      </button>
+    </div>
+  </nz-empty>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!loading && filteredTeams.length > 0">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      [nzTotal]="total"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[5, 10, 20, 50]"
+      nzShowQuickJumper
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+    </nz-pagination>
+  </div>
+</div>

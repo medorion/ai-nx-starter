@@ -11,6 +11,8 @@ export { CreateUserDto } from './dto/features/users/create-user.dto';
 export { UpdateUserDto } from './dto/features/users/update-user.dto';
 export { LoginUserDto } from './dto/features/auth/login-user.dto';
 
+export { ClientTeamDto, CreateTeamDto, UpdateTeamDto, AddMemberDto } from './dto/features/teams';
+
 // Export TodoItem DTOs This is example of how to export multiple DTOs
 export {
   TodoItemDto,

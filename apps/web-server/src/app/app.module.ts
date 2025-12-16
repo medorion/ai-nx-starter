@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ExampleModule } from './features/example/example.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './features/user/user.module';
+import { TeamModule } from './features/team/team.module';
 import { DataAccessModule } from './data-access.module';
 import { ExceptionsModule } from './features/exceptions/exceptions.module';
 import { SyncEventsModule } from './features/sync-events/sync-events.module';
@@ -43,6 +44,7 @@ import { HealthController } from './health/health.controller';
     ExceptionsModule,
     // Features
     UserModule,
+    TeamModule,
     SyncEventsModule,
   ],
   controllers: [HealthController],

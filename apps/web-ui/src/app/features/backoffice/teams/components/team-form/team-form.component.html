@@ -1,0 +1,95 @@
+<div class="team-form-container">
+  <form nz-form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+    <!-- Team Name -->
+    <nz-form-item>
+      <nz-form-label [nzRequired]="true" nzFor="name">Team Name</nz-form-label>
+      <nz-form-control nzErrorTip="Please enter a team name (3-100 characters)">
+        <input nz-input id="name" formControlName="name" placeholder="Enter team name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- Description -->
+    <nz-form-item>
+      <nz-form-label nzFor="description">Description</nz-form-label>
+      <nz-form-control nzErrorTip="Maximum 500 characters allowed">
+        <textarea
+          nz-input
+          id="description"
+          formControlName="description"
+          placeholder="Enter team description (optional)"
+          [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- Members Section (Only in edit mode) -->
+    <div *ngIf="isEditMode && team" class="members-section">
+      <nz-divider nzText="Team Members"></nz-divider>
+
+      <!-- Current Members -->
+      <div class="current-members">
+        <h4>Current Members ({{ team.members?.length || 0 }})</h4>
+        <div class="members-list" *ngIf="team.members && team.members.length > 0">
+          <div *ngFor="let member of team.members" class="member-item">
+            <div class="member-info">
+              <nz-avatar [nzText]="((member.firstName && member.firstName.charAt(0)) || 'U').toUpperCase()" nzSize="small"></nz-avatar>
+              <span class="member-name">{{ member.firstName }} {{ member.lastName }}</span>
+              <nz-tag *ngIf="member.id === team.ownerId" nzColor="gold">Owner</nz-tag>
+            </div>
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              nzDanger
+              *ngIf="member.id !== team.ownerId"
+              nz-popconfirm
+              nzPopconfirmTitle="Remove {{ member.firstName }} {{ member.lastName }} from team?"
+              nzPopconfirmPlacement="topRight"
+              nzOkText="Remove"
+              nzCancelText="Cancel"
+              (nzOnConfirm)="onRemoveMember(member)"
+            >
+              <span nz-icon nzType="close"></span>
+            </button>
+          </div>
+        </div>
+        <nz-empty *ngIf="!team.members || team.members.length === 0" nzNotFoundContent="No members yet"></nz-empty>
+      </div>
+
+      <!-- Add Member -->
+      <div class="add-member-section">
+        <h4>Add Member</h4>
+        <div class="add-member-form">
+          <nz-select
+            nzShowSearch
+            nzPlaceHolder="Select a user to add"
+            [(ngModel)]="selectedUserForAdd"
+            [ngModelOptions]="{ standalone: true }"
+            style="flex: 1"
+          >
+            <nz-option
+              *ngFor="let user of availableUsers"
+              [nzValue]="user.id"
+              [nzLabel]="user.firstName + ' ' + user.lastName + ' (' + user.email + ')'"
+            >
+            </nz-option>
+          </nz-select>
+          <button nz-button nzType="default" (click)="onAddMember()" [disabled]="!selectedUserForAdd || loading">
+            <span nz-icon nzType="plus"></span>
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <nz-form-item class="form-actions">
+      <div class="action-buttons">
+        <button nz-button nzType="default" (click)="onCancel()" type="button">Cancel</button>
+        <button nz-button nzType="primary" [nzLoading]="loading" type="submit">
+          {{ isEditMode ? 'Update Team' : 'Create Team' }}
+        </button>
+      </div>
+    </nz-form-item>
+  </form>
+</div>
