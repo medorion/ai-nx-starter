@@ -14,7 +14,7 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster with Claud
 
 - 🤖 **Claude Code Skills** - Context-rich guides that auto-activate based on keywords (CRUD, controller, component, etc.)
 - ⚡ **Auto-generated API clients** - Type-safe Angular services generated from NestJS controllers
-- 📋 **Prompt guides** - Learn how to write effective prompts that leverage the skills system
+- 📝 **Dev Docs (`/dev-docs`)** - Document implementation plans and track progress across context resets
 - 🎯 **Testing and CI built-in** - Comprehensive testing guidelines including coverage and e2e
 - 💾 **Context-optimized** - Skills load only when needed, saving tokens and improving Claude's performance
 
@@ -175,6 +175,14 @@ npm run format:fix    # Auto-format code
 - Mention "controller", "service", "DTO" → Backend patterns applied instantly
 - Mention "component", "form", "table" → Frontend patterns applied instantly
 - No manual skill invocation needed - Claude detects context automatically
+
+**Custom slash commands:**
+
+- `/dev-docs` - Document implementation plan and monitor progress
+  - Creates structured documentation of your feature implementation
+  - Tracks progress across multiple steps
+  - Survives context resets - resume where you left off
+  - Useful for complex features and multi-step implementations
 
 **Key files for Claude Code:**
 

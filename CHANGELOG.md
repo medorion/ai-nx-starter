@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2025-12-31
+
+### Added
+
+- **Dev Docs (`/dev-docs`) Slash Command** - Strategic planning and progress tracking system
+  - Document implementation plans with structured task breakdown
+  - Track progress across multiple implementation steps
+  - Survive context resets - resume development exactly where you left off
+  - Create comprehensive project documentation automatically
+  - Useful for complex features and multi-step implementations
+  - Integrated into README with prominent marketing in "What Makes This Different?" section
+
+### Changed
+
+- **README.md** - Updated to highlight `/dev-docs` capability
+  - Moved `/dev-docs` to main feature list in "What Makes This Different?" section
+  - Replaced prompt guides bullet point with dev docs capability
+  - Added custom slash commands section in Claude Code Workflows
+  - Improved discoverability of strategic planning features
+
 ## [1.6.0] - 2025-12-14
 
 ### Added
