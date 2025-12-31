@@ -7,6 +7,7 @@ A methodology for maintaining project context across Claude Code sessions and co
 ## The Problem
 
 **Context resets lose everything:**
+
 - Implementation decisions
 - Key files and their purposes
 - Task progress
@@ -39,6 +40,7 @@ dev/active/[task-name]/
 **Purpose:** Strategic plan for the implementation
 
 **Contains:**
+
 - Executive summary
 - Current state analysis
 - Proposed future state
@@ -53,24 +55,29 @@ dev/active/[task-name]/
 **When to update:** When scope changes or new phases discovered
 
 **Example:**
+
 ```markdown
 # Feature Name - Implementation Plan
 
 ## Executive Summary
+
 What we're building and why
 
 ## Current State
+
 Where we are now
 
 ## Implementation Phases
 
 ### Phase 1: Infrastructure (2 hours)
+
 - Task 1.1: Set up database schema
   - Acceptance: Schema compiles, relationships correct
 - Task 1.2: Create service structure
   - Acceptance: All directories created
 
 ### Phase 2: Core Functionality (3 hours)
+
 ...
 ```
 
@@ -81,6 +88,7 @@ Where we are now
 **Purpose:** Key information for resuming work
 
 **Contains:**
+
 - SESSION PROGRESS section (updated frequently!)
 - What's completed vs in-progress
 - Key files and their purposes
@@ -94,35 +102,43 @@ Where we are now
 **When to update:** **FREQUENTLY** - after major decisions, completions, or discoveries
 
 **Example:**
+
 ```markdown
 # Feature Name - Context
 
 ## SESSION PROGRESS (2025-10-29)
 
 ### ✅ COMPLETED
+
 - Database schema created (User, Post, Comment models)
 - PostController implemented with BaseController pattern
 - Sentry integration working
 
 ### 🟡 IN PROGRESS
+
 - Creating PostService with business logic
 - File: src/services/postService.ts
 
 ### ⚠️ BLOCKERS
+
 - Need to decide on caching strategy
 
 ## Key Files
 
 **apps/web-server/src/app/features/user/user.controller.ts**
+
 - Handles HTTP requests
 - Delegates to UserService
 
 **apps/web-server/src/app/features/user/user.service.ts** (IN PROGRESS)
+
 - Business logic for post operations
 - Next: Add caching
 
 ## Quick Resume
+
 To continue:
+
 1. Read this file
 2. Continue implementing UserService.create()
 3. See tasks file for remaining work
@@ -137,6 +153,7 @@ To continue:
 **Purpose:** Checklist for tracking progress
 
 **Contains:**
+
 - Phases broken down by logical sections
 - Tasks in checkbox format
 - Status indicators (✅/🟡/⏳)
@@ -148,15 +165,18 @@ To continue:
 **When to update:** After completing each task or discovering new tasks
 
 **Example:**
+
 ```markdown
 # Feature Name - Task Checklist
 
 ## Phase 1: Setup ✅ COMPLETE
+
 - [x] Create dto schema
 - [x] Create entity
 - [x] Set up controllers
 
 ## Phase 2: Implementation 🟡 IN PROGRESS
+
 - [x] Create UserDbService
 - [x] Create UserController
 - [ ] Create UserService (IN PROGRESS)
@@ -164,15 +184,18 @@ To continue:
 - [ ] register new DbService
 
 ## Phase 3: Testing ⏳ NOT STARTED
+
 - [ ] Unit tests
 - [ ] Verify all tests pass
 - [ ] Verify Code coverage
 
 ## Phase 4: Finalize API Endpoints ⏳ NOT STARTED
+
 - [ ] Write API Endpoint documentation
 - [ ] Generate Client API
 
 ## Phase 5: Verify Build ⏳ NOT STARTED
+
 - [ ] Verify Format
 - [ ] Verify Lint
 - [ ] Verify Build
@@ -183,6 +206,7 @@ To continue:
 ## When to Use Dev Docs
 
 **Use for:**
+
 - ✅ Complex multi-day tasks
 - ✅ Features with many moving parts
 - ✅ Tasks likely to span multiple sessions
@@ -190,6 +214,7 @@ To continue:
 - ✅ Refactoring large systems
 
 **Skip for:**
+
 - ❌ Simple bug fixes
 - ❌ Single-file changes
 - ❌ Quick updates
@@ -204,6 +229,7 @@ To continue:
 ### Starting a New Task
 
 1. **Use /dev-docs slash command:**
+
    ```
    /dev-docs refactor authentication system
    ```
@@ -241,28 +267,34 @@ No need to explain what you were doing - it's all documented!
 ## Integration with Slash Commands
 
 ### /dev-docs
+
 **Creates:** New dev docs for a task
 
 **Usage:**
+
 ```
 /dev-docs implement real-time notifications
 ```
 
 **Generates:**
+
 - `dev/active/implement-real-time-notifications/`
   - implement-real-time-notifications-plan.md
   - implement-real-time-notifications-context.md
   - implement-real-time-notifications-tasks.md
 
 ### /dev-docs-update
+
 **Updates:** Existing dev docs before context reset
 
 **Usage:**
+
 ```
 /dev-docs-update
 ```
 
 **Updates:**
+
 - Marks completed tasks
 - Adds new tasks discovered
 - Updates context with session progress
@@ -302,11 +334,14 @@ dev/
 **Good:** Update after each major milestone
 
 **SESSION PROGRESS section should always reflect reality:**
+
 ```markdown
 ## SESSION PROGRESS (YYYY-MM-DD)
 
 ### ✅ COMPLETED (list everything done)
+
 ### 🟡 IN PROGRESS (what you're working on RIGHT NOW)
+
 ### ⚠️ BLOCKERS (what's preventing progress)
 ```
 
@@ -316,6 +351,7 @@ dev/
 **Good:** "Implement JWT token validation in AuthMiddleware.ts (Acceptance: Tokens validated, errors to Sentry)"
 
 **Include:**
+
 - Specific file names
 - Clear acceptance criteria
 - Dependencies on other tasks
@@ -323,6 +359,7 @@ dev/
 ### Keep Plan Current
 
 If scope changes:
+
 - Update the plan
 - Add new phases
 - Adjust timeline estimates
@@ -360,6 +397,7 @@ If scope changes:
 4. **Refer to plan.md** - understand overall strategy
 
 **Update frequently:**
+
 - Mark tasks complete immediately
 - Update SESSION PROGRESS after significant work
 - Add new tasks as discovered
@@ -369,12 +407,14 @@ If scope changes:
 ## Benefits
 
 **Before dev docs:**
+
 - Context reset = start over
 - Forget why decisions were made
 - Lose track of progress
 - Repeat work
 
 **After dev docs:**
+
 - Context reset = read 3 files, resume instantly
 - Decisions documented
 - Progress tracked

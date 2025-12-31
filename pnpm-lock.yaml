@@ -12,8 +12,7 @@ overrides:
   js-yaml@>=4.0.0 <4.1.1: '>=4.1.1'
   koa@>=3.0.1 <3.0.3: '>=3.0.3'
   node-forge@<1.3.2: '>=1.3.2'
-  '@angular/compiler@>=19.0.0-next.0 <19.2.17': 19.2.17
-  jws@<3.2.3: '>=3.2.3'
+  qs@<6.14.1: '>=6.14.1'
 
 importers:
   .:
@@ -28,7 +27,7 @@ importers:
         specifier: ~19.2.16
         version: 19.2.16(@angular/core@19.2.16(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/compiler':
-        specifier: 19.2.17
+        specifier: ~19.2.16
         version: 19.2.17
       '@angular/core':
         specifier: ~19.2.16
@@ -495,7 +494,7 @@ packages:
     resolution: { integrity: sha512-SFzQ1bRkNFiOVu+aaz+9INmts7tDUrsHLEr9HmARXr9qk5UmR8prlw39p2u+Bvi6/lCiJ18TZMQQl9mGyr63lg== }
     engines: { node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0' }
     peerDependencies:
-      '@angular/compiler': 19.2.17
+      '@angular/compiler': ^19.0.0 || ^19.2.0-next.0
       '@angular/compiler-cli': ^19.0.0 || ^19.2.0-next.0
       '@angular/localize': ^19.0.0 || ^19.2.0-next.0
       '@angular/platform-server': ^19.0.0 || ^19.2.0-next.0
@@ -551,7 +550,7 @@ packages:
     engines: { node: ^18.19.1 || ^20.11.1 || >=22.0.0 }
     hasBin: true
     peerDependencies:
-      '@angular/compiler': 19.2.17
+      '@angular/compiler': 19.2.16
       typescript: '>=5.5 <5.9'
 
   '@angular/compiler@19.2.17':
@@ -583,7 +582,7 @@ packages:
     engines: { node: ^18.19.1 || ^20.11.1 || >=22.0.0 }
     peerDependencies:
       '@angular/common': 19.2.16
-      '@angular/compiler': 19.2.17
+      '@angular/compiler': 19.2.16
       '@angular/core': 19.2.16
       '@angular/platform-browser': 19.2.16
 
@@ -6748,15 +6747,15 @@ packages:
     resolution: { integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ== }
     engines: { node: '>=12', npm: '>=6' }
 
-  jwa@2.0.1:
-    resolution: { integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg== }
+  jwa@1.4.2:
+    resolution: { integrity: sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw== }
 
   jwks-rsa@3.2.0:
     resolution: { integrity: sha512-PwchfHcQK/5PSydeKCs1ylNym0w/SSv8a62DgHJ//7x2ZclCoinlsjAfDxAAbpoTPybOum/Jgy+vkvMmKz89Ww== }
     engines: { node: '>=14' }
 
-  jws@4.0.1:
-    resolution: { integrity: sha512-EKI/M/yqPncGUUh44xz0PxSidXFr/+r0pA70+gIYhjv+et7yxM+s29Y+VGDkovRofQem0fs7Uvf4+YmAdyRduA== }
+  jws@3.2.3:
+    resolution: { integrity: sha512-byiJ0FLRdLdSVSReO/U4E7RoEyOCKnEnEPMjq3HxWtvzLsV08/i5RQKsFVNkCldrCaPr2vDNAOMsfs8T/Hze7g== }
 
   karma-source-map-support@1.4.0:
     resolution: { integrity: sha512-RsBECncGO17KAoJCYXjv+ckIz+Ii9NCi+9enk+rq6XC81ezYkb4/RHE6CTXdA7IOJqoF3wcaLfVG0CPmE5ca6A== }
@@ -8083,12 +8082,8 @@ packages:
     engines: { node: '>=10.13.0' }
     hasBin: true
 
-  qs@6.13.0:
-    resolution: { integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg== }
-    engines: { node: '>=0.6' }
-
-  qs@6.14.0:
-    resolution: { integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w== }
+  qs@6.14.1:
+    resolution: { integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ== }
     engines: { node: '>=0.6' }
 
   querystringify@2.2.0:
@@ -15588,7 +15583,7 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.4.24
       on-finished: 2.4.1
-      qs: 6.13.0
+      qs: 6.14.1
       raw-body: 2.5.2
       type-is: 1.6.18
       unpipe: 1.0.0
@@ -15603,7 +15598,7 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.7.0
       on-finished: 2.4.1
-      qs: 6.14.0
+      qs: 6.14.1
       raw-body: 3.0.1
       type-is: 2.0.1
     transitivePeerDependencies:
@@ -16799,7 +16794,7 @@ snapshots:
       parseurl: 1.3.3
       path-to-regexp: 0.1.12
       proxy-addr: 2.0.7
-      qs: 6.13.0
+      qs: 6.14.1
       range-parser: 1.2.1
       safe-buffer: 5.2.1
       send: 0.19.0
@@ -16833,7 +16828,7 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.14.0
+      qs: 6.14.1
       range-parser: 1.2.1
       router: 2.2.0
       send: 1.2.0
@@ -18455,7 +18450,7 @@ snapshots:
 
   jsonwebtoken@9.0.2:
     dependencies:
-      jws: 4.0.1
+      jws: 3.2.3
       lodash.includes: 4.3.0
       lodash.isboolean: 3.0.3
       lodash.isinteger: 4.0.4
@@ -18466,7 +18461,7 @@ snapshots:
       ms: 2.1.3
       semver: 7.7.3
 
-  jwa@2.0.1:
+  jwa@1.4.2:
     dependencies:
       buffer-equal-constant-time: 1.0.1
       ecdsa-sig-formatter: 1.0.11
@@ -18483,9 +18478,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jws@4.0.1:
+  jws@3.2.3:
     dependencies:
-      jwa: 2.0.1
+      jwa: 1.4.2
       safe-buffer: 5.2.1
 
   karma-source-map-support@1.4.0:
@@ -19934,11 +19929,7 @@ snapshots:
       pngjs: 5.0.0
       yargs: 15.4.1
 
-  qs@6.13.0:
-    dependencies:
-      side-channel: 1.1.0
-
-  qs@6.14.0:
+  qs@6.14.1:
     dependencies:
       side-channel: 1.1.0
 
@@ -21291,7 +21282,7 @@ snapshots:
 
   union@0.5.0:
     dependencies:
-      qs: 6.14.0
+      qs: 6.14.1
 
   unique-filename@4.0.0:
     dependencies:
