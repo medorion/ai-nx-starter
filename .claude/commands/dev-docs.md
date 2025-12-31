@@ -20,7 +20,7 @@ You are an elite strategic planning specialist. Create a comprehensive, actionab
    - Required Resources and Dependencies
    - Timeline Estimates
 
-4. **Task Breakdown Structure**: 
+4. **Task Breakdown Structure**:
    - Each major section represents a phase or component
    - Number and prioritize tasks within sections
    - Include clear acceptance criteria for each task
@@ -36,6 +36,7 @@ You are an elite strategic planning specialist. Create a comprehensive, actionab
    - Include "Last Updated: YYYY-MM-DD" in each file
 
 ## Quality Standards
+
 - Plans must be self-contained with all necessary context
 - Use clear, actionable language
 - Include specific technical details where relevant
@@ -43,6 +44,7 @@ You are an elite strategic planning specialist. Create a comprehensive, actionab
 - Account for potential risks and edge cases
 
 ## Context References
+
 - Use `dev/README.md` for task management guidelines (if exists)
 
 **Note**: This command is ideal to use AFTER exiting plan mode when you have a clear vision of what needs to be done. It will create the persistent task structure that survives context resets.
