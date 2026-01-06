@@ -24,35 +24,45 @@ A three-file structure that captures everything needed to resume work:
 
 ```
 dev/active/[task-name]/
-├── [task-name]-plan.md      # Strategic plan
-├── [task-name]-context.md   # Key decisions & files
-└── [task-name]-tasks.md     # Checklist format
+├── plan.md      # Strategic plan from plan mode
+├── context.md   # Key decisions & files
+└── tasks.md     # Checklist format for tracking
 ```
 
 **These files survive context resets** - Claude reads them to get back up to speed instantly.
 
 ---
 
+## Workflow Overview
+
+1. **Use Claude Code's plan mode** to create a comprehensive plan
+2. **Exit plan mode** when planning is complete
+3. **Run `/dev-docs [task-name]`** to transform the plan into trackable docs
+4. **Work on the task**, checking off items in `tasks.md`
+5. **Run `/dev-docs-update [task-name]`** periodically to checkpoint progress
+6. **After context reset**, Claude reads the three files and resumes instantly
+
+---
+
 ## Three-File Structure
 
-### 1. [task-name]-plan.md
+### 1. plan.md
 
-**Purpose:** Strategic plan for the implementation
+**Purpose:** Strategic plan created in Claude Code's plan mode
 
 **Contains:**
 
-- Executive summary
-- Current state analysis
-- Proposed future state
-- Implementation phases
-- Detailed tasks with acceptance criteria
-- Risk assessment
-- Success metrics
-- Timeline estimates
+- Complete plan output from plan mode
+- Metadata header with status and timestamps
+- Overview and objectives
+- Implementation phases and steps
+- Files to create/modify
+- Technical considerations
+- Risks and constraints
 
-**When to create:** At the start of a complex task
+**When to create:** Automatically created by `/dev-docs` command from plan mode output
 
-**When to update:** When scope changes or new phases discovered
+**When to update:** When scope changes significantly or new phases discovered
 
 **Example:**
 
@@ -83,23 +93,22 @@ Where we are now
 
 ---
 
-### 2. [task-name]-context.md
+### 2. context.md
 
 **Purpose:** Key information for resuming work
 
 **Contains:**
 
-- SESSION PROGRESS section (updated frequently!)
-- What's completed vs in-progress
-- Key files and their purposes
-- Important decisions made
-- Technical constraints discovered
-- Links to related files
-- Quick resume instructions
+- Critical files and their purposes
+- Architectural decisions made during implementation
+- Dependencies (packages, services, internal)
+- Risks and mitigation strategies
+- Key constraints (technical, business, resource)
+- Quick links to related docs/PRs/issues
 
-**When to create:** Start of task
+**When to create:** Automatically created by `/dev-docs` from plan mode output
 
-**When to update:** **FREQUENTLY** - after major decisions, completions, or discoveries
+**When to update:** Via `/dev-docs-update` when new decisions or files emerge
 
 **Example:**
 
@@ -148,21 +157,23 @@ To continue:
 
 ---
 
-### 3. [task-name]-tasks.md
+### 3. tasks.md
 
-**Purpose:** Checklist for tracking progress
+**Purpose:** Actionable checklist for tracking progress
 
 **Contains:**
 
+- Progress percentage (X/Y tasks completed)
 - Phases broken down by logical sections
-- Tasks in checkbox format
-- Status indicators (✅/🟡/⏳)
+- Tasks in checkbox format `- [ ]` / `- [x]`
+- File paths for each task
 - Acceptance criteria
-- Quick resume section
+- Task dependencies
+- Progress notes section (dated entries)
 
-**When to create:** Start of task
+**When to create:** Automatically created by `/dev-docs` from plan mode tasks
 
-**When to update:** After completing each task or discovering new tasks
+**When to update:** Via `/dev-docs-update` after completing tasks or milestones
 
 **Example:**
 
@@ -228,31 +239,42 @@ To continue:
 
 ### Starting a New Task
 
-1. **Use /dev-docs slash command:**
+1. **Enter plan mode to create a comprehensive plan:**
 
    ```
-   /dev-docs refactor authentication system
+   I need help implementing [feature]. Can you enter plan mode and create a plan?
    ```
 
-2. **Claude creates the three files:**
-   - Analyzes requirements
-   - Examines codebase
-   - Creates comprehensive plan
-   - Generates context and tasks files
+   - Claude explores the codebase
+   - Analyzes requirements and constraints
+   - Creates detailed implementation plan
+   - Outputs plan in the chat
 
-3. **Review and adjust:**
-   - Check if plan makes sense
-   - Add any missing considerations
-   - Adjust timeline estimates
+2. **Exit plan mode and document the plan:**
+
+   ```
+   /dev-docs [task-name]
+   ```
+
+   - Claude extracts the plan from conversation
+   - Creates `dev/active/[task-name]/` directory
+   - Generates three files: plan.md, context.md, tasks.md
+
+3. **Review the documentation:**
+   - Check `plan.md` for overall strategy
+   - Review `tasks.md` for actionable steps
+   - Verify `context.md` has all critical info
 
 ### During Implementation
 
-1. **Refer to plan** for overall strategy
-2. **Update context.md** frequently:
-   - Mark completed work
-   - Note decisions made
-   - Add blockers
-3. **Check off tasks** in tasks.md as you complete them
+1. **Refer to `plan.md`** for overall strategy and approach
+2. **Work through tasks** in `tasks.md` sequentially
+3. **Manually check off tasks** as you complete them (edit the file directly)
+4. **Periodically run `/dev-docs-update [task-name]`** to:
+   - Automatically update task completion status
+   - Add progress notes with timestamps
+   - Capture new decisions and file changes
+   - Update context with discoveries
 
 ### After Context Reset
 
@@ -268,39 +290,71 @@ No need to explain what you were doing - it's all documented!
 
 ### /dev-docs
 
-**Creates:** New dev docs for a task
+**Transforms plan mode output into trackable documentation**
+
+**Prerequisites:** You must have recently exited plan mode with a plan in the conversation
 
 **Usage:**
 
 ```
-/dev-docs implement real-time notifications
+/dev-docs [task-name]
 ```
 
-**Generates:**
+Example:
 
-- `dev/active/implement-real-time-notifications/`
-  - implement-real-time-notifications-plan.md
-  - implement-real-time-notifications-context.md
-  - implement-real-time-notifications-tasks.md
+```
+/dev-docs auth-refactor
+```
+
+**What it does:**
+
+1. Looks back in conversation for plan mode output
+2. Extracts the complete plan
+3. Creates `dev/active/auth-refactor/` directory
+4. Generates three files:
+   - `plan.md` - Complete plan with metadata
+   - `context.md` - Critical files, decisions, dependencies
+   - `tasks.md` - Actionable checklist with progress tracking
+
+**When to use:** Immediately after exiting plan mode
+
+---
 
 ### /dev-docs-update
 
-**Updates:** Existing dev docs before context reset
+**Updates existing dev docs with progress**
+
+**Prerequisites:** Dev docs must already exist for the task
 
 **Usage:**
 
 ```
-/dev-docs-update
+/dev-docs-update [task-name]
 ```
 
-**Updates:**
+Example:
 
-- Marks completed tasks
-- Adds new tasks discovered
-- Updates context with session progress
-- Captures current state
+```
+/dev-docs-update auth-refactor
+```
 
-**Use when:** Approaching context limits or ending session
+**What it does:**
+
+1. Reads existing documentation in `dev/active/[task-name]/`
+2. Analyzes recent work in conversation
+3. Updates `tasks.md`:
+   - Checks off completed tasks
+   - Updates progress percentage
+   - Adds dated progress notes
+4. Updates `context.md` with new decisions/files
+5. Updates `plan.md` metadata (status, timestamp)
+
+**When to use:**
+
+- Before long breaks or context resets
+- After completing major milestones
+- When switching to different tasks
+- Periodically during long implementations
 
 ---
 
@@ -308,42 +362,48 @@ No need to explain what you were doing - it's all documented!
 
 ```
 dev/
-├── README.md              # This file
+├── README.md              # This file (dev docs pattern guide)
 ├── active/                # Current work
-│   ├── task-1/
-│   │   ├── task-1-plan.md
-│   │   ├── task-1-context.md
-│   │   └── task-1-tasks.md
-│   └── task-2/
-│       └── ...
+│   ├── auth-refactor/
+│   │   ├── plan.md       # Strategic plan from plan mode
+│   │   ├── context.md    # Key decisions and files
+│   │   └── tasks.md      # Progress tracking checklist
+│   └── api-migration/
+│       ├── plan.md
+│       ├── context.md
+│       └── tasks.md
 └── archive/               # Completed work (optional)
-    └── old-task/
-        └── ...
+    └── completed-task/
+        ├── plan.md
+        ├── context.md
+        └── tasks.md
 ```
 
-**active/**: Work in progress
-**archive/**: Completed tasks (for reference)
+**active/**: Work in progress - actively tracked tasks
+**archive/**: Completed tasks (move here when done, for future reference)
 
 ---
 
 ## Best Practices
 
-### Update Context Frequently
+### Update Progress Regularly
 
-**Bad:** Update only at end of session
-**Good:** Update after each major milestone
+**Bad:** Only update at end of long session
+**Good:** Run `/dev-docs-update [task-name]` after each major milestone
 
-**SESSION PROGRESS section should always reflect reality:**
+**Benefits of frequent updates:**
 
-```markdown
-## SESSION PROGRESS (YYYY-MM-DD)
+- Checkpoints your work before context resets
+- Creates audit trail of decisions
+- Makes it easy to resume after interruptions
+- Prevents lost work
 
-### ✅ COMPLETED (list everything done)
+**When to update:**
 
-### 🟡 IN PROGRESS (what you're working on RIGHT NOW)
-
-### ⚠️ BLOCKERS (what's preventing progress)
-```
+- After completing 2-3 tasks
+- Before taking a break
+- When making important architectural decisions
+- Before switching to another task
 
 ### Make Tasks Actionable
 
@@ -369,38 +429,46 @@ If scope changes:
 
 ## For Claude Code
 
-**When user asks to create dev docs:**
+**When user runs `/dev-docs [task-name]`:**
 
-1. **Use the /dev-docs slash command** if available
-2. **Or create manually:**
-   - Ask about the task scope
-   - Analyze relevant codebase files
-   - Create comprehensive plan
-   - Generate context and tasks
+1. **Look back in conversation** to find the most recent plan mode output
+2. **Extract the complete plan** (all sections, don't summarize)
+3. **Create directory:** `dev/active/[task-name]/`
+4. **Generate three files:**
+   - `plan.md` - Copy plan with metadata header
+   - `context.md` - Extract critical files, decisions, dependencies, risks
+   - `tasks.md` - Convert plan steps into actionable checklist
+5. **Make tasks.md comprehensive:**
+   - Every task from the plan becomes a checkbox item
+   - Include file paths, acceptance criteria, dependencies
+   - Add progress tracking section
+6. **Tell user where files were created** and how to use them
 
-3. **Structure the plan with:**
-   - Clear phases
-   - Actionable tasks
-   - Acceptance criteria
-   - Risk assessment
+**When user runs `/dev-docs-update [task-name]`:**
 
-4. **Make context file resumable:**
-   - SESSION PROGRESS at top
-   - Quick resume instructions
-   - Key files list with explanations
+1. **Read all three files** from `dev/active/[task-name]/`
+2. **Analyze recent conversation** for:
+   - Completed tasks
+   - New files created/modified
+   - Architectural decisions made
+   - Blockers encountered
+3. **Update `tasks.md`:**
+   - Check off completed items
+   - Update progress percentage
+   - Add dated progress notes
+4. **Update `context.md`** if new info emerged
+5. **Update `plan.md`** metadata (timestamp, status)
+6. **Summarize progress** for the user
 
-**When resuming from dev docs:**
+**When resuming from dev docs after context reset:**
 
-1. **Read all three files** (plan, context, tasks)
-2. **Start with context.md** - has current state
-3. **Check tasks.md** - see what's done and what's next
-4. **Refer to plan.md** - understand overall strategy
-
-**Update frequently:**
-
-- Mark tasks complete immediately
-- Update SESSION PROGRESS after significant work
-- Add new tasks as discovered
+1. **Read all three files** in order: `context.md` → `tasks.md` → `plan.md`
+2. **Understand current state:**
+   - What's been completed (checked boxes in tasks.md)
+   - What's in progress (latest progress notes)
+   - What's next (unchecked tasks)
+3. **Reference `plan.md`** for overall strategy and approach
+4. **Continue from where work left off** - no need to ask user for recap
 
 ---
 
@@ -421,3 +489,13 @@ If scope changes:
 - No repeated work
 
 **Time saved:** Hours per context reset
+
+---
+
+## Active Tasks
+
+- **[teams]** - Team Management Feature (Backend CRUD API + Frontend UI) - Started: 2026-01-06
+  - Path: `dev/active/teams/`
+  - Status: Not Started
+  - Progress: 0/55 tasks (0%)
+  - Next: Phase 1 - Backend Foundation (Create DTOs)
