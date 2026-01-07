@@ -1,6 +1,6 @@
 {
   "name": "@ai-nx-starter/source",
-  "version": "1.6.0",
+  "version": "1.7.1",
   "license": "MIT",
   "scripts": {
     "ui": "npx nx serve web-ui",

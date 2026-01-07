@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-01-07
+
+### Changed
+
+- **Dev Docs Skill (`/dev-docs`)** - Updated to use plan mode for implementation planning
+  - Improved integration with Claude Code's plan mode workflow
+  - Better exploration and analysis before creating documentation
+  - More thorough codebase understanding for accurate task breakdown
+
 ## [1.7.0] - 2025-12-31
 
 ### Added
