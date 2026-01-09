@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-01-09
+
+### Added
+
+- **Custom Agents System** - Specialized agents for complex development tasks
+  - Configure via `/agents` command for focused expertise
+  - Pre-configured agents for code review, architecture analysis, testing, and documentation
+  - Agents provide deep, focused expertise for complex tasks
+  - **code-reviewer** agent - Reviews code for bugs, security vulnerabilities, performance issues, and quality
+    - Identifies potential bugs and edge cases (null handling, async issues, race conditions)
+    - Security vulnerability detection (injection, XSS, exposed secrets, missing auth)
+    - Performance issue identification (N+1 queries, memory leaks, missing OnPush/trackBy)
+    - Code quality analysis (readability, code smells, TypeScript usage)
+    - RxJS patterns review (common pitfalls, proper operators, subscription cleanup)
+    - Saves reviews to `./dev/active/[task-name]/[task-name]-code-review.md`
+    - Waits for explicit approval before implementing fixes
+
+### Changed
+
+- **README.md** - Updated to highlight custom agents capability
+  - Updated main feature bullet to "Claude Code Skills & Agents"
+  - Added "Custom agents:" section in Claude Code Workflows
+  - Mentioned agents for code review, architecture analysis, testing, and documentation
+
 ## [1.7.1] - 2026-01-07
 
 ### Changed

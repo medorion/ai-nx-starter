@@ -12,7 +12,7 @@ Angular 19 + NestJS 11 + MongoDB with strict patterns to build faster with Claud
 
 **Traditional starters give you code.** AI-Nx-Starter gives you a **Claude Code multiplication system**:
 
-- 🤖 **Claude Code Skills** - Context-rich guides that auto-activate based on keywords (CRUD, controller, component, etc.)
+- 🤖 **Claude Code Skills & Agents** - Auto-activating guides + specialized agents for complex tasks (review, testing, docs)
 - ⚡ **Auto-generated API clients** - Type-safe Angular services generated from NestJS controllers
 - 📝 **Dev Docs (`/dev-docs`)** - Document implementation plans and track progress across context resets
 - 🎯 **Testing and CI built-in** - Comprehensive testing guidelines including coverage and e2e
@@ -175,6 +175,12 @@ npm run format:fix    # Auto-format code
 - Mention "controller", "service", "DTO" → Backend patterns applied instantly
 - Mention "component", "form", "table" → Frontend patterns applied instantly
 - No manual skill invocation needed - Claude detects context automatically
+
+**Custom agents:**
+
+- Specialized agents for specific tasks (configure via `/agents` command)
+- Pre-configured agents for code review, architecture analysis, testing, and documentation
+- Agents provide deep, focused expertise for complex tasks
 
 **Custom slash commands:**
 
